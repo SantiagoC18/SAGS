@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/25eed41d7b.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Foro de Opiniones</title>
+    <link rel="stylesheet" href="/static/css/foro.css">
+    <link rel="stylesheet" href="/static/css/estilos.css">
+</head>
+
+<body>
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.3.8/build/spline-viewer.js"></script>
+    <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
+
+    <div class="container__menu">
+
+        <div class="menu">
+            <a href="{{ url_for('index') }}" class="enlace">
+                <img src="/static/img/sirs.jpg" class="logo">
+            </a>
+            <input type="checkbox" id="check__menu">
+            <label for="check__menu" id="label__check">
+                <i class="fa-solid fa-bars-staggered fa-2xl icon__menu"></i>
+            </label>
+            <nav class="nav">
+                <ul>
+
+                    <li><a href="{{ url_for('index') }}" id="selected"><i class="fa-solid fa-house fa-2xl"
+                                style="color: #ffffff;"></i></a>
+                    </li>
+                    <li><a href="#">Consultar</a>
+                        <ul>
+                            <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
+                            <li><a href="">Informacion</a></li>
+                            <li><a href="{{ url_for('opiniones') }}">Opiniones</a></li>
+                            <li><a href="{{ url_for('logout') }}">Cerrar Sesion</a></li>
+
+                        </ul>
+                    </li>
+                    <li><a href="{{ url_for('modulos') }}">Modulos</a></li>
+
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+
+    <!-- Botón para abrir el modal -->
+    <button id="openModal">Dejar una Opinión</button>
+
+    <!-- Modal de Opiniones -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Dejar una Opinión</h2>
+            <form action="/submit-opinion" method="post">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" required>
+
+                <label for="rating">Tipo de Opinion:</label>
+                <select id="rating" name="rating" required>
+                    <option selected disabled>Seleccionar</option>
+                    <option>Peticion</option>
+                    <option>Queja</option>
+                    <option>Sugerencia</option>
+                    
+                </select>
+
+                <label for="opinion">Opinión:</label>
+                <textarea id="opinion" name="opinion" rows="4" required></textarea>
+
+                <label for="rating">Calificación:</label>
+                <select id="rating" name="rating" required>
+                    <option value="5">5 - Excelente</option>
+                    <option value="4">4 - Muy Bueno</option>
+                    <option value="3">3 - Bueno</option>
+                    <option value="2">2 - Regular</option>
+                    <option value="1">1 - Malo</option>
+                </select>
+
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Lista de opiniones -->
+    <div id="opinions-list">
+        <h2>Opiniones de Usuarios</h2>
+        <!-- Ejemplo de opinión -->
+        <div class="opinion">
+            <h3>Juan Pérez</h3>
+            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+            <p><strong>Calificación:</strong> 5</p>
+        </div>
+        <div class="opinion">
+            <h3>Juan Pérez</h3>
+            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+            <p><strong>Calificación:</strong> 5</p>
+        </div>
+        <div class="opinion">
+            <h3>Juan Pérez</h3>
+            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+            <p><strong>Calificación:</strong> 5</p>
+        </div>
+        <div class="opinion">
+            <h3>Juan Pérez</h3>
+            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+            <p><strong>Calificación:</strong> 5</p>
+        </div>
+        <div class="opinion">
+            <h3>Juan Pérez</h3>
+            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+            <p><strong>Calificación:</strong> 5</p>
+        </div>
+        <div class="opinion">
+            <h3>Juan Pérez</h3>
+            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+            <p><strong>Calificación:</strong> 5</p>
+        </div>
+        <div class="opinion">
+            <h3>Juan Pérez</h3>
+            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+            <p><strong>Calificación:</strong> 5</p>
+        </div>
+        <!-- Más opiniones se agregarán dinámicamente -->
+    </div>
+
+    <script>
+        // Abrir el modal al hacer clic en el botón
+        document.getElementById('openModal').addEventListener('click', function () {
+            document.getElementById('myModal').style.display = 'block';
+        });
+
+        // Cerrar el modal al hacer clic en la "X"
+        document.getElementsByClassName('close')[0].addEventListener('click', function () {
+            document.getElementById('myModal').style.display = 'none';
+        });
+
+        // Cerrar el modal al hacer clic fuera de él
+        window.addEventListener('click', function (event) {
+            if (event.target == document.getElementById('myModal')) {
+                document.getElementById('myModal').style.display = 'none';
+            }
+        });
+
+    </script>
+</body>
+
+</html>

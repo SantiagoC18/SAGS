@@ -69,8 +69,6 @@ def modulos():
     
 #consultar informacion de usuario por medio de id
 
-
-
 @app.route('/perfil')
 def perfil():
     if session.get('logueado'):
@@ -91,6 +89,10 @@ def perfil():
         return render_template('perfil.html', usuario = data, datos = data2)
     else:
         return render_template('login.html')
+    
+@app.route('/opiniones')
+def opiniones():
+    return render_template('opiniones.html')
     
 @app.route('/')
 def proyectos():
