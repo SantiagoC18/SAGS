@@ -14,19 +14,24 @@
   color: aqua;
 }
 
+spline-viewer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
 html {
   height: 100vh;
-  background-image: linear-gradient(to right, #000 0%, #434343 100%);
+  
 }
 
 body {
   min-height: 100%;
-  
-  background-repeat: no-repeat;
-  background-image: url(/static/img/back\ blue.jpg);
-  /*background-image: linear-gradient(to right, #000 0%, #434343 100%);*/
-  background-size: cover;
-  background-position: center;
+  background-color: black;
 }
 
 /*BARRA MENU*/
@@ -255,7 +260,7 @@ body {
     opacity: 1;
   }
 
-  .container-cards{
+  .container-cards {
     margin-top: 70px;
   }
 }
@@ -333,8 +338,8 @@ body {
   font-family: 'Montserrat', sans-serif;
   padding: 20px;
   text-align: center;
-  width: 670px;
-  height: 70%;
+  width: 650px;
+  height: auto;
   overflow-y: auto;
   transition: .3s ease all;
   transform: scale(0.7);
@@ -344,6 +349,13 @@ body {
   align-items: center;
   align-content: center;
   justify-content: flex-start;
+}
+
+@media screen and (max-width:720px){
+  .popup {
+      width: 370px;
+  }
+
 }
 
 .popup .btn-cerrar-popup {
