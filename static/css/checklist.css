@@ -1,0 +1,191 @@
+.inicio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  padding: 5%;
+}
+
+.container-pro {
+  width: 75vw;
+  height: auto;
+  padding: 2%;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 1%;
+  border: 1.2px solid rgba(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+}
+
+.container-check {
+  width: 75vw;
+  height: auto;
+  padding: 2%;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 1%;
+  border: 1.2px solid rgba(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+}
+
+.table-check {
+  width: 70vw;
+  height: auto;
+  border: 1px solid gray;
+}
+
+.tittle td {
+  text-align: center;
+}
+
+.centro {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  background-color: transparent;
+  background: none;
+  width: auto;
+  height: auto;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 45%;
+}
+
+.submit {
+  background: #1fbefbed;
+  font-family: inherit;
+  margin-top: 2%;
+  font-size: 40px;
+  width: 250px;
+  height: auto;
+  border: 3px solid black;
+  border-radius: 0;
+  box-shadow: 0.1em 0.1em;
+  position: relative;
+  margin-left: 1%;
+}
+
+.submit:hover {
+  transform: translate(-0.05em, -0.05em);
+  box-shadow: 0.15em 0.15em;
+}
+
+.submit:active {
+  transform: translate(0.05em, 0.05em);
+  box-shadow: 0.05em 0.05em;
+}
+
+td,
+tr,
+table {
+  border: 1px solid gray;
+  width: auto;
+  height: auto;
+}
+
+td {
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+p {
+  font-size: 23px;
+  padding-left: 2.5%;
+}
+
+section i{
+  margin: 100% 0;
+}
+
+/* Hide the default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.container {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 1.3em;
+  width: 1.3em;
+  background-color: #ccc;
+  border-radius: 0.2pc;
+  box-shadow: 3px 3px grey;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked~.checkmark {
+  background-color: turquoise;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked~.checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 0.45em;
+  top: 0.25em;
+  width: 0.25em;
+  height: 0.5em;
+  border: solid white;
+  border-width: 0 0.15em 0.15em 0;
+  transform: rotate(45deg);
+}
+
+.date {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+}
+
+.date[type="date"]::-webkit-calendar-picker-indicator{
+  filter: invert(1);
+}
+
+h1 {
+  font-size: 30px;
+}
+
+h2 {
+  font-size: 22px;
+}

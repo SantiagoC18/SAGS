@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/img/sirs.jpg">
+    <script src="https://kit.fontawesome.com/25eed41d7b.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.0.1/dist/css/multi-select-tag.css">
+    <link rel="stylesheet" href="/static/css/inicio2.css">
+    <link rel="stylesheet" href="/static/css/estilos.css">
+
+    <title>Document</title>
+
+    <style>
+
+        .overlay1 .popup {
+            text-align: left;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    {% if hola %}
+    <script>
+        swal.fire({
+            title: "ACCESO CONCEDIDO",
+            text: "Hola {{hola}} bienvenido a (SIRS)",
+            icon: "success",
+            buttons: false,
+            timer: 2000,
+            showConfirmButton: false,
+            background: "#171717",
+            toast: true,
+            position: "top"
+        });
+    </script>
+    {% endif %}
+
+
+
+    <div class="container__menu">
+
+        <div class="menu">
+            <a href="{{ url_for('index') }}" class="enlace">
+                <img src="/static/img/sirs.jpg" class="logo">
+            </a>
+            <input type="checkbox" id="check__menu">
+            <label for="check__menu" id="label__check">
+                <i class="fa-solid fa-bars-staggered fa-2xl icon__menu"></i>
+            </label>
+            <nav class="nav">
+                <ul>
+
+                    <li><a href="{{ url_for('index') }}" id="selected"><i class="fa-solid fa-house fa-2xl"
+                                style="color: #ffffff;"></i></a>
+                    </li>
+                    <li><a href="#">Consultar</a>
+                        <ul>
+                            <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
+                            <li><a href="">Informacion</a></li>
+                            <li><a href="">Contactenos</a></li>
+                            <li><a href="{{ url_for('logout') }}">Cerrar Sesion</a></li>
+
+                        </ul>
+                    </li>
+                    <li><a href="{{ url_for('modulos') }}">Modulos</a></li>
+
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+
+
+    <main class="main">
+
+        <div class="container__cover">
+            <div class="cover">
+                <div class="text">
+                    <h1>Soluciones Avanzadas de Gestión de Software (SAGS)</h1>
+
+                    <p>Este aplicativo facilita la gestión eficiente y conforme a la norma IEEE-830 de los requisitos de
+                        proyectos de desarrollo de software a
+                        medida, proporcionando una plataforma integral y colaborativa para capturar, documentar,
+                        gestionar y rastrear los
+                        requisitos de manera estructurada y coherente.
+                    </p>
+
+                    <input type="button" value="Leer Mas" id="btn-abrir-popup0" class="button">
+                </div>
+
+                <div class="svg">
+                    <img src="/static/img/loggg.png" alt="">
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <main class="continer__plans">
+        <div class="card">
+            <div class="header">
+                <span class="title">Beginner</span>
+                <span class="price">Free</span>
+            </div>
+            <p class="desc">Etiam ac convallis enim, eget euismod dolor.</p>
+            <ul class="lists">
+                <li class="list">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Aenean quis</span>
+                </li>
+                <li class="list">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Morbi semper</span>
+                </li>
+                <li class="list">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Tristique enim nec</span>
+                </li>
+            </ul>
+            <button type="button" class="action">Get Started</button>
+        </div>
+
+
+
+        <div class="card">
+            <div class="header">
+                <span class="title">Beginner</span>
+                <span class="price">Free</span>
+            </div>
+            <p class="desc">Etiam ac convallis enim, eget euismod dolor.</p>
+            <ul class="lists">
+                <li class="list">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Aenean quis</span>
+                </li>
+                <li class="list">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Morbi semper</span>
+                </li>
+                <li class="list">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Tristique enim nec</span>
+                </li>
+            </ul>
+            <button type="button" class="action">Get Started</button>
+        </div>
+
+
+
+        <div class="card">
+            <div class="header">
+                <span class="title">Beginner</span>
+                <span class="price">Free</span>
+            </div>
+            <p class="desc">Etiam ac convallis enim, eget euismod dolor.</p>
+            <ul class="lists">
+                <li class="list">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Aenean quis</span>
+                </li>
+                <li class="list">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Morbi semper</span>
+                </li>
+                <li class="list">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Tristique enim nec</span>
+                </li>
+            </ul>
+            <button type="button" class="action">Get Started</button>
+        </div>
+
+
+
+        <div class="card">
+            <div class="header">
+                <span class="title">Personalizar Plan</span>
+                <span class="price">Free</span>
+            </div>
+            <p class="desc">Aqui tendras la posibilidad de personalizar tu plan para que se adapte a las necesidades del
+                analisis de tu proyecto</p>
+            <ul class="lists">
+                <li class="list">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Aenean quis</span>
+                </li>
+                <li class="list">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Morbi semper</span>
+                </li>
+                <li class="list">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span><a href="#">Crear Plan</a></span>
+                </li>
+            </ul>
+            <button type="button" class="action" id="btn-abrir-popup1">Crear Plan</button>
+        </div>
+    </main>
+
+
+    <!--ventana emergente1-->
+
+    <div class="overlay" id="overlay">
+        <div class="popup" id="popup" style="height: auto; background-color: #146b947e;">
+            <a href="#" id="btn-cerrar-popup0" class="btn-cerrar-popup" style="margin-right: -100%"><i
+                    class="fas fa-times"></i></a>
+            <h4 style="color: white;">
+                Incluye funcionalidades como captura y documentación de requisitos, colaboración en tiempo real, gestión
+                de
+                cambios, generación automática de documentación, personalización y configuración, todo con el objetivo
+                de garantizar el
+                cumplimiento de la norma IEEE-830 y mejorar la eficiencia y calidad en el proceso de desarrollo de
+                software.
+            </h4>
+        </div>
+    </div>
+
+    <!--fin ventana emergente1-->
+
+    <!--ventana emergente plan-->
+
+    <div class="overlay" id="overlay1">
+        <div class="popup" id="popup1" style="height: auto; width: auto; background-color: #146b947e;">
+            <a href="#" id="btn-cerrar-popup1" class="btn-cerrar-popup" style="margin-right: -100%"><i
+                    class="fas fa-times"></i></a>
+            <h2>Seleccione los Diagramas o Modelos</h2>
+            <form action="/crear-plan" method="post">
+                <select name="diagramas" id="diagramas" multiple>
+                    <option value="requisitos">Documento de Requisitos Funcionales y No Funcionales</option>
+                    <option value="casos-de-uso">Casos de Uso</option>
+                    <option value="modelo-clases">Modelo de Clases</option>
+                    <option value="modelo-objetos">Modelo de Objetos</option>
+                    <option value="modelo-entidad-relacion">Modelo Entidad-Relación</option>
+                </select>
+                <button type="submit" class="button1">Crear Plan Personalizado</button>
+            </form>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.0.1/dist/js/multi-select-tag.js"></script>
+
+    <script src="/static/js/popup.js"></script>
+
+    <script>
+
+        new MultiSelectTag('diagramas', {
+            rounded: true,    // default true
+            shadow: true,      // default false
+            placeholder: 'Search',  // default Search...
+            tagColor: {
+                textColor: '#000',
+                borderColor: '#92e681',
+                bgColor: '#000',
+            },
+            onChange: function (values) {
+                console.log(values)
+            }
+        })
+
+    </script>
+</body>
+
+</html>

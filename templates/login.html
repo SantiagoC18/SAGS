@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<link rel="shortcut icon" href="sirs.jpg">
+	<link rel="stylesheet" href="/static/css/registro.css">
+	<title>Document</title>
+</head>
+
+<body>
+	<script type="module" src="https://unpkg.com/@splinetool/viewer@1.3.8/build/spline-viewer.js"></script>
+	<spline-viewer url="https://prod.spline.design/rqyOgotND7rd5BIN/scene.splinecode"></spline-viewer>
+
+	{% if message %}
+	<script style=" position: fixed;">
+		swal.fire({
+			title: "ACCESO DENEGADO",
+			text: "Usuario o contraseña incorrectas",
+			icon: "error",
+			buttons: false,
+			timer: 2000,
+			showConfirmButton: false,
+			background: "#171717",
+			toast: true,
+			position: "top"
+		});
+	</script>
+	{% endif %}
+
+	<div class="container" id="container">
+		<div class="form-container sign-up-container">
+			<form action="adduser" method="POST">
+				<h1>Crear Cuenta</h1>
+				<span>Ingresa tus datos para registrarte</span>
+				<select class="input" name="type_docu">
+					<option value="" selected disabled>Seleccionar</option>
+					<option value="C.C.">C.C.</option>
+					<option value="T.I.">T.I.</option>
+				</select>
+				<input type="number" name="documento" placeholder="Documento">
+				<input type="email" name="correo" placeholder="Email@">
+				<input type="password" name="clave" placeholder="Password">
+
+				<button>Registrar</button>
+			</form>
+		</div>
+		<div class="form-container sign-in-container">
+			<form action="acceso-login" method="POST">
+				<h1>Iniciar Sesion</h1>
+				<span>Ingrese Usuario y contraseña</span>
+				<input type="email" name="correo" placeholder="Email@">
+				<input type="password" name="clave" placeholder="Password">
+				<a href="">Olvido Su Contraseña</a>
+
+				<button type="submit">Ingresar</button>
+
+			</form>
+		</div>
+
+		<div class="overlay-container">
+			<div class="overlay">
+
+				<div class="overlay-panel overlay-left">
+					<h1>¡Bienvenivo De Nuevo!</h1>
+					<p>inicia con tus datos personales o con los de tu empresa</p>
+					<button class="ghost" id="signIn">Iniciar Sesion</button>
+				</div>
+
+				<div class="overlay-panel overlay-right">
+					<h1>¡Hola Bienvenido a (SIRS)!</h1>
+					<p>Para mantenerse en contacto con nosotros, registrate con tus datos personales o con los de tu
+						empresa</p>
+					<button class="ghost" id="signUp">Registrate</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var signUpButton = document.getElementById('signUp');
+		var signInButton = document.getElementById('signIn');
+		var container = document.getElementById('container');
+
+		signUpButton.addEventListener('click', () => {
+			container.classList.add("right-panel-active");
+		});
+
+		signInButton.addEventListener('click', () => {
+			container.classList.remove("right-panel-active");
+		});
+	</script>
+
+</html>

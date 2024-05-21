@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/25eed41d7b.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/css/estilos.css">
+    <link rel="stylesheet" href="/static/css/modulos.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="container__menu">
+    
+        <div class="menu">
+            <a href="{{ url_for('index') }}" class="enlace">
+                <img src="/static/img/sirs.jpg" class="logo">
+            </a>
+            <input type="checkbox" id="check__menu">
+            <label for="check__menu" id="label__check">
+                <i class="fa-solid fa-bars-staggered fa-2xl icon__menu"></i>
+            </label>
+            <nav class="nav">
+                <ul>
+    
+                    <li><a href="{{ url_for('index') }}" id="selected"><i class="fa-solid fa-house fa-2xl"
+                                style="color: #ffffff;"></i></a>
+                    </li>
+                    <li><a href="#">Consultar</a>
+                        <ul>
+                            <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
+                            <li><a href="">Informacion</a></li>
+                            <li><a href="">Contactenos</a></li>
+                            <li><a href="{{ url_for('logout') }}">Cerrar Sesion</a></li>
+    
+                        </ul>
+                    </li>
+                    <li><a href="{{ url_for('modulos') }}">Modulos</a></li>
+    
+                </ul>
+            </nav>
+        </div>
+    
+    </div>
+
+    <section class="container-cards">
+
+        <div class="cards">
+            <div class="container">
+                <div class="box">
+                    <span class="title">REGISTRAR NUEVO PROYECTO</span>
+                    <div>
+                        <strong>formulario para el registro de proyectos software para su seguimiento y gestion</strong>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" id="btn-abrir-popup1">
+                <div class="box">
+                    <span class="title">GESTIONAR PROYECTOS</span>
+                    <div>
+                        <strong>Los permisos asociados a dicho rol determinan el acceso y la capacidad de
+                            gestionar
+                            proyectos dentro del
+                            sistema.
+                        </strong>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!--ventana emergente2-->
+
+    <div class="overlay" id="overlay1">
+        <div class="popup" id="popup1" style="overflow: hidden; height: auto;">
+            <a href="#" id="btn-cerrar-popup1" class="btn-cerrar-popu" style="margin-right: -100%"><i
+                    class="fas fa-times"></i></a>
+            <h4>Gestión de Proyectos con Control de Acceso</h4>
+            <form method="POST" class="validar-form" autocomplete="off">
+
+                <div class="input-container">
+                    <label for="name" class="name">Correo</label>
+                    <input type="email" class="input" placeholder="Email@" name="usuario" required="">
+                    <div class="underline"></div>
+                </div>
+
+                <div class="input-container">
+                    <label for="name" class="name">Contraseña</label>
+                    <input type="password" class="input" placeholder="password" name="clave" required="">
+                    <div class="underline"></div>
+                </div>
+
+                <div class="input-container">
+                    <label for="name" class="name">Rol</label>
+                    <select name="" id="" class="input">
+                        <option value="" class="input">Seleccionar</option>
+                        <option value="" class="input">Administrador</option>
+                        <option value="" class="input">Analista</option>
+                    </select>
+                    <div class="underline"></div>
+                </div>
+
+                <input type="button" value="ACCEDER" class="button"></input>
+            </form>
+        </div>
+    </div>
+    </div>
+
+
+    <!--fin ventana emergente2-->
+
+    <script src="/static/js/popup.js"></script>
+
+</body>
+
+</html>

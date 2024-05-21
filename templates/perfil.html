@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/img/sirs.jpg">
+    <script src="https://kit.fontawesome.com/25eed41d7b.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="/static/css/perfil.css">
+    <link rel="stylesheet" href="/static/css/estilos.css">
+
+    <title>Document</title>
+</head>
+
+<body>
+
+    {% if hola %}
+    <script>
+        swal.fire({
+            title: "ACCESO CONCEDIDO",
+            text: "Hola {{hola}} bienvenido a (SIRS)",
+            icon: "success",
+            buttons: false,
+            timer: 2000,
+            showConfirmButton: false,
+            background: "#171717",
+            toast: true,
+            position: "top"
+        });
+    </script>
+    {% endif %}
+
+
+
+    <div class="container__menu">
+
+        <div class="menu">
+            <a href="{{ url_for('index') }}" class="enlace">
+                <img src="/static/img/sirs.jpg" class="logo">
+            </a>
+            <input type="checkbox" id="check__menu">
+            <label for="check__menu" id="label__check">
+                <i class="fa-solid fa-bars-staggered fa-2xl icon__menu"></i>
+            </label>
+            <nav class="nav">
+                <ul>
+
+                    <li><a href="{{ url_for('index') }}" id="selected"><i class="fa-solid fa-house fa-2xl"
+                                style="color: #ffffff;"></i></a>
+                    </li>
+                    <li><a href="#">Consultar</a>
+                        <ul>
+                            <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
+                            <li><a href="">Informacion</a></li>
+                            <li><a href="">Contactenos</a></li>
+                            <li><a href="{{ url_for('logout') }}">Cerrar Sesion</a></li>
+
+                        </ul>
+                    </li>
+                    <li><a href="{{ url_for('modulos') }}">Modulos</a></li>
+
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+
+    <main>
+
+        <section class="user-info">
+            <h2>Información del Usuario</h2>
+            <div class="user-details">
+                {% for dato in usuario %}
+                <img src="/static/img/usuarios/{{dato['foto']}}" alt="">
+                <div class="user-text">
+                   
+                    <p><strong>Nombre:</strong> {{ dato['primer_nombre'] }} {{ dato['segundo_nombre'] }} {{ dato['primer_apellido'] }} {{ dato['segundo_apellido'] }}</p>
+                    <p><strong>Correo Electrónico:</strong> {{ dato['correo'] }}</p>
+                    <p><strong>Funcion:</strong> {{ dato['perfil'] }}</p>
+                    <button id="btn-abrir-popup0" class="button">Editar Datos
+                    </button>
+                    
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="user-projects">
+            <h2>Proyectos del Usuario</h2>
+            {% for dato in datos %}
+            <div class="project">
+                <h3>Proyecto {{ dato['nombre_proyecto'] }}</h3>
+                <p>Descripción: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <p>Estado: En progreso</p>
+            </div>
+            {% endfor %}
+            <div class="project">
+                <h3>Proyecto 2</h3>
+                <p>Descripción: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Estado: Completado</p>
+            </div>
+            <div class="project">
+                <h3>Proyecto 2</h3>
+                <p>Descripción: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Estado: Completado</p>
+            </div>
+            <!-- Agrega más proyectos según sea necesario -->
+        </section>
+
+    </main>
+
+
+
+
+
+    <!--ventana emergente1-->
+
+    <div class="overlay" id="overlay">
+        <div class="popup" id="popup" style="height: 65%; background-color: #146b947e;">
+            <a href="#" id="btn-cerrar-popup0" class="btn-cerrar-popup" style="margin-right: -100%"><i
+                    class="fas fa-times"></i></a>
+
+
+            <form action="">
+
+                <div class="input-container">
+                    <label for="name" class="name">Correo</label>
+                    <input type="email" class="input" placeholder="Email@" name="usuario" required="">
+                    <div class="underline"></div>
+                </div>
+
+                <div class="input-container">
+                    <label for="name" class="name">Correo</label>
+                    <input type="email" class="input" placeholder="Email@" name="usuario" required="">
+                    <div class="underline"></div>
+                </div>
+
+                <div class="input-container">
+                    <label for="name" class="name">Correo</label>
+                    <input type="email" class="input" placeholder="Email@" name="usuario" required="">
+                    <div class="underline"></div>
+                </div>
+
+                <div class="input-container">
+                    <label for="name" class="name">Correo</label>
+                    <input type="email" class="input" placeholder="Email@" name="usuario" required="">
+                    <div class="underline"></div>
+                </div>
+
+                <div class="input-container">
+                    <label for="name" class="name">Correo</label>
+                    <input type="email" class="input" placeholder="Email@" name="usuario" required="">
+                    <div class="underline"></div>
+                </div>
+
+                <div class="input-container">
+                    <label for="name" class="name">Correo</label>
+                    <input type="email" class="input" placeholder="Email@" name="usuario" required="">
+                    <div class="underline"></div>
+                </div>
+
+                <div class="input-container">
+                    <label for="name" class="name">Correo</label>
+                    <input type="email" class="input" placeholder="Email@" name="usuario" required="">
+                    <div class="underline"></div>
+                </div>
+
+                <div class="input-container">
+                    <label for="name" class="name">Correo</label>
+                    <input type="email" class="input" placeholder="Email@" name="usuario" required="">
+                    <div class="underline"></div>
+                </div>
+
+                <div class="input-container">
+                    <label for="name" class="name">Correo</label>
+                    <input type="email" class="input" placeholder="Email@" name="usuario" required="">
+                    <div class="underline"></div>
+                </div>
+
+                <div class="input-container">
+                    <label for="name" class="name">Correo</label>
+                    <input type="email" class="input" placeholder="Email@" name="usuario" required="">
+                    <div class="underline"></div>
+                </div>
+
+                <div class="input-container">
+                    <label for="name" class="name">Correo</label>
+                    <input type="email" class="input" placeholder="Email@" name="usuario" required="">
+                    <div class="underline"></div>
+                </div>
+
+                <div class="input-container">
+                    <label for="name" class="name">Correo</label>
+                    <input type="email" class="input" placeholder="Email@" name="usuario" required="">
+                    <div class="underline"></div>
+                </div>
+
+                <div class="input-container">
+                    <label for="name" class="name">Correo</label>
+                    <input type="email" class="input" placeholder="Email@" name="usuario" required="">
+                    <div class="underline"></div>
+                </div>
+
+            </form>
+
+
+
+        </div>
+    </div>
+    </div>
+
+    <!--fin ventana emergente1-->
+
+
+
+
+
+
+    <script src="/static/js/popup.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+
+</html>
