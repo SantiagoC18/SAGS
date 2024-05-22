@@ -37,10 +37,11 @@ def login():
             session['nombre'] = account['primer_nombre']
             session['id'] = account['id_usuario']
             
-            return redirect(url_for('index'))
+            if 'referer' in request.headers:
+                return redirect(request.headers['referer'])
+            else:
+                return render_template('index.html', message="0")
         
-        else:
-            return render_template('login.html', message="0")
 
 @app.route('/adduser', methods=["GET", "POST"])
 def adduser():

@@ -41,7 +41,7 @@ SAGS es una plataforma destinada a agencias de desarrollo y programadores freela
 
 **Instala las dependencias del proyecto.** 
 
-    Desbes instalar las dependencias asi como las siguientes librerias:
+    "Desbes instalar las dependencias asi como las siguientes librerias:"
 
     pip install FLASK
     pip install FLASK-MySQLdb
