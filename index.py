@@ -37,7 +37,8 @@ def login():
             session['nombre'] = account['primer_nombre']
             session['id'] = account['id_usuario']
             
-            return redirect(url_for('index'))
+            return redirect(request.headers['referer']) 
+                
         
         else:
             return render_template('login.html', message="0")
