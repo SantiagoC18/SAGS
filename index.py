@@ -18,16 +18,21 @@ def index():
     else:
         return render_template('index.html')
 
-#funcion de login
-@app.route('/acceso-login', methods=["GET", "POST"])
+@app.route('/login')
 def login():
+    return render_template('login.html')
+
+
+#funcion de login
+@app.route('/acceso_login', methods=["GET", "POST"])
+def acceso_login():
     
-    if request.method == 'POST' and 'correo' in request.form and 'clave':
+    if request.method == 'POST':
         correo = request.form['correo']
-        password = request.form['clave']
+        clave = request.form['clave']
         
         cur = mysql.connection.cursor()
-        cur.execute('SELECT * FROM usuarios WHERE correo = %s AND  password = %s LIMIT 1', (correo, password,))
+        cur.execute('SELECT * FROM usuarios WHERE correo = %s AND  password = %s LIMIT 1', (correo, clave,))
         account = cur.fetchone()
         
         if account:
@@ -37,20 +42,19 @@ def login():
             session['nombre'] = account['primer_nombre']
             session['id'] = account['id_usuario']
             
-            if 'referer' in request.headers:
-                return redirect(request.headers['referer'])
-            else:
-                return render_template('index.html', message="0")
+            return redirect(url_for('perfil'))
+        else:
+            return render_template('login.html', message="0")
+    return render_template('login.html', message="0")
         
-
-@app.route('/adduser', methods=["GET", "POST"])
+@app.route('/adduser', methods=['GET', 'POST'])
 def adduser():
-    
-    id_user = request.form['documento']
-    correo = request.form['correo']
-    clave = request.form['clave']
-    rol = 3
-    
+    if request.method == 'POST':
+        id_user = request.form['documento']
+        correo = request.form['correo']
+        clave = request.form['clave']
+        rol = 3
+        
     if id_user and correo and clave:
         cur = mysql.connection.cursor()
         sql = "INSERT INTO `usuarios`(`id_usuario`, `password`, `correo`, `cod_rol1`) VALUES (%s, %s, %s, %s)"
@@ -58,7 +62,21 @@ def adduser():
         cur.execute(sql,data)
         mysql.connection.commit()
         
-    return redirect(url_for('login'))
+        
+        cur.execute('SELECT * FROM usuarios WHERE correo = %s AND  password = %s LIMIT 1', (correo, clave,))
+        account = cur.fetchone()
+        
+        if account:
+            
+            session['logueado'] = True
+            session['correo'] = account['correo']
+            session['nombre'] = account['primer_nombre']
+            session['id'] = account['id_usuario']
+            
+            return redirect(url_for('perfil'))
+        else:
+            return render_template('login.html', message="0")
+    return render_template('login.html', message="0")
 
 
 @app.route('/modulos')
@@ -66,7 +84,7 @@ def modulos():
     if session.get('logueado'):
         return render_template('modulos.html')
     else:
-        return render_template('login.html')
+        return redirect(url_for('login'))
     
 #consultar informacion de usuario por medio de id
 
@@ -89,8 +107,9 @@ def perfil():
             
         return render_template('perfil.html', usuario = data, datos = data2)
     else:
-        return render_template('login.html')
-    
+        return redirect(url_for('login'))
+
+
 @app.route('/opiniones')
 def opiniones():
     return render_template('opiniones.html')
@@ -105,7 +124,7 @@ def proyectos():
 @app.route("/logout")
 def logout():
     session.pop("logueado", None)
-    return render_template('login.html')
+    return redirect(url_for('login'))
 
 
 
