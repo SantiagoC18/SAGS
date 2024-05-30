@@ -7,6 +7,7 @@
     background-image: url(../i);
     background-position: right;
     background-repeat: no-repeat;
+    margin-top: 45px;
 }
 
 .cover {
@@ -287,14 +288,14 @@
 }
 
 .title {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     line-height: 2rem;
     font-weight: 700;
     color: #fff
 }
 
 .price {
-    font-size: 3.75rem;
+    font-size: 1.8rem;
     line-height: 1;
     font-weight: 700;
     color: #fff

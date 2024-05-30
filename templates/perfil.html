@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/static/css/estilos.css">
 
     <title>Perfil</title>
-    
+
 </head>
 
 <body>
@@ -77,13 +77,14 @@
                 {% for dato in usuario %}
                 <img src="/static/img/usuarios/{{dato['foto']}}" alt="">
                 <div class="user-text">
-                   
-                    <p><strong>Nombre:</strong> {{ dato['primer_nombre'] }} {{ dato['segundo_nombre'] }} {{ dato['primer_apellido'] }} {{ dato['segundo_apellido'] }}</p>
+
+                    <p><strong>Nombre:</strong> {{ dato['primer_nombre'] }} {{ dato['segundo_nombre'] }} {{
+                        dato['primer_apellido'] }} {{ dato['segundo_apellido'] }}</p>
                     <p><strong>Correo Electrónico:</strong> {{ dato['correo'] }}</p>
                     <p><strong>Funcion:</strong> {{ dato['perfil'] }}</p>
                     <button id="btn-abrir-popup0" class="button">Editar Datos
                     </button>
-                    
+
                 </div>
                 {% endfor %}
             </div>
@@ -98,16 +99,6 @@
                 <p>Estado: En progreso</p>
             </div>
             {% endfor %}
-            <div class="project">
-                <h3>Proyecto 2</h3>
-                <p>Descripción: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <p>Estado: Completado</p>
-            </div>
-            <div class="project">
-                <h3>Proyecto 2</h3>
-                <p>Descripción: Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <p>Estado: Completado</p>
-            </div>
             <!-- Agrega más proyectos según sea necesario -->
         </section>
 
@@ -122,26 +113,26 @@
     <div class="overlay" id="overlay">
         <div class="popup" id="popup" style="height: 65%; background-color: #146b947e;">
             <a href="#" id="btn-cerrar-popup0" class="btn-cerrar-popup" style="margin-right: -100%"><i
-                    class="fas fa-times"></i></a>
-
-
+                    class="fas fa-times"></i>
+            </a>
+            <h3 style="color: white;">Actualizar Perfil</h3 >
             <form action="">
 
                 <div class="input-container">
-                    <label for="name" class="name">Correo</label>
-                    <input type="email" class="input" placeholder="Email@" name="usuario" required="">
+                    <label for="name" class="name">No° Documento (id)</label>
+                    <input type="number" class="input" placeholder="Documento" name="documento" required="">
+                    <div class="underline"></div>
+                </div>
+
+                <div class="input-container">
+                    <label for="name" class="name">Clave</label>
+                    <input type="password" class="input" placeholder="Clave" name="clave" required="">
                     <div class="underline"></div>
                 </div>
 
                 <div class="input-container">
                     <label for="name" class="name">Correo</label>
-                    <input type="email" class="input" placeholder="Email@" name="usuario" required="">
-                    <div class="underline"></div>
-                </div>
-
-                <div class="input-container">
-                    <label for="name" class="name">Correo</label>
-                    <input type="email" class="input" placeholder="Email@" name="usuario" required="">
+                    <input type="email" class="input" placeholder="Email@" name="correo" required="">
                     <div class="underline"></div>
                 </div>
 
