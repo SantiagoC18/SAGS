@@ -1,9 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&family=Anek+Gujarati:wght@100..800&family=Bruno+Ace&family=Genos:ital,wght@0,100..900;1,100..900&display=swap');
+
 * {
     box-sizing: border-box;
+    font-family: "Anek Gujarati", sans-serif;
+    font-weight: 1000;
 }
 
 
-spline-viewer{
+spline-viewer {
     position: fixed;
     top: 0;
     left: 0;
@@ -39,7 +43,7 @@ h2 {
 
 p {
     font-size: 14px;
-    font-weight: 100;
+    font-weight: 500;
     line-height: 20px;
     letter-spacing: 0.5px;
     margin: 20px 0 30px;

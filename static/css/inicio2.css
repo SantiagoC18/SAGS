@@ -94,7 +94,6 @@
     width: 14.5em;
     color: white;
     position: relative;
-    font-family: sans-serif;
     margin: 100px;
     cursor: pointer;
 }
@@ -360,4 +359,8 @@
 
  #btn-abrir-popup1 select, option{
     color: black;
+ }
+
+ select[multiple]{
+    height: auto    ;
  }
