@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-05-2024 a las 14:17:41
--- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 8.1.12
+-- Tiempo de generación: 28-05-2024 a las 14:36:46
+-- Versión del servidor: 10.4.22-MariaDB
+-- Versión de PHP: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -34,19 +34,19 @@ CREATE TABLE `checklist` (
   `fecha` date NOT NULL,
   `documentosid_doc` varchar(25) NOT NULL,
   `proyectosid_proyecto` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `documentos`
+-- Estructura de tabla para la tabla `modelos`
 --
 
-CREATE TABLE `documentos` (
+CREATE TABLE `modelos` (
   `id_doc` varchar(25) NOT NULL,
   `nombre` varchar(255) NOT NULL,
   `descripcion` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -60,7 +60,7 @@ CREATE TABLE `opiniones` (
   `calificacion` varchar(25) NOT NULL,
   `tipo_opinionnombre` varchar(25) NOT NULL,
   `usuariosid_usuario` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -72,7 +72,7 @@ CREATE TABLE `planes` (
   `nombre` varchar(25) NOT NULL,
   `descripcion` varchar(255) NOT NULL,
   `precio` int(15) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -83,7 +83,7 @@ CREATE TABLE `planes` (
 CREATE TABLE `prioridad` (
   `nombre` varchar(25) NOT NULL,
   `descripcion` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -99,7 +99,7 @@ CREATE TABLE `proyectos` (
   `fecha_i` date NOT NULL,
   `fecha_f` date NOT NULL,
   `planesnombre` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -110,7 +110,7 @@ CREATE TABLE `proyectos` (
 CREATE TABLE `proyectos_requisitos` (
   `proyectosid_proyecto` int(10) NOT NULL,
   `requisitoscodigo` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -124,7 +124,7 @@ CREATE TABLE `requisitos` (
   `descripcion` varchar(255) NOT NULL,
   `tipotipo` varchar(25) NOT NULL,
   `prioridadnombre` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -135,7 +135,7 @@ CREATE TABLE `requisitos` (
 CREATE TABLE `roles` (
   `id_rol` varchar(25) NOT NULL,
   `descripcion` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -150,7 +150,19 @@ CREATE TABLE `sprints` (
   `nombre` varchar(25) NOT NULL,
   `observaciones` varchar(255) NOT NULL,
   `proyectosid_proyecto` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tareas`
+--
+
+CREATE TABLE `tareas` (
+  `id` int(10) NOT NULL,
+  `nombre` varchar(55) NOT NULL,
+  `sprintsid` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -161,7 +173,7 @@ CREATE TABLE `sprints` (
 CREATE TABLE `tipo_opinion` (
   `nombre` varchar(25) NOT NULL,
   `descripcion` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -172,7 +184,7 @@ CREATE TABLE `tipo_opinion` (
 CREATE TABLE `tipo_req` (
   `tipo` varchar(25) NOT NULL,
   `descripcion` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -185,12 +197,13 @@ CREATE TABLE `usuarios` (
   `clave` varchar(20) NOT NULL,
   `correo` varchar(30) NOT NULL,
   `telefono` int(10) NOT NULL,
+  `ubicacion` varchar(255) NOT NULL,
   `Perfil` varchar(25) NOT NULL,
   `nombres` varchar(25) NOT NULL,
   `apellidos` varchar(25) NOT NULL,
   `foto` varchar(6000) NOT NULL,
   `rolesid_rol` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -201,7 +214,7 @@ CREATE TABLE `usuarios` (
 CREATE TABLE `usuarios_proyectos` (
   `usuariosid_usuario` int(10) NOT NULL,
   `proyectosid_proyecto` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Índices para tablas volcadas
@@ -212,13 +225,13 @@ CREATE TABLE `usuarios_proyectos` (
 --
 ALTER TABLE `checklist`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FKchecklist472482` (`documentosid_doc`),
+  ADD KEY `FKchecklist426149` (`documentosid_doc`),
   ADD KEY `FKchecklist938524` (`proyectosid_proyecto`);
 
 --
--- Indices de la tabla `documentos`
+-- Indices de la tabla `modelos`
 --
-ALTER TABLE `documentos`
+ALTER TABLE `modelos`
   ADD PRIMARY KEY (`id_doc`);
 
 --
@@ -275,6 +288,13 @@ ALTER TABLE `roles`
 ALTER TABLE `sprints`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FKsprints456385` (`proyectosid_proyecto`);
+
+--
+-- Indices de la tabla `tareas`
+--
+ALTER TABLE `tareas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKtareas362797` (`sprintsid`);
 
 --
 -- Indices de la tabla `tipo_opinion`
@@ -337,6 +357,12 @@ ALTER TABLE `sprints`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `tareas`
+--
+ALTER TABLE `tareas`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -350,7 +376,7 @@ ALTER TABLE `usuarios`
 -- Filtros para la tabla `checklist`
 --
 ALTER TABLE `checklist`
-  ADD CONSTRAINT `FKchecklist472482` FOREIGN KEY (`documentosid_doc`) REFERENCES `documentos` (`id_doc`),
+  ADD CONSTRAINT `FKchecklist426149` FOREIGN KEY (`documentosid_doc`) REFERENCES `modelos` (`id_doc`),
   ADD CONSTRAINT `FKchecklist938524` FOREIGN KEY (`proyectosid_proyecto`) REFERENCES `proyectos` (`id_proyecto`);
 
 --
@@ -385,6 +411,12 @@ ALTER TABLE `requisitos`
 --
 ALTER TABLE `sprints`
   ADD CONSTRAINT `FKsprints456385` FOREIGN KEY (`proyectosid_proyecto`) REFERENCES `proyectos` (`id_proyecto`);
+
+--
+-- Filtros para la tabla `tareas`
+--
+ALTER TABLE `tareas`
+  ADD CONSTRAINT `FKtareas362797` FOREIGN KEY (`sprintsid`) REFERENCES `sprints` (`id`);
 
 --
 -- Filtros para la tabla `usuarios`
