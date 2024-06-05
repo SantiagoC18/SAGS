@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&family=Anek+Gujarati:wght@100..800&family=Bruno+Ace&family=Genos:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sofia+Sans+Semi+Condensed:ital,wght@0,1..1000;1,1..1000&display=swap');
 
 * {
   margin: 0;
@@ -6,7 +6,9 @@
   box-sizing: border-box;
   text-decoration: none;
   list-style: none;
-  font-family: "Anek Gujarati", sans-serif;
+  font-family: "Sofia Sans Semi Condensed", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
 *::selection {
@@ -370,7 +372,7 @@ body {
 }
 
 .popup .btn-cerrar-popup:hover {
-  color: rgb(255, 101, 101);
+  color: rgb(255, 0, 0);
 }
 
 .popup h3 {
@@ -539,4 +541,13 @@ label {
   background-color: #4158D0;
   background-image: linear-gradient(to top, #4481eb 0%, #04befe 100%);
   animation: floating-label 0.3s forwards;
+}
+
+.button_view {
+  background-color: #0684d5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 5px 15px;
 }

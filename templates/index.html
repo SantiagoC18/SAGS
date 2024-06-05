@@ -387,12 +387,12 @@
     <!--ventana emergente plan-->
 
     <div class="overlay" id="overlay1">
-        <div class="popup" id="popup1" style="height: 50%; width: auto; background-color: #000000b4;">
+        <div class="popup" id="popup1" style="height: auto; width: auto; background-color: #000000b4;">
             <a href="#" id="btn-cerrar-popup1" class="btn-cerrar-popup" style="margin-right: -100%"><i
                     class="fas fa-times"></i></a>
             <h2>Seleccione los Diagramas o Modelos</h2>
             <form action="/crear-plan" method="post">
-                <select name="diagramas" id="diagramas" multiple>
+                <select name="diagramas[]" id="diagramas" multiple required>
                     <option value="requisitos">Documento de Requisitos Funcionales y No Funcionales</option>
                     <option value="casos-de-uso">Casos de Uso</option>
                     <option value="modelo-clases">Modelo de Clases</option>

@@ -90,12 +90,17 @@
         </section>
 
         <section class="user-projects">
+            <button title="Agregar proyecto" class="button_add">
+                <i class="fa-regular fa-square-plus fa-2xl" style="color: #ffffff;"></i>
+            </button>
+
             <h2>Proyectos del Usuario</h2>
             {% for dato in datos %}
             <div class="project">
                 <h3>Proyecto {{ dato['nombre_proyecto'] }}</h3>
                 <p>Descripción:{{dato['proposito']}}</p>
                 <p>Estado: En progreso</p>
+                <button class="button_view" style="margin-bottom: 10px;">Ver</button>
             </div>
             {% endfor %}
             <!-- Agrega más proyectos según sea necesario -->
@@ -114,7 +119,7 @@
             <a href="#" id="btn-cerrar-popup0" class="btn-cerrar-popup" style="margin-right: -100%"><i
                     class="fas fa-times"></i>
             </a>
-            <h3 style="color: white;">Actualizar Perfil</h3 >
+            <h3 style="color: white;">Actualizar Perfil</h3>
             <form action="">
 
                 <div class="input-container">

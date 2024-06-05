@@ -111,6 +111,13 @@ main {
     scale: 1;
 }
 
+.button_add {
+    background: none;
+    margin-left: 96%;
+    cursor: pointer;
+    border: none;
+}
+
 @media screen and (max-width: 720px) {
     .user-details {
         flex-direction: column;

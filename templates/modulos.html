@@ -16,7 +16,7 @@
     <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
 
     <div class="container__menu">
-    
+
         <div class="menu">
             <a href="{{ url_for('index') }}" class="enlace">
                 <img src="/static/img/sirs.jpg" class="logo">
@@ -27,7 +27,7 @@
             </label>
             <nav class="nav">
                 <ul>
-    
+
                     <li><a href="{{ url_for('index') }}" id="selected"><i class="fa-solid fa-house fa-2xl"
                                 style="color: #ffffff;"></i></a>
                     </li>
@@ -36,40 +36,107 @@
                             <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
                             <li><a href="">Informacion</a></li>
                             <li><a href="{{ url_for('opiniones') }}">Opiniones</a></li>
-    
+
                         </ul>
                     </li>
                     <li><a href="{{ url_for('modulos') }}">Modulos</a></li>
-    
+
                 </ul>
             </nav>
         </div>
-    
+
     </div>
 
     <section class="container-cards">
 
-        <div class="cards">
-            <div class="container">
-                <div class="box">
-                    <span class="title">REGISTRAR NUEVO PROYECTO</span>
-                    <div>
-                        <strong>formulario para el registro de proyectos software para su seguimiento y gestion</strong>
+        <script src="https://cdn.tailwindcss.com"></script>
 
-                    </div>
+        <div class="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto py-10 px-4">
+            <div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
+                <div class="flex flex-col space-y-1.5 p-6">
+                    <h3 class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">Registro de
+                        Proyecto</h3>
+                    <p class="text-sm text-muted-foreground">
+                        El formulario de registro de proyecto permite a los usuarios ingresar detalles específicos sobre
+                        nuevos
+                        proyectos. A través de este formulario, se recopilan datos esenciales como el nombre del
+                        proyecto, la
+                        descripción, el objetivo, los plazos y los recursos necesarios. Esta información es fundamental
+                        para
+                        gestionar y desarrollar proyectos de software de manera eficiente, asegurando que todos los
+                        requisitos y
+                        expectativas sean claramente definidos desde el inicio.
+                    </p>
+                    <a href="{{ url_for('registrar_pro') }}"><button class="button_view">Registrar</button></a>
                 </div>
             </div>
 
-            <div class="container" id="btn-abrir-popup1">
-                <div class="box">
-                    <span class="title">GESTIONAR PROYECTOS</span>
-                    <div>
-                        <strong>Los permisos asociados a dicho rol determinan el acceso y la capacidad de
-                            gestionar
-                            proyectos dentro del
-                            sistema.
-                        </strong>
-
+            <div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
+                <div class="flex flex-col space-y-1.5 p-6">
+                    <h3 class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">Gestión de
+                        Proyectos</h3>
+                    <p class="text-sm text-muted-foreground">
+                        Conoce el método de gestión de proyectos y los privilegios de los usuarios.
+                    </p>
+                </div>
+                <div class="p-6 grid gap-4">
+                    <div class="grid gap-2">
+                        <h3 class="text-lg font-semibold">Método de Gestión</h3>
+                        <p>
+                            Utilizamos la métodologia ágil scrum para la gestión de proyectos,
+                            donde los equipos trabajan de manera
+                            colaborativa
+                            para
+                            entregar valor de manera iterativa.
+                        </p>
+                    </div>
+                    <div class="grid gap-2">
+                        <h3 class="text-lg font-semibold">Privilegios de Usuarios</h3>
+                        <ul class="grid gap-2">
+                            <li class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="w-5 h-5">
+                                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                <div>
+                                    <div class="font-semibold">Miembro del Equipo</div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Puede ver y comentar en el
+                                        proyecto.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="w-5 h-5">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                                <div>
+                                    <div class="font-semibold">Gestor de Proyecto</div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Puede ver, comentar y editar el
+                                        proyecto.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="w-5 h-5">
+                                    <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                                <div>
+                                    <div class="font-semibold">Administrador</div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">
+                                        Tiene acceso de administrador a todos los recursos.
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                        <button class="button_view" id="btn-abrir-popup1">Ingresar</button>
                     </div>
                 </div>
             </div>
@@ -80,7 +147,7 @@
     <!--ventana emergente2-->
 
     <div class="overlay" id="overlay1">
-        <div class="popup" id="popup1" >
+        <div class="popup" id="popup1">
             <a href="#" id="btn-cerrar-popup1" class="btn-cerrar-popup" style="margin-right: -100%"><i
                     class="fas fa-times"></i></a>
             <h4>Gestión de Proyectos con Control de Acceso</h4>
@@ -108,7 +175,7 @@
                     <div class="underline"></div>
                 </div>
 
-                <input type="button" value="ACCEDER" class="button"></input>
+                <button style="padding: 5px 45px;" class="button_view">ACCEDER</button>
             </form>
         </div>
     </div>

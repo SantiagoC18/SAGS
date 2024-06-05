@@ -113,6 +113,10 @@ def perfil():
 @app.route('/opiniones')
 def opiniones():
     return render_template('opiniones.html')
+
+@app.route('/registrar_pro')
+def registrar_pro():
+    return render_template('registrar_pro.html')
     
 @app.route('/')
 def proyectos():

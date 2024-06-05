@@ -21,7 +21,7 @@
 
 .container__cover .text {
     max-width: 400px;
-    background-color: rgba(200, 200, 200,0.3);
+    background-color: rgba(100, 100, 100, 0.5);
     padding: 50px;
     border-radius: 15px;
 }
@@ -71,7 +71,7 @@
         align-items: center;
     }
 
-    .container{
+    .container {
         margin: 0;
     }
 
@@ -98,7 +98,7 @@
     cursor: pointer;
 }
 
-@media screen and (max-width:1200px){
+@media screen and (max-width:1200px) {
     .container {
         margin: 50px;
     }
@@ -247,7 +247,7 @@
 
 /*container cards*/
 
-.continer__plans{
+.continer__plans {
     display: grid;
     place-content: center;
     width: auto;
@@ -255,7 +255,7 @@
     flex-direction: row;
 }
 
-@media screen and (max-width:720px){
+@media screen and (max-width:720px) {
     .continer__plans {
         flex-direction: column;
     }
@@ -343,24 +343,45 @@
     color: rgba(17, 24, 39, 1);
 }
 
- /* Estilos para el botón */
- .button1 {
-     padding: 10px 20px;
-     background-color: #007bff;
-     color: white;
-     border: none;
-     border-radius: 4px;
-     cursor: pointer;
- }
+/* Estilos para el botón */
+.button1 {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
- .button1:hover {
-     background-color: #0056b3;
- }
+.button1:hover {
+    background-color: #0056b3;
+}
 
- #btn-abrir-popup1 select, option{
+#btn-abrir-popup1 select,
+option {
     color: black;
- }
+}
 
- select[multiple]{
-    height: auto    ;
- }
+select[multiple] {
+    height: auto;
+    overflow: auto;
+    margin-bottom: 10px;
+}
+
+/* Estilos para el formulario */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+}
+
+input,
+select {
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
