@@ -90,9 +90,11 @@
         </section>
 
         <section class="user-projects">
-            <button title="Agregar proyecto" class="button_add">
-                <i class="fa-regular fa-square-plus fa-2xl" style="color: #ffffff;"></i>
-            </button>
+            <a href="{{ url_for('registrar_pro') }}">
+                <button title="Agregar proyecto" class="button_add">
+                    <i class="fa-regular fa-square-plus fa-2xl" style="color: #ffffff;"></i>
+                </button>
+            </a>
 
             <h2>Proyectos del Usuario</h2>
             {% for dato in datos %}
