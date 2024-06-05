@@ -550,4 +550,9 @@ label {
   border-radius: 4px;
   cursor: pointer;
   padding: 5px 15px;
+  animation: row 0.5s linear;
+}
+
+.button_view:hover{
+  background-color: #006caf;
 }

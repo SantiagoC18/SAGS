@@ -14,9 +14,9 @@
 <body>
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.3.8/build/spline-viewer.js"></script>
     <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
-    
+
     <div class="container__menu">
-    
+
         <div class="menu">
             <a href="{{ url_for('index') }}" class="enlace">
                 <img src="/static/img/sirs.jpg" class="logo">
@@ -27,7 +27,7 @@
             </label>
             <nav class="nav">
                 <ul>
-    
+
                     <li><a href="{{ url_for('index') }}" id="selected"><i class="fa-solid fa-house fa-2xl"
                                 style="color: #ffffff;"></i></a>
                     </li>
@@ -36,15 +36,15 @@
                             <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
                             <li><a href="">Informacion</a></li>
                             <li><a href="{{ url_for('opiniones') }}">Opiniones</a></li>
-    
+
                         </ul>
                     </li>
                     <li><a href="{{ url_for('modulos') }}">Modulos</a></li>
-    
+
                 </ul>
             </nav>
         </div>
-    
+
     </div>
 
     <div class="container mx-auto flex justify-center items-center h-screen">
@@ -74,7 +74,7 @@
                             type="text" id="objective" placeholder="Objetivo del proyecto">
                     </div>
                     <div class="mb-4">
-                        <label class="block text-zinc-700 dark:text-zinc-300 mb-2" for="deadline">Fecha 
+                        <label class="block text-zinc-700 dark:text-zinc-300 mb-2" for="deadline">Fecha
                             de Registro:</label>
                         <input
                             class="w-full px-3 py-2 border rounded-lg dark:bg-zinc-700 dark:border-zinc-600 dark:text-zinc-200"
@@ -84,11 +84,11 @@
                         <label class="block text-zinc-700 dark:text-zinc-300 mb-2" for="plan">Plan Seleccionado:</label>
                         <select
                             class="w-full px-3 py-2 border rounded-lg dark:bg-zinc-700 dark:border-zinc-600 dark:text-zinc-200"
-                            id="plan" onchange="toggleDiagramas()">
+                            id="plan" onclick="toggleDiagramas()">
                             <option value="basico">Básico</option>
                             <option value="estandar">Estándar</option>
                             <option value="premium">Premium</option>
-                            <option value="personalizado">Personalizado</option>
+                            <option value="Personalizado">Personalizado</option>
                         </select>
                     </div>
                     <div class="mb-4 hidden" id="diagrams-select">
@@ -105,7 +105,7 @@
                             <option value="modelo-er">Modelo Relaciónal</option>
                         </select>
                     </div>
-                    <button class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600">Registrar
+                    <button class="button_view" style="width: 100%;">Registrar
                         Proyecto</button>
                 </form>
             </div>
@@ -116,16 +116,18 @@
     </div>
 
     <script>
-        function toggleDiagramas() {
-            var plan = document.getElementById("plan").value;
-            var diagramsSelect = document.getElementById("diagrams-select");
+        const planSelect = document.getElementById('plan');
+        const diagramsSelect = document.getElementById('diagrams-select');
 
-            if (plan = 'Personalizado') {
+        const toggleDiagramas = () => {
+            if (planSelect.value === 'Personalizado') {
                 diagramsSelect.classList.remove('hidden');
             } else {
                 diagramsSelect.classList.add('hidden');
             }
-        }
+        };
+
+        planSelect.addEventListener('change', toggleDiagramas);
     </script>
 </body>
 
