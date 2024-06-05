@@ -3,9 +3,13 @@
     box-shadow: 0 0 7px 1px rgba(255, 255, 255, 0.3);
 }
 
+.container {
+    margin-top: 30px;
+}
+
 @media screen and (max-width: 720px) {
     .container {
-        margin-top: 260px;
+        margin-top: 270px;
     }
 
     .flex-col{

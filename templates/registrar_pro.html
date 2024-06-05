@@ -84,7 +84,7 @@
                         <label class="block text-zinc-700 dark:text-zinc-300 mb-2" for="plan">Plan Seleccionado:</label>
                         <select
                             class="w-full px-3 py-2 border rounded-lg dark:bg-zinc-700 dark:border-zinc-600 dark:text-zinc-200"
-                            id="plan">
+                            id="plan" onchange="toggleDiagramas()">
                             <option value="basico">Básico</option>
                             <option value="estandar">Estándar</option>
                             <option value="premium">Premium</option>
@@ -116,18 +116,16 @@
     </div>
 
     <script>
-        const planSelect = document.getElementById('plan');
-        const diagramsSelect = document.getElementById('diagrams-select');
+        function toggleDiagramas() {
+            var plan = document.getElementById("plan").value;
+            var diagramsSelect = document.getElementById("diagrams-select");
 
-        const toggleDiagramas = () => {
-            if (planSelect.value === 'Personalizado') {
+            if (plan = 'Personalizado') {
                 diagramsSelect.classList.remove('hidden');
             } else {
                 diagramsSelect.classList.add('hidden');
             }
-        };
-
-        planSelect.addEventListener('change', toggleDiagramas);
+        }
     </script>
 </body>
 
