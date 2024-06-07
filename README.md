@@ -1,5 +1,5 @@
 
-# Soluciones Avanzadas de Gestión de Software (SAGS)
+# Soluciones Avanzadas en Gestión de Software (SAGS)
 
  
 
