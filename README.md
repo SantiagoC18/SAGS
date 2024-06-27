@@ -23,9 +23,9 @@ SAGS es una plataforma destinada a agencias de desarrollo y programadores freela
 
 - Asignación automática de roles al iniciar sesión. 
 
-- Gestión de usuarios con diferentes niveles de acceso. 
+- Gestión de usuarios con diferentes roles de acceso. 
 
-- Colaboración en tiempo real en la elaboración de documentos. 
+- Colaboración en tiempo real para la elaboración de documentos. 
 
 - Seguimiento de cambios y versiones de documentos. 
 
