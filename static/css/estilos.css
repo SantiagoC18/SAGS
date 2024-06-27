@@ -73,7 +73,6 @@ body {
 }
 
 .nav>ul>li:first-child>a {
-  background-image: url(../img/home.png);
   background-size: 24px;
   background-repeat: no-repeat;
   background-position: center center;
@@ -81,7 +80,6 @@ body {
 }
 
 .nav>ul>li:first-child:hover>a {
-  background-image: url(../img/home.png);
   background-size: 24px;
   background-repeat: no-repeat;
   background-position: center center;
