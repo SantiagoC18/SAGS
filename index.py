@@ -14,9 +14,9 @@ mysql=MySQL(app)
 @app.route('/')
 def index():
     if session.get('logueado'):
-        return render_template('index.html', hola=session['nombre'])
+        return render_template('index.html', hola=session['nombre'], log='Cerrar')
     else:
-        return render_template('index.html')
+        return render_template('index.html', log='Iniciar')
 
 @app.route('/login')
 def login():
@@ -46,6 +46,10 @@ def acceso_login():
         else:
             return render_template('login.html', message="0")
     return render_template('login.html', message="0")
+
+#Finaliza funcion login
+
+#Funcion para crear o agregar usuario
         
 @app.route('/adduser', methods=['GET', 'POST'])
 def adduser():
@@ -78,13 +82,15 @@ def adduser():
             return render_template('login.html', message="0")
     return render_template('login.html', message="0")
 
+#Finaliza para crear o agregar usuario
+
 
 @app.route('/modulos')
 def modulos():
     if session.get('logueado'):
-        return render_template('modulos.html')
+        return render_template('modulos.html', log='Cerrar')
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('login', log='Iniciar'))
     
 #consultar informacion de usuario por medio de id
 
@@ -105,18 +111,24 @@ def perfil():
 				        WHERE id_usuario = %s;''',(id,))
         data2 = cur.fetchall()
             
-        return render_template('perfil.html', usuario = data, datos = data2)
+        return render_template('perfil.html', usuario = data, datos = data2, log='Cerrar')
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('login', log='Iniciar'))
 
 
 @app.route('/opiniones')
 def opiniones():
-    return render_template('opiniones.html')
+    if session.get('logueado'):
+        return render_template('opiniones.html', log='Cerrar')
+    else:
+        return render_template('opiniones.html', log='Iniciar')
 
 @app.route('/registrar_pro')
 def registrar_pro():
-    return render_template('registrar_pro.html')
+    if session.get('logueado'):
+        return render_template('registrar_pro.html', log='Cerrar')
+    else:
+        return redirect(url_for('login'))
     
 @app.route('/')
 def proyectos():
