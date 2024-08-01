@@ -66,9 +66,8 @@
                 <img src="/static/img/usuarios/{{dato['foto']}}" alt="">
                 <div class="user-text">
 
-                    <p><strong>Nombre:</strong> {{ dato['primer_nombre'] }} {{ dato['segundo_nombre'] }} {{
-                        dato['primer_apellido'] }} {{ dato['segundo_apellido'] }}</p>
-                    <p><strong>Correo Electrónico:</strong> {{ dato['correo'] }}</p>
+                    <p><strong>Nombre:</strong> {{ dato['nombres'] }} {{ dato['apellidos'] }}</p>
+                    <p><strong>Correo Electrónico:</strong> {{ dato['email'] }}</p>
                     <p><strong>Funcion:</strong> {{ dato['perfil'] }}</p>
                     <button id="btn-abrir-popup0" class="button">Editar Datos</button>
 
@@ -87,8 +86,8 @@
             <h2>Proyectos del Usuario</h2>
             {% for dato in datos %}
             <div class="project">
-                <h3>Proyecto {{ dato['nombre_proyecto'] }}</h3>
-                <p>Descripción:{{dato['proposito']}}</p>
+                <h3>Proyecto {{ dato['nombre'] }}</h3>
+                <p>Descripción:{{dato['descripcion']}}</p>
                 <p>Estado: En progreso</p>
                 <button class="button_view" style="margin-bottom: 10px;">Ver</button>
             </div>
