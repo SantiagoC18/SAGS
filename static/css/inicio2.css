@@ -247,33 +247,36 @@
 
 /*container cards*/
 
-.continer__plans {
-    display: grid;
-    place-content: center;
-    width: auto;
+.container__plans {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
 
 @media screen and (max-width:720px) {
-    .continer__plans {
+    .container__plans {
         flex-direction: column;
     }
 
     .container__cover .text {
         padding: 40px;
     }
+
+    form > .list-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow: auto;
+    }
 }
 
 /*cards de planes*/
 
 .card {
-    margin: 25px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-    margin-bottom: 2rem;
     width: 320px;
+    min-height: 460px;
+    margin: 10px;
     display: flex;
     flex-direction: column;
     border-radius: 0.25rem;
@@ -368,7 +371,9 @@ select[multiple] {
     margin-bottom: 10px;
 }
 
+
 /* Estilos para el formulario */
+
 form {
     display: flex;
     flex-direction: column;
@@ -384,4 +389,60 @@ select {
     margin-top: 5px;
     border-radius: 4px;
     border: 1px solid #ccc;
+}
+
+.container_main {
+    display: grid;
+    place-content: center;
+}
+
+/*cuadro de personalizacion de plan*/
+
+.list-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.select-list {
+    background-color: #2A2A2A;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 10px;
+    width: 240px;
+    max-height: 200px;
+    overflow-y: auto;
+    list-style-type: none;
+}
+
+.select-list li {
+    padding: 5px;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.select-list li:hover {
+    background-color: #3A3A3A;
+}
+
+.select-list input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.action-button {
+    background-color: #0062FF;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.action-button:hover {
+    background-color: #0051D4;
 }
