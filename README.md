@@ -1,16 +1,16 @@
 
 # SAGS - Sistema Avanzado de Gestión de Software
 
-### Descripción
+## Descripción
 SAGS es una herramienta diseñada para optimizar las etapas de planificación y análisis en el ciclo de vida del software. Ofrece una plataforma que facilita la colaboración entre los usuarios y los terceros involucrados en la generación de documentación. De esta manera, los desarrolladores pueden centrarse en el diseño y la programación del software, basándose en una documentación clara y estructurada generada con el apoyo de esta aplicación.
 
-### Características principales
+## Características principales
 - **Automatización del proceso de documentación:** SAGS facilita la creación y estructuración de documentos que son clave en las primeras fases del desarrollo de software.
 - **Colaboración entre usuarios y terceros:** El sistema fomenta la cooperación entre distintos roles del proyecto, optimizando el flujo de trabajo.
 - **Múltiples diagramas soportados:** SAGS ofrece soporte para varios modelos y diagramas relacionados con la norma IEEE-830, como casos de uso, modelo de clases, entidad-relación, entre otros.
 - **Planes personalizables:** Los usuarios pueden elegir entre varios planes de pago, incluyendo la opción de personalizar su propio plan seleccionando los diagramas y modelos que más se ajusten a sus necesidades.
 
-### Tecnologías utilizadas
+## Tecnologías utilizadas
 - **Frontend:** HTML, CSS, JavaScript.
 - **Backend:** .
 - **Base de datos:** MySQL.
