@@ -11,19 +11,24 @@ app.config['MYSQL_DB']='sags'
 app.config['MYSQL_CURSORCLASS']='DictCursor'
 mysql=MySQL(app)
 
+#redireccion a la pagina de index
+
 @app.route('/')
 def index():
     if session.get('logueado'):
         return render_template('index.html', hola=session['nombre'], log='Cerrar')
     else:
         return render_template('index.html', log='Iniciar')
+    
+
+#redireccion del login
 
 @app.route('/login')
 def login():
     return render_template('login.html')
 
 
-#funcion de login
+#funcion de login para validar usuario y contraceñá
 @app.route('/acceso_login', methods=["GET", "POST"])
 def acceso_login():
     
@@ -47,6 +52,8 @@ def acceso_login():
     return render_template('login.html', message="0")
 
 #Finaliza funcion login
+
+
 
 #Funcion para crear o agregar usuario
         
@@ -83,12 +90,17 @@ def adduser():
 #Finaliza para crear o agregar usuario
 
 
+
+#redireccion a los modulos de gestion y creacion de proyectos
+
 @app.route('/modulos')
 def modulos():
     if session.get('logueado'):
         return render_template('modulos.html', log='Cerrar')
     else:
         return redirect(url_for('login', log='Iniciar'))
+    
+
     
 #consultar informacion de usuario por medio de id
 
@@ -112,6 +124,9 @@ def perfil():
         return render_template('perfil.html', usuario = data, datos = data2, log='Cerrar')
     else:
         return redirect(url_for('login', log='Iniciar'))
+    
+
+#redireccion para el apartado de opniones
 
 
 @app.route('/opiniones')
@@ -120,6 +135,8 @@ def opiniones():
         return render_template('opiniones.html', log='Cerrar')
     else:
         return render_template('opiniones.html', log='Iniciar')
+    
+#redireccion para el apartado de registrar proyecto
 
 @app.route('/registrar_pro')
 def registrar_pro():
@@ -127,6 +144,9 @@ def registrar_pro():
         return render_template('registrar_pro.html', log='Cerrar')
     else:
         return redirect(url_for('login'))
+
+
+#consulta de proyectos 
     
 @app.route('/')
 def proyectos():
@@ -134,6 +154,36 @@ def proyectos():
     cur.execute('SELECT * FROM `proyectos`')
     data = cur.fetchall()
     return render_template('perfil.html', datos = data)
+
+
+#redireccion al apartado de checklist de usuario donde solo puedo consultar la informacion y descargar los documentos
+
+@app.route("/checkdown/<int:idproy>")
+def checkdown(idproy):
+    if session.get('logueado'):
+
+        cur = mysql.connection.cursor()
+        consulta = "SELECT * FROM proyectos WHERE idproy = %s"
+        id = idproy
+        cur.execute(consulta, (id,))
+        data2 = cur.fetchall()
+        
+        cur.execute(''' SELECT checklists.aprobacion,modelos.nombre,modelos.descripcion,checklists.archivo,checklists.fecha
+		                FROM proyectos
+				        INNER JOIN checklists
+				        ON proyectos.idproy = checklists.idproy
+				        INNER JOIN modelos
+			        	ON checklists.idmod = modelos.idmod
+			        	WHERE checklists.idproy = %s;''',(idproy,))
+        data = cur.fetchall()
+    
+        return render_template('check-down.html', data=data, data2=data2, log='Cerrar')
+    
+    else:
+        return redirect(url_for('login'))
+
+
+#redireccion y destruccion de sesion del usuario
 
 @app.route("/logout")
 def logout():

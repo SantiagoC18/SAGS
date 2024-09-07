@@ -89,7 +89,9 @@
                 <h3>Proyecto {{ dato['nombre'] }}</h3>
                 <p>Descripción:{{dato['descripcion']}}</p>
                 <p>Estado: En progreso</p>
-                <button class="button_view" style="margin-bottom: 10px;">Ver</button>
+                <a href="{{ url_for('checkdown', idproy = dato['idproy']) }}">
+                    <button class="button_view" style="margin-bottom: 10px;">Ver</button>
+                </a>
             </div>
             {% endfor %}
             <!-- Agrega más proyectos según sea necesario -->
