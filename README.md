@@ -1,33 +1,21 @@
 
-# Soluciones Avanzadas en Gestión de Software (SAGS)
+# SAGS - Sistema Avanzado de Gestión de Software
 
- 
+### Descripción
+SAGS es una herramienta diseñada para optimizar las etapas de planificación y análisis en el ciclo de vida del software. Ofrece una plataforma que facilita la colaboración entre los usuarios y los terceros involucrados en la generación de documentación. De esta manera, los desarrolladores pueden centrarse en el diseño y la programación del software, basándose en una documentación clara y estructurada generada con el apoyo de esta aplicación.
 
-Bienvenido al repositorio de SAGS, una plataforma web diseñada para optimizar el diseño e implementación de proyectos de software a medida mediante la sistematización dinámica y específica de los sistemas de requisitos software aplicando la norma IEEE-830 segun los (SRS).
+### Características principales
+- **Automatización del proceso de documentación:** SAGS facilita la creación y estructuración de documentos que son clave en las primeras fases del desarrollo de software.
+- **Colaboración entre usuarios y terceros:** El sistema fomenta la cooperación entre distintos roles del proyecto, optimizando el flujo de trabajo.
+- **Múltiples diagramas soportados:** SAGS ofrece soporte para varios modelos y diagramas relacionados con la norma IEEE-830, como casos de uso, modelo de clases, entidad-relación, entre otros.
+- **Planes personalizables:** Los usuarios pueden elegir entre varios planes de pago, incluyendo la opción de personalizar su propio plan seleccionando los diagramas y modelos que más se ajusten a sus necesidades.
 
- 
-
-## Descripción 
-
- 
-
-SAGS es una plataforma destinada a agencias de desarrollo y programadores freelance que buscan mejorar la gestión de proyectos de software personalizados. Con SAGS, puedes crear, gestionar y colaborar en la elaboración de documentos de especificaciones de requisitos de software (SRS) de manera eficiente y efectiva. 
-
- 
-
-## Características 
-
- 
-
-- Creación y edición dinámica de documentos SRS. 
-
-- Asignación automática de roles al iniciar sesión. 
-
-- Gestión de usuarios con diferentes roles de acceso. 
-
-- Colaboración en tiempo real para la elaboración de documentos. 
-
-- Seguimiento de cambios y versiones de documentos. 
+### Tecnologías utilizadas
+- **Frontend:** HTML, CSS, JavaScript.
+- **Backend:** .
+- **Base de datos:** MySQL.
+- **Seguridad:** Implementación de autenticación y gestión de roles para garantizar que solo los usuarios autorizados puedan modificar ciertas partes del sistema.
+- **Compatibilidad y escalabilidad:** SAGS ha sido diseñado para ser escalable y compatible con distintos sistemas operativos y navegadores.
 
  
 
