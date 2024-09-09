@@ -26,8 +26,8 @@ DELIMITER $$
 -- Procedimientos
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `encrypt` (IN `_email` VARCHAR(100), IN `_tipodoc` VARCHAR(100), IN `_password` VARCHAR(100), IN `_telefono` INT(100), IN `_nombres` VARCHAR(100), IN `_apellidos` VARCHAR(100), IN `_foto` TEXT, IN `_perfil` VARCHAR(100))   BEGIN
-INSERT into usuarios(email, tipodoc, password, telefono, nombres, apellidos, foto, perfil)
-values(_email,_tipodoc,SHA2(_password, 512), _telefono, _nombres, _apellidos, _foto, _perfil);
+INSERT into usuarios(email, tipodoc, documento, password, telefono, nombres, apellidos, foto, perfil)
+values(_email,_tipodoc,documento, SHA2(_password, 512), _telefono, _nombres, _apellidos, _foto, _perfil);
 END$$
 
 DELIMITER ;
@@ -110,7 +110,7 @@ INSERT INTO `checklists` (`idcheck`, `idmod`, `aprobacion`, `archivo`, `fecha`, 
 CREATE TABLE `modelos` (
   `idmod` varchar(5) NOT NULL COMMENT 'Identificador único del modelo',
   `nombre` varchar(20) DEFAULT NULL COMMENT 'Nombre del modelo',
-  `descripcion` varchar(30) DEFAULT NULL COMMENT 'Descripción del modelo'
+  `descripcion` varchar(70) DEFAULT NULL COMMENT 'Descripción del modelo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de modelos';
 
 --
@@ -505,6 +505,7 @@ INSERT INTO `ubicaciones` (`idubi`, `ciudad`, `direccion`, `email`) VALUES
 CREATE TABLE `usuarios` (
   `email` varchar(40) NOT NULL,
   `tipodoc` varchar(11) DEFAULT NULL,
+  `documento` int(15) DEFAULT NULL,
   `password` varchar(6) DEFAULT NULL,
   `telefono` int(11) DEFAULT NULL,
   `nombres` varchar(33) DEFAULT NULL,
@@ -518,7 +519,7 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`email`, `tipodoc`, `password`, `telefono`, `nombres`, `apellidos`, `foto`, `idrol`, `perfil`) VALUES
+INSERT INTO `usuarios` (`email`, `tipodoc`, `documento`, `password`, `telefono`, `nombres`, `apellidos`, `foto`, `idrol`, `perfil`) VALUES
 ('1012918020@ctjfr.edu.co', '', '101291', NULL, 'Karol Andrea', 'Beltran Diaz', '', 3, ''),
 ('1023367786@ctjfr.edu.co', '', '102336', NULL, 'Maria Camila', 'Puerto Guerrero', '', 3, ''),
 ('1028661442@gmail.com', '', '310711', NULL, 'Emanuel Felipe', 'Rodriguez Ramirez', '', 1, ''),
