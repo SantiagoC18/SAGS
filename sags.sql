@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 31-07-2024 a las 18:44:55
--- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Tiempo de generación: 05-09-2024 a las 20:43:36
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,17 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `sags`
 --
+
+DELIMITER $$
+--
+-- Procedimientos
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `encrypt` (IN `_email` VARCHAR(100), IN `_tipodoc` VARCHAR(100), IN `_password` VARCHAR(100), IN `_telefono` INT(100), IN `_nombres` VARCHAR(100), IN `_apellidos` VARCHAR(100), IN `_foto` TEXT, IN `_perfil` VARCHAR(100))   BEGIN
+INSERT into usuarios(email, tipodoc, password, telefono, nombres, apellidos, foto, perfil)
+values(_email,_tipodoc,SHA2(_password, 512), _telefono, _nombres, _apellidos, _foto, _perfil);
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -522,10 +533,12 @@ INSERT INTO `usuarios` (`email`, `tipodoc`, `password`, `telefono`, `nombres`, `
 ('johanbenavides134@gmail.com', '', '123456', NULL, 'Johan Steven', 'Benavides Sanchez', '', 3, ''),
 ('jssr217@gmail.com', '', 'JuanSi', NULL, 'Primer Nombre Juan', 'Primer Apellido Silva', '', 3, ''),
 ('juandaja2201@gmail.com', '', '123456', NULL, 'Juan David', 'Jerez Amador', '', 3, ''),
+('julia@gmail.com', 'cc', '1f242d', 587821, 'Julia', 'Perez', '', NULL, 'cliente'),
 ('linaessofia33@gmail.com', '', 'sofial', NULL, 'Laura Sofia', 'Linares Piñeros', '', 3, ''),
 ('majogalan2006@gmail.com', '', 'majoga', NULL, 'María José', 'Romero Gómez', '', 1, ''),
 ('mglnares2006@gmail.com', '', 'Pollo0', NULL, 'Miguel Felipe', 'Linares Riaño', '', 3, ''),
 ('nicolasgiraldo1020@gmail.com', '', '1020', NULL, 'Nicolas Santiago', 'Giraldo Valencia', '', 3, ''),
+('rocio123@gmail.com', 'cc', '6859f9', 14568745, 'Rocio', 'Caceres', 'dfsdgfd', NULL, 'cliente'),
 ('roger@gmail.com', '', '24271', 2147483647, 'Roger Steec', 'Fuentes Ramirez', '/ferrari-enzo-rojo_3840x2160_xtrafondos.com.jpg', 3, 'Diseñador'),
 ('santicardenash@gmail.com', '', '2006', 2147483647, 'Santiago', 'Cárdenas Hernández', '/c59f9ad6da00a07b253d86a97c23d6d5 (1).jpg', 1, 'Desarrollador'),
 ('sebastianrm30yu@iclock.com', '', '123456', NULL, 'Johann Sebastian', 'Rivero Martinez', '', 3, ''),
