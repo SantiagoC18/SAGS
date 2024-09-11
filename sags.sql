@@ -109,8 +109,8 @@ INSERT INTO `checklists` (`idcheck`, `idmod`, `aprobacion`, `archivo`, `fecha`, 
 
 CREATE TABLE `modelos` (
   `idmod` varchar(5) NOT NULL COMMENT 'Identificador único del modelo',
-  `nombre` varchar(20) DEFAULT NULL COMMENT 'Nombre del modelo',
-  `descripcion` varchar(70) DEFAULT NULL COMMENT 'Descripción del modelo'
+  `nombre` varchar(35) DEFAULT NULL COMMENT 'Nombre del modelo',
+  `descripcion` varchar(80) DEFAULT NULL COMMENT 'Descripción del modelo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de modelos';
 
 --
@@ -133,10 +133,10 @@ INSERT INTO `modelos` (`idmod`, `nombre`, `descripcion`) VALUES
 
 CREATE TABLE `opiniones` (
   `id_opi` int(11) NOT NULL,
-  `opinion` varchar(15) DEFAULT NULL,
+  `opinion` varchar(1000) DEFAULT NULL,
   `calificacion` int(11) DEFAULT NULL,
-  `tipo_opi` varchar(15) DEFAULT NULL,
-  `email` varchar(40) NOT NULL
+  `tipo_opi` varchar(25) DEFAULT NULL,
+  `email` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar opiniones de usuarios';
 
 --
@@ -156,8 +156,8 @@ INSERT INTO `opiniones` (`id_opi`, `opinion`, `calificacion`, `tipo_opi`, `email
 --
 
 CREATE TABLE `planes` (
-  `nomplan` varchar(10) NOT NULL,
-  `descripcion` varchar(10) DEFAULT NULL,
+  `nomplan` varchar(30) NOT NULL,
+  `descripcion` varchar(50) DEFAULT NULL,
   `precio` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar planes disponibles';
 
@@ -178,7 +178,7 @@ INSERT INTO `planes` (`nomplan`, `descripcion`, `precio`) VALUES
 
 CREATE TABLE `priori_req` (
   `tipo_pri_req` varchar(80) NOT NULL,
-  `descripcion` varchar(250) DEFAULT NULL
+  `descripcion` varchar(350) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar prioridades de requisitos';
 
 --
@@ -198,13 +198,13 @@ INSERT INTO `priori_req` (`tipo_pri_req`, `descripcion`) VALUES
 
 CREATE TABLE `proyectos` (
   `idproy` int(11) NOT NULL,
-  `nombre` varchar(25) DEFAULT NULL,
-  `descripcion` varchar(500) DEFAULT NULL,
-  `tipo` varchar(15) DEFAULT NULL,
+  `nombre` varchar(55) DEFAULT NULL,
+  `descripcion` varchar(700) DEFAULT NULL,
+  `tipo` varchar(25) DEFAULT NULL,
   `fechaI` date DEFAULT NULL,
   `fechaF` date DEFAULT NULL,
-  `linkform` varchar(100) DEFAULT NULL,
-  `nomplan` varchar(10) DEFAULT NULL
+  `linkform` varchar(200) DEFAULT NULL,
+  `nomplan` varchar(55) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de proyectos';
 
 --
@@ -251,8 +251,8 @@ INSERT INTO `proy_reu` (`form_proy_reu`, `idproy`, `idreu`) VALUES
 
 CREATE TABLE `requisitos` (
   `idreq` int(11) NOT NULL,
-  `nombre` varchar(20) DEFAULT NULL,
-  `descripcion` varchar(50) DEFAULT NULL,
+  `nombre` varchar(30) DEFAULT NULL,
+  `descripcion` varchar(100) DEFAULT NULL,
   `tipo_pri_req` varchar(80) NOT NULL,
   `tipo_req` varchar(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar requisitos de proyectos';
@@ -320,7 +320,7 @@ CREATE TABLE `reuniones` (
   `idreu` int(11) NOT NULL,
   `fechavis` date DEFAULT NULL,
   `horavis` time DEFAULT NULL,
-  `tipo_reu` varchar(15) NOT NULL
+  `tipo_reu` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de reuniones';
 
 --
@@ -341,7 +341,7 @@ INSERT INTO `reuniones` (`idreu`, `fechavis`, `horavis`, `tipo_reu`) VALUES
 
 CREATE TABLE `roles` (
   `idrol` int(11) NOT NULL,
-  `descripcion` varchar(15) DEFAULT NULL
+  `descripcion` varchar(65) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar roles de usuarios';
 
 --
@@ -364,8 +364,8 @@ CREATE TABLE `sprints` (
   `idsprint` int(11) NOT NULL,
   `fechaI` date DEFAULT NULL,
   `fechaF` date DEFAULT NULL,
-  `nombre` varchar(20) DEFAULT NULL,
-  `aobservaciones` varchar(30) DEFAULT NULL,
+  `nombre` varchar(40) DEFAULT NULL,
+  `aobservaciones` varchar(300) DEFAULT NULL,
   `estado` int(11) DEFAULT NULL,
   `idproy` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar sprints de proyectos';
@@ -395,8 +395,8 @@ INSERT INTO `sprints` (`idsprint`, `fechaI`, `fechaF`, `nombre`, `aobservaciones
 
 CREATE TABLE `tareas` (
   `id_tar` int(11) NOT NULL,
-  `nombre` varchar(25) DEFAULT NULL,
-  `descripcion` varchar(50) DEFAULT NULL,
+  `nombre` varchar(45) DEFAULT NULL,
+  `descripcion` varchar(500) DEFAULT NULL,
   `idsprint` int(11) DEFAULT NULL,
   `usu_proy_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tareas de proyectos';
@@ -460,7 +460,7 @@ INSERT INTO `tipos_req` (`tipo_req`, `descripcion`) VALUES
 --
 
 CREATE TABLE `tipos_reu` (
-  `tipo_reu` varchar(15) NOT NULL
+  `tipo_reu` varchar(35) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tipos de reuniones';
 
 --
@@ -479,9 +479,9 @@ INSERT INTO `tipos_reu` (`tipo_reu`) VALUES
 
 CREATE TABLE `ubicaciones` (
   `idubi` int(11) DEFAULT NULL,
-  `ciudad` varchar(11) DEFAULT NULL,
-  `direccion` varchar(40) DEFAULT NULL,
-  `email` varchar(40) DEFAULT NULL
+  `ciudad` varchar(60) DEFAULT NULL,
+  `direccion` varchar(100) DEFAULT NULL,
+  `email` varchar(60) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar ubicaciones de usuarios';
 
 --
@@ -503,14 +503,14 @@ INSERT INTO `ubicaciones` (`idubi`, `ciudad`, `direccion`, `email`) VALUES
 --
 
 CREATE TABLE `usuarios` (
-  `email` varchar(40) NOT NULL,
+  `email` varchar(60) NOT NULL,
   `tipodoc` varchar(11) DEFAULT NULL,
   `documento` int(15) DEFAULT NULL,
-  `password` varchar(6) DEFAULT NULL,
+  `password` varchar(20) DEFAULT NULL,
   `telefono` int(11) DEFAULT NULL,
   `nombres` varchar(33) DEFAULT NULL,
   `apellidos` varchar(33) DEFAULT NULL,
-  `foto` varchar(50) DEFAULT NULL,
+  `foto` varchar(200) DEFAULT NULL,
   `idrol` int(11) DEFAULT NULL,
   `perfil` varchar(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de usuarios';
@@ -556,7 +556,7 @@ INSERT INTO `usuarios` (`email`, `tipodoc`, `documento`, `password`, `telefono`,
 CREATE TABLE `usu_proy` (
   `id` int(11) NOT NULL,
   `idproy` int(11) DEFAULT NULL,
-  `email` varchar(40) DEFAULT NULL,
+  `email` varchar(60) DEFAULT NULL,
   `Product_Owner` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla de relación entre usuarios y proyectos';
 
