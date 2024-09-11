@@ -53,6 +53,41 @@ def acceso_login():
 
 #Finaliza funcion login
 
+#funcion de login para validar usuario, contraceñá y rol para la gestion de proyectos
+@app.route('/gestion_proyectos', methods=["GET", "POST"])
+def  gestion_proyectos():
+    
+    if session.get('logueado'):
+        
+        if request.method == 'POST':
+            correo = request.form['correo']
+            clave = request.form['clave']
+            
+            cur = mysql.connection.cursor()
+            cur.execute('SELECT * FROM usuarios WHERE email = %s AND  password = %s AND idrol = 1 LIMIT 1', (correo, clave,))
+            account = cur.fetchone()
+            
+            if account:
+                
+                return render_template('gestor_proyectos.html')
+            
+            else:
+                
+                cur.execute('SELECT * FROM usuarios WHERE email = %s AND  password = %s AND idrol = 2 LIMIT 1', (correo, clave,))
+                account2 = cur.fetchone()
+                
+                if account2:
+                    return redirect(url_for('pefil', message="0"))
+            
+        return render_template('login.html', message="0")
+    else:
+        
+        return redirect(url_for('login', log='Iniciar'))
+    
+    
+
+#Finaliza funcion login
+
 
 
 #Funcion para crear o agregar usuario
