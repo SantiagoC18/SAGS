@@ -1,4 +1,4 @@
-from flask import Flask, bcrypt
+from flask import Flask
 from flask import render_template, redirect, request, Response, session, url_for
 from flask_mysqldb import MySQL, MySQLdb
 
