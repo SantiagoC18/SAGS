@@ -371,3 +371,12 @@ select {
         transform: translateY(20%);
     }
 }
+
+
+.form-reset{
+    position: relative;
+    top: 11vh;
+    text-align: center;
+    justify-content: center;
+    width: 60%;
+}
