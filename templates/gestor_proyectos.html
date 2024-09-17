@@ -5,16 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Proyectos</title>
     <link rel="stylesheet" href="/static/css/gestor_proyectos_sags.css">
+    <link rel="stylesheet" href="/static/css/estilos.css">
 </head>
 <body>
+
     <header>
-        <h1>Gestión de Proyectos - SAGS</h1>
-        <nav>
-            <ul>
-                <li><a href="#developer">Vista Desarrollador</a></li>
-                <li><a href="#admin">Vista Administrador</a></li>
-            </ul>
-        </nav>
+        <a href="{{ url_for('index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
+    
+        <ul class="navbar">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('index') }}">Sobre Nosotros</a></li>
+            <li><a href="{{ url_for('modulos') }}">Gestion de Proyectos</a></li>
+            <li><a href="{{ url_for('opiniones') }}">Opiniones</a></li>
+            <li><a href="{{ url_for('perfil') }}" class="active">Perfil</a></li>
+        </ul>
+    
+        <div class="main">
+            <a href="{{ url_for('logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion {%
+                endif %}</a>
+            <div class="bx bx-menu" id="menu-icon"><i class="fa-solid fa-bars"></i></div>
+        </div>
     </header>
 
     <section id="developer">
@@ -25,6 +35,8 @@
                     <tr>
                         <th>#</th>
                         <th>Nombre del Proyecto</th>
+                        <th>Fecha de Inicio</th>
+                        <th>FEcha de Finalizacion</th>
                         <th>Progreso</th>
                         <th>Acción</th>
                     </tr>
