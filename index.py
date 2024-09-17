@@ -55,7 +55,7 @@ def acceso_login():
 
 #funcion de login para validar usuario, contraceñá y rol para la gestion de proyectos
 @app.route('/gestion_proyectos', methods=["GET", "POST"])
-def  gestion_proyectos():
+def gestion_proyectos():
     
     if session.get('logueado'):
         
@@ -63,26 +63,32 @@ def  gestion_proyectos():
             correo = request.form['correo']
             clave = request.form['clave']
             
+            # Consulta simplificada para obtener el rol del usuario en una sola consulta
             cur = mysql.connection.cursor()
-            cur.execute('SELECT * FROM usuarios WHERE email = %s AND  password = %s AND idrol = 1 LIMIT 1', (correo, clave,))
+            cur.execute('SELECT * FROM usuarios WHERE email = %s LIMIT 1', (correo,))
             account = cur.fetchone()
             
             if account:
+                # Verificar si la contraseña es correcta
+                # Usa bcrypt si las contraseñas están cifradas
+                if account['password'] == clave:  # Reemplaza esto con la validación correspondiente si es bcrypt
+                    
+                    if account['idrol'] == 1:  # Rol de administrador
+                        return render_template('gestor_proyectos.html')
+                    
+                    elif account['idrol'] == 2:  # Rol de perfil normal
+                        return redirect(url_for('perfil', message="0"))
                 
-                return render_template('gestor_proyectos.html')
-            
+                else:
+                    # Contraseña incorrecta
+                    return redirect(url_for('modulos', message="Contraseña incorrecta"))
             else:
-                
-                cur.execute('SELECT * FROM usuarios WHERE email = %s AND  password = %s AND idrol = 2 LIMIT 1', (correo, clave,))
-                account2 = cur.fetchone()
-                
-                if account2:
-                    return redirect(url_for('pefil', message="0"))
-            
-        return render_template('login.html', message="0")
+                # Usuario no encontrado
+                return render_template('login.html', message="Usuario no encontrado")
+    
     else:
-        
         return redirect(url_for('login', log='Iniciar'))
+
     
     
 
