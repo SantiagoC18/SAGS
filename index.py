@@ -80,7 +80,10 @@ def gestion_proyectos():
                 account = cur.fetchone()
 
                 if account:
-                    return render_template('gestor_proyectos.html')
+                    cur.execute("SELECT * FROM proyectos")
+                    consulta = cur.fetchall()
+                    
+                    return render_template('gestor_proyectos.html', data = consulta, log = 'Cerrar')
                 else:
                     # Verificar si el usuario tiene un rol de usuario regular (idrol = 2)
                     cur.execute('SELECT * FROM usuarios WHERE email = %s AND password = %s AND idrol = 2 LIMIT 1', (correo, clave,))
