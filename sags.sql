@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-09-2024 a las 20:43:36
+-- Tiempo de generación: 16-09-2024 a las 18:57:09
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,14 +20,104 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `sags`
 --
+CREATE DATABASE IF NOT EXISTS `sags` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `sags`;
 
 DELIMITER $$
 --
 -- Procedimientos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `encrypt` (IN `_email` VARCHAR(100), IN `_tipodoc` VARCHAR(100), IN `_password` VARCHAR(100), IN `_telefono` INT(100), IN `_nombres` VARCHAR(100), IN `_apellidos` VARCHAR(100), IN `_foto` TEXT, IN `_perfil` VARCHAR(100))   BEGIN
-INSERT into usuarios(email, tipodoc, documento, password, telefono, nombres, apellidos, foto, perfil)
-values(_email,_tipodoc,documento, SHA2(_password, 512), _telefono, _nombres, _apellidos, _foto, _perfil);
+DROP PROCEDURE IF EXISTS `ActualizarUsuario`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarUsuario` (IN `p_email` VARCHAR(40), IN `p_nuevosdatos` VARCHAR(50))   BEGIN
+    UPDATE usuarios
+    SET datos = CONCAT(datos, p_nuevosdatos)
+    WHERE email = p_email;
+END$$
+
+DROP PROCEDURE IF EXISTS `EliminarRequisitosProyecto`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarRequisitosProyecto` (IN `p_idproy` INT)   BEGIN
+    DELETE FROM requisitos_proyectos
+    WHERE idproy = p_idproy;
+END$$
+
+DROP PROCEDURE IF EXISTS `EliminarUsuario`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarUsuario` (IN `p_email` VARCHAR(40))   BEGIN
+    DELETE FROM usuarios
+    WHERE email = p_email;
+END$$
+
+DROP PROCEDURE IF EXISTS `InsertarRequisito`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarRequisito` (IN `p_nombre` VARCHAR(20), IN `p_descripcion` VARCHAR(50), IN `p_tipo_pri_req` VARCHAR(80), IN `p_tipo_req` VARCHAR(80))   BEGIN
+    INSERT INTO requisitos (nombre, descripcion, tipo_pri_req, tipo_req)
+    VALUES (p_nombre, p_descripcion, p_tipo_pri_req, p_tipo_req);
+END$$
+
+DROP PROCEDURE IF EXISTS `InsertarUsuario`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarUsuario` (IN `p_email` VARCHAR(40), IN `p_tipodoc` VARCHAR(11), IN `p_documento` INT, IN `p_password` VARCHAR(6), IN `p_telefono` INT, IN `p_nombres` VARCHAR(33), IN `p_apellidos` VARCHAR(33), IN `p_foto` VARCHAR(50), IN `p_idrol` INT)   BEGIN
+    INSERT INTO usuarios (email, tipodoc, documento, password, telefono, nombres, apellidos, foto, idrol)
+    VALUES (p_email, p_tipodoc, p_documento, p_password, p_telefono, p_nombres, p_apellidos, p_foto, p_idrol);
+END$$
+
+--
+-- Funciones
+--
+DROP FUNCTION IF EXISTS `ContarProyectos`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `ContarProyectos` () RETURNS INT(11)  BEGIN
+    DECLARE num_proyectos INT;
+    SELECT COUNT(*) INTO num_proyectos FROM proyectos;
+    RETURN num_proyectos;
+END$$
+
+DROP FUNCTION IF EXISTS `desencriptar`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `desencriptar` (`password` VARBINARY(100)) RETURNS VARCHAR(40) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
+DECLARE ClaveDesen varchar(40);
+SET ClaveDesen = (SELECT CAST(AES_DECRYPT(password,'sena')
+as varchar(40)));
+RETURN ClaveDesen;
+END$$
+
+DROP FUNCTION IF EXISTS `encriptar`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `encriptar` (`password` VARCHAR(20)) RETURNS VARBINARY(100)  BEGIN
+DECLARE ClaveEncri varbinary(100);
+SET ClaveEncri = AES_ENCRYPT(password,'sena');
+RETURN ClaveEncri;
+END$$
+
+DROP FUNCTION IF EXISTS `ObtenerPrioridadRequisito`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `ObtenerPrioridadRequisito` (`p_idreq` INT) RETURNS VARCHAR(20) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
+    DECLARE prioridad_requisito VARCHAR(20);
+    SELECT tipo_pri_req INTO prioridad_requisito
+    FROM requisitos
+    WHERE idreq = p_idreq;
+    RETURN prioridad_requisito;
+END$$
+
+DROP FUNCTION IF EXISTS `ObtenerRequisitosProyecto`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `ObtenerRequisitosProyecto` (`p_idproy` INT) RETURNS VARCHAR(200) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
+    DECLARE requisitos_proyecto VARCHAR(200);
+    SELECT GROUP_CONCAT(r.nombre SEPARATOR ', ') INTO requisitos_proyecto
+    FROM requisitos r
+    JOIN requisitos_proyectos rp ON r.idreq = rp.idreq
+    WHERE rp.idproy = p_idproy;
+    RETURN requisitos_proyecto;
+END$$
+
+DROP FUNCTION IF EXISTS `ObtenerTipoRequisito`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `ObtenerTipoRequisito` (`p_idreq` INT) RETURNS VARCHAR(20) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
+    DECLARE tipo_requisito VARCHAR(20);
+    SELECT tipo_req INTO tipo_requisito
+    FROM requisitos
+    WHERE idreq = p_idreq;
+    RETURN tipo_requisito;
+END$$
+
+DROP FUNCTION IF EXISTS `ObtenerUsuario`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `ObtenerUsuario` (`p_email` VARCHAR(40)) RETURNS VARCHAR(100) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
+    DECLARE usuario_email VARCHAR(100);
+    SELECT CONCAT(email, ' - ', nombres, ' ', apellidos) INTO usuario_email
+    FROM usuarios
+    WHERE email = p_email;
+    RETURN usuario_email;
 END$$
 
 DELIMITER ;
@@ -38,6 +128,7 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `checklists`
 --
 
+DROP TABLE IF EXISTS `checklists`;
 CREATE TABLE `checklists` (
   `idcheck` int(11) NOT NULL COMMENT 'Identificador único del checklist',
   `idmod` varchar(5) NOT NULL,
@@ -107,6 +198,7 @@ INSERT INTO `checklists` (`idcheck`, `idmod`, `aprobacion`, `archivo`, `fecha`, 
 -- Estructura de tabla para la tabla `modelos`
 --
 
+DROP TABLE IF EXISTS `modelos`;
 CREATE TABLE `modelos` (
   `idmod` varchar(5) NOT NULL COMMENT 'Identificador único del modelo',
   `nombre` varchar(35) DEFAULT NULL COMMENT 'Nombre del modelo',
@@ -131,6 +223,7 @@ INSERT INTO `modelos` (`idmod`, `nombre`, `descripcion`) VALUES
 -- Estructura de tabla para la tabla `opiniones`
 --
 
+DROP TABLE IF EXISTS `opiniones`;
 CREATE TABLE `opiniones` (
   `id_opi` int(11) NOT NULL,
   `opinion` varchar(1000) DEFAULT NULL,
@@ -155,6 +248,7 @@ INSERT INTO `opiniones` (`id_opi`, `opinion`, `calificacion`, `tipo_opi`, `email
 -- Estructura de tabla para la tabla `planes`
 --
 
+DROP TABLE IF EXISTS `planes`;
 CREATE TABLE `planes` (
   `nomplan` varchar(30) NOT NULL,
   `descripcion` varchar(50) DEFAULT NULL,
@@ -176,6 +270,7 @@ INSERT INTO `planes` (`nomplan`, `descripcion`, `precio`) VALUES
 -- Estructura de tabla para la tabla `priori_req`
 --
 
+DROP TABLE IF EXISTS `priori_req`;
 CREATE TABLE `priori_req` (
   `tipo_pri_req` varchar(80) NOT NULL,
   `descripcion` varchar(350) DEFAULT NULL
@@ -196,6 +291,7 @@ INSERT INTO `priori_req` (`tipo_pri_req`, `descripcion`) VALUES
 -- Estructura de tabla para la tabla `proyectos`
 --
 
+DROP TABLE IF EXISTS `proyectos`;
 CREATE TABLE `proyectos` (
   `idproy` int(11) NOT NULL,
   `nombre` varchar(55) DEFAULT NULL,
@@ -227,6 +323,7 @@ INSERT INTO `proyectos` (`idproy`, `nombre`, `descripcion`, `tipo`, `fechaI`, `f
 -- Estructura de tabla para la tabla `proy_reu`
 --
 
+DROP TABLE IF EXISTS `proy_reu`;
 CREATE TABLE `proy_reu` (
   `form_proy_reu` int(11) NOT NULL,
   `idproy` int(11) DEFAULT NULL,
@@ -249,6 +346,7 @@ INSERT INTO `proy_reu` (`form_proy_reu`, `idproy`, `idreu`) VALUES
 -- Estructura de tabla para la tabla `requisitos`
 --
 
+DROP TABLE IF EXISTS `requisitos`;
 CREATE TABLE `requisitos` (
   `idreq` int(11) NOT NULL,
   `nombre` varchar(30) DEFAULT NULL,
@@ -279,6 +377,7 @@ INSERT INTO `requisitos` (`idreq`, `nombre`, `descripcion`, `tipo_pri_req`, `tip
 -- Estructura de tabla para la tabla `requisitos_proyectos`
 --
 
+DROP TABLE IF EXISTS `requisitos_proyectos`;
 CREATE TABLE `requisitos_proyectos` (
   `idreq` int(11) DEFAULT NULL,
   `idproy` int(11) DEFAULT NULL
@@ -316,6 +415,7 @@ INSERT INTO `requisitos_proyectos` (`idreq`, `idproy`) VALUES
 -- Estructura de tabla para la tabla `reuniones`
 --
 
+DROP TABLE IF EXISTS `reuniones`;
 CREATE TABLE `reuniones` (
   `idreu` int(11) NOT NULL,
   `fechavis` date DEFAULT NULL,
@@ -339,6 +439,7 @@ INSERT INTO `reuniones` (`idreu`, `fechavis`, `horavis`, `tipo_reu`) VALUES
 -- Estructura de tabla para la tabla `roles`
 --
 
+DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles` (
   `idrol` int(11) NOT NULL,
   `descripcion` varchar(65) DEFAULT NULL
@@ -360,6 +461,7 @@ INSERT INTO `roles` (`idrol`, `descripcion`) VALUES
 -- Estructura de tabla para la tabla `sprints`
 --
 
+DROP TABLE IF EXISTS `sprints`;
 CREATE TABLE `sprints` (
   `idsprint` int(11) NOT NULL,
   `fechaI` date DEFAULT NULL,
@@ -393,6 +495,7 @@ INSERT INTO `sprints` (`idsprint`, `fechaI`, `fechaF`, `nombre`, `aobservaciones
 -- Estructura de tabla para la tabla `tareas`
 --
 
+DROP TABLE IF EXISTS `tareas`;
 CREATE TABLE `tareas` (
   `id_tar` int(11) NOT NULL,
   `nombre` varchar(45) DEFAULT NULL,
@@ -421,6 +524,7 @@ INSERT INTO `tareas` (`id_tar`, `nombre`, `descripcion`, `idsprint`, `usu_proy_i
 -- Estructura de tabla para la tabla `tipos_opi`
 --
 
+DROP TABLE IF EXISTS `tipos_opi`;
 CREATE TABLE `tipos_opi` (
   `tipo_opi` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tipos de opiniones';
@@ -440,6 +544,7 @@ INSERT INTO `tipos_opi` (`tipo_opi`) VALUES
 -- Estructura de tabla para la tabla `tipos_req`
 --
 
+DROP TABLE IF EXISTS `tipos_req`;
 CREATE TABLE `tipos_req` (
   `tipo_req` varchar(80) NOT NULL,
   `descripcion` varchar(120) DEFAULT NULL
@@ -459,6 +564,7 @@ INSERT INTO `tipos_req` (`tipo_req`, `descripcion`) VALUES
 -- Estructura de tabla para la tabla `tipos_reu`
 --
 
+DROP TABLE IF EXISTS `tipos_reu`;
 CREATE TABLE `tipos_reu` (
   `tipo_reu` varchar(35) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tipos de reuniones';
@@ -477,6 +583,7 @@ INSERT INTO `tipos_reu` (`tipo_reu`) VALUES
 -- Estructura de tabla para la tabla `ubicaciones`
 --
 
+DROP TABLE IF EXISTS `ubicaciones`;
 CREATE TABLE `ubicaciones` (
   `idubi` int(11) DEFAULT NULL,
   `ciudad` varchar(60) DEFAULT NULL,
@@ -502,6 +609,7 @@ INSERT INTO `ubicaciones` (`idubi`, `ciudad`, `direccion`, `email`) VALUES
 -- Estructura de tabla para la tabla `usuarios`
 --
 
+DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE `usuarios` (
   `email` varchar(60) NOT NULL,
   `tipodoc` varchar(11) DEFAULT NULL,
@@ -520,32 +628,32 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`email`, `tipodoc`, `documento`, `password`, `telefono`, `nombres`, `apellidos`, `foto`, `idrol`, `perfil`) VALUES
-('1012918020@ctjfr.edu.co', '', '', '101291', NULL, 'Karol Andrea', 'Beltran Diaz', '', 3, ''),
-('1023367786@ctjfr.edu.co', '', '', '102336', NULL, 'Maria Camila', 'Puerto Guerrero', '', 3, ''),
-('1028661442@gmail.com', '', '', '310711', NULL, 'Emanuel Felipe', 'Rodriguez Ramirez', '', 1, ''),
-('1029143097@ctjfr.edu.co', '', '', '102914', NULL, 'Sebastian', 'Cardenas Hernandez', '', 3, ''),
-('1033696558@ctjfr.edu.co', '', '', 'wendir', NULL, 'Wendi Vanessa', 'Russi Antolinez', '', 3, ''),
-('1074811705@ctjfr.edu.co', '', '', '107481', NULL, 'Keiner Jean Paul', 'Martínez Araujo', '', 3, ''),
-('1127342346@ctjfr.edu.co', '', '', '0107M', NULL, 'Genesis Veronica', 'Sanabria Leon', '', 3, ''),
-('1234juandavis@gmail.com', '', '', '102167', NULL, 'Juan David', 'Diaz Muñoz', '', 3, ''),
-('caroceron28@gmail.com', '', '', '101017', NULL, 'Sharit Carolina', 'Ceron Varela', '', 3, ''),
-('diego.lopezm0405@gmail.com', '', '', '101120', NULL, 'Diego Esteban', 'López Melo', '', 3, ''),
-('jeanpierrebbedoya@gmail.com', '', '', '2023', NULL, 'Jean Pierre', 'Bolaños Beodya', '', 3, ''),
-('johanbenavides134@gmail.com', '', '', '123456', NULL, 'Johan Steven', 'Benavides Sanchez', '', 3, ''),
-('jssr217@gmail.com', '', '', 'JuanSi', NULL, 'Primer Nombre Juan', 'Primer Apellido Silva', '', 3, ''),
-('juandaja2201@gmail.com', '', '', '123456', NULL, 'Juan David', 'Jerez Amador', '', 3, ''),
-('julia@gmail.com', 'cc', '', '1f242d', 587821, 'Julia', 'Perez', '', NULL, 'cliente'),
-('linaessofia33@gmail.com', '', '', 'sofial', NULL, 'Laura Sofia', 'Linares Piñeros', '', 3, ''),
-('majogalan2006@gmail.com', '', '', 'majoga', NULL, 'María José', 'Romero Gómez', '', 1, ''),
-('mglnares2006@gmail.com', '', '', 'Pollo0', NULL, 'Miguel Felipe', 'Linares Riaño', '', 3, ''),
-('nicolasgiraldo1020@gmail.com', '', '', '1020', NULL, 'Nicolas Santiago', 'Giraldo Valencia', '', 3, ''),
-('rocio123@gmail.com', 'cc', '', '6859f9', 14568745, 'Rocio', 'Caceres', 'dfsdgfd', NULL, 'cliente'),
-('roger@gmail.com', '', '', '24271', 2147483647, 'Roger Steec', 'Fuentes Ramirez', '/ferrari-enzo-rojo_3840x2160_xtrafondos.com.jpg', 3, 'Diseñador'),
-('santicardenash@gmail.com', '', '', '2006', 2147483647, 'Santiago', 'Cárdenas Hernández', '/c59f9ad6da00a07b253d86a97c23d6d5 (1).jpg', 1, 'Desarrollador'),
-('sebastianrm30yu@iclock.com', '', '', '123456', NULL, 'Johann Sebastian', 'Rivero Martinez', '', 3, ''),
-('shiuuvalenzuela@gmail.com', '', '', '4200', NULL, 'Shiuu', 'Valenzuela Penagos', '', 1, ''),
-('smithcortes01@gmail.com', '', '', 'famili', NULL, 'Steveen Smith', 'Cortes Cardenas', '', 3, ''),
-('soff24ia@gmail.com', '', '', '1234', NULL, 'Ana Sofia', 'Alarcon Santana', '', 3, '');
+('1012918020@ctjfr.edu.co', '', 0, '101291', NULL, 'Karol Andrea', 'Beltran Diaz', '', 3, ''),
+('1023367786@ctjfr.edu.co', '', 0, '102336', NULL, 'Maria Camila', 'Puerto Guerrero', '', 3, ''),
+('1028661442@gmail.com', '', 0, '310711', NULL, 'Emanuel Felipe', 'Rodriguez Ramirez', '', 1, ''),
+('1029143097@ctjfr.edu.co', '', 0, '102914', NULL, 'Sebastian', 'Cardenas Hernandez', '', 3, ''),
+('1033696558@ctjfr.edu.co', '', 0, 'wendir', NULL, 'Wendi Vanessa', 'Russi Antolinez', '', 3, ''),
+('1074811705@ctjfr.edu.co', '', 0, '107481', NULL, 'Keiner Jean Paul', 'Martínez Araujo', '', 3, ''),
+('1127342346@ctjfr.edu.co', '', 0, '0107M', NULL, 'Genesis Veronica', 'Sanabria Leon', '', 3, ''),
+('1234juandavis@gmail.com', '', 0, '102167', NULL, 'Juan David', 'Diaz Muñoz', '', 3, ''),
+('caroceron28@gmail.com', '', 0, '101017', NULL, 'Sharit Carolina', 'Ceron Varela', '', 3, ''),
+('diego.lopezm0405@gmail.com', '', 0, '101120', NULL, 'Diego Esteban', 'López Melo', '', 3, ''),
+('jeanpierrebbedoya@gmail.com', '', 0, '2023', NULL, 'Jean Pierre', 'Bolaños Beodya', '', 3, ''),
+('johanbenavides134@gmail.com', '', 0, '123456', NULL, 'Johan Steven', 'Benavides Sanchez', '', 3, ''),
+('jssr217@gmail.com', '', 0, 'JuanSi', NULL, 'Primer Nombre Juan', 'Primer Apellido Silva', '', 3, ''),
+('juandaja2201@gmail.com', '', 0, '123456', NULL, 'Juan David', 'Jerez Amador', '', 3, ''),
+('julia@gmail.com', 'cc', 0, '1f242d', 587821, 'Julia', 'Perez', '', NULL, 'cliente'),
+('linaessofia33@gmail.com', '', 0, 'sofial', NULL, 'Laura Sofia', 'Linares Piñeros', '', 3, ''),
+('majogalan2006@gmail.com', '', 0, 'majoga', NULL, 'María José', 'Romero Gómez', '', 1, ''),
+('mglnares2006@gmail.com', '', 0, 'Pollo0', NULL, 'Miguel Felipe', 'Linares Riaño', '', 3, ''),
+('nicolasgiraldo1020@gmail.com', '', 0, '1020', NULL, 'Nicolas Santiago', 'Giraldo Valencia', '', 3, ''),
+('rocio123@gmail.com', 'cc', 0, '6859f9', 14568745, 'Rocio', 'Caceres', 'dfsdgfd', NULL, 'cliente'),
+('roger@gmail.com', '', 0, '24271', 2147483647, 'Roger Steec', 'Fuentes Ramirez', '/ferrari-enzo-rojo_3840x2160_xtrafondos.com.jpg', 3, 'Diseñador'),
+('santicardenash@gmail.com', '', 0, '2006', 2147483647, 'Santiago', 'Cárdenas Hernández', '/c59f9ad6da00a07b253d86a97c23d6d5 (1).jpg', 1, 'Desarrollador'),
+('sebastianrm30yu@iclock.com', '', 0, '123456', NULL, 'Johann Sebastian', 'Rivero Martinez', '', 3, ''),
+('shiuuvalenzuela@gmail.com', '', 0, '4200', NULL, 'Shiuu', 'Valenzuela Penagos', '', 1, ''),
+('smithcortes01@gmail.com', '', 0, 'famili', NULL, 'Steveen Smith', 'Cortes Cardenas', '', 3, ''),
+('soff24ia@gmail.com', '', 0, '1234', NULL, 'Ana Sofia', 'Alarcon Santana', '', 3, '');
 
 -- --------------------------------------------------------
 
@@ -553,6 +661,7 @@ INSERT INTO `usuarios` (`email`, `tipodoc`, `documento`, `password`, `telefono`,
 -- Estructura de tabla para la tabla `usu_proy`
 --
 
+DROP TABLE IF EXISTS `usu_proy`;
 CREATE TABLE `usu_proy` (
   `id` int(11) NOT NULL,
   `idproy` int(11) DEFAULT NULL,

@@ -1,0 +1,9 @@
+Haz solicitado el reestablecimiento de tu Contraseña
+Click en el siguiente enlace
+
+
+{%block reset_link %}
+{{protocol}}://{{ domain}}{% url 'confirm' uidb64=uid token=token %}
+{% endblock %}
+
+Tu usuario es: {{user.get_username}}

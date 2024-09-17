@@ -19,12 +19,12 @@
 	<script style=" position: fixed;">
 		swal.fire({
 			title: "ACCESO DENEGADO",
-			text: "Usuario o contraseña incorrectas",
+			text: "{{message}}",
 			icon: "error",
 			buttons: false,
 			timer: 2000,
 			showConfirmButton: false,
-			background: "#171717",
+			background: "#fff",
 			toast: true,
 			position: "top"
 		});
@@ -54,7 +54,7 @@
 				<span>Ingrese Usuario y contraseña</span>
 				<input type="email" name="correo" placeholder="Email@">
 				<input type="password" name="clave" placeholder="Password">
-				<a href="">Olvido Su Contraseña</a>
+				<a href="#">¿Olvido Su Contraseña?</a>
 
 				<button type="submit">Ingresar</button>
 

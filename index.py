@@ -35,23 +35,30 @@ def acceso_login():
     if request.method == 'POST':
         correo = request.form['correo']
         clave = request.form['clave']
-        
+            
         cur = mysql.connection.cursor()
-        cur.execute('SELECT * FROM usuarios WHERE email = %s AND  password = %s LIMIT 1', (correo, clave,))
+        cur.execute('SELECT * FROM usuarios WHERE email = %s LIMIT 1', (correo,))
         account = cur.fetchone()
-        
+            
         if account:
-            
-            session['logueado'] = True
-            session['nombre'] = account['nombres']
-            session['id'] = account['email']
-            
-            return redirect(url_for('perfil'))
-        else:
-            return render_template('login.html', message="0")
-    return render_template('login.html', message="0")
+            # Verificar si la contraseña es correcta
+            if account['password'] == clave:  
 
+                session['logueado'] = True
+                session['nombre'] = account['nombres']
+                session['id'] = account['email']
+                
+                return redirect(url_for('perfil'))
+                    
+                
+            else:
+                # Contraseña incorrecta
+                return render_template('login.html', message="Contraseña incorrecta")
+        else:
+            # Usuario no encontrado
+            return render_template('login.html', message="Usuario no encontrado")
 #Finaliza funcion login
+
 
 #funcion de login para validar usuario, contraceñá y rol para la gestion de proyectos
 @app.route('/gestion_proyectos', methods=["GET", "POST"])
@@ -63,34 +70,34 @@ def gestion_proyectos():
             correo = request.form['correo']
             clave = request.form['clave']
             
-            # Consulta simplificada para obtener el rol del usuario en una sola consulta
-            cur = mysql.connection.cursor()
-            cur.execute('SELECT * FROM usuarios WHERE email = %s LIMIT 1', (correo,))
-            account = cur.fetchone()
-            
-            if account:
-                # Verificar si la contraseña es correcta
-                # Usa bcrypt si las contraseñas están cifradas
-                if account['password'] == clave:  # Reemplaza esto con la validación correspondiente si es bcrypt
-                    
-                    if account['idrol'] == 1:  # Rol de administrador
-                        return render_template('gestor_proyectos.html')
-                    
-                    elif account['idrol'] == 2:  # Rol de perfil normal
-                        return redirect(url_for('perfil', message="0"))
+            # Verificamos que el correo proporcionado sea igual al correo de la sesión actual
+            if correo == session.get('id'):
                 
-                else:
-                    # Contraseña incorrecta
-                    return redirect(url_for('modulos', message="Contraseña incorrecta"))
-            else:
-                # Usuario no encontrado
-                return render_template('login.html', message="Usuario no encontrado")
-    
-    else:
-        return redirect(url_for('login', log='Iniciar'))
+                cur = mysql.connection.cursor()
+                
+                # Verificar si el usuario tiene rol de administrador (idrol = 1)
+                cur.execute('SELECT * FROM usuarios WHERE email = %s AND password = %s AND idrol = 1 LIMIT 1', (correo, clave,))
+                account = cur.fetchone()
 
-    
-    
+                if account:
+                    return render_template('gestor_proyectos.html')
+                else:
+                    # Verificar si el usuario tiene un rol de usuario regular (idrol = 2)
+                    cur.execute('SELECT * FROM usuarios WHERE email = %s AND password = %s AND idrol = 2 LIMIT 1', (correo, clave,))
+                    account2 = cur.fetchone()
+                    
+                    if account2:
+                        return redirect(url_for('perfil', message="0"))
+                    
+                    # Si no se encuentra el usuario con ningún rol válido
+                    return redirect(url_for('modulos', message="El usuario no tiene los permisos necesarios."))
+            else:
+                # Si el correo no es el mismo que el de la sesión actual
+                return redirect(url_for('modulos', message="Debe uilizar el mismo correo con el que inició sesión."))
+            
+    else:
+        # Si el usuario no está logueado, redirigir al login
+        return redirect(url_for('login'))
 
 #Finaliza funcion login
 
@@ -137,7 +144,8 @@ def adduser():
 @app.route('/modulos')
 def modulos():
     if session.get('logueado'):
-        return render_template('modulos.html', log='Cerrar')
+        message = request.args.get('message')
+        return render_template('modulos.html', log='Cerrar', message = message)
     else:
         return redirect(url_for('login', log='Iniciar'))
     
