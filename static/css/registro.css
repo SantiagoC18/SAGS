@@ -373,10 +373,3 @@ select {
 }
 
 
-.form-reset{
-    position: relative;
-    top: 11vh;
-    text-align: center;
-    justify-content: center;
-    width: 100%;
-}
