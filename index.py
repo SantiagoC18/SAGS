@@ -35,22 +35,31 @@ def acceso_login():
     if request.method == 'POST':
         correo = request.form['correo']
         clave = request.form['clave']
-        
+            
+        # Consulta simplificada para obtener el rol del usuario en una sola consulta
         cur = mysql.connection.cursor()
-        cur.execute('SELECT * FROM usuarios WHERE email = %s AND  password = %s LIMIT 1', (correo, clave,))
+        cur.execute('SELECT * FROM usuarios WHERE email = %s LIMIT 1', (correo,))
         account = cur.fetchone()
-        
+            
         if account:
-            
-            session['logueado'] = True
-            session['nombre'] = account['nombres']
-            session['id'] = account['email']
-            
-            return redirect(url_for('perfil'))
-        else:
-            return render_template('login.html', message="0")
-    return render_template('login.html', message="0")
+            # Verificar si la contraseña es correcta
+            # Usa bcrypt si las contraseñas están cifradas
+            if account['password'] == clave:  # Reemplaza esto con la validación correspondiente si es bcrypt
 
+                session['logueado'] = True
+                session['nombre'] = account['nombres']
+                session['id'] = account['email']
+            
+                return redirect(url_for('perfil'))
+                    
+                
+            else:
+                # Contraseña incorrecta
+                return render_template('login.html', message="Contraseña incorrecta")
+        else:
+            # Usuario no encontrado
+            return render_template('login.html', message="Usuario no encontrado")
+   
 #Finaliza funcion login
 
 #funcion de login para validar usuario, contraceñá y rol para la gestion de proyectos
