@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/static/img/sirs.jpg">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/25eed41d7b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/static/css/estilos.css">
     <link rel="stylesheet" href="/static/css/modulos.css">
@@ -12,6 +13,22 @@
 </head>
 
 <body>
+
+    {% if message %}
+	<script >
+		swal.fire({
+			title: "ERROR",
+			text: "{{message}}",
+			icon: "error",
+			buttons: false,
+			timer: 2000,
+			showConfirmButton: false,
+			background: "#fff",
+			toast: true,
+			position: "top"
+		});
+	</script>
+	{% endif %}
 
     <header>
         <a href="{{ url_for('index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
