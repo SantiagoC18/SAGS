@@ -373,3 +373,12 @@ select {
 }
 
 
+/*Forget Password*/
+
+.form-reset{
+    position: relative;
+    top: 18vh;
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/img/sirs.jpg">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="shortcut icon" href="sirs.jpg">
+    <link rel="stylesheet" href="/static/css/registro.css">
+    <title>Restablecer Contraseña</title>
+</head>
+
+<body>
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.4.4/build/spline-viewer.js"></script>
+    <spline-viewer url="https://prod.spline.design/rqyOgotND7rd5BIN/scene.splinecode"></spline-viewer>
+
+    {% if message %}
+    <script style=" position: fixed;">
+        swal.fire({
+            title: "USUARIO INVALIDO",
+            text: "{{message}}",
+            icon: "error",
+            buttons: false,
+            timer: 2000,
+            showConfirmButton: false,
+            background: "#fff",
+            toast: true,
+            position: "top"
+        });
+    </script>
+    {% endif %}
+
+    <div class="container">
+        <div class="form-reset">
+            <form action="{{url_for('password')}}" method="POST">
+                <h1>Restablecer Contraseña</h1>
+                <span>Ingrese su usuario</span>
+                <input type="email" name="correo" placeholder="Email@">
+                <br>
+                <button type="submit">Restablecer</button>
+                <br>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var signUpButton = document.getElementById('signUp');
+        var signInButton = document.getElementById('signIn');
+        var container = document.getElementById('container');
+
+        signUpButton.addEventListener('click', () => {
+            container.classList.add("right-panel-active");
+        });
+
+        signInButton.addEventListener('click', () => {
+            container.classList.remove("right-panel-active");
+        });
+    </script>
+</body>
+
+</html>
