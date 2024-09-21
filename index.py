@@ -115,7 +115,7 @@ def adduser():
         
     if id_user and correo and clave:
         cur = mysql.connection.cursor()
-        sql = "INSERT INTO `usuarios`(`documento`, `password`, `email`, `cod_rol1`) VALUES (%s, %s, %s, %s)"
+        sql = "INSERT INTO `usuarios`(`documento`, `password`, `email`, `cod_rol1`) VALUES (%s, aes_encrypt(%s,'AES'), %s, %s)"
         data = (id_user, clave, correo, rol)
         cur.execute(sql,data)
         mysql.connection.commit()
