@@ -1,8 +1,17 @@
 from flask import Flask
 from flask import render_template, redirect, request, Response, session, url_for
 from flask_mysqldb import MySQL, MySQLdb
+from codejana_flask import app, db, login_manager, mail
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from flask_mail import Mail
+from flask_mail import Message
+from codejana_flask.forms import ResetForm, ResetPasswordForm
 
 app = Flask(__name__, template_folder='templates')
+
+
+##app.config['SECRET_KEY']='thisisfirstflaskapp'
+
 
 app.config['MYSQL_HOST']='localhost'
 app.config['MYSQL_USER']='root'
@@ -10,6 +19,17 @@ app.config['MYSQL_PASSWORD']=''
 app.config['MYSQL_DB']='sags'
 app.config['MYSQL_CURSORCLASS']='DictCursor'
 mysql=MySQL(app)
+
+##app.config email
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT']=587
+app.config['MAIL_USE_TLS']=True
+app.config['MAIL_USERNAME']= 'itncart@gmail.com'
+app.config['MAIL_PASSWORD']= 'temppasswordpython'
+
+
+mail=Mail(app)
+fron codejana_flask importes routes
 
 #redireccion a la pagina de index
 
@@ -80,7 +100,10 @@ def gestion_proyectos():
                 account = cur.fetchone()
 
                 if account:
-                    return render_template('gestor_proyectos.html')
+                    cur.execute("SELECT * FROM proyectos")
+                    consulta = cur.fetchall()
+                    
+                    return render_template('gestor_proyectos.html', data = consulta, log = 'Cerrar')
                 else:
                     # Verificar si el usuario tiene un rol de usuario regular (idrol = 2)
                     cur.execute('SELECT * FROM usuarios WHERE email = %s AND password = %s AND idrol = 2 LIMIT 1', (correo, clave,))
@@ -244,3 +267,78 @@ def logout():
 if __name__ == '__main__':
     app.secret_key="4546416vblñvkbmgvlñkbjfgñfglñv.ñ"
     app.run(debug=True, host='0.0.0.0', port=5000, threaded=True)
+
+
+
+
+
+
+
+
+##RESET PASSWORD
+def send_mail(user):
+    token=user.get_token()
+    msg=Message('Password Reset Request',recipients=[user.correo],sender='softwareanalysissa@gmail.com' )
+    msg.body=f''' Haz solicitado el restablecimiento de tu constraseña, da click en el siguiente link
+
+{url_for(......)}
+
+Si no puedes realizar el restablecimiento de tu contraseña correctamente, comunicate con nosotros, estamos pendientes de nuestros clientes
+
+O si por el contarrio no solicitaste el restablecimiento de contraseña, por favor ignora este mensaje.
+'''
+
+
+
+@app.route('/reset_password', methods=['GET','POST'])
+def reset():
+    form=resetForm()
+    if form.validate_on_submit():
+        correo=correo.query.filter_by(email=form.email.data).first()
+        if correo:
+            token = get_token(correo)
+            msg = Message('Restablecer contraseña', sender='softwareanalysissa@gmail.com', recipients=[correo.email])
+            msg.body = f'Haz clic en el siguiente enlace para restablecer tu contraseña: {url_for("reset_token", token=token, _external=True)}'
+            mail.send(msg)
+            flash('Restablecer contraseña, revisa tu email', 'success')
+            return redirect(url_for('login'))
+    return render_template('reset.html', title='Reset Password', form=form)
+
+
+
+
+##Generar Token
+def get_token(self,expires_sec=400):
+    serial=Serializer(app.config['SECRET_KEY'], expires_in=expires_sec)
+    return serial.dumps({'id_user:id_user'}).decode('utf-8')
+
+
+##Verificación del Token
+@staticmethod
+def verify_token(token):
+    serial=Serializer(app.config['SECRET_KEY'])
+    try:
+        id_user=serial.loads(token)['id_user']
+    except:
+        return None
+    return User.query.get(id_user)
+
+
+##Proceso del Token - Restablecer Contraseña
+@app.route('/reset_password/<token>', methods=['GET','POST'])
+def reset_token(token):
+    user = User.verify_token(token)
+    if user is None:
+        flash('Este codigo es invalido o ha expirado, por favor intentelo de nuevo', 'warning')
+        return redirect(url_for('reset'))
+    
+    
+    ##Nueva info password 
+    form=ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = hashed_password 
+        db.session.commit()
+        flash('Su contraseña se ha restablecido correctamente, por favor ingrese de nuevo', 'success')
+        return redirect(url_for('login'))
+    return render_template('form_reset.html', title="Restablecer Contraseña", form=form)

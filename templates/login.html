@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="shortcut icon" href="/static/img/sirs.jpg">
+	
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="shortcut icon" href="sirs.jpg">
 	<link rel="stylesheet" href="/static/css/registro.css">
@@ -54,7 +54,7 @@
 				<span>Ingrese Usuario y contraseña</span>
 				<input type="email" name="correo" placeholder="Email@">
 				<input type="password" name="clave" placeholder="Password">
-				<a href="#">¿Olvido Su Contraseña?</a>
+				<a href=" {{url_for('reset')}} ">¿Olvido Su Contraseña?</a>
 
 				<button type="submit">Ingresar</button>
 
