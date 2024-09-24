@@ -1,4 +1,35 @@
+body{
+    transition: background 0.5s ease;
+}
+
 #admin,
 #developer {
-    margin-top: 90px;
+    margin-top: 25px;
+}
+
+.container_buttons{
+    margin-top: 100px;
+    min-width: 90vw;
+    margin-left: 4.6vw;
+}
+
+.select{
+    box-shadow: inset 0px 0px 5px 0px black;
+    transition: all 1ms ease;
+}
+
+.view-section {
+    display: none;
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: all 0.5s ease-in-out;
+}
+
+.view-section .active {
+    display: inline-block;
+    margin: 0 0.5rem;
+    animation: bounce; /* referring directly to the animation's @keyframe declaration */
+    animation-duration: 2s; /* don't forget to set a duration! */
+    opacity: 1;
+    transform: translateX(0);
 }
