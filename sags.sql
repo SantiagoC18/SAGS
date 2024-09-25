@@ -53,7 +53,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarRequisito` (IN `p_nombre` V
 END$$
 
 DROP PROCEDURE IF EXISTS `InsertarUsuario`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarUsuario` (IN `p_email` VARCHAR(40), IN `p_tipodoc` VARCHAR(11), IN `p_documento` INT, IN `p_password` VARCHAR(6), IN `p_telefono` INT, IN `p_nombres` VARCHAR(33), IN `p_apellidos` VARCHAR(33), IN `p_foto` VARCHAR(50), IN `p_idrol` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarUsuario` (IN `p_email` VARCHAR(100), IN `p_tipodoc` VARCHAR(11), IN `p_documento` INT, IN `p_password` VARCHAR(6), IN `p_telefono` INT, IN `p_nombres` VARCHAR(33), IN `p_apellidos` VARCHAR(33), IN `p_foto` VARCHAR(50), IN `p_idrol` INT)   BEGIN
     INSERT INTO usuarios (email, tipodoc, documento, password, telefono, nombres, apellidos, foto, idrol)
     VALUES (p_email, p_tipodoc, p_documento, p_password, p_telefono, p_nombres, p_apellidos, p_foto, p_idrol);
 END$$
@@ -112,7 +112,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `ObtenerTipoRequisito` (`p_idreq` INT
 END$$
 
 DROP FUNCTION IF EXISTS `ObtenerUsuario`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `ObtenerUsuario` (`p_email` VARCHAR(40)) RETURNS VARCHAR(100) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `ObtenerUsuario` (`p_email` VARCHAR(100)) RETURNS VARCHAR(100) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
     DECLARE usuario_email VARCHAR(100);
     SELECT CONCAT(email, ' - ', nombres, ' ', apellidos) INTO usuario_email
     FROM usuarios
@@ -229,7 +229,7 @@ CREATE TABLE `opiniones` (
   `opinion` varchar(1000) DEFAULT NULL,
   `calificacion` int(11) DEFAULT NULL,
   `tipo_opi` varchar(25) DEFAULT NULL,
-  `email` varchar(60) NOT NULL
+  `email` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar opiniones de usuarios';
 
 --
@@ -588,7 +588,7 @@ CREATE TABLE `ubicaciones` (
   `idubi` int(11) DEFAULT NULL,
   `ciudad` varchar(60) DEFAULT NULL,
   `direccion` varchar(100) DEFAULT NULL,
-  `email` varchar(60) DEFAULT NULL
+  `email` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar ubicaciones de usuarios';
 
 --
@@ -611,7 +611,7 @@ INSERT INTO `ubicaciones` (`idubi`, `ciudad`, `direccion`, `email`) VALUES
 
 DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE `usuarios` (
-  `email` varchar(60) NOT NULL,
+  `email` varchar(100) NOT NULL,
   `tipodoc` varchar(11) DEFAULT NULL,
   `documento` int(15) DEFAULT NULL,
   `password` varchar(20) DEFAULT NULL,
@@ -665,7 +665,7 @@ DROP TABLE IF EXISTS `usu_proy`;
 CREATE TABLE `usu_proy` (
   `id` int(11) NOT NULL,
   `idproy` int(11) DEFAULT NULL,
-  `email` varchar(60) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
   `Product_Owner` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla de relación entre usuarios y proyectos';
 

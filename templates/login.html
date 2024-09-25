@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
+
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<link rel="shortcut icon" href="sirs.jpg">
 	<link rel="stylesheet" href="/static/css/registro.css">
@@ -30,6 +30,29 @@
 		});
 	</script>
 	{% endif %}
+
+	{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	<ul>
+		{% for message in messages %}
+		{% if message %}
+		<script style=" position: fixed; z-index: 1000;">
+			swal.fire({
+				text: "{{ message }}",
+				icon: "info",
+				buttons: false,
+				timer: 2000,
+				showConfirmButton: false,
+				background: "#fff",
+				toast: true,
+				position: "top"
+			});
+		</script>
+		{% endif %}
+		{% endfor %}
+	</ul>
+	{% endif %}
+	{% endwith %}
 
 	<div class="container" id="container">
 		<div class="form-container sign-up-container">

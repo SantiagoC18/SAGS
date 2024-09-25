@@ -2,6 +2,12 @@ from flask import Flask
 from flask import render_template, redirect, request, Response, session, url_for
 from flask_mysqldb import MySQL, MySQLdb
 
+import secrets
+from datetime import datetime, timedelta
+from flask import render_template, request, url_for, redirect, session, flash
+from flask_mail import Mail, Message  # Asegúrate de tener Flask-Mail instalado y configurado
+import hashlib
+
 
 app = Flask(__name__, template_folder='templates')
 
@@ -12,6 +18,15 @@ app.config['MYSQL_PASSWORD']=''
 app.config['MYSQL_DB']='sags'
 app.config['MYSQL_CURSORCLASS']='DictCursor'
 mysql=MySQL(app)
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'softwareanalysissa@gmail.com'  # Tu correo de Gmail
+app.config['MAIL_PASSWORD'] = 'zxau txhd wmip pbqg'  # Contraseña o app password
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+
+gmail = Mail(app)
 
 
 #redireccion a la pagina de index
@@ -33,6 +48,84 @@ def login():
 @app.route('/recovery_email')
 def recovery_email():
     return render_template('recovery_email.html')
+
+@app.route('/recuperar_contraseña', methods=['POST'])
+def recuperar_contraseña():
+    correo = request.form['correo']
+    
+    # Comprobar si el correo existe en la base de datos
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM usuarios WHERE email = %s', (correo,))
+    usuario = cur.fetchone()
+
+    if usuario:
+        # Generar un token seguro
+        token = secrets.token_urlsafe(32)
+        
+        # Calcular el tiempo de expiración (10 minutos)
+        tiempo_expiracion = datetime.now() + timedelta(minutes=10)
+
+        # Guardar el token y la hora de expiración en la base de datos (puede ser en una tabla temporal)
+        cur.execute('INSERT INTO reset_tokens (user_id, token, expires_at) VALUES (%s, %s, %s)', 
+                    (usuario['email'], token, tiempo_expiracion))
+        mysql.connection.commit()
+
+        # Crear un enlace con el token
+        enlace_recuperacion = url_for('password_reset', token=token, _external=True)
+
+        # Configurar el mensaje de correo
+        mensaje = Message('Recuperación de contraseña', sender='softwareanalysissa@gmail.com', recipients=[correo])
+        
+        mensaje.body = f'Haz clic en el siguiente enlace para restablecer tu contraseña: {enlace_recuperacion}'
+        
+        # Enviar el correo
+        gmail.send(mensaje)
+        flash('Se ha enviado un enlace de recuperación a tu correo electrónico')
+        return redirect(url_for('login'))
+    else:
+        flash("El correo no está registrado")
+        return redirect(url_for('recovery_email'))
+
+
+@app.route('/password_reset/<token>', methods=['GET', 'POST'])
+def password_reset(token):
+    # Buscar el token en la base de datos
+    cur = mysql.connection.cursor()
+    cur.execute('SELECT * FROM reset_tokens WHERE token = %s', (token,))
+    reset_info = cur.fetchone()
+    
+    if not reset_info:
+        flash('Enlace de recuperación inválido.')
+        return redirect(url_for('login'))
+
+    # Comprobar si el token ha caducado
+    if datetime.now() > reset_info['expires_at']:
+        flash('El enlace de recuperación ha caducado.')
+        return redirect(url_for('login'))
+
+    # Si el token es válido y no ha caducado
+    if request.method == 'POST':
+        nueva_contrasena = request.form['nueva_contrasena']
+        confirmar_contrasena = request.form['confirmar_contrasena']
+
+        if nueva_contrasena == confirmar_contrasena:
+            # Hashear la nueva contraseña
+            nueva_contrasena_hash = hashlib.sha256(nueva_contrasena.encode()).hexdigest()
+            
+            # Actualizar la contraseña en la base de datos
+            cur.execute('UPDATE usuarios SET password = %s WHERE email = %s', (nueva_contrasena, reset_info['user_id']))
+            mysql.connection.commit()
+
+            # Eliminar el token de restablecimiento
+            cur.execute('DELETE FROM reset_tokens WHERE token = %s', (token,))
+            mysql.connection.commit()
+
+            flash('Contraseña restablecida exitosamente.')
+            return redirect(url_for('login'))
+        else:
+            flash('Las contraseñas no coinciden.')
+    
+    return render_template('password_reset.html')
 
 
 #funcion de login para validar usuario y contraceñá

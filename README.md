@@ -32,6 +32,7 @@ SAGS es una herramienta diseñada para optimizar las etapas de planificación y 
    "Desbes instalar las dependencias asi como las siguientes librerias:"
 
     pip install FLASK
+    pip install FLASK_mail
     pip install FLASK-MySQLdb
     pip install MySQL
 
