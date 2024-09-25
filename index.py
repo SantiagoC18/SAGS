@@ -5,7 +5,7 @@ from flask_mysqldb import MySQL, MySQLdb
 import secrets
 from datetime import datetime, timedelta
 from flask import render_template, request, url_for, redirect, session, flash
-from flask_mail import Mail, Message  # Asegúrate de tener Flask-Mail instalado y configurado
+from flask_mail import Mail, Message  
 import hashlib
 
 
