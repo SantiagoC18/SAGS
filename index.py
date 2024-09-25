@@ -1,12 +1,11 @@
 from flask import Flask
-from flask import render_template, redirect, request, Response, session, url_for
+from flask import render_template, redirect, request, Response, session, url_for, flash
 from flask_mysqldb import MySQL, MySQLdb
+from flask_mail import Mail, Message
 
 import secrets
 from datetime import datetime, timedelta
-from flask import render_template, request, url_for, redirect, session, flash
-from flask_mail import Mail, Message  
-import hashlib
+
 
 
 app = Flask(__name__, template_folder='templates')
@@ -21,8 +20,8 @@ mysql=MySQL(app)
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'softwareanalysissa@gmail.com'  # Tu correo de Gmail
-app.config['MAIL_PASSWORD'] = 'zxau txhd wmip pbqg'  # Contraseña o app password
+app.config['MAIL_USERNAME'] = 'softwareanalysissa@gmail.com'
+app.config['MAIL_PASSWORD'] = 'zxau txhd wmip pbqg'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
@@ -109,8 +108,6 @@ def password_reset(token):
         confirmar_contrasena = request.form['confirmar_contrasena']
 
         if nueva_contrasena == confirmar_contrasena:
-            # Hashear la nueva contraseña
-            nueva_contrasena_hash = hashlib.sha256(nueva_contrasena.encode()).hexdigest()
             
             # Actualizar la contraseña en la base de datos
             cur.execute('UPDATE usuarios SET password = %s WHERE email = %s', (nueva_contrasena, reset_info['user_id']))
