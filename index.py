@@ -224,25 +224,38 @@ def adduser():
         
     if id_user and correo and clave:
         cur = mysql.connection.cursor()
-        sql = "INSERT INTO `usuarios`(`documento`, `password`, `email`, `cod_rol1`) VALUES (%s, aes_encrypt(%s,'AES'), %s, %s)"
-        data = (id_user, clave, correo, rol)
-        cur.execute(sql,data)
+        cur.execute("INSERT INTO `usuarios`(`documento`, `email`, `idrol`, `password`) VALUES (%s, %s, %s, aes_encrypt(%s,'AES'))",(id_user, correo, rol, clave))
         mysql.connection.commit()
+        cur.close()
         
-        
-        cur.execute('SELECT * FROM usuarios WHERE email = %s AND  password = %s LIMIT 1', (correo, clave,))
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM usuarios WHERE email = %s AND password = AES_ENCRYPT(%s, 'AES') LIMIT 1", (correo,clave,))
         account = cur.fetchone()
+        cur.close()
         
         if account:
-            
-            session['logueado'] = True
-            session['nombre'] = account['nombres']
-            session['id'] = account['email']
-            
-            return redirect(url_for('perfil'))
+            cur = mysql.connection.cursor()
+            cur.execute("SELECT (aes_decrypt(password,'AES')) AS cifrado FROM usuarios WHERE email = %s Limit 1", (correo,))
+            clave_cifrada = cur.fetchone()
+            cur.close()
+            # Verificar si la contraseña es correcta
+            if clave_cifrada['cifrado'].decode('utf-8') == clave:
+
+                session['logueado'] = True
+                session['nombre'] = account['nombres']
+                session['id'] = account['email']
+                
+                return redirect(url_for('perfil'))
+                    
+                
+            else:
+                # Contraseña incorrecta
+                return render_template('login.html', message="Contraseña incorrecta")
         else:
-            return render_template('login.html', message="0")
-    return render_template('login.html', message="0")
+            # Usuario no encontrado
+            return render_template('login.html', message="Usuario no encontrado")
+    
+    return render_template('login.html', message="error")
 
 #Finaliza para crear o agregar usuario
 
