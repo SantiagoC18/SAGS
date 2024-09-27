@@ -690,7 +690,7 @@ INSERT INTO `usuarios` (`email`, `tipodoc`, `documento`, `password`, `telefono`,
 ('roger@gmail.com', '', 0, '24271', 2147483647, 'Roger Steec', 'Fuentes Ramirez', '/ferrari-enzo-rojo_3840x2160_xtrafondos.com.jpg', 3, 'Diseñador'),
 ('santicardenash@gmail.com', '', 0, '2006', 2147483647, 'Santiago', 'Cárdenas Hernández', '/c59f9ad6da00a07b253d86a97c23d6d5 (1).jpg', 1, 'Desarrollador'),
 ('sebastianrm30yu@iclock.com', '', 0, '123456', NULL, 'Johann Sebastian', 'Rivero Martinez', '', 3, ''),
-('shiuuvalenzuela@gmail.com', '', 0, '4200', NULL, 'Shiuu', 'Valenzuela Penagos', '', 1, ''),
+('svalenzuela073@misena.edu.co', '', 0, '4200', NULL, 'Shiuu', 'Valenzuela Penagos', '', 1, ''),
 ('smithcortes01@gmail.com', '', 0, 'famili', NULL, 'Steveen Smith', 'Cortes Cardenas', '', 3, ''),
 ('soff24ia@gmail.com', '', 0, '1234', NULL, 'Ana Sofia', 'Alarcon Santana', '', 3, '');
 
@@ -718,7 +718,7 @@ CREATE TABLE IF NOT EXISTS `usu_proy` (
 INSERT INTO `usu_proy` (`id`, `idproy`, `email`, `Product_Owner`) VALUES
 (1, 4, 'santicardenash@gmail.com', 1),
 (2, 4, 'majogalan2006@gmail.com', 0),
-(3, 4, 'shiuuvalenzuela@gmail.com', 0),
+(3, 4, 'svalenzuela073@misena.edu.co', 0),
 (4, 30, 'juandaja2201@gmail.com', 0),
 (5, 27, 'caroceron28@gmail.com', 0),
 (6, 27, 'jeanpierrebbedoya@gmail.com', 0),
