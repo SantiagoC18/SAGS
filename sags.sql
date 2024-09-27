@@ -651,7 +651,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `tipodoc` varchar(11) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `documento` int DEFAULT NULL,
-  `password` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `password` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `telefono` int DEFAULT NULL,
   `nombres` varchar(33) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `apellidos` varchar(33) COLLATE utf8mb4_general_ci DEFAULT NULL,
