@@ -42,7 +42,10 @@ def index():
 
 @app.route('/login')
 def login():
-    return render_template('login.html')
+    if session.get('logueado'):
+        return redirect(request.referrer)
+    else:
+        return render_template('login.html')
 
 @app.route('/recovery_email')
 def recovery_email():
@@ -110,7 +113,7 @@ def password_reset(token):
         if nueva_contrasena == confirmar_contrasena:
             
             # Actualizar la contraseña en la base de datos
-            cur.execute('UPDATE usuarios SET password = %s WHERE email = %s', (nueva_contrasena, reset_info['user_id']))
+            cur.execute("UPDATE usuarios SET password = (aes_encrypt(%s,'AES')) WHERE email = %s", (nueva_contrasena, reset_info['user_id']))
             mysql.connection.commit()
 
             # Eliminar el token de restablecimiento
@@ -136,10 +139,15 @@ def acceso_login():
         cur = mysql.connection.cursor()
         cur.execute('SELECT * FROM usuarios WHERE email = %s LIMIT 1', (correo,))
         account = cur.fetchone()
+        cur.close()
             
         if account:
+            cur = mysql.connection.cursor()
+            cur.execute("SELECT (aes_decrypt(password,'AES')) AS cifrado FROM usuarios WHERE email = %s Limit 1", (correo,))
+            clave_cifrada = cur.fetchone()
+            
             # Verificar si la contraseña es correcta
-            if account['password'] == clave:  
+            if clave_cifrada['cifrado'].decode('utf-8') == clave:
 
                 session['logueado'] = True
                 session['nombre'] = account['nombres']
@@ -173,9 +181,9 @@ def gestion_proyectos():
                 cur = mysql.connection.cursor()
                 
                 # Verificar si el usuario tiene rol de administrador (idrol = 1)
-                cur.execute('SELECT * FROM usuarios WHERE email = %s AND password = %s AND idrol = 1 LIMIT 1', (correo, clave,))
+                cur.execute("SELECT * FROM usuarios WHERE email = %s AND password = AES_ENCRYPT(%s, 'AES') LIMIT 1", (correo,clave,))
                 account = cur.fetchone()
-
+                
                 if account:
                     cur.execute("SELECT * FROM proyectos")
                     consulta = cur.fetchall()
@@ -218,13 +226,14 @@ def gestion_proyectos():
 def adduser():
     if request.method == 'POST':
         id_user = request.form['documento']
+        tipo = request.form['tipo']
         correo = request.form['correo']
         clave = request.form['clave']
         rol = 3
         
-    if id_user and correo and clave:
+    if id_user and tipo and correo and clave:
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO `usuarios`(`documento`, `email`, `idrol`, `password`) VALUES (%s, %s, %s, aes_encrypt(%s,'AES'))",(id_user, correo, rol, clave))
+        cur.execute("INSERT INTO `usuarios`(`documento`, `tipodoc`, `email`, `idrol`, `password`) VALUES (%s, %s, %s, %s, aes_encrypt(%s,'AES'))",(id_user, tipo, correo, rol, clave,))
         mysql.connection.commit()
         cur.close()
         

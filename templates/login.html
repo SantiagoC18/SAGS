@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	<link rel="shortcut icon" href="sirs.jpg">
+	<link rel="shortcut icon" href="/static/img/sirs.jpg">
 	<link rel="stylesheet" href="/static/css/registro.css">
 	<title>Login(SAGS)</title>
 </head>
@@ -59,14 +59,14 @@
 			<form action="adduser" method="POST">
 				<h1>Crear Cuenta</h1>
 				<span>Ingresa tus datos para registrarte</span>
-				<select class="input" name="type_docu">
-					<option value="" selected disabled>Seleccionar</option>
+				<select class="input" name="tipo">
+					<option selected disabled>Seleccionar</option>
 					<option value="C.C.">C.C.</option>
 					<option value="T.I.">T.I.</option>
 				</select>
-				<input type="number" name="documento" placeholder="Documento">
-				<input type="email" name="correo" placeholder="Email@">
-				<input type="password" name="clave" placeholder="Password">
+				<input type="number" name="documento" placeholder="Documento" required>
+				<input type="email" name="correo" placeholder="Email@" required>
+				<input type="password" name="clave" placeholder="Password" required>
 
 				<button>Registrar</button>
 			</form>
