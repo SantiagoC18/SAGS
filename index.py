@@ -113,7 +113,7 @@ def password_reset(token):
         if nueva_contrasena == confirmar_contrasena:
             
             # Actualizar la contraseña en la base de datos
-            cur.execute("UPDATE usuarios SET password = (aes_encrypt(%s,'AES')) WHERE email = %s", (nueva_contrasena, reset_info['user_id']))
+            cur.execute("UPDATE usuarios SET `password` = (aes_encrypt(%s,'AES')) WHERE email = %s", (nueva_contrasena, reset_info['user_id']))
             mysql.connection.commit()
 
             # Eliminar el token de restablecimiento

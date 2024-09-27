@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 25-09-2024 a las 03:57:14
+-- Tiempo de generación: 27-09-2024 a las 01:51:39
 -- Versión del servidor: 8.3.0
 -- Versión de PHP: 8.2.18
 
@@ -121,7 +121,7 @@ DELIMITER ;
 DROP TABLE IF EXISTS `checklists`;
 CREATE TABLE IF NOT EXISTS `checklists` (
   `idcheck` int NOT NULL COMMENT 'Identificador único del checklist',
-  `idmod` varchar(5) COLLATE utf8mb4_general_ci NOT NULL,
+  `idmod` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `aprobacion` int DEFAULT NULL COMMENT 'Indica si el checklist está aprobado',
   `archivo` blob COMMENT 'Archivo adjunto al checklist',
   `fecha` date DEFAULT NULL COMMENT 'Fecha del checklist',
@@ -193,9 +193,9 @@ INSERT INTO `checklists` (`idcheck`, `idmod`, `aprobacion`, `archivo`, `fecha`, 
 
 DROP TABLE IF EXISTS `modelos`;
 CREATE TABLE IF NOT EXISTS `modelos` (
-  `idmod` varchar(5) COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Identificador único del modelo',
-  `nombre` varchar(35) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Nombre del modelo',
-  `descripcion` varchar(80) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Descripción del modelo',
+  `idmod` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Identificador único del modelo',
+  `nombre` varchar(35) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Nombre del modelo',
+  `descripcion` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Descripción del modelo',
   PRIMARY KEY (`idmod`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de modelos';
 
@@ -220,10 +220,10 @@ INSERT INTO `modelos` (`idmod`, `nombre`, `descripcion`) VALUES
 DROP TABLE IF EXISTS `opiniones`;
 CREATE TABLE IF NOT EXISTS `opiniones` (
   `id_opi` int NOT NULL,
-  `opinion` varchar(1000) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `opinion` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `calificacion` int DEFAULT NULL,
-  `tipo_opi` varchar(25) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `tipo_opi` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_opi`),
   KEY `tipo_opi` (`tipo_opi`),
   KEY `email` (`email`)
@@ -247,8 +247,8 @@ INSERT INTO `opiniones` (`id_opi`, `opinion`, `calificacion`, `tipo_opi`, `email
 
 DROP TABLE IF EXISTS `planes`;
 CREATE TABLE IF NOT EXISTS `planes` (
-  `nomplan` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `descripcion` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nomplan` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `descripcion` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `precio` int DEFAULT NULL,
   PRIMARY KEY (`nomplan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar planes disponibles';
@@ -270,8 +270,8 @@ INSERT INTO `planes` (`nomplan`, `descripcion`, `precio`) VALUES
 
 DROP TABLE IF EXISTS `priori_req`;
 CREATE TABLE IF NOT EXISTS `priori_req` (
-  `tipo_pri_req` varchar(80) COLLATE utf8mb4_general_ci NOT NULL,
-  `descripcion` varchar(350) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tipo_pri_req` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `descripcion` varchar(350) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`tipo_pri_req`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar prioridades de requisitos';
 
@@ -293,13 +293,13 @@ INSERT INTO `priori_req` (`tipo_pri_req`, `descripcion`) VALUES
 DROP TABLE IF EXISTS `proyectos`;
 CREATE TABLE IF NOT EXISTS `proyectos` (
   `idproy` int NOT NULL,
-  `nombre` varchar(55) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `descripcion` varchar(700) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `tipo` varchar(25) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombre` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `descripcion` varchar(700) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tipo` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `fechaI` date DEFAULT NULL,
   `fechaF` date DEFAULT NULL,
-  `linkform` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `nomplan` varchar(55) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `linkform` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nomplan` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`idproy`),
   KEY `nomplan` (`nomplan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de proyectos';
@@ -353,10 +353,10 @@ INSERT INTO `proy_reu` (`form_proy_reu`, `idproy`, `idreu`) VALUES
 DROP TABLE IF EXISTS `requisitos`;
 CREATE TABLE IF NOT EXISTS `requisitos` (
   `idreq` int NOT NULL,
-  `nombre` varchar(30) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `descripcion` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `tipo_pri_req` varchar(80) COLLATE utf8mb4_general_ci NOT NULL,
-  `tipo_req` varchar(80) COLLATE utf8mb4_general_ci NOT NULL,
+  `nombre` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `descripcion` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tipo_pri_req` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tipo_req` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`idreq`),
   KEY `tipo_pri_req` (`tipo_pri_req`),
   KEY `tipo_req` (`tipo_req`)
@@ -427,12 +427,19 @@ INSERT INTO `requisitos_proyectos` (`idreq`, `idproy`) VALUES
 DROP TABLE IF EXISTS `reset_tokens`;
 CREATE TABLE IF NOT EXISTS `reset_tokens` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
+  `user_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `expires_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `reset_tokens`
+--
+
+INSERT INTO `reset_tokens` (`id`, `user_id`, `token`, `expires_at`) VALUES
+(1, 'svalenzuela073@misena.edu.co', 'nOziarwXx_2tuwV-bdS2KkNVIKmUdla--KqGRMiLvOQ', '2024-09-26 20:18:18');
 
 -- --------------------------------------------------------
 
@@ -445,7 +452,7 @@ CREATE TABLE IF NOT EXISTS `reuniones` (
   `idreu` int NOT NULL,
   `fechavis` date DEFAULT NULL,
   `horavis` time DEFAULT NULL,
-  `tipo_reu` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `tipo_reu` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`idreu`),
   KEY `tipo_reu` (`tipo_reu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de reuniones';
@@ -469,7 +476,7 @@ INSERT INTO `reuniones` (`idreu`, `fechavis`, `horavis`, `tipo_reu`) VALUES
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
   `idrol` int NOT NULL,
-  `descripcion` varchar(65) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `descripcion` varchar(65) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`idrol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar roles de usuarios';
 
@@ -494,8 +501,8 @@ CREATE TABLE IF NOT EXISTS `sprints` (
   `idsprint` int NOT NULL,
   `fechaI` date DEFAULT NULL,
   `fechaF` date DEFAULT NULL,
-  `nombre` varchar(40) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `aobservaciones` varchar(300) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombre` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `aobservaciones` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `estado` int DEFAULT NULL,
   `idproy` int DEFAULT NULL,
   PRIMARY KEY (`idsprint`),
@@ -528,8 +535,8 @@ INSERT INTO `sprints` (`idsprint`, `fechaI`, `fechaF`, `nombre`, `aobservaciones
 DROP TABLE IF EXISTS `tareas`;
 CREATE TABLE IF NOT EXISTS `tareas` (
   `id_tar` int NOT NULL,
-  `nombre` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `descripcion` varchar(500) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombre` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `descripcion` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `idsprint` int DEFAULT NULL,
   `usu_proy_id` int NOT NULL,
   PRIMARY KEY (`id_tar`),
@@ -559,7 +566,7 @@ INSERT INTO `tareas` (`id_tar`, `nombre`, `descripcion`, `idsprint`, `usu_proy_i
 
 DROP TABLE IF EXISTS `tipos_opi`;
 CREATE TABLE IF NOT EXISTS `tipos_opi` (
-  `tipo_opi` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `tipo_opi` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`tipo_opi`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tipos de opiniones';
 
@@ -580,8 +587,8 @@ INSERT INTO `tipos_opi` (`tipo_opi`) VALUES
 
 DROP TABLE IF EXISTS `tipos_req`;
 CREATE TABLE IF NOT EXISTS `tipos_req` (
-  `tipo_req` varchar(80) COLLATE utf8mb4_general_ci NOT NULL,
-  `descripcion` varchar(120) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tipo_req` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `descripcion` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`tipo_req`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tipos de requisitos';
 
@@ -601,7 +608,7 @@ INSERT INTO `tipos_req` (`tipo_req`, `descripcion`) VALUES
 
 DROP TABLE IF EXISTS `tipos_reu`;
 CREATE TABLE IF NOT EXISTS `tipos_reu` (
-  `tipo_reu` varchar(35) COLLATE utf8mb4_general_ci NOT NULL,
+  `tipo_reu` varchar(35) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`tipo_reu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tipos de reuniones';
 
@@ -622,9 +629,9 @@ INSERT INTO `tipos_reu` (`tipo_reu`) VALUES
 DROP TABLE IF EXISTS `ubicaciones`;
 CREATE TABLE IF NOT EXISTS `ubicaciones` (
   `idubi` int DEFAULT NULL,
-  `ciudad` varchar(60) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `direccion` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ciudad` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `direccion` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar ubicaciones de usuarios';
 
@@ -648,16 +655,16 @@ INSERT INTO `ubicaciones` (`idubi`, `ciudad`, `direccion`, `email`) VALUES
 
 DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE IF NOT EXISTS `usuarios` (
-  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `tipodoc` varchar(11) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tipodoc` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `documento` int DEFAULT NULL,
-  `password` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `password` varbinary(255) DEFAULT NULL,
   `telefono` int DEFAULT NULL,
-  `nombres` varchar(33) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `apellidos` varchar(33) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `foto` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombres` varchar(33) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `apellidos` varchar(33) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `foto` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `idrol` int DEFAULT NULL,
-  `perfil` varchar(80) COLLATE utf8mb4_general_ci NOT NULL,
+  `perfil` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`email`),
   KEY `idrol` (`idrol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de usuarios';
@@ -667,32 +674,32 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 --
 
 INSERT INTO `usuarios` (`email`, `tipodoc`, `documento`, `password`, `telefono`, `nombres`, `apellidos`, `foto`, `idrol`, `perfil`) VALUES
-('1012918020@ctjfr.edu.co', '', 0, '101291', NULL, 'Karol Andrea', 'Beltran Diaz', '', 3, ''),
-('1023367786@ctjfr.edu.co', '', 0, '102336', NULL, 'Maria Camila', 'Puerto Guerrero', '', 3, ''),
-('1028661442@gmail.com', '', 0, '310711', NULL, 'Emanuel Felipe', 'Rodriguez Ramirez', '', 1, ''),
-('1029143097@ctjfr.edu.co', '', 0, '102914', NULL, 'Sebastian', 'Cardenas Hernandez', '', 3, ''),
-('1033696558@ctjfr.edu.co', '', 0, 'wendir', NULL, 'Wendi Vanessa', 'Russi Antolinez', '', 3, ''),
-('1074811705@ctjfr.edu.co', '', 0, '107481', NULL, 'Keiner Jean Paul', 'Martínez Araujo', '', 3, ''),
-('1127342346@ctjfr.edu.co', '', 0, '0107M', NULL, 'Genesis Veronica', 'Sanabria Leon', '', 3, ''),
-('1234juandavis@gmail.com', '', 0, '102167', NULL, 'Juan David', 'Diaz Muñoz', '', 3, ''),
-('caroceron28@gmail.com', '', 0, '101017', NULL, 'Sharit Carolina', 'Ceron Varela', '', 3, ''),
-('diego.lopezm0405@gmail.com', '', 0, '101120', NULL, 'Diego Esteban', 'López Melo', '', 3, ''),
-('jeanpierrebbedoya@gmail.com', '', 0, '2023', NULL, 'Jean Pierre', 'Bolaños Beodya', '', 3, ''),
-('johanbenavides134@gmail.com', '', 0, '123456', NULL, 'Johan Steven', 'Benavides Sanchez', '', 3, ''),
-('jssr217@gmail.com', '', 0, 'JuanSi', NULL, 'Primer Nombre Juan', 'Primer Apellido Silva', '', 3, ''),
-('juandaja2201@gmail.com', '', 0, '123456', NULL, 'Juan David', 'Jerez Amador', '', 3, ''),
-('julia@gmail.com', 'cc', 0, '1f242d', 587821, 'Julia', 'Perez', '', NULL, 'cliente'),
-('linaessofia33@gmail.com', '', 0, 'sofial', NULL, 'Laura Sofia', 'Linares Piñeros', '', 3, ''),
-('majogalan2006@gmail.com', '', 0, 'majoga', NULL, 'María José', 'Romero Gómez', '', 1, ''),
-('mglnares2006@gmail.com', '', 0, 'Pollo0', NULL, 'Miguel Felipe', 'Linares Riaño', '', 3, ''),
-('nicolasgiraldo1020@gmail.com', '', 0, '1020', NULL, 'Nicolas Santiago', 'Giraldo Valencia', '', 3, ''),
-('rocio123@gmail.com', 'cc', 0, '6859f9', 14568745, 'Rocio', 'Caceres', 'dfsdgfd', NULL, 'cliente'),
-('roger@gmail.com', '', 0, '24271', 2147483647, 'Roger Steec', 'Fuentes Ramirez', '/ferrari-enzo-rojo_3840x2160_xtrafondos.com.jpg', 3, 'Diseñador'),
-('santicardenash@gmail.com', '', 0, '2006', 2147483647, 'Santiago', 'Cárdenas Hernández', '/c59f9ad6da00a07b253d86a97c23d6d5 (1).jpg', 1, 'Desarrollador'),
-('sebastianrm30yu@iclock.com', '', 0, '123456', NULL, 'Johann Sebastian', 'Rivero Martinez', '', 3, ''),
-('svalenzuela073@misena.edu.co', '', 0, '4200', NULL, 'Shiuu', 'Valenzuela Penagos', '', 1, ''),
-('smithcortes01@gmail.com', '', 0, 'famili', NULL, 'Steveen Smith', 'Cortes Cardenas', '', 3, ''),
-('soff24ia@gmail.com', '', 0, '1234', NULL, 'Ana Sofia', 'Alarcon Santana', '', 3, '');
+('1012918020@ctjfr.edu.co', '', 0, 0x313031323931, NULL, 'Karol Andrea', 'Beltran Diaz', '', 3, ''),
+('1023367786@ctjfr.edu.co', '', 0, 0x313032333336, NULL, 'Maria Camila', 'Puerto Guerrero', '', 3, ''),
+('1028661442@gmail.com', '', 0, 0x333130373131, NULL, 'Emanuel Felipe', 'Rodriguez Ramirez', '', 1, ''),
+('1029143097@ctjfr.edu.co', '', 0, 0x313032393134, NULL, 'Sebastian', 'Cardenas Hernandez', '', 3, ''),
+('1033696558@ctjfr.edu.co', '', 0, 0x77656e646972, NULL, 'Wendi Vanessa', 'Russi Antolinez', '', 3, ''),
+('1074811705@ctjfr.edu.co', '', 0, 0x313037343831, NULL, 'Keiner Jean Paul', 'Martínez Araujo', '', 3, ''),
+('1127342346@ctjfr.edu.co', '', 0, 0x303130374d, NULL, 'Genesis Veronica', 'Sanabria Leon', '', 3, ''),
+('1234juandavis@gmail.com', '', 0, 0x313032313637, NULL, 'Juan David', 'Diaz Muñoz', '', 3, ''),
+('caroceron28@gmail.com', '', 0, 0x313031303137, NULL, 'Sharit Carolina', 'Ceron Varela', '', 3, ''),
+('diego.lopezm0405@gmail.com', '', 0, 0x313031313230, NULL, 'Diego Esteban', 'López Melo', '', 3, ''),
+('jeanpierrebbedoya@gmail.com', '', 0, 0x32303233, NULL, 'Jean Pierre', 'Bolaños Beodya', '', 3, ''),
+('johanbenavides134@gmail.com', '', 0, 0x313233343536, NULL, 'Johan Steven', 'Benavides Sanchez', '', 3, ''),
+('jssr217@gmail.com', '', 0, 0x4a75616e5369, NULL, 'Primer Nombre Juan', 'Primer Apellido Silva', '', 3, ''),
+('juandaja2201@gmail.com', '', 0, 0x313233343536, NULL, 'Juan David', 'Jerez Amador', '', 3, ''),
+('julia@gmail.com', 'cc', 0, 0x316632343264, 587821, 'Julia', 'Perez', '', NULL, 'cliente'),
+('linaessofia33@gmail.com', '', 0, 0x736f6669616c, NULL, 'Laura Sofia', 'Linares Piñeros', '', 3, ''),
+('majogalan2006@gmail.com', '', 0, 0xd32ecc5d0d8d4e0cb5c2d7bdfdbd8f84, NULL, 'María José', 'Romero Gómez', '', 1, ''),
+('mglnares2006@gmail.com', '', 0, 0x506f6c6c6f30, NULL, 'Miguel Felipe', 'Linares Riaño', '', 3, ''),
+('nicolasgiraldo1020@gmail.com', '', 0, 0x31303230, NULL, 'Nicolas Santiago', 'Giraldo Valencia', '', 3, ''),
+('rocio123@gmail.com', 'cc', 0, 0x363835396639, 14568745, 'Rocio', 'Caceres', 'dfsdgfd', NULL, 'cliente'),
+('roger@gmail.com', '', 0, 0x3234323731, 2147483647, 'Roger Steec', 'Fuentes Ramirez', '/ferrari-enzo-rojo_3840x2160_xtrafondos.com.jpg', 3, 'Diseñador'),
+('santicardenash@gmail.com', '', 0, 0x2538822c3012250e592a20d0d131d0bf, 2147483647, 'Santiago', 'Cárdenas Hernández', '/c59f9ad6da00a07b253d86a97c23d6d5 (1).jpg', 1, 'Desarrollador'),
+('sebastianrm30yu@iclock.com', '', 0, 0x313233343536, NULL, 'Johann Sebastian', 'Rivero Martinez', '', 3, ''),
+('smithcortes01@gmail.com', '', 0, 0x66616d696c69, NULL, 'Steveen Smith', 'Cortes Cardenas', '', 3, ''),
+('soff24ia@gmail.com', '', 0, 0x31323334, NULL, 'Ana Sofia', 'Alarcon Santana', '', 3, ''),
+('svalenzuela073@misena.edu.co', '', 0, 0x9b8427feb0e4826e362d3cdb096efc22, NULL, 'Shiuu', 'Valenzuela Penagos', '', 1, '');
 
 -- --------------------------------------------------------
 
@@ -704,7 +711,7 @@ DROP TABLE IF EXISTS `usu_proy`;
 CREATE TABLE IF NOT EXISTS `usu_proy` (
   `id` int NOT NULL,
   `idproy` int DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `Product_Owner` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idproy` (`idproy`),
