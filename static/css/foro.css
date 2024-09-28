@@ -54,6 +54,7 @@ button {
     cursor: pointer;
     margin: 10px 0;
     margin-top: 150px;
+    margin-left: 130px;
 }
 
 button:hover {
@@ -96,7 +97,7 @@ button[type="submit"]:hover {
     margin: 20px auto;
     width: 75%;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -111,6 +112,13 @@ button[type="submit"]:hover {
     margin: 10px 0;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    float: left;
+    border: 1px solid #ddd;
+    position: relative;
+    width: 40%;
+    height: 44%;
+    top: 25px;
+    
 }
 
 .opinion h3 {
@@ -119,4 +127,8 @@ button[type="submit"]:hover {
 
 .opinion p {
     margin: 5px 0;
+}
+
+.container{
+    align-items: center;
 }

@@ -16,7 +16,7 @@
 
     <header>
         <a href="{{ url_for('index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
-    
+
         <ul class="navbar">
             <li><a href="{{ url_for('index') }}">Home</a></li>
             <li><a href="{{ url_for('index') }}">Sobre Nosotros</a></li>
@@ -24,9 +24,9 @@
             <li><a href="{{ url_for('opiniones') }}" class="active">Opiniones</a></li>
             <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
         </ul>
-    
+
         <div class="main">
-            <a href="{{ url_for('logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion 
+            <a href="{{ url_for('logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion
                 {%endif %}</a>
             <div class="bx bx-menu" id="menu-icon"><i class="fa-solid fa-bars"></i></div>
         </div>
@@ -54,7 +54,7 @@
                     <option>Peticion</option>
                     <option>Queja</option>
                     <option>Sugerencia</option>
-                    
+
                 </select>
 
                 <label for="opinion">Opinión:</label>
@@ -75,45 +75,47 @@
     </div>
 
     <!-- Lista de opiniones -->
-    <div id="opinions-list">
-        <h2>Opiniones de Usuarios</h2>
-        <!-- Ejemplo de opinión -->
-        <div class="opinion">
-            <h3>Juan Pérez</h3>
-            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
-            <p><strong>Calificación:</strong> 5</p>
+    <div class="container">
+        <div id="opinions-list">
+            <h2>Opiniones de Usuarios</h2>
+            <!-- Ejemplo de opinión -->
+            <div class="opinion">
+                <h3>Juan Pérez</h3>
+                <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+                <p><strong>Calificación:</strong> 5</p>
+            </div>
+            <div class="opinion">
+                <h3>Juan Pérez</h3>
+                <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+                <p><strong>Calificación:</strong> 5</p>
+            </div>
+            <div class="opinion">
+                <h3>Juan Pérez</h3>
+                <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+                <p><strong>Calificación:</strong> 5</p>
+            </div>
+            <div class="opinion">
+                <h3>Juan Pérez</h3>
+                <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+                <p><strong>Calificación:</strong> 5</p>
+            </div>
+            <div class="opinion">
+                <h3>Juan Pérez</h3>
+                <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+                <p><strong>Calificación:</strong> 5</p>
+            </div>
+            <div class="opinion">
+                <h3>Juan Pérez</h3>
+                <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+                <p><strong>Calificación:</strong> 5</p>
+            </div>
+            <div class="opinion">
+                <h3>Juan Pérez</h3>
+                <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+                <p><strong>Calificación:</strong> 5</p>
+            </div>
+            <!-- Más opiniones se agregarán dinámicamente -->
         </div>
-        <div class="opinion">
-            <h3>Juan Pérez</h3>
-            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
-            <p><strong>Calificación:</strong> 5</p>
-        </div>
-        <div class="opinion">
-            <h3>Juan Pérez</h3>
-            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
-            <p><strong>Calificación:</strong> 5</p>
-        </div>
-        <div class="opinion">
-            <h3>Juan Pérez</h3>
-            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
-            <p><strong>Calificación:</strong> 5</p>
-        </div>
-        <div class="opinion">
-            <h3>Juan Pérez</h3>
-            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
-            <p><strong>Calificación:</strong> 5</p>
-        </div>
-        <div class="opinion">
-            <h3>Juan Pérez</h3>
-            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
-            <p><strong>Calificación:</strong> 5</p>
-        </div>
-        <div class="opinion">
-            <h3>Juan Pérez</h3>
-            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
-            <p><strong>Calificación:</strong> 5</p>
-        </div>
-        <!-- Más opiniones se agregarán dinámicamente -->
     </div>
 
 
