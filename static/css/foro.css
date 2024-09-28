@@ -100,6 +100,7 @@ button[type="submit"]:hover {
     border: 2px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 #opinions-list h2 {
@@ -107,7 +108,7 @@ button[type="submit"]:hover {
 }
 
 .opinion {
-    background-color: #053f58a7;
+    background-color: #0686d554;
     padding: 10px;
     margin: 10px 1px;
     border-radius: 8px;
@@ -115,8 +116,8 @@ button[type="submit"]:hover {
     float: left;
     border: 1px solid #ddd;
     position:relative;
-    width: 48%;
-    height: 48%;
+    width: 90%;
+    height: 88%;
     top: 25px;
     justify-content: end;
     align-items: center;  
@@ -131,3 +132,14 @@ button[type="submit"]:hover {
     margin: 5px 0;
 }
 
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1.5fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 8px;
+    align-items: center;
+    float: left;
+    flex-direction: column;
+    margin-left: 16%;
+}

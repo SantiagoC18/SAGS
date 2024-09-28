@@ -61,7 +61,7 @@
                 <textarea id="opinion" name="opinion" rows="4" required></textarea>
 
                 <label for="rating">Calificación:</label>
-                <select id="rating" name="rating" required>
+                <select id="calificacion" name="calificacion" required>
                     <option value="5">5 - Excelente</option>
                     <option value="4">4 - Muy Bueno</option>
                     <option value="3">3 - Bueno</option>
@@ -76,59 +76,53 @@
     <!-- Lista de opiniones -->
     <div id="opinions-list">
         <h2>Opiniones de Usuarios</h2>
-        <!-- Ejemplo de opinión -->
-        <div class="grid grid-cols-2 gap-8">
-            <div class="opinion">
-                <h3>Juan Pérez</h3>
-                <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
-                <p><strong>Calificación:</strong>5
-                <div class="estrellas"></div>
-                </p>
-            </div>
-            <div class="opinion">
-                <h3>Juan Pérez</h3>
-                <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
-                <p><strong>Calificación:</strong> 5
-                <div class="estrellas"></div>
-                </p>
-            </div>
-            <div class="opinion">
-                <h3>Juan Pérez</h3>
-                <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
-                <p><strong>Calificación:</strong> 5
-                <div class="estrellas"></div>
-                </p>
-            </div>
-            <div class="opinion">
-                <h3>Juan Pérez</h3>
-                <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
-                <p><strong>Calificación:</strong> 5
-                <div class="estrellas"></div>
-                </p>
-            </div>
-            <div class="opinion">
-                <h3>Juan Pérez</h3>
-                <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
-                <p><strong>Calificación:</strong> 5
-                <div class="estrellas"></div>
-                </p>
-            </div>
-            <div class="opinion">
-                <h3>Juan Pérez</h3>
-                <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
-                <p><strong>Calificación:</strong> 5
-                <div class="estrellas"></div>
-                </p>
-            </div>
-            <div class="opinion">
-                <h3>Juan Pérez</h3>
-                <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
-                <p><strong>Calificación:</strong> 5
-                <div class="estrellas"></div>
-                </p>
-            </div>
-            <!-- Más opiniones se agregarán dinámicamente -->
+        <p>Comparte tu experiencia con nuestra comunidad</p>
+    </div>
+    <!-- Ejemplo de opinión -->
+    <div class="grid">
+        <div class="opinion">
+            <h3>Juan Pérez</h3>
+            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+            <p><strong>Calificación:</strong>5</p>
+            <div class="estrellas"></div>
         </div>
+        <div class="opinion">
+            <h3>Juan Pérez</h3>
+            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+            <p><strong>Calificación:</strong> 5</p>
+            <div class="estrellas"></div>
+        </div>
+        <div class="opinion">
+            <h3>Juan Pérez</h3>
+            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+            <p><strong>Calificación:</strong> 5</p>
+            <div class="estrellas"></div>
+        </div>
+        <div class="opinion">
+            <h3>Juan Pérez</h3>
+            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+            <p><strong>Calificación:</strong> 5</p>
+            <div class="estrellas"></div>
+        </div>
+        <div class="opinion">
+            <h3>Juan Pérez</h3>
+            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+            <p><strong>Calificación:</strong> 5</p>
+            <div class="estrellas"></div>
+        </div>
+        <div class="opinion">
+            <h3>Juan Pérez</h3>
+            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+            <p><strong>Calificación:</strong> 5</p>
+            <div class="estrellas"></div>
+        </div>
+        <div class="opinion">
+            <h3>Juan Pérez</h3>
+            <p>Muy buen aplicativo, me ha ayudado mucho en la gestión de mis proyectos.</p>
+            <p><strong>Calificación:</strong> 5</p>
+            <div class="estrellas"></div>
+        </div>
+        <!-- Más opiniones se agregarán dinámicamente -->
     </div>
 
     <script src="/static/js/bar.js"></script>
@@ -155,33 +149,31 @@
 
     <!--Calificación-->
     <script>
-        const select = document.getElementById('rating');
-        const estrellas = document.querySelector('estrellas');
+        const select = document.getElementById('calificacion');
+        const estrellas = document.querySelector('.estrellas');
 
         select.addEventListener('change', () => {
-            const rating = select.value;
-            const numEstrellas = getNumEstrellas(rating);
+            const calificacion = select.value;
+            const numEstrellas = getNumEstrellas(calificacion);
             renderEstrellas(numEstrellas);
         });
 
-        function getNumEstrellas(rating) {
+        function getNumEstrellas(calificacion) {
             switch (rating) {
-                case 'Excelente':
+                case '5':
                     return 5;
-                case 'Muy Bueno':
+                case '4':
                     return 4;
-                case 'Bueno':
+                case '3':
                     return 3;
-                case 'Regular':
+                case '2':
                     return 2;
-                case 'Malo':
+                case '1':
                     return 1;
                 default:
                     return 0;
             }
         }
-
-
 
         function renderEstrellas(numEstrellas) {
             estrellas.innerHTML = '';
@@ -195,14 +187,21 @@
                 estrella.setAttribute('xmlns:dc', 'http://purl.org/dc/elements/1.1/');
                 estrella.setAttribute('xmlns:rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
 
-                const svgContent = `
-            <g transform="translate(0 -1028.4)">
-                <path
-                    d="m66.36 1121.6-0.636-0.7v-1.2-1.2l0.39-2.2c0.214-1.3 0.39-2.3 0.39-2.4s-0.13-0.1-0.524-0.3l-0.525-0.3-0.544-1.3c-0.3-0.8-0.547-1.4-0.549-1.5s0.091-0.3 0.215-0.4c0.218-0.4 0.22-0.4 0.22-0.8v-0.4h-0.516-0.597c-0.045-0.1-0.181-0.3-0.302-0.5l-0.219-0.5h-0.335l-0.334 0.1-1.149-0.7-1.149-0.6-0.36-0.5c-0.198-0.2-0.394-0.4-0.435-0.4-0.042-0.1-0.259-0.1-0.482-0.1h-0.407l-1.231-1.6-1.23-1.6 0.053-0.9 0.053-0.8-0.381-0.5c-0.209-0.3-0.416-0.6-0.458-0.6-0.054-0.1-0.149-0.1-0.303 0h-0.275c-0.028 0-0.125-0.2-0.216-0.4-0.173-0.3-0.163-0.4 0.056-0.4h0.119c0-0.1-1.009-1.1-1.14-1.2-0.057 0-0.44-0.1-0.852-0.2l-0.748-0.1-1.88 1c-1.034 0.5-1.893 0.9-1.908 0.9-0.015-0.1 0.24-0.3 0.567-0.7 0.328-0.3 0.595
+                <!--Iconos svg estrellas-->
+                if (i < numEstrellas) {
+                    estrella.innerHTML =
+                        ''
+                }
+                else {
+                    estrella.innerHTML =
+                        ''
+                }
+                estrellas.appendChild(estrella);
+            }
+        }
 
 
     </script>
-
 
 </body>
 
