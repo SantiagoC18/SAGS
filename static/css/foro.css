@@ -52,9 +52,8 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin: 10px 0;
-    margin-top: 150px;
-    margin-left: 130px;
+    margin-top: 40px;
+    font-size: 20px;
 }
 
 button:hover {
@@ -94,33 +93,39 @@ button[type="submit"]:hover {
 #opinions-list {
     background-color: black;
     color: #fff;
-    margin: 20px auto;
+    margin: auto;
+    margin-top: 90px;
     width: 75%;
     padding: 10px;
     border: 2px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 #opinions-list h2 {
     text-align: center;
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+#opinions-list{
+    font-size: 22px;
 }
 
 .opinion {
-    background-color: #053f58a7;
+    background-color: rgba(0, 103, 167, 0.1);
     padding: 10px;
-    margin: 10px 1px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    float: left;
     border: 1px solid #ddd;
-    position:relative;
-    width: 48%;
-    height: 48%;
-    top: 25px;
-    justify-content: end;
-    align-items: center;  
+    width: 45vw;
+    height: 88%;
+    transition: all 1ms ease;
+}
 
+.opinion:hover{
+    border: solid #058fe9 1px;
+    box-shadow: 1px 1px 10px 1px #058fe9;
 }
 
 .opinion h3 {
@@ -131,3 +136,37 @@ button[type="submit"]:hover {
     margin: 5px 0;
 }
 
+
+.grid{
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.rating {
+    display: inline-block;
+  }
+  
+  .rating input {
+    display: none;
+  }
+  
+  .rating label {
+    float: right;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+  .rating label:before {
+    content: "\2605";
+    font-size: 30px;
+  }
+  
+  .rating input:checked ~ label,
+  .rating label,
+  .rating label ~ label {
+    color: #ffd700;
+    transition: color 0.3s;
+  }
