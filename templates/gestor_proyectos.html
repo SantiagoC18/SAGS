@@ -68,14 +68,15 @@
                     </thead>
                     <tbody>
                         {% for data2 in data2 %}
-                        <tr>
+                        <tr class="info">
                             <td>{{ data2['idproy'] }}</td>
                             <td>{{ data2['nombre'] }}</td>
                             <td>{{ data2['fechaI'] }}</td>
                             <td>{{ data2['FechaF'] }}</td>
                             <td>
                                 <div class="flex justify-between mb-1">
-                                    <span class="text-sm font-medium text-blue-700 dark:text-white">{{ data2['progreso'] }}%</span>
+                                    <span class="text-sm font-medium text-blue-700 dark:text-white">{{ data2['progreso']
+                                        }}%</span>
                                 </div>
                                 <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
                                     <div class="bg-blue-600 h-2.5 rounded-full" style="width: 10%"></div>
@@ -83,7 +84,7 @@
                             </td>
                             <td>
                                 <button
-                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                                    class="bg-[#058fe9] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                                     Trabajar
                                 </button>
                             </td>
@@ -113,7 +114,7 @@
                     </thead>
                     <tbody>
                         {% for data in data %}
-                        <tr>
+                        <tr class="info">
                             <td>{{ data['idproy'] }}</td>
                             <td>{{ data['nombre'] }}</td>
                             <td>{{ data2['nomplan'] }}</td>

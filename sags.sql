@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `checklists` (
   `idcheck` int NOT NULL COMMENT 'Identificador único del checklist',
   `idmod` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `aprobacion` int DEFAULT NULL COMMENT 'Indica si el checklist está aprobado',
-  `archivo` blob COMMENT 'Archivo adjunto al checklist',
+  `archivo` varchar(500) COMMENT 'Archivo adjunto al checklist',
   `fecha` date DEFAULT NULL COMMENT 'Fecha del checklist',
   `progreso` int NOT NULL,
   `idproy` int DEFAULT NULL COMMENT 'ID del proyecto asociado',

@@ -1,11 +1,16 @@
 section{
     display: flex;
     flex-direction: column;
-    margin-top: 130px;
+    justify-content: center;
+    margin-top: 80px;
+}
+
+section h1{
+    font-size: 60px;
+    text-align: center;
 }
 
 h1{
-    font-size: 60px;
     text-align: center;
 }
 
@@ -24,4 +29,25 @@ h4{
 
 select, label, .pagination,.dt-info{
     display: none;
+}
+
+tbody .info:hover{
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+table th {
+    font-size: 20px;
+}
+
+table td{
+    font-size: 17px;
+}
+
+#preview-container{
+    background-color: black;
+    border-radius: 12px;
+}
+
+#preview-container h1 {
+    margin-bottom: 10px;
 }

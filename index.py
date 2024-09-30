@@ -312,7 +312,11 @@ def perfil():
 @app.route('/opiniones')
 def opiniones():
     if session.get('logueado'):
-        return render_template('opiniones.html', log='Cerrar')
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM opiniones")
+        data = cur.fetchall()
+        
+        return render_template('opiniones.html', log='Cerrar', data = data)
     else:
         return render_template('opiniones.html', log='Iniciar')
     
@@ -348,7 +352,7 @@ def checkdown(idproy):
         cur.execute(consulta, (id,))
         data2 = cur.fetchall()
         
-        cur.execute(''' SELECT checklists.aprobacion,modelos.nombre,modelos.descripcion,checklists.archivo,checklists.fecha
+        cur.execute(''' SELECT checklists.aprobacion,modelos.nombre,modelos.descripcion, checklists.progreso, checklists.archivo,checklists.fecha
 		                FROM proyectos
 				        INNER JOIN checklists
 				        ON proyectos.idproy = checklists.idproy
