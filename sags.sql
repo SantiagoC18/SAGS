@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 27-09-2024 a las 02:52:47
+-- Tiempo de generación: 30-09-2024 a las 18:39:09
 -- Versión del servidor: 8.3.0
 -- Versión de PHP: 8.2.18
 
@@ -32,6 +32,42 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarUsuario` (IN `p_email` VA
     WHERE email = p_email;
 END$$
 
+DROP PROCEDURE IF EXISTS `Act_y_Reg_Proyectos`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Act_y_Reg_Proyectos` (IN `p_idproy` INT, IN `p_nombre` VARCHAR(45), IN `p_descripcion` VARCHAR(1000), IN `p_tipo` VARCHAR(25), IN `p_fechaI` DATE, IN `p_fechaF` DATE, IN `p_linkform` VARCHAR(200), IN `accion` VARCHAR(45))   BEGIN
+ CASE 
+  WHEN accion='registrar' THEN
+  INSERT INTO proyectos(idproy, nombre, descripcion, tipo, fechaI, fechaF, linkform)
+  VALUES(p_idproy, p_nombre, p_descripcion, p_tipo, p_fechaI, p_fechaF, p_linkform);
+  WHEN accion='actualizar' THEN
+  UPDATE proyectos SET
+  nombre=p_nombre, descripcion=p_descripcion, tipo=p_tipo, fechaI=p_fechaI, fechaF=p_fechaF, linkform=p_linkform
+  WHERE idproy=p_idproy;
+ END CASE;
+END$$
+
+DROP PROCEDURE IF EXISTS `Act_y_Reg_Usuarios`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Act_y_Reg_Usuarios` (IN `u_email` VARCHAR(100), IN `u_tipodoc` VARCHAR(11), IN `u_documento` INT, IN `u_password` VARBINARY(10), IN `u_telefono` INT, IN `u_nombres` VARCHAR(33), IN `u_apellidos` VARCHAR(33), IN `u_foto` VARCHAR(200), IN `u_perfil` VARCHAR(80), IN `accion` VARCHAR(100))   BEGIN
+  CASE 
+    WHEN accion = 'registrar' THEN
+      INSERT INTO usuarios (email, tipodoc, documento, password, telefono, nombres, apellidos, foto, perfil)
+      VALUES (u_email, u_tipodoc, u_documento, u_password, u_telefono, u_nombres, u_apellidos, u_foto, u_perfil);
+    WHEN accion = 'actualizar' THEN
+      UPDATE usuarios 
+      SET tipodoc = u_tipodoc, documento = u_documento, password = u_password, telefono = u_telefono, nombres = u_nombres, apellidos = u_apellidos, foto = u_foto, perfil = u_perfil
+      WHERE email = u_email;
+  END CASE;
+END$$
+
+DROP PROCEDURE IF EXISTS `Agregar_requisitos_a_proyecto`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Agregar_requisitos_a_proyecto` (IN `p_id_proyecto` INT, IN `p_id_requisito` INT)   INSERT INTO requisitos_proyectos (idreq, idproy)
+  VALUES (p_id_requisito, p_id_proyecto)$$
+
+DROP PROCEDURE IF EXISTS `Asignar_usuario_a_proyecto`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Asignar_usuario_a_proyecto` (IN `p_id_proyecto` INT, IN `et_id` INT(100))   BEGIN
+  INSERT INTO usu_proy (idproy, id)
+  VALUES (p_id_proyecto,et_id);
+END$$
+
 DROP PROCEDURE IF EXISTS `EliminarRequisitosProyecto`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarRequisitosProyecto` (IN `p_idproy` INT)   BEGIN
     DELETE FROM requisitos_proyectos
@@ -42,6 +78,46 @@ DROP PROCEDURE IF EXISTS `EliminarUsuario`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarUsuario` (IN `p_email` VARCHAR(40))   BEGIN
     DELETE FROM usuarios
     WHERE email = p_email;
+END$$
+
+DROP PROCEDURE IF EXISTS `Eliminar_requisito_de_proyecto`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Eliminar_requisito_de_proyecto` (IN `p_id_proyecto` INT, IN `p_id_requisito` INT)   BEGIN
+  DELETE FROM requisitos_proyectos
+  WHERE idreq = p_id_requisito AND idproy = p_id_proyecto;
+END$$
+
+DROP PROCEDURE IF EXISTS `Elim_y_Cons_Proyectos`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Elim_y_Cons_Proyectos` (IN `p_idproy` INT, IN `accion` VARCHAR(20))   BEGIN
+ CASE
+    when accion ='eliminar' THEN
+    DELETE FROM proyectos
+    WHERE idproy = p_idproy;
+    when accion ='consultar' THEN
+    SELECT * FROM proyectos
+    WHERE idproy = p_idproy;
+ END CASE;
+END$$
+
+DROP PROCEDURE IF EXISTS `Elim_y_Cons_Requisitos`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Elim_y_Cons_Requisitos` (IN `r_idreq` INT, IN `accion` VARCHAR(45))   BEGIN
+ CASE
+ WHEN accion='consultar' THEN
+ SELECT * FROM requisitos WHERE r_idreq=idreq;
+ WHEN accion='eliminar' THEN
+ DELETE FROM requisitos WHERE r_idreq=idreq;
+ END CASE;
+END$$
+
+DROP PROCEDURE IF EXISTS `Elim_y_Cons_Usuarios`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Elim_y_Cons_Usuarios` (IN `p_email` VARCHAR(40), IN `accion` VARCHAR(20))   BEGIN
+ CASE
+    when accion ='eliminar' THEN
+    DELETE FROM usuarios
+    WHERE email = p_email;
+    when accion ='consultar' THEN
+    SELECT * FROM usuarios
+    WHERE email = p_email;
+ END CASE;
 END$$
 
 DROP PROCEDURE IF EXISTS `InsertarRequisito`$$
@@ -56,9 +132,32 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarUsuario` (IN `p_email` VARC
     VALUES (p_email, p_tipodoc, p_documento, p_password, p_telefono, p_nombres, p_apellidos, p_foto, p_idrol);
 END$$
 
+DROP PROCEDURE IF EXISTS `Proyectos_asociados`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Proyectos_asociados` (IN `id_usuario` VARCHAR(40))   BEGIN
+  SELECT p.idproy, p.nombre, p.descripcion
+  FROM proyectos p
+  INNER JOIN usu_proy up ON p.idproy = up.idproy
+  INNER JOIN usuarios u ON up.email = u.email
+  WHERE u.email = id_usuario;
+END$$
+
+DROP PROCEDURE IF EXISTS `Tareas_por_sprint`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Tareas_por_sprint` (IN `p_id_sprint` INT)   BEGIN
+  SELECT t.id_tar, t.nombre, t.descripcion
+  FROM tareas t
+  WHERE t.idsprint = p_id_sprint;
+END$$
+
 --
 -- Funciones
 --
+DROP FUNCTION IF EXISTS `#_De_Tareas_por_Sprint`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `#_De_Tareas_por_Sprint` (`p_idsprint` INT) RETURNS INT  BEGIN
+    DECLARE numero_tareas INT;
+    SELECT COUNT(*) INTO numero_tareas FROM tareas WHERE idsprint = p_idsprint;
+    RETURN numero_tareas;
+END$$
+
 DROP FUNCTION IF EXISTS `ContarProyectos`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `ContarProyectos` () RETURNS INT  BEGIN
     DECLARE num_proyectos INT;
@@ -71,6 +170,22 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `encriptar` (`password` VARCHAR(20)) 
 DECLARE ClaveEncri varbinary(100);
 SET ClaveEncri = AES_ENCRYPT(password,'sena');
 RETURN ClaveEncri;
+END$$
+
+DROP FUNCTION IF EXISTS `Nombre_del_Usuario`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `Nombre_del_Usuario` (`p_email` VARCHAR(100)) RETURNS VARCHAR(100) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
+    DECLARE usuario_email VARCHAR(100);
+    SELECT CONCAT(email, ' - ', nombres, ' ', apellidos) INTO usuario_email
+    FROM usuarios
+    WHERE email = p_email;
+    RETURN usuario_email;
+END$$
+
+DROP FUNCTION IF EXISTS `Numero_de_Requisitos`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `Numero_de_Requisitos` (`p_idproy` INT) RETURNS INT  BEGIN
+    DECLARE numero_requisitos INT;
+    SELECT COUNT(*) INTO numero_requisitos FROM requisitos_proyectos WHERE idproy = p_idproy;
+    RETURN numero_requisitos;
 END$$
 
 DROP FUNCTION IF EXISTS `ObtenerPrioridadRequisito`$$
@@ -110,6 +225,48 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `ObtenerUsuario` (`p_email` VARCHAR(1
     RETURN usuario_email;
 END$$
 
+DROP FUNCTION IF EXISTS `Prioridad_del_Requisito`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `Prioridad_del_Requisito` (`p_idreq` INT) RETURNS VARCHAR(20) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
+    DECLARE prioridad_requisito VARCHAR(20);
+    SELECT tipo_pri_req INTO prioridad_requisito
+    FROM requisitos
+    WHERE idreq = p_idreq;
+    RETURN prioridad_requisito;
+END$$
+
+DROP FUNCTION IF EXISTS `Requisitos_del_Proyecto`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `Requisitos_del_Proyecto` (`p_idproy` INT) RETURNS VARCHAR(200) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
+    DECLARE requisitos_proyecto VARCHAR(200);
+    SELECT GROUP_CONCAT(r.nombre SEPARATOR ', ') INTO requisitos_proyecto
+    FROM requisitos r
+    JOIN requisitos_proyectos rp ON r.idreq = rp.idreq
+    WHERE rp.idproy = p_idproy;
+    RETURN requisitos_proyecto;
+END$$
+
+DROP FUNCTION IF EXISTS `Rol_Del_Usuario`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `Rol_Del_Usuario` (`p_email` VARCHAR(100)) RETURNS VARCHAR(65) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
+    DECLARE rol_usuario VARCHAR(65);
+    SELECT descripcion INTO rol_usuario FROM roles WHERE idrol = (SELECT idrol FROM usuarios WHERE email = p_email);
+    RETURN rol_usuario;
+END$$
+
+DROP FUNCTION IF EXISTS `Tipo_de_Requisito`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `Tipo_de_Requisito` (`p_idreq` INT) RETURNS VARCHAR(20) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
+    DECLARE tipo_requisito VARCHAR(20);
+    SELECT tipo_req INTO tipo_requisito
+    FROM requisitos
+    WHERE idreq = p_idreq;
+    RETURN tipo_requisito;
+END$$
+
+DROP FUNCTION IF EXISTS `Total_de_Proyectos`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `Total_de_Proyectos` () RETURNS INT  BEGIN
+    DECLARE num_proyectos INT;
+    SELECT COUNT(*) INTO num_proyectos FROM proyectos;
+    RETURN num_proyectos;
+END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -121,15 +278,12 @@ DELIMITER ;
 DROP TABLE IF EXISTS `checklists`;
 CREATE TABLE IF NOT EXISTS `checklists` (
   `idcheck` int NOT NULL COMMENT 'Identificador único del checklist',
-  `idmod` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `idmod` varchar(5) COLLATE utf8mb4_general_ci NOT NULL,
   `aprobacion` int DEFAULT NULL COMMENT 'Indica si el checklist está aprobado',
-  `archivo` varchar(500) COMMENT 'Archivo adjunto al checklist',
+  `archivo` blob COMMENT 'Archivo adjunto al checklist',
   `fecha` date DEFAULT NULL COMMENT 'Fecha del checklist',
   `progreso` int NOT NULL,
-  `idproy` int DEFAULT NULL COMMENT 'ID del proyecto asociado',
-  PRIMARY KEY (`idcheck`),
-  KEY `idproy` (`idproy`),
-  KEY `idmod` (`idmod`)
+  `idproy` int DEFAULT NULL COMMENT 'ID del proyecto asociado'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de checklists';
 
 --
@@ -194,10 +348,9 @@ INSERT INTO `checklists` (`idcheck`, `idmod`, `aprobacion`, `archivo`, `fecha`, 
 
 DROP TABLE IF EXISTS `modelos`;
 CREATE TABLE IF NOT EXISTS `modelos` (
-  `idmod` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Identificador único del modelo',
-  `nombre` varchar(35) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Nombre del modelo',
-  `descripcion` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Descripción del modelo',
-  PRIMARY KEY (`idmod`)
+  `idmod` varchar(5) COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Identificador único del modelo',
+  `nombre` varchar(35) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Nombre del modelo',
+  `descripcion` varchar(80) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Descripción del modelo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de modelos';
 
 --
@@ -221,13 +374,10 @@ INSERT INTO `modelos` (`idmod`, `nombre`, `descripcion`) VALUES
 DROP TABLE IF EXISTS `opiniones`;
 CREATE TABLE IF NOT EXISTS `opiniones` (
   `id_opi` int NOT NULL,
-  `opinion` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `opinion` varchar(1000) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `calificacion` int DEFAULT NULL,
-  `tipo_opi` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id_opi`),
-  KEY `tipo_opi` (`tipo_opi`),
-  KEY `email` (`email`)
+  `tipo_opi` varchar(25) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar opiniones de usuarios';
 
 --
@@ -748,20 +898,6 @@ INSERT INTO `usu_proy` (`id`, `idproy`, `email`, `Product_Owner`) VALUES
 --
 -- Restricciones para tablas volcadas
 --
-
---
--- Filtros para la tabla `checklists`
---
-ALTER TABLE `checklists`
-  ADD CONSTRAINT `checklists_ibfk_1` FOREIGN KEY (`idproy`) REFERENCES `proyectos` (`idproy`),
-  ADD CONSTRAINT `checklists_ibfk_2` FOREIGN KEY (`idmod`) REFERENCES `modelos` (`idmod`);
-
---
--- Filtros para la tabla `opiniones`
---
-ALTER TABLE `opiniones`
-  ADD CONSTRAINT `opiniones_ibfk_1` FOREIGN KEY (`tipo_opi`) REFERENCES `tipos_opi` (`tipo_opi`),
-  ADD CONSTRAINT `opiniones_ibfk_2` FOREIGN KEY (`email`) REFERENCES `usuarios` (`email`);
 
 --
 -- Filtros para la tabla `proyectos`
