@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 30-09-2024 a las 18:39:09
+-- Tiempo de generación: 01-10-2024 a las 00:52:50
 -- Versión del servidor: 8.3.0
 -- Versión de PHP: 8.2.18
 
@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `sags`
 --
-  
+
 DELIMITER $$
 --
 -- Procedimientos
@@ -280,10 +280,13 @@ CREATE TABLE IF NOT EXISTS `checklists` (
   `idcheck` int NOT NULL COMMENT 'Identificador único del checklist',
   `idmod` varchar(5) COLLATE utf8mb4_general_ci NOT NULL,
   `aprobacion` int DEFAULT NULL COMMENT 'Indica si el checklist está aprobado',
-  `archivo` blob COMMENT 'Archivo adjunto al checklist',
+  `archivo` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Archivo adjunto al checklist',
   `fecha` date DEFAULT NULL COMMENT 'Fecha del checklist',
   `progreso` int NOT NULL,
-  `idproy` int DEFAULT NULL COMMENT 'ID del proyecto asociado'
+  `idproy` int DEFAULT NULL COMMENT 'ID del proyecto asociado',
+  PRIMARY KEY (`idcheck`),
+  KEY `idproy` (`idproy`),
+  KEY `idmod` (`idmod`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de checklists';
 
 --
@@ -297,7 +300,7 @@ INSERT INTO `checklists` (`idcheck`, `idmod`, `aprobacion`, `archivo`, `fecha`, 
 (4, 'MO', 0, '', '0000-00-00', 0, 27),
 (5, 'MR', 0, '', '0000-00-00', 0, 27),
 (6, 'RQ', 0, '', '0000-00-00', 0, 27),
-(7, 'CU', 0, '', '0000-00-00', 0, 4),
+(7, 'CU', 0, 'Casos de Uso Extendido SAGS.pdf', '2024-09-29', 70, 4),
 (8, 'MC', 0, '', '0000-00-00', 0, 4),
 (9, 'MER', 0, '', '0000-00-00', 0, 4),
 (10, 'MO', 0, '', '0000-00-00', 0, 4),
@@ -350,7 +353,8 @@ DROP TABLE IF EXISTS `modelos`;
 CREATE TABLE IF NOT EXISTS `modelos` (
   `idmod` varchar(5) COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Identificador único del modelo',
   `nombre` varchar(35) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Nombre del modelo',
-  `descripcion` varchar(80) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Descripción del modelo'
+  `descripcion` varchar(80) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Descripción del modelo',
+  PRIMARY KEY (`idmod`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de modelos';
 
 --
@@ -377,7 +381,9 @@ CREATE TABLE IF NOT EXISTS `opiniones` (
   `opinion` varchar(1000) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `calificacion` int DEFAULT NULL,
   `tipo_opi` varchar(25) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
+  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  KEY `email` (`email`),
+  KEY `tipo_opi` (`tipo_opi`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar opiniones de usuarios';
 
 --
@@ -583,14 +589,22 @@ CREATE TABLE IF NOT EXISTS `reset_tokens` (
   `expires_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `reset_tokens`
 --
 
 INSERT INTO `reset_tokens` (`id`, `user_id`, `token`, `expires_at`) VALUES
-(1, 'svalenzuela073@misena.edu.co', 'nOziarwXx_2tuwV-bdS2KkNVIKmUdla--KqGRMiLvOQ', '2024-09-26 20:18:18');
+(1, 'svalenzuela073@misena.edu.co', 'nOziarwXx_2tuwV-bdS2KkNVIKmUdla--KqGRMiLvOQ', '2024-09-26 20:18:18'),
+(9, 'roger@gmail.com', 'V3fXbpYCyi9N6UENq927slsYuE-1qnQkyRDOFhh1Ijc', '2024-09-30 17:42:01'),
+(11, 'jeanpierrebbedoya@gmail.com', '8lEeVePJ8kTPL8c3Dh5q3bkFgK_c9CDhQ4l1lnOYjL4', '2024-09-30 18:27:25'),
+(12, 'jeanpierrebbedoya@gmail.com', '_fsaaORguSYKPUpu7maOQ9N-et8rf2jyW47Slh0nF6o', '2024-09-30 18:27:26'),
+(13, 'jeanpierrebbedoya@gmail.com', '8hXgsyq5dRLH6eNK6r33P89jQI-RSMjXuIktsTUYtyg', '2024-09-30 18:27:27'),
+(14, 'jeanpierrebbedoya@gmail.com', 'Nczjf677THxSwEFVmlnqDlu82vVrRW7I_Ws9GsoCz4A', '2024-09-30 18:27:28'),
+(16, 'jeanpierrebbedoya@gmail.com', '-wclB_XvcZ_GfYVbWT2j_5XyvrM0mQoTjkWVPZ103mg', '2024-09-30 18:27:28'),
+(17, 'jeanpierrebbedoya@gmail.com', 'WzyEGJnQg4is_Cd67DBy79lJswLIRO6ME-lEZYQa0qw', '2024-09-30 18:27:28'),
+(18, 'jeanpierrebbedoya@gmail.com', 'EINcjniG0nTGdVDmJ6sEddzH6b9gmlYMdCIwIOCctG0', '2024-09-30 18:27:28');
 
 -- --------------------------------------------------------
 
@@ -835,7 +849,7 @@ INSERT INTO `usuarios` (`email`, `tipodoc`, `documento`, `password`, `telefono`,
 ('1234juandavis@gmail.com', '', 0, 0x313032313637, NULL, 'Juan David', 'Diaz Muñoz', '', 3, ''),
 ('caroceron28@gmail.com', '', 0, 0x313031303137, NULL, 'Sharit Carolina', 'Ceron Varela', '', 3, ''),
 ('diego.lopezm0405@gmail.com', '', 0, 0x313031313230, NULL, 'Diego Esteban', 'López Melo', '', 3, ''),
-('jeanpierrebbedoya@gmail.com', '', 0, 0x32303233, NULL, 'Jean Pierre', 'Bolaños Beodya', '', 3, ''),
+('jeanpierrebbedoya@gmail.com', '', 0, 0xd431ca78f0d4d2b91343bdb5980b6afc, NULL, 'Jean Pierre', 'Bolaños Beodya', '', 3, ''),
 ('johanbenavides134@gmail.com', '', 0, 0x313233343536, NULL, 'Johan Steven', 'Benavides Sanchez', '', 3, ''),
 ('jssr217@gmail.com', '', 0, 0x4a75616e5369, NULL, 'Primer Nombre Juan', 'Primer Apellido Silva', '', 3, ''),
 ('juandaja2201@gmail.com', '', 0, 0x313233343536, NULL, 'Juan David', 'Jerez Amador', '', 3, ''),
@@ -846,6 +860,7 @@ INSERT INTO `usuarios` (`email`, `tipodoc`, `documento`, `password`, `telefono`,
 ('nicolasgiraldo1020@gmail.com', '', 0, 0x31303230, NULL, 'Nicolas Santiago', 'Giraldo Valencia', '', 3, ''),
 ('rocio123@gmail.com', 'cc', 0, 0x363835396639, 14568745, 'Rocio', 'Caceres', 'dfsdgfd', NULL, 'cliente'),
 ('roger@gmail.com', '', 0, 0x3234323731, 2147483647, 'Roger Steec', 'Fuentes Ramirez', '/ferrari-enzo-rojo_3840x2160_xtrafondos.com.jpg', 3, 'Diseñador'),
+('rogerfuentes893@gmail.com', 'C.C.', 1011200831, 0xf1a26d813fd1b734af4e327e670502f3, NULL, NULL, NULL, NULL, 3, ''),
 ('santicardenash@gmail.com', '', 0, 0x2538822c3012250e592a20d0d131d0bf, 2147483647, 'Santiago', 'Cárdenas Hernández', '/c59f9ad6da00a07b253d86a97c23d6d5 (1).jpg', 1, 'Desarrollador'),
 ('sebastianrm30yu@iclock.com', '', 0, 0x313233343536, NULL, 'Johann Sebastian', 'Rivero Martinez', '', 3, ''),
 ('smithcortes01@gmail.com', '', 0, 0x66616d696c69, NULL, 'Steveen Smith', 'Cortes Cardenas', '', 3, ''),
@@ -898,6 +913,20 @@ INSERT INTO `usu_proy` (`id`, `idproy`, `email`, `Product_Owner`) VALUES
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `checklists`
+--
+ALTER TABLE `checklists`
+  ADD CONSTRAINT `checklists_ibfk_1` FOREIGN KEY (`idproy`) REFERENCES `proyectos` (`idproy`),
+  ADD CONSTRAINT `checklists_ibfk_2` FOREIGN KEY (`idmod`) REFERENCES `modelos` (`idmod`);
+
+--
+-- Filtros para la tabla `opiniones`
+--
+ALTER TABLE `opiniones`
+  ADD CONSTRAINT `opiniones_ibfk_1` FOREIGN KEY (`email`) REFERENCES `usuarios` (`email`),
+  ADD CONSTRAINT `opiniones_ibfk_2` FOREIGN KEY (`tipo_opi`) REFERENCES `tipos_opi` (`tipo_opi`);
 
 --
 -- Filtros para la tabla `proyectos`
