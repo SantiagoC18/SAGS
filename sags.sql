@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 01-10-2024 a las 01:13:14
+-- Tiempo de generación: 01-10-2024 a las 02:22:40
 -- Versión del servidor: 8.3.0
 -- Versión de PHP: 8.2.18
 
@@ -303,7 +303,6 @@ INSERT INTO `checklists` (`idcheck`, `idmod`, `aprobacion`, `archivo`, `fecha`, 
 (7, 'CU', 0, 'Casos de Uso Extendido SAGS.pdf', '2024-09-29', 70, 4),
 (8, 'MC', 0, '', '0000-00-00', 0, 4),
 (9, 'MER', 0, '', '0000-00-00', 0, 4),
-(10, 'MO', 0, '', '0000-00-00', 0, 4),
 (11, 'MR', 0, '', '0000-00-00', 0, 4),
 (12, 'RQ', 0, '', '0000-00-00', 0, 4),
 (13, 'CU', 0, '', '0000-00-00', 0, 28),
@@ -352,7 +351,7 @@ INSERT INTO `checklists` (`idcheck`, `idmod`, `aprobacion`, `archivo`, `fecha`, 
 DROP TABLE IF EXISTS `modelos`;
 CREATE TABLE IF NOT EXISTS `modelos` (
   `idmod` varchar(5) COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Identificador único del modelo',
-  `nombre` varchar(35) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Nombre del modelo',
+  `nombre` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Nombre del modelo',
   `descripcion` varchar(80) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Descripción del modelo',
   PRIMARY KEY (`idmod`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de modelos';
@@ -362,12 +361,12 @@ CREATE TABLE IF NOT EXISTS `modelos` (
 --
 
 INSERT INTO `modelos` (`idmod`, `nombre`, `descripcion`) VALUES
-('CU', 'Documento Casos de U', 'Modelo y Diagrama Casos de Uso'),
-('MC', 'Documento Diagrama d', 'Modelo de clases del sistema'),
-('MER', 'Documento del modelo', 'Diagrama del modelo entidad re'),
-('MO', 'Documento Diagrama d', 'Modelo de objetos del sistema'),
-('MR', 'Documento del modelo', 'Diagrama del modelo relacional'),
-('RQ', 'Documentos RF y RNF', 'Especificación de requisitos f');
+('CU', 'Documento Casos de Uso', 'Modelo y Diagrama Casos de Uso'),
+('MC', 'Documento Diagrama de Clases', 'Modelo de clases del sistema'),
+('MER', 'Documento del Modelo Entidad Relación', 'Diagrama del modelo entidad relación'),
+('MO', 'Documento Diagrama de Objetos', 'Modelo de objetos del sistema'),
+('MR', 'Documento del Modelo Relacional', 'Diagrama del modelo relacional'),
+('RQ', 'Documentos RF y RNF (IEEE-830)', 'Especificación de requisitos funcionales y no funcionales');
 
 -- --------------------------------------------------------
 
@@ -468,7 +467,7 @@ CREATE TABLE IF NOT EXISTS `proyectos` (
 --
 
 INSERT INTO `proyectos` (`idproy`, `nombre`, `descripcion`, `tipo`, `fechaI`, `fechaF`, `linkform`, `nomplan`) VALUES
-(4, 'SIRS', 'El presente documento tiene como fin definir los requisitos funcionales y no funcionales para el desarrollo del aplicativo web (SIRS) con el fin de conocer sus fundamentos, sus bases y motivos de su surgimiento, creación o causas originarias.', 'Aplicativo Web', '2022-04-10', '0000-00-00', NULL, NULL),
+(4, 'SAGS', 'El presente documento tiene como fin definir los requisitos funcionales y no funcionales para el desarrollo del aplicativo web (SIRS) con el fin de conocer sus fundamentos, sus bases y motivos de su surgimiento, creación o causas originarias.', 'Aplicativo Web', '2022-04-10', '0000-00-00', NULL, NULL),
 (27, 'TOEXS', 'Para el desarrollo del proyecto se tiene como propósito definir y establecer los RF y RNF del aplicativo Web TOEXS, con un modelo cliente/servidor, que permita llevar a cabo procesos de comunicación, gestión e intercambio de juguetes online.', 'Aplicativo Web', '2023-08-24', '0000-00-00', NULL, NULL),
 (28, 'GIET', 'El presente documento tiene como propósito definir las especificaciones funcionales y no funcionales que deberá cumplir el aplicativo web (GIET), el cual hará uso de las herramientas y prestaciones administrativas para la gestión de recursos informáticos, dirigido al uso de usuarios específicos y administradores del inventario de la institución educativa (CTJFR).', 'Aplicativo Web', '2022-02-01', '0000-00-00', NULL, NULL),
 (29, 'SOFT_SPA', 'Tiene como propósito definir las especificaciones de requisitos funcionales y no funcionales para el desarrollo del aplicativo web (soft-spa).', 'Aplicativo Web', '2022-04-01', '0000-00-00', NULL, NULL),
@@ -841,6 +840,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 --
 
 INSERT INTO `usuarios` (`email`, `tipodoc`, `documento`, `password`, `telefono`, `nombres`, `apellidos`, `foto`, `idrol`, `perfil`) VALUES
+('', '', 123, 0x656c3b304a0edc2c01499f7f074fbda1, NULL, NULL, NULL, NULL, 3, ''),
 ('1012918020@ctjfr.edu.co', '', 0, 0x313031323931, NULL, 'Karol Andrea', 'Beltran Diaz', '', 3, ''),
 ('1023367786@ctjfr.edu.co', '', 0, 0x313032333336, NULL, 'Maria Camila', 'Puerto Guerrero', '', 3, ''),
 ('1028661442@gmail.com', '', 0, 0x333130373131, NULL, 'Emanuel Felipe', 'Rodriguez Ramirez', '', 1, ''),
