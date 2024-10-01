@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 01-10-2024 a las 00:52:50
+-- Tiempo de generación: 01-10-2024 a las 01:13:14
 -- Versión del servidor: 8.3.0
 -- Versión de PHP: 8.2.18
 
@@ -382,6 +382,7 @@ CREATE TABLE IF NOT EXISTS `opiniones` (
   `calificacion` int DEFAULT NULL,
   `tipo_opi` varchar(25) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id_opi`),
   KEY `email` (`email`),
   KEY `tipo_opi` (`tipo_opi`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar opiniones de usuarios';
@@ -391,10 +392,11 @@ CREATE TABLE IF NOT EXISTS `opiniones` (
 --
 
 INSERT INTO `opiniones` (`id_opi`, `opinion`, `calificacion`, `tipo_opi`, `email`) VALUES
-(1, 'Mejorar las Opc', NULL, 'Petición ', 'majogalan2006@gmail.com'),
-(2, 'Interfaz de Usu', NULL, 'Queja', 'diego.lopezm0405@gmail.com'),
-(3, 'Optimizar el Re', NULL, 'Sugerencia', 'nicolasgiraldo1020@gmail.com'),
-(4, 'Incorporar Noti', NULL, 'Sugerencia', 'linaessofia33@gmail.com');
+(0, 'Al intentar previsualizar algunos documentos PDF, noté que en ocasiones no se cargan correctamente o tardan demasiado en aparecer. Esto dificulta la revisión rápida de archivos, especialmente cuando necesito hacer comparaciones rápidas entre documentos.', 2, 'Queja', 'smithcortes01@gmail.com'),
+(1, 'Sería muy útil que el sistema incluyera una funcionalidad para enviar notificaciones a los usuarios cuando un documento ha sido actualizado o aprobado por el administrador. Esto nos permitiría estar al tanto de los cambios sin necesidad de revisar constantemente la plataforma.', 4, 'Petición ', 'majogalan2006@gmail.com'),
+(2, 'He notado que, al intentar cargar documentos de gran tamaño, el sistema tiende a ser un poco lento, lo que afecta la experiencia de usuario. Sería ideal optimizar la carga para archivos más pesados, ya que trabajamos con muchos documentos extensos.', 3, 'Queja', 'diego.lopezm0405@gmail.com'),
+(3, 'Me gustaría sugerir que se integre una función de búsqueda avanzada, donde los usuarios puedan filtrar los documentos por fecha de creación, tipo de archivo o estado de aprobación. Esto haría mucho más eficiente la gestión y localización de documentos específicos.', 4, 'Sugerencia', 'nicolasgiraldo1020@gmail.com'),
+(4, 'Sería excelente si el sistema permitiera colaborar en línea, es decir, que varios usuarios puedan realizar comentarios o editar ciertos documentos de forma colaborativa en tiempo real. Esto agilizaría el flujo de trabajo en proyectos donde varias personas necesitan revisar los mismos archivos.', 4, 'Sugerencia', 'linaessofia33@gmail.com');
 
 -- --------------------------------------------------------
 
