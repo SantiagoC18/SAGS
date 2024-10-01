@@ -56,17 +56,17 @@
 
 	<div class="container" id="container">
 		<div class="form-container sign-up-container">
-			<form action="adduser" method="POST">
+			<form action="adduser" method="POST" onsubmit="return validatePassword()">
 				<h1>Crear Cuenta</h1>
 				<span>Ingresa tus datos para registrarte</span>
 				<select class="input" name="tipo">
 					<option selected disabled>Seleccionar</option>
-					<option value="C.C.">C.C.</option>
-					<option value="T.I.">T.I.</option>
+					<option value="C.C." aria-required="true">C.C.</option>
+					<option value="T.I." aria-required="true">T.I.</option>
 				</select>
 				<input type="number" name="documento" placeholder="Documento" required>
 				<input type="email" name="correo" placeholder="Email@" required>
-				<input type="password" name="clave" placeholder="Password" required>
+				<input type="password" id="password" name="clave" placeholder="Password" required minlength="8">
 
 				<button>Registrar</button>
 			</form>
@@ -116,6 +116,31 @@
 		signInButton.addEventListener('click', () => {
 			container.classList.remove("right-panel-active");
 		});
+
+
+		function validatePassword() {
+			const password = document.getElementById("password").value;
+			const minLength = 8;
+			const hasUpperCase = /[A-Z]/.test(password);
+			const hasLowerCase = /[a-z]/.test(password);
+			const hasNumbers = /\d/.test(password);
+			const hasSpecialChar = /[!@#$%^&*]/.test(password);
+
+			if (password.length < minLength || !hasUpperCase || !hasLowerCase || !hasNumbers || !hasSpecialChar) {
+				swal.fire({
+					text: "La contraseña debe tener al menos 8 caracteres, incluyendo mayúsculas, minúsculas, números y caracteres especiales.",
+					icon: "error",
+					buttons: false,
+					timer: 4000,
+					showConfirmButton: false,
+					background: "#fff",
+					toast: true,
+					position: "top"
+				});
+				return false;
+			}
+			return true;
+		}
 	</script>
 
 </html>

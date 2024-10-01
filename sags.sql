@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 01-10-2024 a las 02:22:40
+-- Tiempo de generación: 01-10-2024 a las 03:05:53
 -- Versión del servidor: 8.3.0
 -- Versión de PHP: 8.2.18
 
@@ -300,7 +300,7 @@ INSERT INTO `checklists` (`idcheck`, `idmod`, `aprobacion`, `archivo`, `fecha`, 
 (4, 'MO', 0, '', '0000-00-00', 0, 27),
 (5, 'MR', 0, '', '0000-00-00', 0, 27),
 (6, 'RQ', 0, '', '0000-00-00', 0, 27),
-(7, 'CU', 0, 'Casos de Uso Extendido SAGS.pdf', '2024-09-29', 70, 4),
+(7, 'CU', 1, 'Casos de Uso Extendido SAGS.pdf', '2024-09-29', 70, 4),
 (8, 'MC', 0, '', '0000-00-00', 0, 4),
 (9, 'MER', 0, '', '0000-00-00', 0, 4),
 (11, 'MR', 0, '', '0000-00-00', 0, 4),
@@ -840,7 +840,6 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 --
 
 INSERT INTO `usuarios` (`email`, `tipodoc`, `documento`, `password`, `telefono`, `nombres`, `apellidos`, `foto`, `idrol`, `perfil`) VALUES
-('', '', 123, 0x656c3b304a0edc2c01499f7f074fbda1, NULL, NULL, NULL, NULL, 3, ''),
 ('1012918020@ctjfr.edu.co', '', 0, 0x313031323931, NULL, 'Karol Andrea', 'Beltran Diaz', '', 3, ''),
 ('1023367786@ctjfr.edu.co', '', 0, 0x313032333336, NULL, 'Maria Camila', 'Puerto Guerrero', '', 3, ''),
 ('1028661442@gmail.com', '', 0, 0x333130373131, NULL, 'Emanuel Felipe', 'Rodriguez Ramirez', '', 1, ''),
