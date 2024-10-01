@@ -51,6 +51,10 @@ def login():
 def recovery_email():
     return render_template('recovery_email.html')
 
+@app.route('/sobre_nosotros')
+def sobre_nosotros():
+    return render_template('sobre_nosotros.html')
+
 @app.route('/recuperar_contraseña', methods=['POST'])
 def recuperar_contraseña():
     correo = request.form['correo']
@@ -352,7 +356,7 @@ def checkdown(idproy):
         cur.execute(consulta, (id,))
         data2 = cur.fetchall()
         
-        cur.execute(''' SELECT checklists.aprobacion,modelos.nombre,modelos.descripcion, checklists.progreso, checklists.archivo,checklists.fecha
+        cur.execute(''' SELECT checklists.aprobacion, modelos.nombre,modelos.descripcion, checklists.progreso, checklists.archivo,checklists.fecha
 		                FROM proyectos
 				        INNER JOIN checklists
 				        ON proyectos.idproy = checklists.idproy

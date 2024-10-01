@@ -20,7 +20,7 @@
 
         <ul class="navbar">
             <li><a href="{{ url_for('index') }}">Home</a></li>
-            <li><a href="{{ url_for('index') }}">Sobre Nosotros</a></li>
+            <li><a href="{{ url_for('sobre_nosotros') }}">Sobre Nosotros</a></li>
             <li><a href="{{ url_for('modulos') }}" class="active">Gestion de Proyectos</a></li>
             <li><a href="{{ url_for('opiniones') }}">Opiniones</a></li>
             <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
@@ -95,7 +95,7 @@
                     </td>
                     <td><button
                             class="preview-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
-                            data-id="{{ url_for('static', filename='documentos/' + data['archivo']) }}"
+                            data-id="{{ url_for('static', filename='documentos/' ~  data['archivo']) }}"
                             data-filename="{{ data['nombre'] }}">Ver</button>
                         <button
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Editar</button>
