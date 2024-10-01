@@ -53,7 +53,10 @@ def recovery_email():
 
 @app.route('/sobre_nosotros')
 def sobre_nosotros():
-    return render_template('sobre_nosotros.html')
+    if session.get('logueado'):
+        return render_template('sobre_nosotros.html', log = 'Cerrar')
+    else:
+        return render_template('sobre_nosotros.html', log = 'Iniciar')
 
 @app.route('/recuperar_contraseña', methods=['POST'])
 def recuperar_contraseña():
