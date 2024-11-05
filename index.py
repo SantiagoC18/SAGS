@@ -318,14 +318,16 @@ def perfil():
 
 @app.route('/opiniones')
 def opiniones():
-    if session.get('logueado'):
-        cur = mysql.connection.cursor()
-        cur.execute("SELECT * FROM opiniones")
-        data = cur.fetchall()
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM opiniones")
+    data = cur.fetchall()
         
+    if session.get('logueado'):
         return render_template('opiniones.html', log='Cerrar', data = data)
+    
     else:
-        return render_template('opiniones.html', log='Iniciar')
+        return render_template('opiniones.html', log='Iniciar', data = data)
+
     
 #redireccion para el apartado de registrar proyecto
 
