@@ -1,139 +1,95 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creación de Proyecto y Plan</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        .form-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        .form-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px;
-            font-size: 1rem;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-        .form-group input[type="checkbox"] {
-            width: auto;
-        }
-        .form-group .checkbox-label {
-            display: inline-block;
-            margin-left: 10px;
-        }
-        .form-group button {
-            width: 100%;
-            padding: 10px;
-            font-size: 1rem;
-            color: white;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .form-group button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="shortcut icon" href="/static/img/sirs.jpg">
+    <script src="https://kit.fontawesome.com/25eed41d7b.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="/static/css/sobre_nosotros.css">
+    <link rel="stylesheet" href="/static/css/estilos.css">
+    <title>Inicio</title>
 </head>
+
 <body>
 
-<div class="form-container">
-    <h2>Creación de Proyecto y Plan</h2>
-    <form action="/crear-proyecto" method="POST">
-        <!-- Detalles del proyecto -->
-        <div class="form-group">
-            <label for="nombre">Nombre del Proyecto:</label>
-            <input type="text" id="nombre" name="nombre" required>
-        </div>
-        <div class="form-group">
-            <label for="descripcion">Descripción:</label>
-            <input type="text" id="descripcion" name="descripcion" required>
-        </div>
-        <div class="form-group">
-            <label for="fechaI">Fecha de Inicio:</label>
-            <input type="date" id="fechaI" name="fechaI" required>
-        </div>
-        <div class="form-group">
-            <label for="fechaF">Fecha de Finalización:</label>
-            <input type="date" id="fechaF" name="fechaF" required>
-        </div>
+    <header>
+        <a href="{{ url_for('index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
 
-        <!-- Selección de Plan -->
-        <div class="form-group">
-            <label for="nomplan">Seleccionar Plan:</label>
-            <select id="nomplan" name="nomplan">
-                <option value="Plan Básico">Plan Básico</option>
-                <option value="Plan Avanzado">Plan Avanzado</option>
-                <option value="Plan Personalizado">Plan Personalizado</option>
-            </select>
-        </div>
+        <ul class="navbar">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('sobre_nosotros') }}" class="active">Sobre Nosotros</a></li>
+            <li><a href="{{ url_for('modulos') }}">Gestion de Proyectos</a></li>
+            <li><a href="{{ url_for('opiniones') }}">Opiniones</a></li>
+            <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
+        </ul>
 
-        <!-- Opciones de Personalización -->
-        <div class="form-group" id="personalizacion" style="display:none;">
-            <h3>Personalizar Plan</h3>
-            <label>
-                <input type="checkbox" name="integraciones_software" value="1">
-                <span class="checkbox-label">Integraciones de Software</span>
-            </label><br>
-            <label>
-                <input type="checkbox" name="revision_procesos" value="1">
-                <span class="checkbox-label">Revisión de Procesos</span>
-            </label><br>
-            <label>
-                <input type="checkbox" name="reuniones_avanzadas" value="1">
-                <span class="checkbox-label">Reuniones Técnicas Avanzadas</span>
-            </label><br>
-            <label>
-                <input type="checkbox" name="soporte_completo" value="1">
-                <span class="checkbox-label">Soporte Completo</span>
-            </label><br>
-            <label>
-                <input type="checkbox" name="asesoria_constante" value="1">
-                <span class="checkbox-label">Asesoría Constante</span>
-            </label>
+        <div class="main">
+            <a href="{{ url_for('logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion
+                {% endif %}</a>
+            <div class="bx bx-menu" id="menu-icon"><i class="fa-solid fa-bars"></i></div>
         </div>
+    </header>
 
-        <div class="form-group">
-            <button type="submit">Crear Proyecto</button>
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.3.8/build/spline-viewer.js"></script>
+    <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
+
+
+    <section class="container">
+        <h2>Nuestro Equipo</h2>
+    </section>
+
+
+</head>
+<body>
+    <div class="container">
+        <h1>Sobre Nosotros</h1>
+        
+        <div class="team-members">
+            <div class="member">
+                <img src="/static/img/Administradores/majo.jpeg" alt="María Romero" onclick="toggleExpand(this)">
+                <p>María José Romero</p>
+            </div>
+            <div class="member">
+                <img src="/static/img/Administradores/santiago.jpg" alt="Santiago Cárdenas" onclick="toggleExpand(this)">
+                <p>Santiago Cárdenas Hernández </p>
+            </div>
+            <div class="member">
+                <img src="/static/img/Administradores/shiuu.jpg" alt="Shiuu Valenzuela" onclick="toggleExpand(this)">
+                <p> Shiuu Valenzuela Penagos </p>
+            </div>
         </div>
-    </form>
-</div>
+        
+        <div class="social-links">
+            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                <span class="sr-only">Instagram</span>
+            </a>
+            <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+                <span class="sr-only">Twitter</span>
+            </a>
+            <div class="phone">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <span>304 214 3679</span>
+            </div>
+        </div>
+    </div>
 
-<script>
-    // Mostrar opciones de personalización solo si selecciona "Plan Personalizado"
-    document.getElementById('nomplan').addEventListener('change', function() {
-        var personalizacionDiv = document.getElementById('personalizacion');
-        if (this.value === 'Plan Personalizado') {
-            personalizacionDiv.style.display = 'block';
-        } else {
-            personalizacionDiv.style.display = 'none';
+    <script>
+        function toggleExpand(img) {
+            img.classList.toggle('expanded');
         }
-    });
-</script>
+    </script>
+
+
+
+
+    <!--Js Link-->
+
+    <script type="text/javascript" src="/static/js/bar.js"></script>
 
 </body>
+
 </html>
