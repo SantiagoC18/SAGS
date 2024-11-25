@@ -220,6 +220,10 @@
     box-shadow: 0 0px 20px #0792eb;
 }
 
+button{
+    cursor: pointer;
+}
+
 .button:active {
     scale: 1;
 }
