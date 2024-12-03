@@ -160,7 +160,7 @@
                     <span>Modelo Relacional</span>
                 </li>
             </ul>
-            <button type="button" class="action">Empezar</button>
+            <button type="button" class="action" id="registrarBtn">Empezar</button>
         </div>
 
         <div class="card">
@@ -243,7 +243,7 @@
                     <span>Modelo Relacional</span>
                 </li>
             </ul>
-            <button type="button" class="action">Empezar</button>
+            <button type="button" class="action" id="registrarBtn">Empezar</button>
         </div>
 
         <div class="card">
@@ -326,7 +326,7 @@
                     <span>Modelo Relacional</span>
                 </li>
             </ul>
-            <button type="button" class="action">Empezar</button>
+            <button type="button" class="action" id="registrarBtn">Empezar</button>
         </div>
 
 
@@ -344,7 +344,9 @@
             <button type="button" class="action" id="registro">Empezar</button>
         </div>
 
-        
+
+        <button type="button" class="action" id="btn-abrir-popup1">Empezar</button>
+        </div>
 
     </main>
 
@@ -368,6 +370,24 @@
 
 
     <!--Js Link-->
+
+    <script>
+        function moveItem(checkbox) {
+            const listItem = checkbox.parentElement;
+            const markedList = document.getElementById('marked-list');
+
+            if (checkbox.checked) {
+                markedList.appendChild(listItem);
+            } else {
+                document.getElementById('original-list').appendChild(listItem);
+            }
+        }
+
+        document.getElementById('registrarBtn').addEventListener('click', function () {
+            window.location.href = '{{ url_for("registrar_pro") }}';
+        });
+
+    </script>
 
     <script src="/static/js/popup.js"></script>
 
