@@ -333,7 +333,7 @@
 
         <div class="card">
             <div class="header">
-                <span class="title">Personalized plan</span>
+                <span class="title">Personalizar plan</span>
 
             </div>
             <p class="desc">Aqui tendras la posibilidad de personalizar tu plan para que se adapte a las necesidades del
@@ -341,12 +341,9 @@
             <ul class="lists">
 
             </ul>
-            <button type="button" class="action" id="registro">Empezar</button>
+            <button type="button" class="action" id="registrarBtn">Empezar</button>
         </div>
 
-
-        <button type="button" class="action" id="btn-abrir-popup1">Empezar</button>
-        </div>
 
     </main>
 
@@ -372,16 +369,6 @@
     <!--Js Link-->
 
     <script>
-        function moveItem(checkbox) {
-            const listItem = checkbox.parentElement;
-            const markedList = document.getElementById('marked-list');
-
-            if (checkbox.checked) {
-                markedList.appendChild(listItem);
-            } else {
-                document.getElementById('original-list').appendChild(listItem);
-            }
-        }
 
         document.getElementById('registrarBtn').addEventListener('click', function () {
             window.location.href = '{{ url_for("registrar_pro") }}';
