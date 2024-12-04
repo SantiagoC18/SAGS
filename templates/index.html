@@ -326,7 +326,7 @@
                     <span>Modelo Relacional</span>
                 </li>
             </ul>
-            <button type="button" class="action" id="registrarBtn">Empezar</button>
+            <button type="button" class="action" onclick="registro_proyecto()">Empezar</button>
         </div>
 
 
@@ -341,7 +341,7 @@
             <ul class="lists">
 
             </ul>
-            <button type="button" class="action" id="registrarBtn">Empezar</button>
+            <button type="button" class="action" onclick="registro_proyecto()">Empezar</button>
         </div>
 
 
@@ -370,9 +370,9 @@
 
     <script>
 
-        document.getElementById('registrarBtn').addEventListener('click', function () {
-            window.location.href = '{{ url_for("registrar_pro") }}';
-        });
+        function registro_proyecto() {
+            window.location.href = "{{ url_for('registrar_pro') }}";
+        }
 
     </script>
 

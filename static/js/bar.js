@@ -6,8 +6,3 @@ menu.onclick = () => {
     navbar.classList.toggle('open');
 }
 
-let registro = document.getElementById('registro');
-
-registro.addEventListener('click', () => {
-    window.location.href="registrar_pro";
-}) 
