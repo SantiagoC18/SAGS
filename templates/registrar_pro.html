@@ -8,6 +8,43 @@
     <script src="https://kit.fontawesome.com/25eed41d7b.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/static/css/estilos.css">
     <link rel="stylesheet" href="/static/css/reg_pro.css">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript">
+    
+        function validar() {
+            var nombre_proyecto = document.getElementById("project-name");
+            var descripcion = document.getElementById("description");
+            var Objetivo = document.getElementById("objective");
+            var fecha = document.getElementById("deadline");
+    
+    
+            if (nombre_proyecto.value == "" || descripcion.value == "" || Objetivo.value == ""|| fecha.value == "") {
+                    Swal.fire({
+                    title: "Celda vacía",
+                    text: "Por Favor revise y complete todos sus datos",
+                    icon: "warning",
+                    confirmButtonColor: "#3085d6",
+                });
+                return false;
+            }
+    
+                else {
+                    Swal.fire({
+                    title: "Datos Correctos",
+                    icon: "success",
+                    confirmButtonColor: "#3085d6",
+                    timer: 1500,
+                });
+                    return true;
+                }
+            };
+    
+        </script>
+
+
+
     <title>Registrar Proyecto</title>
 </head>
 
@@ -39,7 +76,7 @@
         <div class="flex flex-col md:flex-row bg-grey-800 dark:bg-zinc-800 p-6 rounded-lg shadow-md w-90" style="box-shadow: 0 0 7px 1px rgba(255, 255, 255, 0.3);">
             <div class="w-full md:w-1/2 p-4">
                 <h2 class="text-2xl font-semibold mb-4 text-zinc-900 dark:text-zinc-100">Registrar Proyecto</h2>
-                <form>
+                <form action="" onsubmit="return validar()">
                     <div class="mb-4">
                         <label class="block text-zinc-700 dark:text-zinc-300 mb-2" for="project-name">Nombre del
                             Proyecto:</label>
@@ -80,8 +117,7 @@
     </div>
 
     <!--Js Link-->
-
+    <script src="alertas.js"></script>
     <script type="text/javascript" src="/static/js/bar.js"></script>
 </body>
-
 </html>
