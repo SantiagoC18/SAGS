@@ -12,6 +12,42 @@
 
     <title>Perfil</title>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript">
+    
+        function validar() {
+            var documento = document.getElementById("documento");
+            var descripcion = document.getElementById("clave");
+            var Objetivo = document.getElementById("objective");
+            var fecha = document.getElementById("deadline");
+    
+    
+            if (nombre_proyecto.value == "" || descripcion.value == "" || Objetivo.value == ""|| fecha.value == "") {
+                    Swal.fire({
+                    title: "Celda vacía",
+                    text: "Por Favor revise y complete todos sus datos",
+                    icon: "warning",
+                    confirmButtonColor: "#3085d6",
+                });
+                return false;
+            }
+    
+                else {
+                    Swal.fire({
+                    title: "Datos Correctos",
+                    icon: "success",
+                    confirmButtonColor: "#3085d6",
+                    timer: 1500,
+                });
+                    return true;
+                }
+            };
+    
+        </script>
+
+
+
 </head>
 
 <body>
@@ -115,55 +151,55 @@
 
                 <div class="input-container">
                     <label for="name" class="name">No° Documento (id)</label>
-                    <input type="number" class="input" placeholder="Documento" name="documento" required="">
+                    <input type="number" class="input" placeholder="Documento" name="documento">
                     <div class="underline"></div>
                 </div>
 
                 <div class="input-container">
                     <label for="name" class="name">Clave</label>
-                    <input type="password" class="input" placeholder="Clave" name="clave" required="">
+                    <input type="password" class="input" placeholder="Clave" name="clave" >
                     <div class="underline"></div>
                 </div>
 
                 <div class="input-container">
                     <label for="name" class="name">Correo</label>
-                    <input type="email" class="input" placeholder="Email@" name="correo" required="">
+                    <input type="email" class="input" placeholder="Email@" name="correo" >
                     <div class="underline"></div>
                 </div>
 
                 <div class="input-container">
                     <label for="name" class="name">Telefono</label>
-                    <input type="number" class="input" placeholder="Telefono" name="telefono" required="">
+                    <input type="number" class="input" placeholder="Telefono" name="telefono" >
                     <div class="underline"></div>
                 </div>
 
                 <div class="input-container">
                     <label for="name" class="name">Ubicacion</label>
-                    <input type="input" class="input" placeholder="Ubicacion" name="Ubicacion" required="">
+                    <input type="input" class="input" placeholder="Ubicacion" name="Ubicacion" >
                     <div class="underline"></div>
                 </div>
 
                 <div class="input-container">
                     <label for="name" class="name">Perfil</label>
-                    <input type="text" class="input" placeholder="Perfil" name="perfil" required="">
+                    <input type="text" class="input" placeholder="Perfil" name="perfil" >
                     <div class="underline"></div>
                 </div>
 
                 <div class="input-container">
                     <label for="name" class="name">Nombres</label>
-                    <input type="text" class="input" placeholder="Nombres" name="nombres" required="">
+                    <input type="text" class="input" placeholder="Nombres" name="nombres" >
                     <div class="underline"></div>
                 </div>
 
                 <div class="input-container">
                     <label for="name" class="name">Apellidos</label>
-                    <input type="text" class="input" placeholder="Apellidos" name="apellidos" required="">
+                    <input type="text" class="input" placeholder="Apellidos" name="apellidos" >
                     <div class="underline"></div>
                 </div>
 
                 <div class="input-container">
                     <label for="name" class="name">Foto</label>
-                    <input type="file" class="input" placeholder="Foto" name="foto" required="">
+                    <input type="file" class="input" placeholder="Foto" name="foto" >
                     <div class="underline"></div>
                 </div>
 

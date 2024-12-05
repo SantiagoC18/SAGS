@@ -5,11 +5,50 @@ kiyh <!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/static/img/sirs.jpg">
-    <script src="https://kit.fontawesome.com/25eed41d7b.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/25eed41d7b.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Foro de Opiniones</title>
     <link rel="stylesheet" href="/static/css/foro.css">
     <link rel="stylesheet" href="/static/css/estilos.css">
+
+
+    <script type="text/javascript">
+    
+        function validarOpiniones() {
+            var nombre = document.getElementById("nombre");
+            var tipo_opinion = document.getElementById("rating");
+            var opinion = document.getElementById("opinion");
+            var calificacion = document.getElementById("calificacion");
+    
+    
+            if (nombre.value == "" || tipo_opinion.value === "Seleccionar" || opinion.value == ""|| calificacion.value ===  "Seleccionar") {
+                    Swal.fire({
+                    title: "Celda vacía",
+                    text: "Por Favor revise y complete todos los datos solicitados",
+                    icon: "warning",
+                    confirmButtonColor: "#3085d6",
+                });
+                return false;
+            }
+    
+                else {
+                    Swal.fire({
+                    title: "Datos Correctos",
+
+                    
+                    icon: "success",
+                    confirmButtonColor: "#3085d6",
+                    timer: 1500,
+                });
+                    return true;
+                }
+            };
+    
+        </script>
+
+
+
+
 </head>
 
 <body>
@@ -50,12 +89,12 @@ kiyh <!DOCTYPE html>
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Dejar una Opinión</h2>
-            <form action="/submit-opinion" method="post">
+            <form action="/submit-opinion" onsubmit="return validarOpiniones()">
                 <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required>
+                <input type="text" id="nombre" name="nombre">
 
                 <label for="rating">Tipo de Opinion:</label>
-                <select id="rating" name="rating" required>
+                <select id="rating" name="rating" >
                     <option selected disabled>Seleccionar</option>
                     <option>Peticion</option>
                     <option>Queja</option>
@@ -64,15 +103,16 @@ kiyh <!DOCTYPE html>
                 </select>
 
                 <label for="opinion">Opinión:</label>
-                <textarea id="opinion" name="opinion" rows="4" required></textarea>
+                <textarea id="opinion" name="opinion" rows="4" ></textarea>
 
                 <label for="rating">Calificación:</label>
-                <select id="calificacion" name="calificacion" required>
+                <select id="calificacion" name="calificacion" >
                     <option value="5">5 - Excelente</option>
                     <option value="4">4 - Muy Bueno</option>
                     <option value="3">3 - Bueno</option>
                     <option value="2">2 - Regular</option>
                     <option value="1">1 - Malo</option>
+                    <option selected disabled>Seleccionar</option>
                 </select>
                 <button type="submit">Enviar</button>
             </form>
