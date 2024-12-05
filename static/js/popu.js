@@ -14,4 +14,3 @@ btnCerrarPopu.addEventListener('click', function(e){
 	overla.classList.remove('active');
 	popu.classList.remove('active');
 });
- 

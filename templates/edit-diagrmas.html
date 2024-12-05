@@ -1,0 +1,97 @@
+<!-- templates/editar_caso_uso.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Caso de Uso</title>
+    <link rel="stylesheet" href="/static/styles.css">
+
+    <style>
+        /* static/styles.css */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input,
+        textarea,
+        button {
+            margin-top: 5px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>Editar Caso de Uso</h1>
+        <form method="POST" action="">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" value="{{ caso.nombre }}" required>
+
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" name="descripcion">{{ caso.descripcion }}</textarea>
+
+            <label for="actores">Actores:</label>
+            <input type="text" id="actores" name="actores" value="{{ caso.actores }}">
+
+            <label for="precondiciones">Precondiciones:</label>
+            <textarea id="precondiciones" name="precondiciones">{{ caso.precondiciones }}</textarea>
+
+            <label for="pasos">Pasos:</label>
+            <textarea id="pasos" name="pasos">{{ caso.pasos }}</textarea>
+
+            <label for="resultados">Resultados:</label>
+            <textarea id="resultados" name="resultados">{{ caso.resultados }}</textarea>
+
+            <button type="submit">Guardar Cambios</button>
+        </form>
+    </div>
+</body>
+
+</html>
