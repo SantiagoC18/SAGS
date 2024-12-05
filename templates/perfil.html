@@ -5,47 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/static/img/sirs.jpg">
-    <script src="https://kit.fontawesome.com/25eed41d7b.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/25eed41d7b.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="/static/css/perfil.css">
     <link rel="stylesheet" href="/static/css/estilos.css">
 
     <title>Perfil</title>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="text/javascript">
-    
-        function validar() {
-            var documento = document.getElementById("documento");
-            var descripcion = document.getElementById("clave");
-            var Objetivo = document.getElementById("objective");
-            var fecha = document.getElementById("deadline");
-    
-    
-            if (nombre_proyecto.value == "" || descripcion.value == "" || Objetivo.value == ""|| fecha.value == "") {
-                    Swal.fire({
-                    title: "Celda vacía",
-                    text: "Por Favor revise y complete todos sus datos",
-                    icon: "warning",
-                    confirmButtonColor: "#3085d6",
-                });
-                return false;
-            }
-    
-                else {
-                    Swal.fire({
-                    title: "Datos Correctos",
-                    icon: "success",
-                    confirmButtonColor: "#3085d6",
-                    timer: 1500,
-                });
-                    return true;
-                }
-            };
-    
-        </script>
-
 
 
 </head>
@@ -73,6 +38,8 @@
 
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.3.8/build/spline-viewer.js"></script>
     <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
+
+
 
     {% if hola %}
     <script>

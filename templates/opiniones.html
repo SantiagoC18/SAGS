@@ -23,8 +23,8 @@ kiyh <!DOCTYPE html>
     
             if (nombre.value == "" || tipo_opinion.value === "Seleccionar" || opinion.value == ""|| calificacion.value ===  "Seleccionar") {
                     Swal.fire({
-                    title: "Celda vacía",
-                    text: "Por Favor revise y complete todos los datos solicitados",
+                    title: "Celda vacía o dato no seleccionado",
+                    text: "Por Favor revise, seleccione y complete todos los datos solicitados",
                     icon: "warning",
                     confirmButtonColor: "#3085d6",
                 });
@@ -35,7 +35,7 @@ kiyh <!DOCTYPE html>
                     Swal.fire({
                     title: "Datos Correctos",
 
-                    
+
                     icon: "success",
                     confirmButtonColor: "#3085d6",
                     timer: 1500,
