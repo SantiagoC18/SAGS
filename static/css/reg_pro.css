@@ -1,19 +1,14 @@
-.flex-col{
-    background-color: black;
-    box-shadow: 0 0 7px 1px rgba(255, 255, 255, 0.3);
-}
-
-.container {
-    margin: 0px 0;
+.sombra {
+    box-shadow: -41px 41px 82px #010309,
+        41px -41px 82px #03091f;
+    border: solid white 1px;
+    margin-top: 20px;
 }
 
 @media screen and (max-width: 720px) {
-    .container {
+
+    .sombra {
         margin-top: 0px;
     }
 
-    .flex-col{
-        background-color: rgba(0, 0, 0, 0.5);
-        box-shadow: none;
-    }
 }

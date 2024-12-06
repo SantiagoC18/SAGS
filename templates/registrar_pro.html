@@ -73,103 +73,59 @@ la<html>
     <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
 
 
-    <section style="margin-top: 50px;">
-        <div className="min-h-screen bg-black/95 p-4 md:p-6 lg:p-8 flex items-center justify-center">
-            <Card className="w-full max-w-5xl bg-[#0A0F1C] border-gray-800 overflow-hidden">
-                <CardHeader className="text-center pb-6">
-                    <CardTitle className="text-3xl font-bold text-white">Registrar Proyecto</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="flex flex-col lg:flex-row gap-8">
-                        <Form {...form}>
-                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
-                                <FormField control={form.control} name="projectName" render={({ field })=> (
-                                    <FormItem>
-                                        <FormLabel className="text-gray-300">Nombre del Proyecto</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Ingrese el nombre del proyecto"
-                                                className="bg-[#1A2032] border-gray-700 text-white" {...field} />
-                                        </FormControl>
-                                        <FormMessage className="text-red-400" />
-                                    </FormItem>
-                                    )}
-                                    />
-                                    <FormField control={form.control} name="description" render={({ field })=> (
-                                        <FormItem>
-                                            <FormLabel className="text-gray-300">Descripción</FormLabel>
-                                            <FormControl>
-                                                <Textarea placeholder="Descripción detallada del proyecto"
-                                                    className="bg-[#1A2032] border-gray-700 text-white min-h-[100px]"
-                                                    {...field} />
-                                            </FormControl>
-                                            <FormMessage className="text-red-400" />
-                                        </FormItem>
-                                        )}
-                                        />
-                                        <FormField control={form.control} name="applicationType" render={({ field })=> (
-                                            <FormItem>
-                                                <FormLabel className="text-gray-300">Tipo de Aplicativo</FormLabel>
-                                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                    <FormControl>
-                                                        <SelectTrigger
-                                                            className="bg-[#1A2032] border-gray-700 text-white">
-                                                            <SelectValue
-                                                                placeholder="Seleccione el tipo de aplicativo" />
-                                                        </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent className="bg-[#1A2032] border-gray-700">
-                                                        <SelectItem value="mobile" className="text-white">Aplicativo
-                                                            Móvil</SelectItem>
-                                                        <SelectItem value="web" className="text-white">Aplicativo Web
-                                                        </SelectItem>
-                                                        <SelectItem value="desktop" className="text-white">Aplicativo de
-                                                            Escritorio</SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-                                                <FormMessage className="text-red-400" />
-                                            </FormItem>
-                                            )}
-                                            />
-                                            <FormField control={form.control} name="objective" render={({ field })=> (
-                                                <FormItem>
-                                                    <FormLabel className="text-gray-300">Objetivo del Proyecto
-                                                    </FormLabel>
-                                                    <FormControl>
-                                                        <Input placeholder="Objetivo del proyecto"
-                                                            className="bg-[#1A2032] border-gray-700 text-white"
-                                                            {...field} />
-                                                    </FormControl>
-                                                    <FormMessage className="text-red-400" />
-                                                </FormItem>
-                                                )}
-                                                />
-                                                <FormField control={form.control} name="registrationDate" render={({
-                                                    field })=> (
-                                                    <FormItem>
-                                                        <FormLabel className="text-gray-300">Fecha de Registro
-                                                        </FormLabel>
-                                                        <FormControl>
-                                                            <Input type="date"
-                                                                className="bg-[#1A2032] border-gray-700 text-white"
-                                                                {...field} />
-                                                        </FormControl>
-                                                        <FormMessage className="text-red-400" />
-                                                    </FormItem>
-                                                    )}
-                                                    />
-                                                    <Button type="submit"
-                                                        className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                                                        Registrar Proyecto
-                                                    </Button>
-                            </form>
-                        </Form>
-                        <div className="flex-1 hidden lg:block">
-                            <img src="/placeholder.svg?height=600&width=400" alt="Project Registration"
-                                className="w-full h-full object-cover rounded-lg" />
+    <section>
+        <div class="min-h-screen  p-4 md:p-6 lg:p-8 flex items-center justify-center">
+            <div
+                class="w-full max-w-5xl bg-[#020615] border-slate-50 border-solid overflow-hidden rounded-lg shadow-lg sombra">
+                <div class="text-center py-8">
+                    <h1 class="text-4xl font-bold text-white">Registrar Proyecto</h1>
+                </div>
+                <div class="p-6">
+                    <div class="flex flex-col lg:flex-row gap-8">
+                        <form class=" flex-1">
+                            <div class="mb-4">
+                                <label class="text-zinc-300">Nombre del Proyecto</label>
+                                <input type="text" placeholder="Ingrese el nombre del proyecto"
+                                    class="bg-[#1A2032] border-zinc-700 text-white w-full p-2 rounded" />
+                                <span class="text-red-400"></span>
+                            </div>
+                            <div class="mb-4">
+                                <label class="text-zinc-300">Descripción</label>
+                                <textarea placeholder="Descripción detallada del proyecto"
+                                    class="bg-[#1A2032] border-zinc-700 text-white min-h-[100px] w-full p-2 rounded"></textarea>
+                                <span class="text-red-400"></span>
+                            </div>
+                            <div class="mb-4">
+                                <label class="text-zinc-300">Tipo de Aplicativo</label>
+                                <select class="bg-[#1A2032] border-zinc-700 text-white w-full p-2 rounded">
+                                    <option value="" disabled selected>Seleccione el tipo de aplicativo</option>
+                                    <option value="mobile">Aplicativo Móvil</option>
+                                    <option value="web">Aplicativo Web</option>
+                                </select>
+                                <span class="text-red-400"></span>
+                            </div>
+                            <div class="mb-4">
+                                <label class="text-zinc-300">Objetivo del Proyecto</label>
+                                <input type="text" placeholder="Objetivo del proyecto"
+                                    class="bg-[#1A2032] border-zinc-700 text-white w-full p-2 rounded" />
+                                <span class="text-red-400"></span>
+                            </div>
+                            <div class="mb-4">
+                                <label class="text-zinc-300">Fecha de Registro</label>
+                                <input type="date" class="bg-[#1A2032] border-zinc-700 text-white w-full p-2 rounded" />
+                                <span class="text-red-400"></span>
+                            </div>
+                            <button type="submit"
+                                class="w-full bg-blue-600 hover:bg-blue-700 text-white p-2 rounded">Registrar
+                                Proyecto</button>
+                        </form>
+                        <div class="flex-1 hidden lg:block">
+                            <img src="/static/img/_275209b8-9d88-46fb-a893-32c4227eda3a.jpeg" alt="Project Registration"
+                                class="w-full h-full object-cover rounded-lg" />
                         </div>
                     </div>
-                </CardContent>
-            </Card>
+                </div>
+            </div>
         </div>
     </section>
 
