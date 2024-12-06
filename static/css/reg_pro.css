@@ -4,12 +4,12 @@
 }
 
 .container {
-    margin: 160px 0;
+    margin: 0px 0;
 }
 
 @media screen and (max-width: 720px) {
     .container {
-        margin-top: 270px;
+        margin-top: 0px;
     }
 
     .flex-col{

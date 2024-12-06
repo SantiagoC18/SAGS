@@ -331,9 +331,21 @@ def opiniones():
     
 #redireccion para el apartado de registrar proyecto
 
-@app.route('/registrar_pro')
+@app.route('/registrar_pro', methods=['GET', 'POST'])
 def registrar_pro():
     if session.get('logueado'):
+        
+    
+        if request.method == 'POST':
+            proyect_name = request.form['proyect_name']
+            descripcion = request.form['descripcion']
+            objetivo = request.form['objetivo']
+            fecha = request.form['fecha']
+            
+            cur = mysql.connection.cursor()
+            
+            cur.execute("INSERT INTO `proyectos`(`idproy`, `nombre`, `descripcion`, `tipo`, `fechaI`, `fechaF`, `linkform`, `nomplan`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]')")
+            
         return render_template('registrar_pro.html', log='Cerrar')
     else:
         return redirect(url_for('login'))
