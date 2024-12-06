@@ -37,6 +37,7 @@ body{
   min-height: 100vh;
   background-color: black;
   color: var(--text-color);
+  padding-top: 60px;
 }
 
 header{

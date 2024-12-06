@@ -1,13 +1,10 @@
 /*COVER*/
-
-
 .container__cover {
     width: 100%;
     height: 800px;
     background-image: url(../i);
     background-position: right;
     background-repeat: no-repeat;
-    margin-top: 45px;
 }
 
 .cover {
