@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 06-12-2024 a las 04:03:31
+-- Tiempo de generación: 07-12-2024 a las 21:07:59
 -- Versión del servidor: 8.3.0
 -- Versión de PHP: 8.2.18
 
@@ -278,16 +278,16 @@ DELIMITER ;
 DROP TABLE IF EXISTS `checklists`;
 CREATE TABLE IF NOT EXISTS `checklists` (
   `idcheck` int NOT NULL AUTO_INCREMENT COMMENT 'Identificador único del checklist',
-  `idmod` varchar(5) COLLATE utf8mb4_general_ci NOT NULL,
+  `idmod` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `aprobacion` int DEFAULT NULL COMMENT 'Indica si el checklist está aprobado',
-  `archivo` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Archivo adjunto al checklist',
+  `archivo` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Archivo adjunto al checklist',
   `fecha` date DEFAULT NULL COMMENT 'Fecha del checklist',
   `progreso` int NOT NULL,
   `idproy` int DEFAULT NULL COMMENT 'ID del proyecto asociado',
   PRIMARY KEY (`idcheck`),
   KEY `idproy` (`idproy`),
   KEY `idmod` (`idmod`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de checklists';
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de checklists';
 
 --
 -- Volcado de datos para la tabla `checklists`
@@ -350,9 +350,9 @@ INSERT INTO `checklists` (`idcheck`, `idmod`, `aprobacion`, `archivo`, `fecha`, 
 
 DROP TABLE IF EXISTS `modelos`;
 CREATE TABLE IF NOT EXISTS `modelos` (
-  `idmod` varchar(5) COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Identificador único del modelo',
-  `nombre` varchar(40) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Nombre del modelo',
-  `descripcion` varchar(80) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Descripción del modelo',
+  `idmod` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Identificador único del modelo',
+  `nombre` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Nombre del modelo',
+  `descripcion` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Descripción del modelo',
   PRIMARY KEY (`idmod`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de modelos';
 
@@ -377,10 +377,10 @@ INSERT INTO `modelos` (`idmod`, `nombre`, `descripcion`) VALUES
 DROP TABLE IF EXISTS `opiniones`;
 CREATE TABLE IF NOT EXISTS `opiniones` (
   `id_opi` int NOT NULL,
-  `opinion` varchar(1000) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `opinion` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `calificacion` int DEFAULT NULL,
-  `tipo_opi` varchar(25) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `tipo_opi` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_opi`),
   KEY `email` (`email`),
   KEY `tipo_opi` (`tipo_opi`)
@@ -405,8 +405,8 @@ INSERT INTO `opiniones` (`id_opi`, `opinion`, `calificacion`, `tipo_opi`, `email
 
 DROP TABLE IF EXISTS `planes`;
 CREATE TABLE IF NOT EXISTS `planes` (
-  `nomplan` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `descripcion` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nomplan` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `descripcion` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `precio` int DEFAULT NULL,
   PRIMARY KEY (`nomplan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar planes disponibles';
@@ -417,6 +417,7 @@ CREATE TABLE IF NOT EXISTS `planes` (
 
 INSERT INTO `planes` (`nomplan`, `descripcion`, `precio`) VALUES
 ('BASIC', 'IEEE-830, ', 150000),
+('PERSONALIZADO', NULL, NULL),
 ('PREMIUM', 'IEEE-830, ', 600000),
 ('STANDARD', 'IEEE-830, ', 300000);
 
@@ -428,8 +429,8 @@ INSERT INTO `planes` (`nomplan`, `descripcion`, `precio`) VALUES
 
 DROP TABLE IF EXISTS `priori_req`;
 CREATE TABLE IF NOT EXISTS `priori_req` (
-  `tipo_pri_req` varchar(80) COLLATE utf8mb4_general_ci NOT NULL,
-  `descripcion` varchar(350) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tipo_pri_req` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `descripcion` varchar(350) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`tipo_pri_req`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar prioridades de requisitos';
 
@@ -451,16 +452,16 @@ INSERT INTO `priori_req` (`tipo_pri_req`, `descripcion`) VALUES
 DROP TABLE IF EXISTS `proyectos`;
 CREATE TABLE IF NOT EXISTS `proyectos` (
   `idproy` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(55) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `descripcion` varchar(700) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `tipo` varchar(25) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombre` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `descripcion` varchar(700) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tipo` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `fechaI` date DEFAULT NULL,
   `fechaF` date DEFAULT NULL,
-  `linkform` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `nomplan` varchar(55) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `linkform` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nomplan` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`idproy`),
   KEY `nomplan` (`nomplan`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de proyectos';
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de proyectos';
 
 --
 -- Volcado de datos para la tabla `proyectos`
@@ -511,10 +512,10 @@ INSERT INTO `proy_reu` (`form_proy_reu`, `idproy`, `idreu`) VALUES
 DROP TABLE IF EXISTS `requisitos`;
 CREATE TABLE IF NOT EXISTS `requisitos` (
   `idreq` int NOT NULL,
-  `nombre` varchar(30) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `descripcion` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `tipo_pri_req` varchar(80) COLLATE utf8mb4_general_ci NOT NULL,
-  `tipo_req` varchar(80) COLLATE utf8mb4_general_ci NOT NULL,
+  `nombre` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `descripcion` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tipo_pri_req` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tipo_req` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`idreq`),
   KEY `tipo_pri_req` (`tipo_pri_req`),
   KEY `tipo_req` (`tipo_req`)
@@ -585,8 +586,8 @@ INSERT INTO `requisitos_proyectos` (`idreq`, `idproy`) VALUES
 DROP TABLE IF EXISTS `reset_tokens`;
 CREATE TABLE IF NOT EXISTS `reset_tokens` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
+  `user_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `expires_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
@@ -618,7 +619,7 @@ CREATE TABLE IF NOT EXISTS `reuniones` (
   `idreu` int NOT NULL,
   `fechavis` date DEFAULT NULL,
   `horavis` time DEFAULT NULL,
-  `tipo_reu` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `tipo_reu` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`idreu`),
   KEY `tipo_reu` (`tipo_reu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de reuniones';
@@ -642,7 +643,7 @@ INSERT INTO `reuniones` (`idreu`, `fechavis`, `horavis`, `tipo_reu`) VALUES
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
   `idrol` int NOT NULL,
-  `descripcion` varchar(65) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `descripcion` varchar(65) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`idrol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar roles de usuarios';
 
@@ -667,8 +668,8 @@ CREATE TABLE IF NOT EXISTS `sprints` (
   `idsprint` int NOT NULL,
   `fechaI` date DEFAULT NULL,
   `fechaF` date DEFAULT NULL,
-  `nombre` varchar(40) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `observaciones` varchar(300) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombre` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `observaciones` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `estado` int DEFAULT NULL,
   `idproy` int DEFAULT NULL,
   PRIMARY KEY (`idsprint`),
@@ -701,8 +702,8 @@ INSERT INTO `sprints` (`idsprint`, `fechaI`, `fechaF`, `nombre`, `observaciones`
 DROP TABLE IF EXISTS `tareas`;
 CREATE TABLE IF NOT EXISTS `tareas` (
   `id_tar` int NOT NULL,
-  `nombre` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `descripcion` varchar(500) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombre` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `descripcion` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `idsprint` int DEFAULT NULL,
   `usu_proy_id` int NOT NULL,
   PRIMARY KEY (`id_tar`),
@@ -732,7 +733,7 @@ INSERT INTO `tareas` (`id_tar`, `nombre`, `descripcion`, `idsprint`, `usu_proy_i
 
 DROP TABLE IF EXISTS `tipos_opi`;
 CREATE TABLE IF NOT EXISTS `tipos_opi` (
-  `tipo_opi` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `tipo_opi` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`tipo_opi`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tipos de opiniones';
 
@@ -753,8 +754,8 @@ INSERT INTO `tipos_opi` (`tipo_opi`) VALUES
 
 DROP TABLE IF EXISTS `tipos_req`;
 CREATE TABLE IF NOT EXISTS `tipos_req` (
-  `tipo_req` varchar(80) COLLATE utf8mb4_general_ci NOT NULL,
-  `descripcion` varchar(120) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tipo_req` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `descripcion` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`tipo_req`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tipos de requisitos';
 
@@ -774,7 +775,7 @@ INSERT INTO `tipos_req` (`tipo_req`, `descripcion`) VALUES
 
 DROP TABLE IF EXISTS `tipos_reu`;
 CREATE TABLE IF NOT EXISTS `tipos_reu` (
-  `tipo_reu` varchar(35) COLLATE utf8mb4_general_ci NOT NULL,
+  `tipo_reu` varchar(35) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`tipo_reu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tipos de reuniones';
 
@@ -795,9 +796,9 @@ INSERT INTO `tipos_reu` (`tipo_reu`) VALUES
 DROP TABLE IF EXISTS `ubicaciones`;
 CREATE TABLE IF NOT EXISTS `ubicaciones` (
   `idubi` int DEFAULT NULL,
-  `ciudad` varchar(60) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `direccion` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ciudad` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `direccion` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar ubicaciones de usuarios';
 
@@ -821,16 +822,16 @@ INSERT INTO `ubicaciones` (`idubi`, `ciudad`, `direccion`, `email`) VALUES
 
 DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE IF NOT EXISTS `usuarios` (
-  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `tipodoc` varchar(11) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tipodoc` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `documento` int DEFAULT NULL,
   `password` varbinary(255) DEFAULT NULL,
   `telefono` int DEFAULT NULL,
-  `nombres` varchar(33) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `apellidos` varchar(33) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `foto` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombres` varchar(33) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `apellidos` varchar(33) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `foto` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `idrol` int DEFAULT NULL,
-  `perfil` varchar(80) COLLATE utf8mb4_general_ci NOT NULL,
+  `perfil` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`email`),
   KEY `idrol` (`idrol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de usuarios';
@@ -878,7 +879,7 @@ DROP TABLE IF EXISTS `usu_proy`;
 CREATE TABLE IF NOT EXISTS `usu_proy` (
   `id` int NOT NULL,
   `idproy` int DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `Product_Owner` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idproy` (`idproy`),
@@ -919,86 +920,86 @@ INSERT INTO `usu_proy` (`id`, `idproy`, `email`, `Product_Owner`) VALUES
 -- Filtros para la tabla `checklists`
 --
 ALTER TABLE `checklists`
-  ADD CONSTRAINT `checklists_ibfk_1` FOREIGN KEY (`idproy`) REFERENCES `proyectos` (`idproy`),
-  ADD CONSTRAINT `checklists_ibfk_2` FOREIGN KEY (`idmod`) REFERENCES `modelos` (`idmod`);
+  ADD CONSTRAINT `checklists_ibfk_1` FOREIGN KEY (`idproy`) REFERENCES `proyectos` (`idproy`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `checklists_ibfk_2` FOREIGN KEY (`idmod`) REFERENCES `modelos` (`idmod`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `opiniones`
 --
 ALTER TABLE `opiniones`
-  ADD CONSTRAINT `opiniones_ibfk_1` FOREIGN KEY (`email`) REFERENCES `usuarios` (`email`),
-  ADD CONSTRAINT `opiniones_ibfk_2` FOREIGN KEY (`tipo_opi`) REFERENCES `tipos_opi` (`tipo_opi`);
+  ADD CONSTRAINT `opiniones_ibfk_1` FOREIGN KEY (`email`) REFERENCES `usuarios` (`email`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `opiniones_ibfk_2` FOREIGN KEY (`tipo_opi`) REFERENCES `tipos_opi` (`tipo_opi`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `proyectos`
 --
 ALTER TABLE `proyectos`
-  ADD CONSTRAINT `proyectos_ibfk_1` FOREIGN KEY (`nomplan`) REFERENCES `planes` (`nomplan`);
+  ADD CONSTRAINT `proyectos_ibfk_1` FOREIGN KEY (`nomplan`) REFERENCES `planes` (`nomplan`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `proy_reu`
 --
 ALTER TABLE `proy_reu`
-  ADD CONSTRAINT `proy_reu_ibfk_1` FOREIGN KEY (`idproy`) REFERENCES `proyectos` (`idproy`),
-  ADD CONSTRAINT `proy_reu_ibfk_2` FOREIGN KEY (`idreu`) REFERENCES `reuniones` (`idreu`);
+  ADD CONSTRAINT `proy_reu_ibfk_1` FOREIGN KEY (`idproy`) REFERENCES `proyectos` (`idproy`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `proy_reu_ibfk_2` FOREIGN KEY (`idreu`) REFERENCES `reuniones` (`idreu`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `requisitos`
 --
 ALTER TABLE `requisitos`
-  ADD CONSTRAINT `requisitos_ibfk_1` FOREIGN KEY (`tipo_pri_req`) REFERENCES `priori_req` (`tipo_pri_req`),
-  ADD CONSTRAINT `requisitos_ibfk_2` FOREIGN KEY (`tipo_req`) REFERENCES `tipos_req` (`tipo_req`);
+  ADD CONSTRAINT `requisitos_ibfk_1` FOREIGN KEY (`tipo_pri_req`) REFERENCES `priori_req` (`tipo_pri_req`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `requisitos_ibfk_2` FOREIGN KEY (`tipo_req`) REFERENCES `tipos_req` (`tipo_req`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `requisitos_proyectos`
 --
 ALTER TABLE `requisitos_proyectos`
-  ADD CONSTRAINT `requisitos_proyectos_ibfk_1` FOREIGN KEY (`idreq`) REFERENCES `requisitos` (`idreq`),
-  ADD CONSTRAINT `requisitos_proyectos_ibfk_2` FOREIGN KEY (`idproy`) REFERENCES `proyectos` (`idproy`);
+  ADD CONSTRAINT `requisitos_proyectos_ibfk_1` FOREIGN KEY (`idreq`) REFERENCES `requisitos` (`idreq`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `requisitos_proyectos_ibfk_2` FOREIGN KEY (`idproy`) REFERENCES `proyectos` (`idproy`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `reset_tokens`
 --
 ALTER TABLE `reset_tokens`
-  ADD CONSTRAINT `reset_tokens_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `usuarios` (`email`) ON DELETE CASCADE;
+  ADD CONSTRAINT `reset_tokens_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `usuarios` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `reuniones`
 --
 ALTER TABLE `reuniones`
-  ADD CONSTRAINT `reuniones_ibfk_1` FOREIGN KEY (`tipo_reu`) REFERENCES `tipos_reu` (`tipo_reu`);
+  ADD CONSTRAINT `reuniones_ibfk_1` FOREIGN KEY (`tipo_reu`) REFERENCES `tipos_reu` (`tipo_reu`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `sprints`
 --
 ALTER TABLE `sprints`
-  ADD CONSTRAINT `sprints_ibfk_1` FOREIGN KEY (`idproy`) REFERENCES `proyectos` (`idproy`);
+  ADD CONSTRAINT `sprints_ibfk_1` FOREIGN KEY (`idproy`) REFERENCES `proyectos` (`idproy`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tareas`
 --
 ALTER TABLE `tareas`
-  ADD CONSTRAINT `tareas_ibfk_1` FOREIGN KEY (`idsprint`) REFERENCES `sprints` (`idsprint`),
-  ADD CONSTRAINT `tareas_ibfk_2` FOREIGN KEY (`usu_proy_id`) REFERENCES `usu_proy` (`id`);
+  ADD CONSTRAINT `tareas_ibfk_1` FOREIGN KEY (`idsprint`) REFERENCES `sprints` (`idsprint`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tareas_ibfk_2` FOREIGN KEY (`usu_proy_id`) REFERENCES `usu_proy` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `ubicaciones`
 --
 ALTER TABLE `ubicaciones`
-  ADD CONSTRAINT `ubicaciones_ibfk_1` FOREIGN KEY (`email`) REFERENCES `usuarios` (`email`);
+  ADD CONSTRAINT `ubicaciones_ibfk_1` FOREIGN KEY (`email`) REFERENCES `usuarios` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`idrol`) REFERENCES `roles` (`idrol`);
+  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`idrol`) REFERENCES `roles` (`idrol`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `usu_proy`
 --
 ALTER TABLE `usu_proy`
-  ADD CONSTRAINT `usu_proy_ibfk_1` FOREIGN KEY (`idproy`) REFERENCES `proyectos` (`idproy`),
-  ADD CONSTRAINT `usu_proy_ibfk_2` FOREIGN KEY (`email`) REFERENCES `usuarios` (`email`);
+  ADD CONSTRAINT `usu_proy_ibfk_1` FOREIGN KEY (`idproy`) REFERENCES `proyectos` (`idproy`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `usu_proy_ibfk_2` FOREIGN KEY (`email`) REFERENCES `usuarios` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
