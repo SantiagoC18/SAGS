@@ -1,142 +1,165 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Creación de Proyecto y Plan</title>
-
-
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        .form-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        .form-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px;
-            font-size: 1rem;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-        .form-group input[type="checkbox"] {
-            width: auto;
-        }
-        .form-group .checkbox-label {
-            display: inline-block;
-            margin-left: 10px;
-        }
-        .form-group button {
-            width: 100%;
-            padding: 10px;
-            font-size: 1rem;
-            color: white;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .form-group button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <title>Asignar Planes y Modelos</title>
+    <link rel="stylesheet" href="/static/css/plan.css">
 </head>
+
 <body>
 
-<div class="form-container">
-    <h2>Creación de Proyecto y Plan</h2>
-    <form action="/crear-proyecto" method="POST">
-        <!-- Detalles del proyecto -->
-        <div class="form-group">
-            <label for="nombre">Nombre del Proyecto:</label>
-            <input type="text" id="nombre" name="nombre" >
-        </div>
-        <div class="form-group">
-            <label for="descripcion">Descripción:</label>
-            <input type="text" id="descripcion" name="descripcion" >
-        </div>
-        <div class="form-group">
-            <label for="fechaI">Fecha de Inicio:</label>
-            <input type="date" id="fechaI" name="fechaI" >
-        </div>
-        <div class="form-group">
-            <label for="fechaF">Fecha de Finalización:</label>
-            <input type="date" id="fechaF" name="fechaF" >
-        </div>
+    <form id="plan-form"  method="POST">
+        <div class="container">
+            <h1>Asignar Planes y Modelos</h1>
 
-        <!-- Selección de Plan -->
-        <div class="form-group">
-            <label for="nomplan">Seleccionar Plan:</label>
-            <select id="nomplan" name="nomplan">
-                <option value="Plan Básico">Plan Básico</option>
-                <option value="Plan Avanzado">Plan Avanzado</option>
-                <option value="Plan Personalizado">Plan Personalizado</option>
-            </select>
-        </div>
+            <div class="pricing-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Basic</h2>
+                        <p class="price">$150.000 COP</p>
+                    </div>
+                    <div class="card-content">
+                        <ul>
+                            <li class="included"><span class="icon">✓</span> IEEE-830</li>
+                            <li class="included"><span class="icon">✓</span> Casos de Uso</li>
+                            <li class="included"><span class="icon">✓</span> Casos de Uso extendido</li>
+                            <li class="included"><span class="icon">✓</span> Reuniones online</li>
+                            <li class="not-included"><span class="icon">✕</span> Visitas físicas</li>
+                            <li class="not-included"><span class="icon">✕</span> Diagrama de Clases</li>
+                            <li class="not-included"><span class="icon">✕</span> Diagrama de Objetos</li>
+                            <li class="not-included"><span class="icon">✕</span> Modelo Entidad Relacion</li>
+                            <li class="not-included"><span class="icon">✕</span> Modelo Relacional</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn" name="plan" value="BASIC">Empezar</button>
+                    </div>
+                </div>
 
-        <!-- Opciones de Personalización -->
-        <div class="form-group" id="personalizacion" style="display:none;">
-            <h3>Personalizar Plan</h3>
-            <label>
-                <input type="checkbox" name="integraciones_software" value="1">
-                <span class="checkbox-label">Integraciones de Software</span>
-            </label><br>
-            <label>
-                <input type="checkbox" name="revision_procesos" value="1">
-                <span class="checkbox-label">Revisión de Procesos</span>
-            </label><br>
-            <label>
-                <input type="checkbox" name="reuniones_avanzadas" value="1">
-                <span class="checkbox-label">Reuniones Técnicas Avanzadas</span>
-            </label><br>
-            <label>
-                <input type="checkbox" name="soporte_completo" value="1">
-                <span class="checkbox-label">Soporte Completo</span>
-            </label><br>
-            <label>
-                <input type="checkbox" name="asesoria_constante" value="1">
-                <span class="checkbox-label">Asesoría Constante</span>
-            </label>
-        </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Standard</h2>
+                        <p class="price">$300.000 COP</p>
+                    </div>
+                    <div class="card-content">
+                        <ul>
+                            <li class="included"><span class="icon">✓</span> IEEE-830</li>
+                            <li class="included"><span class="icon">✓</span> Casos de Uso</li>
+                            <li class="included"><span class="icon">✓</span> Casos de Uso extendido</li>
+                            <li class="included"><span class="icon">✓</span> Reuniones online</li>
+                            <li class="included"><span class="icon">✓</span> Visitas físicas</li>
+                            <li class="included"><span class="icon">✓</span> Diagrama de Clases</li>
+                            <li class="not-included"><span class="icon">✕</span> Diagrama de Objetos</li>
+                            <li class="not-included"><span class="icon">✕</span> Modelo Entidad Relacion</li>
+                            <li class="not-included"><span class="icon">✕</span> Modelo Relacional</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn" name="plan" value="STANDARD">Empezar</button>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <button type="submit">Crear Proyecto</button>
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Premium</h2>
+                        <p class="price">$600.000 COP</p>
+                    </div>
+                    <div class="card-content">
+                        <ul>
+                            <li class="included"><span class="icon">✓</span> IEEE-830</li>
+                            <li class="included"><span class="icon">✓</span> Casos de Uso</li>
+                            <li class="included"><span class="icon">✓</span> Casos de Uso extendido</li>
+                            <li class="included"><span class="icon">✓</span> Reuniones online</li>
+                            <li class="included"><span class="icon">✓</span> Visitas físicas</li>
+                            <li class="included"><span class="icon">✓</span> Diagrama de Clases</li>
+                            <li class="included"><span class="icon">✓</span> Diagrama de Objetos</li>
+                            <li class="included"><span class="icon">✓</span> Modelo Entidad Relacion</li>
+                            <li class="included"><span class="icon">✓</span> Modelo Relacional</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn" name="plan" value="Premium">Empezar</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Personalizar plan</h2>
+                    </div>
+                    <div class="card-content">
+                        <p>Aquí tendrás la posibilidad de personalizar tu plan para que se adapte a las necesidades del
+                            análisis de tu proyecto</p>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn" id="customizeBtn">Empezar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="customizeModal" class="modal">
+                <div class="modal-content">
+                    <h2>Selecciona los Modelos</h2>
+                    <div class="checkbox-grid">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="model" value="RQ">
+                            <span>Documentos RF y RNF (IEEE-830)</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="model" value="CU">
+                            <span>Casos de Uso Y Casos de Uso Extendido</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="model" value="MC">
+                            <span>Diagrama de Clases</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="model" value="MO">
+                            <span>Diagrama de Objetos</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="model" value="MER">
+                            <span>Modelo Entidad Relacion</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="model" value="MR">
+                            <span>Modelo Relacional</span>
+                        </label>
+                    </div>
+                    <button class="btn" name="plan" value="Personalizado" id="registerBtn">Registrar Proyecto</button>
+                </div>
+            </div>
         </div>
     </form>
-</div>
 
-<script>
-    // Mostrar opciones de personalización solo si selecciona "Plan Personalizado"
-    document.getElementById('nomplan').addEventListener('change', function() {
-        var personalizacionDiv = document.getElementById('personalizacion');
-        if (this.value === 'Plan Personalizado') {
-            personalizacionDiv.style.display = 'block';
-        } else {
-            personalizacionDiv.style.display = 'none';
-        }
-    });
-</script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const customizeBtn = document.getElementById('customizeBtn');
+            const customizeModal = document.getElementById('customizeModal');
+            const registerBtn = document.getElementById('registerBtn');
+
+            customizeBtn.addEventListener('click', function () {
+                customizeModal.style.display = 'block';
+            });
+
+            registerBtn.addEventListener('click', function () {
+                const selectedModels = Array.from(document.querySelectorAll('input[name="model"]:checked'))
+                    .map(checkbox => checkbox.value);
+                console.log('Selected models:', selectedModels);
+                customizeModal.style.display = 'none';
+            });
+
+            window.addEventListener('click', function (event) {
+                if (event.target === customizeModal) {
+                    customizeModal.style.display = 'none';
+                }
+            });
+        });
+
+
+    </script>
 </body>
+
 </html>

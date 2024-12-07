@@ -75,7 +75,7 @@ def recuperar_contraseña():
         tiempo_expiracion = datetime.now() + timedelta(minutes=10)
 
         # Guardar el token y la hora de expiración en la base de datos (puede ser en una tabla temporal)
-        cur.execute('INSERT INTO reset_tokens (user_id, token, expires_at) VALUES (%s, %s, %s)', 
+        cur.execute('INSERT INTO reset_tokens (user_id, token, expires_at) VALUES (%s, %s, %s)',
                     (usuario['email'], token, tiempo_expiracion))
         mysql.connection.commit()
 
@@ -335,18 +335,72 @@ def opiniones():
 def registrar_pro():
     if session.get('logueado'):
         
-    
         if request.method == 'POST':
+            
             proyect_name = request.form['proyect_name']
             descripcion = request.form['descripcion']
-            objetivo = request.form['objetivo']
+            tipo = request.form['tipo']
             fecha = request.form['fecha']
             
             cur = mysql.connection.cursor()
             
-            cur.execute("INSERT INTO `proyectos`(`idproy`, `nombre`, `descripcion`, `tipo`, `fechaI`, `fechaF`, `linkform`, `nomplan`) VALUES ('[value-1]','[value-2]','[value-3]','[value-4]','[value-5]','[value-6]','[value-7]','[value-8]')")
+            cur.execute('INSERT INTO proyectos (`nombre`, `descripcion`, `tipo`, `fechaI`) VALUES (%s, %s, %s, %s)', (proyect_name, descripcion, tipo, fecha,))
+            cur.execute('INSERT INTO usu_proy (idproy, email, product_owner) VALUES (%s, %s)', (cur.lastrowid, session['id'], 1))
+            mysql.connection.commit()
+            
+            return redirect(url_for('plan', idproy = cur.lastrowid))
             
         return render_template('registrar_pro.html', log='Cerrar')
+    else:
+        return redirect(url_for('login'))
+    
+
+
+@app.route('/plan/<int:idproy>', methods=['GET','POST'])
+def plan(idproy):
+    
+    if session.get('logueado'):
+        
+        idp = idproy
+        plan = request.form.get('plan')
+        modelos = request.form.getlist('model')
+        
+        
+        if request.method == 'POST':
+    
+            # Actualizar el proyecto con el plan seleccionado
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE proyectos SET nomplan = %s WHERE idproy = %s", (plan, idp))
+            mysql.connection.commit()
+
+            # Insertar en `checklists` dependiendo el plan
+            if plan == "Basic" or "Standard" or "Premium":
+                # Asignar modelos predefinidos según el plan
+                modelos_default = {
+                    "Basic": ["CU"],
+                    "Standard": ["CU", "MC"],
+                    "Premium": ["CU", "MC", "MER", "MO", "MR"]
+                    }
+                modelos = modelos_default[plan]
+                
+            elif plan == "Personalizado":
+                # Insertar solo los modelos seleccionados
+                for modelo in modelos:
+                    cur.execute("INSERT INTO checklists (idproy, idmod) VALUES (%s, %s)", (idp, modelo))
+                mysql.connection.commit()
+                return redirect(url_for('perfil'))
+                
+                
+            # Insertar los modelos en la tabla `checklists`
+            cur = mysql.connection.cursor()
+            for modelo in modelos:
+                cur.execute("INSERT INTO checklists (idproy, idmod) VALUES (%s, %s)", (idp, modelo))
+            mysql.connection.commit()
+            
+            return redirect(url_for('perfil'))
+
+            
+        return render_template('formulario-plan.html', log='Cerrar')
     else:
         return redirect(url_for('login'))
 
