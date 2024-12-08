@@ -341,14 +341,17 @@ def registrar_pro():
             descripcion = request.form['descripcion']
             tipo = request.form['tipo']
             fecha = request.form['fecha']
+            owner = 1
             
             cur = mysql.connection.cursor()
             
             cur.execute('INSERT INTO proyectos (`nombre`, `descripcion`, `tipo`, `fechaI`) VALUES (%s, %s, %s, %s)', (proyect_name, descripcion, tipo, fecha,))
-            cur.execute('INSERT INTO usu_proy (idproy, email, product_owner) VALUES (%s, %s)', (cur.lastrowid, session['id'], 1))
+            idproy = cur.lastrowid
+            
+            cur.execute('INSERT INTO usu_proy (idproy, email, product_owner) VALUES (%s, %s, %s)', (idproy, session['id'], owner))
             mysql.connection.commit()
             
-            return redirect(url_for('plan', idproy = cur.lastrowid))
+            return redirect(url_for('plan', idproy = idproy))
             
         return render_template('registrar_pro.html', log='Cerrar')
     else:
@@ -374,16 +377,16 @@ def plan(idproy):
             mysql.connection.commit()
 
             # Insertar en `checklists` dependiendo el plan
-            if plan == "Basic" or "Standard" or "Premium":
+            if plan == "BASIC" or "STANDARD" or "PREMIUM":
                 # Asignar modelos predefinidos según el plan
                 modelos_default = {
-                    "Basic": ["CU"],
-                    "Standard": ["CU", "MC"],
-                    "Premium": ["CU", "MC", "MER", "MO", "MR"]
+                    "BASIC": ["CU"],
+                    "STANDARD": ["CU", "MC"],
+                    "PREMIUM": ["CU", "MC", "MER", "MO", "MR"]
                     }
                 modelos = modelos_default[plan]
                 
-            elif plan == "Personalizado":
+            elif plan == "PERSONALIZADO":
                 # Insertar solo los modelos seleccionados
                 for modelo in modelos:
                     cur.execute("INSERT INTO checklists (idproy, idmod) VALUES (%s, %s)", (idp, modelo))

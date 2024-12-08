@@ -877,7 +877,7 @@ INSERT INTO `usuarios` (`email`, `tipodoc`, `documento`, `password`, `telefono`,
 
 DROP TABLE IF EXISTS `usu_proy`;
 CREATE TABLE IF NOT EXISTS `usu_proy` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `idproy` int DEFAULT NULL,
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `Product_Owner` tinyint(1) NOT NULL,
