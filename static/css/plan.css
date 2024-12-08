@@ -23,6 +23,12 @@ h1 {
     gap: 1.5rem;
 }
 
+.uno{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .card {
     background-color: #0F172A;
     border: 1px solid #1E293B;
