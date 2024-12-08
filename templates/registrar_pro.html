@@ -14,14 +14,13 @@
     <script type="text/javascript">
 
         function validar() {
-            var nombre_proyecto = document.getElementById("project-name");
-            
-            var descripcion = document.getElementById("description");
-            var Objetivo = document.getElementById("objective");
-            var fecha = document.getElementById("deadline");
+            var nombre_proyecto = document.getElementById("proyect_name");
+            var descripcion = document.getElementById("descripcion");
+            var tipo = document.getElementById("tipo");
+            var fecha = document.getElementById("fecha");
 
 
-            if (nombre_proyecto.value == "" || descripcion.value == "" || Objetivo.value == "" || fecha.value == "") {
+            if (nombre_proyecto.value == "" || descripcion.value == "" || tipo.value === "Seleccione el tipo de aplicativo" || fecha.value == "") {
                 Swal.fire({
                     title: "Celda vacía",
                     text: "Por Favor revise y complete todos sus datos",
