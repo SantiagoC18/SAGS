@@ -6,12 +6,6 @@ from flask_mail import Mail, Message
 import secrets
 from datetime import datetime, timedelta
 
-
-
-
-
-
-
 app = Flask(__name__, template_folder='templates')
 
 
