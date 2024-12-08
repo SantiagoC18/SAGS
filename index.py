@@ -383,6 +383,10 @@ def plan(idproy):
                     "PREMIUM": ["CU", "MC", "MER", "MO", "MR"]
                     }
                 modelos = modelos_default[plan]
+                cur = mysql.connection.cursor()
+                for modelo in modelos:
+                    cur.execute("INSERT INTO checklists (idproy, idmod) VALUES (%s, %s)", (idp, modelo))
+                mysql.connection.commit()
                 
             elif plan == "PERSONALIZADO":
                 # Insertar solo los modelos seleccionados
@@ -393,10 +397,7 @@ def plan(idproy):
                 
                 
             # Insertar los modelos en la tabla `checklists`
-            cur = mysql.connection.cursor()
-            for modelo in modelos:
-                cur.execute("INSERT INTO checklists (idproy, idmod) VALUES (%s, %s)", (idp, modelo))
-            mysql.connection.commit()
+            
             
             return redirect(url_for('perfil'))
 
