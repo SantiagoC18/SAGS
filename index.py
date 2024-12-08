@@ -299,11 +299,11 @@ def perfil():
         data = cur.fetchall()
         
         cur.execute(''' SELECT * FROM proyectos
-				        INNER JOIN usu_proy
-				        ON proyectos.idproy = usu_proy.idproy
-				        INNER JOIN usuarios
-				        ON usuarios.email = usu_proy.email
-				        WHERE usu_proy.email = %s;''',(id,))
+                    INNER JOIN usu_proy
+                    ON proyectos.idproy = usu_proy.idproy
+                    INNER JOIN usuarios
+                    ON usuarios.email = usu_proy.email
+                    WHERE usu_proy.email = %s;''',(id,))
         data2 = cur.fetchall()
             
         return render_template('perfil.html', usuario = data, datos = data2, log='Cerrar')
@@ -368,7 +368,7 @@ def plan(idproy):
         progreso = 0
 
     
-        
+         
         if request.method == 'POST':
     
             # Actualizar el proyecto con el plan seleccionado
