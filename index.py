@@ -375,7 +375,8 @@ def plan(idproy):
             mysql.connection.commit()
 
             # Insertar en `checklists` dependiendo el plan
-            if plan == "BASIC" or "STANDARD" or "PREMIUM":
+            if plan in ["BASIC", "STANDARD", "PREMIUM"]:
+                
                 # Asignar modelos predefinidos según el plan
                 modelos_default = {
                     "BASIC": ["CU"],
