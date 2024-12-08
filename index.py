@@ -365,7 +365,9 @@ def plan(idproy):
         idp = idproy
         plan = request.form.get('plan')
         modelos = request.form.getlist('model')
-        
+        progreso = 0
+
+    
         
         if request.method == 'POST':
     
@@ -386,7 +388,7 @@ def plan(idproy):
                 modelos = modelos_default[plan]
                 cur = mysql.connection.cursor()
                 for modelo in modelos:
-                    cur.execute("INSERT INTO checklists (idproy, idmod) VALUES (%s, %s)", (idp, modelo))
+                    cur.execute("INSERT INTO checklists (idproy, idmod, progreso) VALUES (%s, %s, %s)", (idp, modelo, progreso))
                 mysql.connection.commit()
                 
             elif plan == "PERSONALIZADO":
