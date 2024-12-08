@@ -394,7 +394,7 @@ def plan(idproy):
             elif plan == "PERSONALIZADO":
                 # Insertar solo los modelos seleccionados
                 for modelo in modelos:
-                    cur.execute("INSERT INTO checklists (idproy, idmod) VALUES (%s, %s)", (idp, modelo))
+                    cur.execute("INSERT INTO checklists (idproy, idmod, progreso) VALUES (%s, %s, %s)", (idp, modelo, progreso))
                 mysql.connection.commit()
                 return redirect(url_for('perfil'))
                 
