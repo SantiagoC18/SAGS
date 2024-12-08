@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 07-12-2024 a las 21:07:59
--- Versión del servidor: 8.3.0
--- Versión de PHP: 8.2.18
+-- Tiempo de generación: 08-12-2024 a las 21:20:24
+-- Versión del servidor: 8.2.0
+-- Versión de PHP: 8.2.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -287,7 +287,7 @@ CREATE TABLE IF NOT EXISTS `checklists` (
   PRIMARY KEY (`idcheck`),
   KEY `idproy` (`idproy`),
   KEY `idmod` (`idmod`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de checklists';
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de checklists';
 
 --
 -- Volcado de datos para la tabla `checklists`
@@ -362,6 +362,7 @@ CREATE TABLE IF NOT EXISTS `modelos` (
 
 INSERT INTO `modelos` (`idmod`, `nombre`, `descripcion`) VALUES
 ('CU', 'Documento Casos de Uso', 'Modelo y Diagrama Casos de Uso'),
+('CUX', 'Casos de Uso Extendido', 'Modelo y Diagrama de Casos de Uso Extendido'),
 ('MC', 'Documento Diagrama de Clases', 'Modelo de clases del sistema'),
 ('MER', 'Documento del Modelo Entidad Relación', 'Diagrama del modelo entidad relación'),
 ('MO', 'Documento Diagrama de Objetos', 'Modelo de objetos del sistema'),
@@ -461,7 +462,7 @@ CREATE TABLE IF NOT EXISTS `proyectos` (
   `nomplan` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`idproy`),
   KEY `nomplan` (`nomplan`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de proyectos';
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de proyectos';
 
 --
 -- Volcado de datos para la tabla `proyectos`
@@ -591,7 +592,7 @@ CREATE TABLE IF NOT EXISTS `reset_tokens` (
   `expires_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `reset_tokens`
@@ -606,7 +607,8 @@ INSERT INTO `reset_tokens` (`id`, `user_id`, `token`, `expires_at`) VALUES
 (14, 'jeanpierrebbedoya@gmail.com', 'Nczjf677THxSwEFVmlnqDlu82vVrRW7I_Ws9GsoCz4A', '2024-09-30 18:27:28'),
 (16, 'jeanpierrebbedoya@gmail.com', '-wclB_XvcZ_GfYVbWT2j_5XyvrM0mQoTjkWVPZ103mg', '2024-09-30 18:27:28'),
 (17, 'jeanpierrebbedoya@gmail.com', 'WzyEGJnQg4is_Cd67DBy79lJswLIRO6ME-lEZYQa0qw', '2024-09-30 18:27:28'),
-(18, 'jeanpierrebbedoya@gmail.com', 'EINcjniG0nTGdVDmJ6sEddzH6b9gmlYMdCIwIOCctG0', '2024-09-30 18:27:28');
+(18, 'jeanpierrebbedoya@gmail.com', 'EINcjniG0nTGdVDmJ6sEddzH6b9gmlYMdCIwIOCctG0', '2024-09-30 18:27:28'),
+(19, 'santicardenash@gmail.com', '6TmXdNC3B6s8enFwO9RZJ_RaPtZwdkMWMaeQmA-ZW3M', '2024-12-08 16:13:26');
 
 -- --------------------------------------------------------
 
@@ -884,7 +886,7 @@ CREATE TABLE IF NOT EXISTS `usu_proy` (
   PRIMARY KEY (`id`),
   KEY `idproy` (`idproy`),
   KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla de relación entre usuarios y proyectos';
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla de relación entre usuarios y proyectos';
 
 --
 -- Volcado de datos para la tabla `usu_proy`
