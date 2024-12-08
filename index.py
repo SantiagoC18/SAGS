@@ -381,9 +381,9 @@ def plan(idproy):
                 
                 # Asignar modelos predefinidos según el plan
                 modelos_default = {
-                    "BASIC": ["CU"],
-                    "STANDARD": ["CU", "MC"],
-                    "PREMIUM": ["CU", "MC", "MER", "MO", "MR"]
+                    "BASIC": ["RQ", "CU", "CUX",],
+                    "STANDARD": ["RQ", "CU", "CUX", "MC", "MO"],
+                    "PREMIUM": ["RQ", "CU", "CUX", "MC", "MO", "MER",  "MR"]
                     }
                 modelos = modelos_default[plan]
                 cur = mysql.connection.cursor()
