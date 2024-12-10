@@ -339,14 +339,14 @@ def registrar_pro():
             descripcion = request.form['descripcion']
             tipo = request.form['tipo']
             fecha = request.form['fecha']
-            owner = 1
+            stake = 1
             
             cur = mysql.connection.cursor()
             
             cur.execute('INSERT INTO proyectos (`nombre`, `descripcion`, `tipo`, `fechaI`) VALUES (%s, %s, %s, %s)', (proyect_name, descripcion, tipo, fecha,))
             idproy = cur.lastrowid
             
-            cur.execute('INSERT INTO usu_proy (idproy, email, product_owner) VALUES (%s, %s, %s)', (idproy, session['id'], owner))
+            cur.execute('INSERT INTO usu_proy (idproy, email, stake) VALUES (%s, %s, %s)', (idproy, session['id'], stake))
             mysql.connection.commit()
             
             return redirect(url_for('plan', idproy = idproy))
@@ -433,12 +433,12 @@ def checkdown(idproy):
         data2 = cur.fetchall()
         
         cur.execute(''' SELECT checklists.aprobacion, modelos.nombre,modelos.descripcion, checklists.progreso, checklists.archivo,checklists.fecha
-		                FROM proyectos
-				        INNER JOIN checklists
-				        ON proyectos.idproy = checklists.idproy
-				        INNER JOIN modelos
-			        	ON checklists.idmod = modelos.idmod
-			        	WHERE checklists.idproy = %s;''',(idproy,))
+                    FROM proyectos
+                    INNER JOIN checklists
+                    ON proyectos.idproy = checklists.idproy
+                    INNER JOIN modelos
+                    ON checklists.idmod = modelos.idmod
+                    WHERE checklists.idproy = %s;''',(idproy,))
         data = cur.fetchall()
     
         return render_template('check-down.html', data=data, data2=data2, log='Cerrar')
