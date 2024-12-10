@@ -23,6 +23,31 @@ h1 {
     gap: 1.5rem;
 }
 
+.uno {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.uno ul {
+    list-style: none;
+    /* Eliminar viñetas por defecto */
+    padding: 0;
+    margin: 0;
+}
+
+.uno ul li {
+    margin: 10px 0;
+    /* Espaciado entre elementos */
+    display: flex;
+    align-items: center;
+    /* Alinea el texto con el ícono */
+}
+
+hr{
+    display: none;
+}
+
 .card {
     background-color: #0F172A;
     border: 1px solid #1E293B;
@@ -107,7 +132,7 @@ li {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
@@ -143,4 +168,3 @@ li {
         grid-template-columns: 1fr;
     }
 }
-

@@ -4,13 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/img/sirs.jpg">
     <title>Asignar Planes y Modelos</title>
     <link rel="stylesheet" href="/static/css/plan.css">
+    <link rel="stylesheet" href="/static/css/estilos.css">
 </head>
 
 <body>
 
-    <form id="plan-form"  method="POST">
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.3.8/build/spline-viewer.js"></script>
+    <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
+
+    <form id="plan-form" method="POST">
         <div class="container">
             <h1>Asignar Planes y Modelos</h1>
 
@@ -84,13 +89,24 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card uno">
                     <div class="card-header">
                         <h2>Personalizar plan</h2>
                     </div>
                     <div class="card-content">
-                        <p>Aquí tendrás la posibilidad de personalizar tu plan para que se adapte a las necesidades del
-                            análisis de tu proyecto</p>
+                        <p>¡Crea una solución única para optimizar recursos y cumplir tus objetivos!
+                            <hr>
+                            Adapta tu plan a la medida de tu proyecto
+                            seleccionando los servicios que realmente necesitas, como:</p>
+
+                        <ul>
+                            <li class="included"><span class="icon">✓</span> Diagramas personalizados. </li>
+                            <li class="included"><span class="icon">✓</span> Reuniones técnicas específicas. </li>
+                            <li class="included"><span class="icon">✓</span> Integraciones avanzadas. </li>
+                            <li class="included"><span class="icon">✓</span> Soporte exclusivo en cada etapa del
+                                análisis.</li>
+                        </ul>
+
                     </div>
                     <div class="card-footer">
                         <button type="button" class="btn" id="customizeBtn">Empezar</button>
