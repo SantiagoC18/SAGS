@@ -17,53 +17,60 @@
 
 
 
-        
-function validar() {
-    var correo = document.getElementById("correo");
-    var clave = document.getElementById("clave");
 
-    if (correo.value.trim() === "" || clave.value == "") {
-        Swal.fire({
-            title: "Escriba por favor su correo y contraseña",
-            icon: "warning",
-            showConfirmButton: false,
-            timer: 3000, 
-            toast: true, 
-            position: "top",
-        });
-        return false;
-    } else {
-        return true;
-    }
-}
+        function validar() {
+            var correo = document.getElementById("correo");
+            var clave = document.getElementById("clave");
 
-</script>
+            if (correo.value.trim() === "" || clave.value == "") {
+                Swal.fire({
+                    title: "Escriba por favor su correo y contraseña",
+                    icon: "warning",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    toast: true,
+                    position: "top",
+                });
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+    </script>
 
 
-    
+
 </head>
+
 <body>
 
 
-    {% if message %}
-	<script style=" position: fixed;">
-		swal.fire({
-			title: "{{message}}",
-			icon: "error",
-			buttons: false,
-			timer: 2000,
-			showConfirmButton: false,
-			background: "#fff",
-			toast: true,
-			position: "top"
-		});
-	</script>
-	{% endif %}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <script style=" position: fixed;">
+            swal.fire({
+                title: "{{message}}",
+                icon: "error",
+                buttons: false,
+                timer: 2000,
+                showConfirmButton: false,
+                background: "#fff",
+                toast: true,
+                position: "top"
+            });
+        </script>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
 
 
     <header>
         <a href="{{ url_for('index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
-    
+
         <ul class="navbar">
             <li><a href="{{ url_for('index') }}">Home</a></li>
             <li><a href="{{ url_for('sobre_nosotros') }}">Sobre Nosotros</a></li>
@@ -71,9 +78,10 @@ function validar() {
             <li><a href="{{ url_for('opiniones') }}">Opiniones</a></li>
             <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
         </ul>
-    
+
         <div class="main">
-            <a href="{{ url_for('logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion {%
+            <a href="{{ url_for('logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion
+                {%
                 endif %}</a>
             <div class="bx bx-menu" id="menu-icon"><i class="fa-solid fa-bars"></i></div>
         </div>
@@ -82,7 +90,7 @@ function validar() {
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.3.8/build/spline-viewer.js"></script>
     <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
 
-    
+
 
     <section class="container-cards">
 
@@ -94,15 +102,15 @@ function validar() {
                     <h3 class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">Registro de
                         Proyecto</h3>
                     <h4 class="text-sm text-muted-foreground">
-                            El formulario de registro de proyecto permite a los usuarios ingresar detalles específicos sobre
-                            nuevos
-                            proyectos. A través de este formulario, se recopilan datos esenciales como el nombre del
-                            proyecto, la
-                            descripción, el objetivo, los plazos y los recursos necesarios. Esta información es fundamental
-                            para
-                            gestionar y desarrollar proyectos de software de manera eficiente, asegurando que todos los
-                            requisitos y
-                            expectativas sean claramente definidos desde el inicio.
+                        El formulario de registro de proyecto permite a los usuarios ingresar detalles específicos sobre
+                        nuevos
+                        proyectos. A través de este formulario, se recopilan datos esenciales como el nombre del
+                        proyecto, la
+                        descripción, el objetivo, los plazos y los recursos necesarios. Esta información es fundamental
+                        para
+                        gestionar y desarrollar proyectos de software de manera eficiente, asegurando que todos los
+                        requisitos y
+                        expectativas sean claramente definidos desde el inicio.
                     </H4>
                     <a href="{{ url_for('registrar_pro') }}"><button class="button_view">Registrar</button></a>
                 </div>
@@ -198,7 +206,7 @@ function validar() {
 
                 <div class="input-container">
                     <label for="name" class="name">Contraseña</label>
-                    <input type="password" class="input" placeholder="password" name="clave" id="clave" >
+                    <input type="password" class="input" placeholder="password" name="clave" id="clave">
                     <div class="underline"></div>
                 </div>
 

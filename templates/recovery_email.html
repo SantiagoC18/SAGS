@@ -21,7 +21,7 @@
         {% for message in messages %}
         <script style=" position: fixed; z-index: 1000;">
             swal.fire({
-                title: "USUARIO NO ENCONTRADO",
+                title: "{{message}}",
                 text: "{{ texto }}",
                 icon: "info",
                 buttons: false,

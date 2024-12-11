@@ -100,7 +100,8 @@
                         <p>¡Crea una solución única para optimizar recursos y cumplir tus objetivos!
                             <hr>
                             Adapta tu plan a la medida de tu proyecto
-                            seleccionando los servicios que realmente necesitas, como:</p>
+                            seleccionando los servicios que realmente necesitas, como:
+                        </p>
 
                         <ul>
                             <li class="included"><span class="icon">✓</span> Diagramas personalizados. </li>
@@ -150,8 +151,8 @@
                             <span>Modelo Relacional</span>
                         </label>
                     </div>
-                        <button class="btn" id="registerBtn">Registrar Proyecto</button>
-                    </div>
+                    <button class="btn" id="registerBtn">Registrar Proyecto</button>
+                </div>
             </div>
         </div>
     </form>
@@ -170,8 +171,14 @@
             registerBtn.addEventListener('click', function () {
                 const selectedModels = Array.from(document.querySelectorAll('input[name="model"]:checked'))
                     .map(checkbox => checkbox.value);
-                console.log('Selected models:', selectedModels);
-                customizeModal.style.display = 'none';
+
+                if (selectedModels.length === 0) {
+                    alert('Por favor, selecciona al menos un modelo.');
+                } else {
+                    console.log('Selected models:', selectedModels);
+                    customizeModal.style.display = 'none';
+                    // Aquí puedes añadir el código para enviar el formulario o hacer cualquier otra acción necesaria.
+                }
             });
 
             window.addEventListener('click', function (event) {
@@ -180,6 +187,7 @@
                 }
             });
         });
+
 
 
     </script>

@@ -190,7 +190,8 @@ def gestion_proyectos():
 
                 if not usuario:
                     # Usuario no encontrado
-                    return redirect(url_for('modulos', message="Usuario no encontrado."))
+                    flash("Usuario no encontrado.")
+                    return redirect(url_for('modulos'))
 
                 # Verificar la contraseña
                 cur.execute(
@@ -216,15 +217,19 @@ def gestion_proyectos():
                     return render_template('gestor_proyectos.html', data=consulta, data2=consulta2, log='Cerrar')
                 else:
                     # Contraseña incorrecta
-                    return redirect(url_for('modulos', message="Contraseña incorrecta."))
+                    flash("Contraseña incorrecta.")
+                    return redirect(url_for('modulos'))
 
             else:
                 # Si el correo no es el mismo que el de la sesión actual
-                return redirect(url_for('modulos', message="Debe utilizar el mismo correo con el que inició sesión."))
+                flash("Debe utilizar el mismo correo con el que inició sesión.")
+                return redirect(url_for('modulos'))
 
     else:
         # Si el usuario no está logueado, redirigir al login
+        flash("Debe iniciar sesión primero.")
         return redirect(url_for('login'))
+
 
 #Finaliza funcion login
 
@@ -397,6 +402,10 @@ def plan(idproy):
                 mysql.connection.commit()
                 
             elif plan == "PERSONALIZADO":
+                if not modelos:  # Verifica si la lista está vacía
+                    flash("Por favor, selecciona al menos un modelo.", "warning")
+                    return redirect(url_for('plan', idproy=idp))
+                
                 # Insertar solo los modelos seleccionados
                 for modelo in modelos:
                     cur.execute("INSERT INTO checklists (idproy, idmod, progreso) VALUES (%s, %s, %s)", (idp, modelo, progreso))
