@@ -173,50 +173,55 @@ def acceso_login():
 #funcion de login para validar usuario, contraceñá y rol para la gestion de proyectos
 @app.route('/gestion_proyectos', methods=["GET", "POST"])
 def gestion_proyectos():
-    
     if session.get('logueado'):
-        
+
         if request.method == 'POST':
             correo = request.form['correo']
             clave = request.form['clave']
-            
+
             # Verificamos que el correo proporcionado sea igual al correo de la sesión actual
             if correo == session.get('id'):
-                
+
                 cur = mysql.connection.cursor()
-                
-                # Verificar si el usuario tiene rol de administrador (idrol = 1)
-                cur.execute("SELECT * FROM usuarios WHERE email = %s AND password = AES_ENCRYPT(%s, 'AES') LIMIT 1", (correo,clave,))
+
+                # Verificar si el usuario existe
+                cur.execute("SELECT * FROM usuarios WHERE email = %s LIMIT 1", (correo,))
+                usuario = cur.fetchone()
+
+                if not usuario:
+                    # Usuario no encontrado
+                    return redirect(url_for('modulos', message="Usuario no encontrado."))
+
+                # Verificar la contraseña
+                cur.execute(
+                    "SELECT * FROM usuarios WHERE email = %s AND password = AES_ENCRYPT(%s, 'AES') LIMIT 1",
+                    (correo, clave,)
+                )
                 account = cur.fetchone()
-                
+
                 if account:
+                    # Usuario con rol de administrador (idrol = 1)
                     cur.execute("SELECT * FROM proyectos")
                     consulta = cur.fetchall()
-                    
+
                     id = session['id']
                     cur.execute(''' SELECT * FROM proyectos
                                 INNER JOIN usu_proy
                                 ON proyectos.idproy = usu_proy.idproy
                                 INNER JOIN usuarios
                                 ON usuarios.email = usu_proy.email
-                                WHERE usu_proy.email = %s;''',(id,))
+                                WHERE usu_proy.email = %s;''', (id,))
                     consulta2 = cur.fetchall()
-                    
-                    return render_template('gestor_proyectos.html', data = consulta, data2 = consulta2, log = 'Cerrar')
+
+                    return render_template('gestor_proyectos.html', data=consulta, data2=consulta2, log='Cerrar')
                 else:
-                    # Verificar si el usuario tiene un rol de usuario regular (idrol = 2)
-                    cur.execute('SELECT * FROM usuarios WHERE email = %s AND password = %s AND idrol = 2 LIMIT 1', (correo, clave,))
-                    account2 = cur.fetchone()
-                    
-                    if account2:
-                        return redirect(url_for('perfil', message="0"))
-                    
-                    # Si no se encuentra el usuario con ningún rol válido
-                    return redirect(url_for('modulos', message="El usuario no tiene los permisos necesarios."))
+                    # Contraseña incorrecta
+                    return redirect(url_for('modulos', message="Contraseña incorrecta."))
+
             else:
                 # Si el correo no es el mismo que el de la sesión actual
-                return redirect(url_for('modulos', message="Debe uilizar el mismo correo con el que inició sesión."))
-            
+                return redirect(url_for('modulos', message="Debe utilizar el mismo correo con el que inició sesión."))
+
     else:
         # Si el usuario no está logueado, redirigir al login
         return redirect(url_for('login'))

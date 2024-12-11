@@ -48,7 +48,7 @@ function validar() {
     {% if message %}
 	<script style=" position: fixed;">
 		swal.fire({
-			title: "ACCESO DENEGADO",
+			title: "{{message}}",
 			icon: "error",
 			buttons: false,
 			timer: 2000,
