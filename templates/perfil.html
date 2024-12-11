@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="/static/img/sirs.jpg">
     <script src="https://kit.fontawesome.com/25eed41d7b.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="/static/css/perfil.css">
     <link rel="stylesheet" href="/static/css/estilos.css">
 
@@ -19,7 +20,7 @@
 
     <header>
         <a href="{{ url_for('index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
-    
+
         <ul class="navbar">
             <li><a href="{{ url_for('index') }}">Home</a></li>
             <li><a href="{{ url_for('sobre_nosotros') }}">Sobre Nosotros</a></li>
@@ -27,9 +28,10 @@
             <li><a href="{{ url_for('opiniones') }}">Opiniones</a></li>
             <li><a href="{{ url_for('perfil') }}" class="active">Perfil</a></li>
         </ul>
-    
+
         <div class="main">
-            <a href="{{ url_for('logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion {%
+            <a href="{{ url_for('logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion
+                {%
                 endif %}</a>
             <div class="bx bx-menu" id="menu-icon"><i class="fa-solid fa-bars"></i></div>
         </div>
@@ -113,70 +115,86 @@
             <a href="#" id="btn-cerrar-popup0" class="btn-cerrar-popup" style="margin-right: -100%"><i
                     class="fas fa-times"></i>
             </a>
-            <h3 style="color: white;">Actualizar Perfil</h3>
-            <form action="">
-
-                <div class="input-container">
-                    <label for="name" class="name">No° Documento (id)</label>
-                    <input type="number" class="input" placeholder="Documento" name="documento">
-                    <div class="underline"></div>
-                </div>
-
-                <div class="input-container">
-                    <label for="name" class="name">Clave</label>
-                    <input type="password" class="input" placeholder="Clave" name="clave" >
-                    <div class="underline"></div>
-                </div>
-
-                <div class="input-container">
-                    <label for="name" class="name">Correo</label>
-                    <input type="email" class="input" placeholder="Email@" name="correo" >
-                    <div class="underline"></div>
-                </div>
-
-                <div class="input-container">
-                    <label for="name" class="name">Telefono</label>
-                    <input type="number" class="input" placeholder="Telefono" name="telefono" >
-                    <div class="underline"></div>
-                </div>
-
-                <div class="input-container">
-                    <label for="name" class="name">Ubicacion</label>
-                    <input type="input" class="input" placeholder="Ubicacion" name="Ubicacion" >
-                    <div class="underline"></div>
-                </div>
-
-                <div class="input-container">
-                    <label for="name" class="name">Perfil</label>
-                    <input type="text" class="input" placeholder="Perfil" name="perfil" >
-                    <div class="underline"></div>
-                </div>
-
-                <div class="input-container">
-                    <label for="name" class="name">Nombres</label>
-                    <input type="text" class="input" placeholder="Nombres" name="nombres" >
-                    <div class="underline"></div>
-                </div>
-
-                <div class="input-container">
-                    <label for="name" class="name">Apellidos</label>
-                    <input type="text" class="input" placeholder="Apellidos" name="apellidos" >
-                    <div class="underline"></div>
-                </div>
-
-                <div class="input-container">
-                    <label for="name" class="name">Foto</label>
-                    <input type="file" class="input" placeholder="Foto" name="foto" >
-                    <div class="underline"></div>
-                </div>
-
-                <button class="button">Actualizar</button>
-
-            </form>
-
-
-
+            <div class="dialog-header">
+                <h2 class="dialog-title">Actualizar Perfil</h2>
+                <p class="dialog-description">Actualiza tu información personal. Haz clic en actualizar cuando termines.
+                </p>
+            </div>
+            <div class="dialog-content">
+                <form>
+                    <div class="form-group">
+                        <label for="documento">
+                            <i data-lucide="user"></i>
+                            No° Documento (id)
+                        </label>
+                        <input type="number" id="documento" name="documento" placeholder="No° Documento (id)">
+                    </div>
+                    <div class="form-group">
+                        <label for="clave">
+                            <i data-lucide="key-round"></i>
+                            Clave
+                        </label>
+                        <input type="password" id="clave" name="clave" placeholder="Clave">
+                    </div>
+                    <div class="form-group">
+                        <label for="correo">
+                            <i data-lucide="mail"></i>
+                            Correo
+                        </label>
+                        <input type="email" id="correo" name="correo" placeholder="Correo">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">
+                            <i data-lucide="phone"></i>
+                            Teléfono
+                        </label>
+                        <input type="number" id="telefono" name="telefono" placeholder="Teléfono">
+                    </div>
+                    <div class="form-group">
+                        <label for="ubicacion">
+                            <i data-lucide="map-pin"></i>
+                            Ubicación
+                        </label>
+                        <input type="text" id="ubicacion" name="ubicacion" placeholder="Ubicación">
+                    </div>
+                    <div class="form-group">
+                        <label for="perfil">
+                            <i data-lucide="user-circle"></i>
+                            Perfil
+                        </label>
+                        <input type="text" id="perfil" name="perfil" placeholder="Perfil">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombres">
+                            <i data-lucide="user-plus"></i>
+                            Nombres
+                        </label>
+                        <input type="text" id="nombres" name="nombres" placeholder="Nombres">
+                    </div>
+                    <div class="form-group">
+                        <label for="apellidos">
+                            <i data-lucide="user-plus"></i>
+                            Apellidos
+                        </label>
+                        <input type="text" id="apellidos" name="apellidos" placeholder="Apellidos">
+                    </div>
+                    <div class="form-group">
+                        <label for="foto">
+                            <i data-lucide="file-image"></i>
+                            Foto
+                        </label>
+                        <input type="file" id="foto" name="foto" accept="image/*">
+                    </div>
+                </form>
+            </div>
+            <div class="dialog-footer">
+                <button type="submit" class="button">Actualizar</button>
+            </div>
         </div>
+        <script>
+            lucide.createIcons();
+        </script>
+    </div>
     </div>
     </div>
 
@@ -186,7 +204,7 @@
 
 
     <script src="/static/js/popup.js"></script>
-    
+
     <script src="/static/js/bar.js"></script>
 </body>
 

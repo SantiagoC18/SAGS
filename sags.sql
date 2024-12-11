@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 08-12-2024 a las 21:20:24
+-- Tiempo de generación: 10-12-2024 a las 19:14:09
 -- Versión del servidor: 8.2.0
 -- Versión de PHP: 8.2.13
 
@@ -287,7 +287,7 @@ CREATE TABLE IF NOT EXISTS `checklists` (
   PRIMARY KEY (`idcheck`),
   KEY `idproy` (`idproy`),
   KEY `idmod` (`idmod`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de checklists';
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de checklists';
 
 --
 -- Volcado de datos para la tabla `checklists`
@@ -340,7 +340,10 @@ INSERT INTO `checklists` (`idcheck`, `idmod`, `aprobacion`, `archivo`, `fecha`, 
 (45, 'MER', 0, '', '0000-00-00', 0, 33),
 (46, 'MO', 0, '', '0000-00-00', 0, 33),
 (47, 'MR', 0, '', '0000-00-00', 0, 33),
-(48, 'RQ', 0, '', '0000-00-00', 0, 33);
+(48, 'RQ', 0, '', '0000-00-00', 0, 33),
+(72, 'RQ', NULL, NULL, NULL, 0, 40),
+(73, 'CU', NULL, NULL, NULL, 0, 40),
+(74, 'CUX', NULL, NULL, NULL, 0, 40);
 
 -- --------------------------------------------------------
 
@@ -462,7 +465,7 @@ CREATE TABLE IF NOT EXISTS `proyectos` (
   `nomplan` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`idproy`),
   KEY `nomplan` (`nomplan`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de proyectos';
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de proyectos';
 
 --
 -- Volcado de datos para la tabla `proyectos`
@@ -476,7 +479,8 @@ INSERT INTO `proyectos` (`idproy`, `nombre`, `descripcion`, `tipo`, `fechaI`, `f
 (30, 'JOSE FELIX LIBRARY', 'El presente documento tiene como propósito definir las especificaciones de requisitos funcionales y no funcionales para el desarrollo de un sistema de información web modelo usuario/servidor, que permitirá sistematizar y gestionar los distintos materiales didácticos que se encuentran en la biblioteca del colegio JFR (libros, archivos, etc.), dirigido al desarrollo y análisis de nuevos proyectos.', 'Aplicativo Web', '2022-02-17', '0000-00-00', NULL, NULL),
 (31, 'SIVOTU', 'El presente documento tiene como propósito definir las especificaciones de requisitos funcionales y no funcionales para el desarrollo de un aplicativo web (SIVOTU) modelo cliente servidor, que permita sistematizar y gestionar distintos procesos administrativos y servidor online de la tienda \"the shift urbans\" dirigido al uso de usuarios externos empleados y administradores.', 'Aplicativo Web', '2004-07-24', '0000-00-00', NULL, NULL),
 (32, 'New Life', 'Brindar una herramienta que ayude a las entidades de salud mental a tratar profesionalmente a personas que fueron y son violentadas física y psicológicamente, así ayudándolos a progresar y tener un nuevo cambio en su vida social y personal.', 'Aplicativo Web', '2022-07-13', '0000-00-00', NULL, NULL),
-(33, 'All Sport System', 'Gestionar ayudas y acceso a la comunidad de alternativas de ayuda profesional a través de consultas y terapias que se les brindan de acuerdo al diagnóstico que se le den a los pacientes o usuarios registrados en el aplicativo.', 'Aplicativo Web', '2022-05-10', '0000-00-00', NULL, NULL);
+(33, 'All Sport System', 'Gestionar ayudas y acceso a la comunidad de alternativas de ayuda profesional a través de consultas y terapias que se les brindan de acuerdo al diagnóstico que se le den a los pacientes o usuarios registrados en el aplicativo.', 'Aplicativo Web', '2022-05-10', '0000-00-00', NULL, NULL),
+(40, 'SGIT', 'Sistema para la gestion e intercambio de equipos tecnologicos en la institucion educativa Colegio Tecnico Jose Felix Restrepo', 'web', '2024-12-09', NULL, NULL, 'BASIC');
 
 -- --------------------------------------------------------
 
@@ -592,7 +596,7 @@ CREATE TABLE IF NOT EXISTS `reset_tokens` (
   `expires_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `reset_tokens`
@@ -608,7 +612,8 @@ INSERT INTO `reset_tokens` (`id`, `user_id`, `token`, `expires_at`) VALUES
 (16, 'jeanpierrebbedoya@gmail.com', '-wclB_XvcZ_GfYVbWT2j_5XyvrM0mQoTjkWVPZ103mg', '2024-09-30 18:27:28'),
 (17, 'jeanpierrebbedoya@gmail.com', 'WzyEGJnQg4is_Cd67DBy79lJswLIRO6ME-lEZYQa0qw', '2024-09-30 18:27:28'),
 (18, 'jeanpierrebbedoya@gmail.com', 'EINcjniG0nTGdVDmJ6sEddzH6b9gmlYMdCIwIOCctG0', '2024-09-30 18:27:28'),
-(19, 'santicardenash@gmail.com', '6TmXdNC3B6s8enFwO9RZJ_RaPtZwdkMWMaeQmA-ZW3M', '2024-12-08 16:13:26');
+(19, 'santicardenash@gmail.com', '6TmXdNC3B6s8enFwO9RZJ_RaPtZwdkMWMaeQmA-ZW3M', '2024-12-08 16:13:26'),
+(21, 'mglnares2006@gmail.com', '6ZvxBqV6z6XrYyYKyw3j6YkEt47Pf-OeOfwmjv-fPtM', '2024-12-09 11:31:11');
 
 -- --------------------------------------------------------
 
@@ -860,7 +865,7 @@ INSERT INTO `usuarios` (`email`, `tipodoc`, `documento`, `password`, `telefono`,
 ('julia@gmail.com', 'cc', 0, 0x316632343264, 587821, 'Julia', 'Perez', '', NULL, 'cliente'),
 ('linaessofia33@gmail.com', '', 0, 0x736f6669616c, NULL, 'Laura Sofia', 'Linares Piñeros', '', 3, ''),
 ('majogalan2006@gmail.com', '', 0, 0xd32ecc5d0d8d4e0cb5c2d7bdfdbd8f84, NULL, 'María José', 'Romero Gómez', '', 1, ''),
-('mglnares2006@gmail.com', '', 0, 0x506f6c6c6f30, NULL, 'Miguel Felipe', 'Linares Riaño', '', 3, ''),
+('mglnares2006@gmail.com', '', 0, 0x63a13fe96e1005115b332d6a94a5f0de, NULL, 'Miguel Felipe', 'Linares Riaño', '', 3, ''),
 ('nicolasgiraldo1020@gmail.com', '', 0, 0x31303230, NULL, 'Nicolas Santiago', 'Giraldo Valencia', '', 3, ''),
 ('rocio123@gmail.com', 'cc', 0, 0x363835396639, 14568745, 'Rocio', 'Caceres', 'dfsdgfd', NULL, 'cliente'),
 ('roger@gmail.com', '', 0, 0x3234323731, 2147483647, 'Roger Steec', 'Fuentes Ramirez', '/ferrari-enzo-rojo_3840x2160_xtrafondos.com.jpg', 3, 'Diseñador'),
@@ -882,37 +887,39 @@ CREATE TABLE IF NOT EXISTS `usu_proy` (
   `id` int NOT NULL AUTO_INCREMENT,
   `idproy` int DEFAULT NULL,
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `stake` tinyint NOT NULL,
   `Product_Owner` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idproy` (`idproy`),
   KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla de relación entre usuarios y proyectos';
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla de relación entre usuarios y proyectos';
 
 --
 -- Volcado de datos para la tabla `usu_proy`
 --
 
-INSERT INTO `usu_proy` (`id`, `idproy`, `email`, `Product_Owner`) VALUES
-(1, 4, 'santicardenash@gmail.com', 1),
-(2, 4, 'majogalan2006@gmail.com', 0),
-(3, 4, 'svalenzuela073@misena.edu.co', 0),
-(4, 30, 'juandaja2201@gmail.com', 0),
-(5, 27, 'caroceron28@gmail.com', 0),
-(6, 27, 'jeanpierrebbedoya@gmail.com', 0),
-(7, 27, 'mglnares2006@gmail.com', 0),
-(8, 28, 'smithcortes01@gmail.com', 0),
-(9, 28, '1029143097@ctjfr.edu.co', 0),
-(10, 31, 'sebastianrm30yu@iclock.com', 0),
-(12, 31, '1028661442@gmail.com', 0),
-(13, 33, 'nicolasgiraldo1020@gmail.com', 0),
-(14, 33, '1074811705@ctjfr.edu.co', 0),
-(15, 28, '1012918020@ctjfr.edu.co', 0),
-(16, 31, 'roger@gmail.com', 0),
-(17, 30, '1127342346@ctjfr.edu.co', 0),
-(18, 30, 'johanbenavides134@gmail.com', 0),
-(19, 29, 'soff24ia@gmail.com', 0),
-(20, 29, 'linaessofia33@gmail.com', 0),
-(21, 29, '1023367786@ctjfr.edu.co', 0);
+INSERT INTO `usu_proy` (`id`, `idproy`, `email`, `stake`, `Product_Owner`) VALUES
+(1, 4, 'santicardenash@gmail.com', 0, 1),
+(2, 4, 'majogalan2006@gmail.com', 0, 0),
+(3, 4, 'svalenzuela073@misena.edu.co', 0, 0),
+(4, 30, 'juandaja2201@gmail.com', 0, 0),
+(5, 27, 'caroceron28@gmail.com', 0, 0),
+(6, 27, 'jeanpierrebbedoya@gmail.com', 0, 0),
+(7, 27, 'mglnares2006@gmail.com', 0, 0),
+(8, 28, 'smithcortes01@gmail.com', 0, 0),
+(9, 28, '1029143097@ctjfr.edu.co', 0, 0),
+(10, 31, 'sebastianrm30yu@iclock.com', 0, 0),
+(12, 31, '1028661442@gmail.com', 0, 0),
+(13, 33, 'nicolasgiraldo1020@gmail.com', 0, 0),
+(14, 33, '1074811705@ctjfr.edu.co', 0, 0),
+(15, 28, '1012918020@ctjfr.edu.co', 0, 0),
+(16, 31, 'roger@gmail.com', 0, 0),
+(17, 30, '1127342346@ctjfr.edu.co', 0, 0),
+(18, 30, 'johanbenavides134@gmail.com', 0, 0),
+(19, 29, 'soff24ia@gmail.com', 0, 0),
+(20, 29, 'linaessofia33@gmail.com', 0, 0),
+(21, 29, '1023367786@ctjfr.edu.co', 0, 0),
+(26, 40, 'mglnares2006@gmail.com', 0, 1);
 
 --
 -- Restricciones para tablas volcadas
