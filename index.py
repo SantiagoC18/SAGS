@@ -368,7 +368,7 @@ def plan(idproy):
         progreso = 0
 
     
-         
+        
         if request.method == 'POST':
     
             # Actualizar el proyecto con el plan seleccionado

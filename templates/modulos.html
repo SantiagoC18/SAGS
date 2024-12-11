@@ -10,15 +10,45 @@
     <link rel="stylesheet" href="/static/css/estilos.css">
     <link rel="stylesheet" href="/static/css/modulos.css">
     <title>Modulos</title>
-</head>
 
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript">
+
+
+
+        
+function validar() {
+    var correo = document.getElementById("correo");
+    var clave = document.getElementById("clave");
+
+    if (correo.value.trim() === "" || clave.value == "") {
+        Swal.fire({
+            title: "Escriba por favor su correo y contraseña",
+            icon: "warning",
+            showConfirmButton: false,
+            timer: 3000, 
+            toast: true, 
+            position: "top",
+        });
+        return false;
+    } else {
+        return true;
+    }
+}
+
+</script>
+
+
+    
+</head>
 <body>
 
+
     {% if message %}
-	<script >
+	<script style=" position: fixed;">
 		swal.fire({
-			title: "ERROR",
-			text: "{{message}}",
+			title: "ACCESO DENEGADO",
 			icon: "error",
 			buttons: false,
 			timer: 2000,
@@ -29,6 +59,7 @@
 		});
 	</script>
 	{% endif %}
+
 
     <header>
         <a href="{{ url_for('index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
@@ -157,21 +188,19 @@
             <a href="#" id="btn-cerrar-popup1" class="btn-cerrar-popup" style="margin-right: -100%"><i
                     class="fas fa-times"></i></a>
             <h4>Gestión de Proyectos con Control de Acceso</h4>
-            <form method="POST" action="gestion_proyectos" autocomplete="off">
+            <form method="POST" action="gestion_proyectos" autocomplete="off" onsubmit="return validar()">
 
                 <div class="input-container">
                     <label for="name" class="name">Correo</label>
-                    <input type="email" class="input" placeholder="Email@" name="correo" required="">
+                    <input type="email" class="input" placeholder="Email@" name="correo" id="correo">
                     <div class="underline"></div>
                 </div>
 
                 <div class="input-container">
                     <label for="name" class="name">Contraseña</label>
-                    <input type="password" class="input" placeholder="password" name="clave" required="">
+                    <input type="password" class="input" placeholder="password" name="clave" id="clave" >
                     <div class="underline"></div>
                 </div>
-
-                
 
                 <button style="padding: 5px 45px;" class="button_view">ACCEDER</button>
             </form>

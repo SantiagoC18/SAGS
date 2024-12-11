@@ -9,12 +9,41 @@
     <link rel="stylesheet" href="/static/css/estilos.css">
     <link rel="stylesheet" href="/static/css/reg_pro.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript">
 
+function validar() {
+    var nombre = document.getElementById("proyect_name");
+    var descripcion = document.getElementById("descripcion");
+    var tipo = document.getElementById("tipo");
+    var fecha = document.getElementById("fecha");
 
+    if (nombre.value.trim() === "" || descripcion.value.trim() === "" || tipo.value === "" || fecha.value === "") {
+        Swal.fire({
+            title: "Celda vacía o dato no seleccionado",
+            text: "El documento es invalido",
+            icon: "warning",
+            showConfirmButton: false,
+            timer: 3000, 
+            toast: true, 
+            position: "top",
+        });
+        return false;
+    } else {
+        Swal.fire({
+            title: "Bienvenid@",
+            icon: "success",
+            showConfirmButton: false, 
+            timer: 1500,
+        });
+        return true;
+    }
+}
 
-
+</script>
 
     <title>Registrar Proyecto</title>
+
 </head>
 
 <body>
@@ -51,22 +80,22 @@
                 </div>
                 <div class="p-6">
                     <div class="flex flex-col lg:flex-row gap-8">
-                        <form class=" flex-1" method="POST" onsubmit="validar()">
+                        <form class=" flex-1" method="POST" onsubmit="return validar()">
                             <div class="mb-4">
                                 <label class="text-zinc-300">Nombre del Proyecto</label>
-                                <input type="text" placeholder="Ingrese el nombre del proyecto" name="proyect_name"
+                                <input type="text" placeholder="Ingrese el nombre del proyecto" name="proyect_name" id="proyect_name"
                                     class="bg-[#1A2032] border-zinc-700 text-white w-full p-2 rounded" />
                                 <span class="text-red-400"></span>
                             </div>
                             <div class="mb-4">
                                 <label class="text-zinc-300">Descripción</label>
                                 <textarea placeholder="Descripción detallada del proyecto"
-                                    class="bg-[#1A2032] border-zinc-700 text-white min-h-[100px] w-full p-2 rounded" name="descripcion"></textarea>
+                                    class="bg-[#1A2032] border-zinc-700 text-white min-h-[100px] w-full p-2 rounded" name="descripcion" id="descripcion"></textarea>
                                 <span class="text-red-400"></span>
                             </div>
                             <div class="mb-4">
                                 <label class="text-zinc-300">Tipo de Aplicativo</label>
-                                <select class="bg-[#1A2032] border-zinc-700 text-white w-full p-2 rounded" name="tipo">
+                                <select class="bg-[#1A2032] border-zinc-700 text-white w-full p-2 rounded" name="tipo" id="tipo">
                                     <option value="" disabled selected>Seleccione el tipo de aplicativo</option>
                                     <option value="mobile">Aplicativo Móvil</option>
                                     <option value="web">Aplicativo Web</option>
@@ -75,7 +104,7 @@
                             </div>
                             <div class="mb-4">
                                 <label class="text-zinc-300">Fecha de Registro</label>
-                                <input type="date" class="bg-[#1A2032] border-zinc-700 text-white w-full p-2 rounded" name="fecha" />
+                                <input type="date" class="bg-[#1A2032] border-zinc-700 text-white w-full p-2 rounded" name="fecha" id="fecha"/>
                                 <span class="text-red-400"></span>
                             </div>
                             <button type="submit"
