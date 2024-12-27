@@ -1,12 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Sofia+Sans+Semi+Condensed:ital,wght@0,1..1000;1,1..1000&display=swap');
 
 * {
+    padding: 0;
+    margin: 0;
     box-sizing: border-box;
     font-family: "Sofia Sans Semi Condensed", sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
 }
 
+html{
+    padding: 0;
+    margin: 0;
+    height: 0;
+}
 
 spline-viewer {
     position: fixed;
