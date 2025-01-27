@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/img/sirs.jpg">
+    <script src="https://kit.fontawesome.com/25eed41d7b.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Modelo Entidad Relacion</title>
+    <link rel="stylesheet" href="/static/css/gestion.mer.css">
+    <link rel="stylesheet" href="/static/css/estilos.css">
+
+</head>
+<body>
+    <header>
+        <a href="{{ url_for('index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
+
+        <ul class="navbar">
+            <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
+            <li><a href="{{ url_for('sobre_nosotros') }}">Sobre Nosotros</a></li>
+            <li><a href="{{ url_for('modulos') }}">Gestion de Proyectos</a></li>
+            <li><a href="{{ url_for('opiniones') }}">Opiniones</a></li>
+            <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
+        </ul>
+
+        <div class="main">
+            <a href="{{ url_for('logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion
+                {% endif %}</a>
+            <div class="bx bx-menu" id="menu-icon"><i class="fa-solid fa-bars"></i></div>
+        </div>
+    </header>
+
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.3.8/build/spline-viewer.js"></script>
+    <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
+
+    <main class="main-content">
+        <div class="user-info">
+            <img src="/placeholder.svg" alt="Foto de perfil" class="user-avatar">
+            <div class="user-details">
+                <h2>Nombre: Shiuu Valenzuela Penagos</h2>
+                <p>Correo Electrónico: svalenzuela073@misena.edu.co</p>
+                <p>Función: Desarrolladora</p>
+                <p>Proyecto Actual: SAGS</p>
+                <button class="edit-button">Editar Datos</button>
+            </div>
+        </div>
+
+        <div class="requirements-section">
+            <div class="requirements-header">
+                <h2>Modelo Entidad Relación</h2>
+                <button class="new-requirement-btn">
+                    <span>+</span>
+                    Crear
+                </button>
+            </div>
+
+            <table class="requirements-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Modelo Entidad Relación - SAGS</td>
+                        <td>Este modelo se basa en la estructuración de la base de datos</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="action-btn">✏️</button>
+                                <button class="action-btn delete">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>
