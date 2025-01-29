@@ -61,7 +61,7 @@ h6 {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #0303038b;
 }
 
 
@@ -71,7 +71,6 @@ button:hover {
     flex: 1;
     background-color: white;
     margin-left: 1040px;
-    /* Ajusta este valor según el ancho de la barra de tareas */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
