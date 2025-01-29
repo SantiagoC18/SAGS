@@ -3,6 +3,7 @@
     margin: 2rem auto;
     padding: 0 2rem;
 }
+
 .contenedor {
     display: flex;
     height: 100vh;
@@ -15,19 +16,27 @@
     position: fixed;
     right: 0;
     bottom: 0;
-    top: 15%;
-    background-color: bisque;
+    top: 12%;
+    width: 84vw;
+    background: white;
+    border: 5px solid #333333cc;
+    padding: 10px;
+    overflow-y: auto;
+    outline: none;
+    color: black;
+
 }
 
 .barra_tareas {
     background-color: #333333cc;
-    top: 15%;
+    top: 12%;
     color: white;
-    padding: 10px;
+    padding: 14px;
     position: fixed;
     left: 0;
     bottom: 0;
-    width: 188px;
+    width: 15%;
+    overflow-y: scroll;
 }
 
 h5 {
