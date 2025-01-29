@@ -25,10 +25,8 @@
     padding: 10px;
     position: fixed;
     left: 0;
-    top: 0;
     bottom: 0;
-    width: 200px;
-    overflow-y: auto;
+    width: 188px;
 }
 
 h5 {
