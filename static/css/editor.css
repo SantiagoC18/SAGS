@@ -12,15 +12,16 @@
 }
 
 .edit {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    top: 15%;
     background-color: bisque;
-    margin-left: 18%;
 }
 
 .barra_tareas {
     background-color: #333333cc;
+    top: 15%;
     color: white;
     padding: 10px;
     position: fixed;
@@ -34,14 +35,17 @@ h5 {
     text-align: center;
     border-bottom: 1px solid #555;
     padding-bottom: 10px;
+    font-size: 17px;
 }
 
 .edit_texto {
+    margin-top: 12px;
     margin-bottom: 20px;
 }
 
 h6 {
     margin-bottom: 10px;
+    font-size: 12px;
 }
 
 .edit-btn {
