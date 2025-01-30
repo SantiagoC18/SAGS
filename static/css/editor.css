@@ -20,7 +20,7 @@
     width: 84vw;
     background: white;
     border: 5px solid #333333cc;
-    padding: 14px;
+    padding: 18px;
     overflow-y: auto;
     outline: none;
     color: black;
@@ -69,6 +69,8 @@ h6 {
     cursor: pointer;
     animation: row 0.5s linear;
     font-weight: bold;
+    text-transform: uppercase;
+    
 }
 
 button:hover {
