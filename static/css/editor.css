@@ -12,7 +12,7 @@
     margin-top: 20%;
 }
 
-.edit {
+#edit {
     position: fixed;
     right: 0;
     bottom: 0;
@@ -97,4 +97,23 @@ button:hover {
     .edit::after {
         margin-left: 0;
     }
+}
+
+/*EDITOR OPTIONS*/
+
+.shape{
+    position: absolute;
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    resize: both;
+    overflow: hidden;
+}
+
+.square{
+    width: 100px;
+    height: 100px;
+    background-color: lightblue;
 }

@@ -36,7 +36,7 @@
     <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
 
     <main class="main-content">
-        <div class="edit" contenteditable="true"></div>
+        <div id="edit" contenteditable="true"></div>
         <div class="barra_tareas">
             <h5>OPCIONES DE EDICIÓN</h5>
             <!--Botones para editar texto-->
@@ -51,7 +51,7 @@
                 <h6>CASO DE USO / EXTENDIDO</h6>
                 <button class="edit-btn">ACTOR</button>
                 <button class="edit-btn">CASO DE USO</button>
-                <button class="edit-btn">LÍMITE DEL SISTEMA</button>
+                <button class="edit-btn" onclick="addShape('square')">LÍMITE DEL SISTEMA</button>
                 <button class="edit-btn">GENERALIZACIÓN </button>
                 <button class="edit-btn">INCLUDE</button>
                 <button class="edit-btn">EXTENDS</button>
