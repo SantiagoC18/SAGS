@@ -127,3 +127,17 @@ button:hover {
     border-bottom-left-radius: 50px;
     background-color: lightblue;
 }
+
+.line{
+    position: relative;
+    background-color: black;
+    width: 150px;
+    height: 3px;
+}
+
+.text{
+    position: absolute;
+    font-size: 16px;
+    color: black;
+    top: -20px;
+}

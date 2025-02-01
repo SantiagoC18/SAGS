@@ -1,12 +1,18 @@
 function addShape(type) {
+    let edit = document.getElementById('edit');
     let shape = document.createElement('div');
-    shape.classList.add('shape', type);
-    shape.style.left = '50px';
-    shape.style.top = '50px';
-    shape.draggable = false;
+    shape.classList.add(type);
 
-    document.getElementById('edit').appendChild(shape);
-    makeDraggable(shape);
+   if (type === 'line'){
+    shape.classList.add('line');
+    let text = document.createElement('div');
+    text.classList.add('text');
+    text.innerText = 'Extends';
+    shape.appendChild(text);
+   }
+   
+   edit.appendChild(shape);
+   makeDraggable(shape); 
 }
 
 function makeDraggable(element) {
