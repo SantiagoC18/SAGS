@@ -135,6 +135,33 @@ button:hover {
     height: 3px;
 }
 
+.line_right{
+    position: relative;
+    background-color: black;
+    width: 100px;
+    height: 1px;
+    right: -8px;
+    top: 30%;
+    transform: translateY(-20%);
+    border-left: 8px solid black;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+}
+
+.extends{
+    position: relative;
+    background-color: black;
+    width: 150px;
+    height: 3px;
+}
+
+.include{
+    position: relative;
+    background-color: black;
+    width: 150px;
+    height: 3px;
+}
+
 .text{
     position: absolute;
     font-size: 16px;

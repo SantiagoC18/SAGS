@@ -3,17 +3,19 @@ function addShape(type) {
     let shape = document.createElement('div');
     shape.classList.add(type);
 
-   if (type === 'line'){
+   if (type === 'extends'){
     shape.classList.add('line');
     let text = document.createElement('div');
     text.classList.add('text');
-    text.innerText = 'Extends';
+    text.innerText = '<<extends>>';
     shape.appendChild(text);
    }
    
    edit.appendChild(shape);
    makeDraggable(shape); 
 }
+
+
 
 function makeDraggable(element) {
     let ejeX, ejeY, isDragging = false;
