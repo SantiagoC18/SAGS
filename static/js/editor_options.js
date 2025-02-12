@@ -1,4 +1,4 @@
-function addShape(type) {
+/*function addShape(type) {
     let edit = document.getElementById('edit');
     let shape = document.createElement('div');
     shape.classList.add(type);
@@ -41,3 +41,58 @@ function makeDraggable(element) {
         element.style.cursor = 'grab';
     });
 }
+*/
+
+function addIcon(type) {
+    let edit = document.getElementById('edit');
+    let icon = document.createElement('img');
+
+    if (type === 'arrow') {
+        icon.src = 'https://img.icons8.com/ios/50/horizontal-line.png';
+    }
+
+    icon.classList.add('icon', 'resizable');
+    icon.style.left = '50px';
+    icon.style.top = '50px';
+    icon.setAttribute('data-x', 0);
+    icon.setAttribute('data-y', 0);
+
+    edit.appendChild(icon);
+
+    makeInteractive(icon);
+}
+
+function makeInteractive(element) {
+    interact(element)
+        .draggable({
+            inertia: true,
+            modifiers: [
+                interact.modifiers.restrictRect({
+                    restriction: "parent",
+                    endOnly: true
+                })
+            ],
+            listeners: {
+                move(event) {
+                    let target = event.target;
+                    let x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+                    let y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+                    target.style.transform = `translate(${x}px, ${y}px)`;
+                    target.setAttribute('data-x', x);
+                    target.setAttribute('data-y', y);
+                }
+            }
+        })
+        .resizable({
+            edges: { left: true, right: true, bottom: true, top: true },
+            listeners: {
+                move(event) {
+                    let target = event.target;
+                    let { width, height } = event.rect;
+                    target.style.width = width + 'px';
+                    target.style.height = height + 'px';
+                }
+            }
+        })
+};
