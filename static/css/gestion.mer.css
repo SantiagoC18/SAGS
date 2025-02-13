@@ -8,7 +8,7 @@
     background-color: rgba(10, 22, 40, 0.8);
     border: 1px solid #1a2635;
     border-radius: 0.5rem;
-    padding: 1.5rem;
+    padding: 2rem;
     margin-bottom: 2rem;
     display: flex;
     align-items: flex-start;
@@ -23,12 +23,12 @@
 }
 
 .user-details h2 {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .user-details p {
     color: #9ba1a6;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 .edit-user {
