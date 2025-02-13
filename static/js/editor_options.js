@@ -1,4 +1,4 @@
-/*function addShape(type) {
+function addShape(type) {
     let edit = document.getElementById('edit');
     let shape = document.createElement('div');
     shape.classList.add(type);
@@ -41,7 +41,7 @@ function makeDraggable(element) {
         element.style.cursor = 'grab';
     });
 }
-*/
+
 
 function addIcon(type) {
     let edit = document.getElementById('edit');
