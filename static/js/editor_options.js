@@ -3,16 +3,16 @@ function addShape(type) {
     let shape = document.createElement('div');
     shape.classList.add(type);
 
-   if (type === 'extends'){
-    shape.classList.add('line');
-    let text = document.createElement('div');
-    text.classList.add('text');
-    text.innerText = '<<extends>>';
-    shape.appendChild(text);
-   }
-   
-   edit.appendChild(shape);
-   makeDraggable(shape); 
+    if (type === 'extends') {
+        shape.classList.add('line');
+        let text = document.createElement('div');
+        text.classList.add('text');
+        text.innerText = '<<extends>>';
+        shape.appendChild(text);
+    }
+
+    edit.appendChild(shape);
+    makeDraggable(shape);
 }
 
 
@@ -30,7 +30,7 @@ function makeDraggable(element) {
 
     document.addEventListener("mousemove", (e) => {
         if (!isDragging) return;
-        element.style.position= 'absolute';
+        element.style.position = 'absolute';
         element.style.left = `${e.clientX - ejeX}px`;
         element.style.top = `${e.clientY - ejeY}px`;
 
@@ -49,6 +49,12 @@ function addIcon(type) {
 
     if (type === 'arrow') {
         icon.src = 'https://img.icons8.com/ios/50/horizontal-line.png';
+    }
+    if (type === 'atributo') {
+        icon.src = 'https://img.icons8.com/ios/50/ellipse-stroked--v1.png';
+
+    } if (type === 'elipse_punteado') {
+        icon.src = 'https://img.icons8.com/external-line-icons-royyan-wijaya/64/external-basic-geometricalist-line-icons-royyan-wijaya-26.png';
     }
 
     icon.classList.add('icon', 'resizable');
