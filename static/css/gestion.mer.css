@@ -15,30 +15,13 @@
     gap: 1.5rem;
 }
 
-.user-avatar {
-    width: 96px;
-    height: 96px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
 .user-details h2 {
     margin-bottom: 1.5rem;
 }
 
 .user-details p {
     color: #9ba1a6;
-    margin-bottom: 1rem;
-}
-
-.edit-user {
-    background: transparent;
-    border: 1px solid #00A3FF;
-    color: #00A3FF;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    cursor: pointer;
-    margin-top: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .requirements-section {
