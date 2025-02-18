@@ -32,15 +32,21 @@ main {
     align-items: center;
 }
 
-.user-details img {
+.user-details .container_img {
     width: 100px;
     height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    overflow: hidden;
     border-radius: 50%;
     margin-right: 20px;
-    background-image: url(/static/img/user\ icon_4479727.png);
-    background-position: center;
-    background-size: cover;
     border: solid white 1.5px;
+}
+
+.container_img img{
+    width: 180%;
 }
 
 .user-text {
