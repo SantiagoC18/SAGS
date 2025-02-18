@@ -1,3 +1,12 @@
+function editText() {
+    document.execCommand("bold");
+}
+
+function cursivaText() {
+    document.execCommand("italic");
+}
+
+
 function addShape(type) {
     let edit = document.getElementById('edit');
     let shape = document.createElement('div');
@@ -9,6 +18,14 @@ function addShape(type) {
         text.classList.add('text');
         text.innerText = '<<extends>>';
         shape.appendChild(text);
+    }
+    if (type === 'Text') {
+        let cuadroTexto = document.createElement("input");
+        cuadroTexto.type = "text";
+        cuadroTexto.placeholder = "Escribe algo...";
+        cuadroTexto.style.width = "150px";
+        cuadroTexto.style.height = "30px";
+        shape.appendChild(cuadroTexto);
     }
 
     edit.appendChild(shape);
