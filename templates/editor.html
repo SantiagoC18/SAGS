@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDITOR</title>
+    <link rel="stylesheet" href="/static/css/editor.css">
+    <link rel="stylesheet" href="/static/css/estilos.css">
+    <script src="https://kit.fontawesome.com/25eed41d7b.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/static/js/editor_options.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <a href="{{ url_for('index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
+
+        <ul class="navbar">
+            <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
+            <li><a href="{{ url_for('sobre_nosotros') }}">Sobre Nosotros</a></li>
+            <li><a href="{{ url_for('modulos') }}">Gestion de Proyectos</a></li>
+            <li><a href="{{ url_for('opiniones') }}">Opiniones</a></li>
+            <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
+        </ul>
+
+        <div class="main">
+            <a href="{{ url_for('logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion
+                {% endif %}</a>
+            <div class="bx bx-menu" id="menu-icon"><i class="fa-solid fa-bars"></i></div>
+        </div>
+    </header>
+
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.3.8/build/spline-viewer.js"></script>
+    <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
+
+    <main class="main-content">
+        <div id="edit" contenteditable="true"></div>
+        <div class="barra_tareas">
+            <h5>OPCIONES DE EDICIÓN</h5>
+            <!--Botones para editar texto-->
+            <div class="edit_texto">
+                <h6>TEXTO</h6>
+                <button class="edit-btn">NEGRITA</button>
+                <button class="edit-btn">CURSIVA</button>
+                <button class="edit-btn">CUADRO DE TEXTO</button>
+            </div>
+
+            <!--Botones para Elementos UML-->
+            <div class="edit_texto">
+                <h6>INTERACCIONES</h6>
+                <button class="edit-btn" onclick="addShape('line_right')">GENERALIZACIÓN</button>
+                <button class="edit-btn" onclick="addShape('include')">INCLUDE</button>
+                <button class="edit-btn" onclick="addShape('extends')">EXTENDS</button>
+                <!--Prueba Icons-->
+                <button class="edit-btn" onclick="addIcon('arrow')">ASOCIACIÓN</button>
+                <button class="edit-btn">AGREGACIÓN</button>
+                <button class="edit-btn">composición</button>
+                <button class="edit-btn">dependencia</button>
+                <button class="edit-btn">herencia</button>
+            </div>
+
+            
+            <div class="edit_texto">
+                <h6>ELEMENTOS UML</h6>
+                <button class="edit-btn">ACTOR</button>
+                <button class="edit-btn" onclick="addShape('circle')">CASO DE USO</button>
+                <button class="edit-btn" onclick="addShape('square')">LÍMITE DEL SISTEMA</button>
+                <button class="edit-btn">ENTIDAD</button>
+                <button class="edit-btn">ENTIDAD DÉBIL</button>
+                <button class="edit-btn">RELACION</button>
+                <button class="edit-btn" onclick="addIcon('atributo')">ATRIBUTO</button>
+                <button class="edit-btn">ATRIBUTO LLAVE</button>
+                <button class="edit-btn">ATRIBUTO MULTIVALUADO</button>
+                <button class="edit-btn" onclick="addIcon('elipse_punteado')" >ATRIBUTO CALCULADO</button>
+            </div>
+
+
+            <div class="edit_texto">
+                <h6>FORMATOS</h6>
+                <button class="edit-btn">CLASE</button>
+                <button class="edit-btn">OBJETO</button>
+                <button class="edit-btn">FORMATO C.U EXTENDIDO</button>
+
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

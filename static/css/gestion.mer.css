@@ -1,0 +1,85 @@
+.main-content {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.user-info {
+    background-color: rgba(10, 22, 40, 0.8);
+    border: 1px solid #1a2635;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+.user-details h2 {
+    margin-bottom: 1.5rem;
+}
+
+.user-details p {
+    color: #9ba1a6;
+    margin-bottom: 0.5rem;
+}
+
+.requirements-section {
+    background-color: rgba(10, 22, 40, 0.8);
+    border: 1px solid #1a2635;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
+
+.requirements-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.new-requirement-btn {
+    background-color: #00A3FF;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.requirements-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.requirements-table th,
+.requirements-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #1a2635;
+}
+
+.requirements-table th {
+    color: #9ba1a6;
+    font-weight: normal;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-btn {
+    background: transparent;
+    border: none;
+    color: #00A3FF;
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+.action-btn.delete {
+    color: #ff4444;
+}
