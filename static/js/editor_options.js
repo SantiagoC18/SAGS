@@ -27,9 +27,39 @@ function addShape(type) {
         cuadroTexto.style.height = "30px";
         shape.appendChild(cuadroTexto);
     }
+    if (type === 'generalizacion') {
+        let svgContainer = document.createElement('div');
+        svgContainer.classList.add('generalizacion');
+
+        let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("width", "150");
+        svg.setAttribute("height", "100");
+
+        let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", "10");
+        line.setAttribute("y1", "50");
+        line.setAttribute("x2", "100");
+        line.setAttribute("y2", "50");
+        line.setAttribute("stroke", "black");
+        line.setAttribute("stroke-width", "2");
+
+        let arrow = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+        arrow.setAttribute("points", "100,40 120,50 100,60");
+        arrow.setAttribute("fill", "white");
+        arrow.setAttribute("stroke", "black");
+        arrow.setAttribute("stroke-width", "2");
+
+
+        svg.appendChild(line);
+        svg.appendChild(arrow);
+        svgContainer.appendChild(svg);
+        edit.appendChild(svgContainer);
+        makeDraggable(svgContainer);
+    }
 
     edit.appendChild(shape);
     makeDraggable(shape);
+
 }
 
 
