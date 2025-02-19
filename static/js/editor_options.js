@@ -60,6 +60,7 @@ function addShape(type) {
 
     edit.appendChild(shape);
     makeDraggable(shape);
+    makeResizable(shape);
 
 }
 
@@ -91,18 +92,19 @@ function makeDraggable(element) {
 }
 
 
-function resizable(element) {
-    resizable({
-        edges: { left: true, right: true, bottom: true, top: true },
-        listeners: {
-            move(event) {
-                let target = event.target;
-                let { width, height } = event.rect;
-                target.style.width = width + 'px';
-                target.style.height = height + 'px';
+function makeResizable(element) {
+    interact(element)
+        .resizable({
+            edges: { left: true, right: true, bottom: true, top: true },
+            listeners: {
+                move(event) {
+                    let target = event.target;
+                    let { width, height } = event.rect;
+                    target.style.width = width + 'px';
+                    target.style.height = height + 'px';
+                }
             }
-        }
-    })
+        })
 };
 
 
@@ -130,6 +132,48 @@ function addIcon(type) {
     edit.appendChild(icon);
 
     makeInteractive(icon);
+}
+
+
+//Formatos
+
+function makeTable() {
+    document.getElementById("extendido")
+
+    let edit = document.getElementById('edit');
+    let table = document.createElement("table");
+    table.id = "dynamicTable";
+    let thead = document.createElement("thead");
+    let headerRow = document.createElement("tr");
+
+
+    let headers = ["Casos de Uso Extendido", "RF", "CU"];
+    headers.forEach(text => {
+        let th = document.createElement("th");
+        th.textContent = text;
+        headerRow.appendChild(th);
+    });
+
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    let tbody = document.createElement("tbody");
+    let row = document.createElement("tr");
+
+    headers.forEach(() => {
+        let td = document.createElement("td");
+        let input = document.createElement("input");
+        input.type = "text";
+        td.appendChild(input);
+        row.appendChild(td);
+    });
+
+    tbody.appendChild(row);
+    table.appendChild(tbody);
+
+    // Agregar tabla al contenedor
+    edit.appendChild(table);
+
 }
 
 
