@@ -68,7 +68,9 @@
             <h2>Información del Usuario</h2>
             <div class="user-details">
                 {% for dato in usuario %}
-                <img src="/static/img/usuarios/{{dato['foto']}}" alt="">
+                <div class="container_img">
+                    <img src="/static/img/usuarios/{{dato['foto']}}" alt="">
+                </div>
                 <div class="user-text">
 
                     <p><strong>Nombre:</strong> {{ dato['nombres'] }} {{ dato['apellidos'] }}</p>
@@ -122,61 +124,55 @@
             </div>
             <div class="dialog-content">
                 <form>
+                    {% for dato2 in usuario %}
                     <div class="form-group">
                         <label for="documento">
                             <i data-lucide="user"></i>
                             No° Documento (id)
                         </label>
-                        <input type="number" id="documento" name="documento" placeholder="No° Documento (id)">
+                        <input type="number" id="documento" name="documento" value="{{ dato2['documento'] }}" placeholder="No° Documento (id)">
                     </div>
                     <div class="form-group">
                         <label for="clave">
                             <i data-lucide="key-round"></i>
                             Clave
                         </label>
-                        <input type="password" id="clave" name="clave" placeholder="Clave">
+                        <input type="password" id="clave" name="clave" value="{{ dato2['password'] }}" placeholder="Clave">
                     </div>
                     <div class="form-group">
                         <label for="correo">
                             <i data-lucide="mail"></i>
                             Correo
                         </label>
-                        <input type="email" id="correo" name="correo" placeholder="Correo">
+                        <input type="email" id="correo" name="correo" value="{{ dato2['email'] }}" placeholder="Correo">
                     </div>
                     <div class="form-group">
                         <label for="telefono">
                             <i data-lucide="phone"></i>
                             Teléfono
                         </label>
-                        <input type="number" id="telefono" name="telefono" placeholder="Teléfono">
-                    </div>
-                    <div class="form-group">
-                        <label for="ubicacion">
-                            <i data-lucide="map-pin"></i>
-                            Ubicación
-                        </label>
-                        <input type="text" id="ubicacion" name="ubicacion" placeholder="Ubicación">
+                        <input type="number" id="telefono" name="telefono" value="{{ dato2['telefono'] }}" placeholder="Teléfono">
                     </div>
                     <div class="form-group">
                         <label for="perfil">
                             <i data-lucide="user-circle"></i>
                             Perfil
                         </label>
-                        <input type="text" id="perfil" name="perfil" placeholder="Perfil">
+                        <input type="text" id="perfil" name="perfil" value="{{ dato2['perfil'] }}" placeholder="Perfil">
                     </div>
                     <div class="form-group">
                         <label for="nombres">
                             <i data-lucide="user-plus"></i>
                             Nombres
                         </label>
-                        <input type="text" id="nombres" name="nombres" placeholder="Nombres">
+                        <input type="text" id="nombres" name="nombres" value="{{ dato2['nombres'] }}" placeholder="Nombres">
                     </div>
                     <div class="form-group">
                         <label for="apellidos">
                             <i data-lucide="user-plus"></i>
                             Apellidos
                         </label>
-                        <input type="text" id="apellidos" name="apellidos" placeholder="Apellidos">
+                        <input type="text" id="apellidos" name="apellidos" value="{{ dato2['apellidos'] }}" placeholder="Apellidos">
                     </div>
                     <div class="form-group">
                         <label for="foto">
@@ -185,6 +181,7 @@
                         </label>
                         <input type="file" id="foto" name="foto" accept="image/*">
                     </div>
+                    {% endfor %}
                 </form>
             </div>
             <div class="dialog-footer">
