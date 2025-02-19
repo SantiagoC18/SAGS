@@ -1,3 +1,4 @@
+//Edición de formato de texto
 function editText() {
     document.execCommand("bold");
 }
@@ -6,7 +7,7 @@ function cursivaText() {
     document.execCommand("italic");
 }
 
-
+//Creación de figuras
 function addShape(type) {
     let edit = document.getElementById('edit');
     let shape = document.createElement('div');
@@ -27,13 +28,44 @@ function addShape(type) {
         cuadroTexto.style.height = "30px";
         shape.appendChild(cuadroTexto);
     }
+    if (type === 'generalizacion') {
+        let svgContainer = document.createElement('div');
+        svgContainer.classList.add('generalizacion');
+
+        let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("width", "150");
+        svg.setAttribute("height", "100");
+
+        let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", "10");
+        line.setAttribute("y1", "50");
+        line.setAttribute("x2", "100");
+        line.setAttribute("y2", "50");
+        line.setAttribute("stroke", "black");
+        line.setAttribute("stroke-width", "2");
+
+        let arrow = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+        arrow.setAttribute("points", "100,40 120,50 100,60");
+        arrow.setAttribute("fill", "white");
+        arrow.setAttribute("stroke", "black");
+        arrow.setAttribute("stroke-width", "2");
+
+
+        svg.appendChild(line);
+        svg.appendChild(arrow);
+        svgContainer.appendChild(svg);
+        edit.appendChild(svgContainer);
+        makeDraggable(svgContainer);
+    }
 
     edit.appendChild(shape);
     makeDraggable(shape);
+    makeResizable(shape);
+
 }
 
 
-
+//Movimiento de Objetos
 function makeDraggable(element) {
     let ejeX, ejeY, isDragging = false;
 
@@ -60,6 +92,23 @@ function makeDraggable(element) {
 }
 
 
+function makeResizable(element) {
+    interact(element)
+        .resizable({
+            edges: { left: true, right: true, bottom: true, top: true },
+            listeners: {
+                move(event) {
+                    let target = event.target;
+                    let { width, height } = event.rect;
+                    target.style.width = width + 'px';
+                    target.style.height = height + 'px';
+                }
+            }
+        })
+};
+
+
+//Icons 
 function addIcon(type) {
     let edit = document.getElementById('edit');
     let icon = document.createElement('img');
@@ -85,37 +134,46 @@ function addIcon(type) {
     makeInteractive(icon);
 }
 
-function makeInteractive(element) {
-    interact(element)
-        .draggable({
-            inertia: true,
-            modifiers: [
-                interact.modifiers.restrictRect({
-                    restriction: "parent",
-                    endOnly: true
-                })
-            ],
-            listeners: {
-                move(event) {
-                    let target = event.target;
-                    let x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-                    let y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
-                    target.style.transform = `translate(${x}px, ${y}px)`;
-                    target.setAttribute('data-x', x);
-                    target.setAttribute('data-y', y);
-                }
-            }
-        })
-        .resizable({
-            edges: { left: true, right: true, bottom: true, top: true },
-            listeners: {
-                move(event) {
-                    let target = event.target;
-                    let { width, height } = event.rect;
-                    target.style.width = width + 'px';
-                    target.style.height = height + 'px';
-                }
-            }
-        })
-};
+//Formatos
+
+function makeTable() {
+    document.getElementById("extendido")
+
+    let edit = document.getElementById('edit');
+    let table = document.createElement("table");
+    table.id = "dynamicTable";
+    let thead = document.createElement("thead");
+    let headerRow = document.createElement("tr");
+
+
+    let headers = ["Casos de Uso Extendido", "RF", "CU"];
+    headers.forEach(text => {
+        let th = document.createElement("th");
+        th.textContent = text;
+        headerRow.appendChild(th);
+    });
+
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    let tbody = document.createElement("tbody");
+    let row = document.createElement("tr");
+
+    headers.forEach(() => {
+        let td = document.createElement("td");
+        let input = document.createElement("input");
+        input.type = "text";
+        td.appendChild(input);
+        row.appendChild(td);
+    });
+
+    tbody.appendChild(row);
+    table.appendChild(tbody);
+
+    // Agregar tabla al contenedor
+    edit.appendChild(table);
+
+}
+
+

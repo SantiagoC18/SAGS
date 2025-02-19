@@ -111,7 +111,7 @@ button:hover {
     resize: both;
     overflow: hidden;
 }
- 
+
 .square {
     width: 100px;
     height: 100px;
@@ -176,20 +176,50 @@ button:hover {
     top: -20px;
 }
 
+.generalizacion {
+    position: absolute;
+    width: 150px;
+    height: 100px;
+}
+
 
 /*PRUEBA CON ICONS*/
 
-.icon{
+.icon {
     position: absolute;
     cursor: grab;
     width: 50px;
     height: 50px;
 }
 
-.resizable{
+.resizable {
     resize: both;
     overflow: hidden;
 }
 
 
+/*Table*/
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th,
+td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+input {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 4px;
+}

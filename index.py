@@ -2,6 +2,8 @@ from flask import Flask
 from flask import render_template, redirect, request, Response, session, url_for, flash
 from flask_mysqldb import MySQL, MySQLdb
 from flask_mail import Mail, Message
+from flask import Flask, render_template, request, jsonify
+import sqlite3
 
 import secrets
 from datetime import datetime, timedelta
@@ -170,7 +172,7 @@ def acceso_login():
 #Finaliza funcion login
 
 
-#funcion de login para validar usuario, contraceñá y rol para la gestion de proyectos
+#funcion de login para validar usuario, contraseña y rol para la gestion de proyectos
 @app.route('/gestion_proyectos', methods=["GET", "POST"])
 def gestion_proyectos():
     if session.get('logueado'):
@@ -467,6 +469,34 @@ def checkdown(idproy):
     
     else:
         return redirect(url_for('login'))
+    
+
+#mostrar usuarios en vista administrador
+@app.route("/get_usuarios")
+def get_usuarios():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT email, nombres, idrol FROM usuarios")
+    usuarios = [{"id": row["email"], "nombre": row["nombres"], "cargo": row["idrol"]} for row in cur.fetchall()]
+    cur.close()
+    return jsonify(usuarios)
+
+
+@app.route("/asignar_usuarios", methods=["POST"])
+def asignar_usuarios():
+    data = request.json
+    cur = mysql.connection.cursor()
+
+    for usuario_id in data["usuarios"]:
+        cur.execute("SELECT COUNT(*) FROM usuarios_proyectos WHERE usuario_id = %s AND proyecto_id = %s",
+                    (usuario_id, data["proyecto_id"]))
+        if cur.fetchone()[0] == 0: 
+            cur.execute("INSERT INTO usuarios_proyectos (usuario_id, proyecto_id) VALUES (%s, %s)",
+                        (usuario_id, data["proyecto_id"]))
+
+    mysql.connection.commit()
+    cur.close()
+    return jsonify({"message": "Usuarios asignados correctamente"})
+
 
 
 #redireccion y destruccion de sesion del usuario

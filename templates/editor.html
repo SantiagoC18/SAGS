@@ -22,7 +22,7 @@
             <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
             <li><a href="{{ url_for('sobre_nosotros') }}">Sobre Nosotros</a></li>
             <li><a href="{{ url_for('modulos') }}">Gestion de Proyectos</a></li>
-            <li><a href="{{ url_for('opiniones') }}">Opiniones</a></li>
+        <!--<li><a href="{{ url_for('opiniones') }}">Opiniones</a></li>-->
             <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
         </ul>
 
@@ -51,7 +51,7 @@
             <!--Botones para Elementos UML-->
             <div class="edit_texto">
                 <h6>INTERACCIONES</h6>
-                <button class="edit-btn" onclick="addShape('line_right')">GENERALIZACIÓN</button>
+                <button class="edit-btn" onclick="addShape('generalizacion')">GENERALIZACIÓN</button>
                 <button class="edit-btn" onclick="addShape('include')">INCLUDE</button>
                 <button class="edit-btn" onclick="addShape('extends')">EXTENDS</button>
                 <!--Prueba Icons-->
@@ -82,7 +82,7 @@
                 <h6>FORMATOS</h6>
                 <button class="edit-btn">CLASE</button>
                 <button class="edit-btn">OBJETO</button>
-                <button class="edit-btn">FORMATO C.U EXTENDIDO</button>
+                <button id="extendido" class="edit-btn" onclick="makeTable()">FORMATO C.U EXTENDIDO</button>
 
             </div>
         </div>
