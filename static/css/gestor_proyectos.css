@@ -33,3 +33,105 @@
 .info:hover{
     background-color: rgba(255, 255, 255, 0.1);
 }
+
+/*  */
+#modalAsignar {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Caja del modal */
+#modalAsignar .modal-content {
+    background: rgba(20, 20, 20, 0.9); /* Fondo oscuro casi negro */
+    width: 40%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
+    color: white; /* Texto en blanco */
+    text-align: center;
+}
+
+/* Título del modal */
+#modalAsignar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid white;
+    padding-bottom: 10px;
+}
+
+/* Lista de usuarios dentro del modal */
+#listaUsuarios {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Estilos para los checkboxes */
+#listaUsuarios li {
+    padding: 8px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Botones */
+#modalAsignar button {
+    display: inline-block;
+    margin: 15px 5px 0 5px;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: background 0.3s, transform 0.2s ease-in-out;
+}
+
+/* Botón Asignar */
+#btnAsignarUsuarios {
+    background: #0f4101;
+    color: white;
+}
+
+/* Botón Cancelar */
+#btnCancelar {
+    background: #500101;
+    color: white;
+}
+
+
+
+/* Efecto OnFocus */
+button:focus {
+    outline: none;
+    box-shadow: 0px 0px 10px #1e3a8a; /* Azul marino */
+}
+
+/* Efecto Click */
+button:active {
+    transform: scale(0.95);
+}
+
+#listaUsuarios::-webkit-scrollbar {
+    width: 8px;
+}
+
+#listaUsuarios::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+#listaUsuarios::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
