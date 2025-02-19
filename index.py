@@ -454,8 +454,16 @@ def checkdown(idproy):
                     ON checklists.idmod = modelos.idmod
                     WHERE checklists.idproy = %s;''',(idproy,))
         data = cur.fetchall()
+        
+        cur.execute('''SELECT usuarios.nombres,usuarios.apellidos, count(usuarios.email) integrantes
+                    FROM proyectos
+                    INNER JOIN usu_proy ON proyectos.idproy = usu_proy.idproy
+                    INNER JOIN usuarios ON usuarios.email = usu_proy.email
+                    WHERE usu_proy.idproy = %s 
+                    GROUP BY usuarios.nombres, usuarios.apellidos''', (idproy,))
+        personal = cur.fetchall()
     
-        return render_template('check-down.html', data=data, data2=data2, log='Cerrar')
+        return render_template('check-down.html', data=data, data2=data2, colaboradores = personal, log='Cerrar')
     
     else:
         return redirect(url_for('login'))

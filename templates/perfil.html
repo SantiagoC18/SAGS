@@ -76,7 +76,8 @@
                     <p><strong>Nombre:</strong> {{ dato['nombres'] }} {{ dato['apellidos'] }}</p>
                     <p><strong>Correo Electrónico:</strong> {{ dato['email'] }}</p>
                     <p><strong>Funcion:</strong> {{ dato['perfil'] }}</p>
-                    <button id="btn-abrir-popup0" class="button">Editar Datos</button>
+                    <button id="btn-abrir-popup1" class="button">Editar Datos</button>
+                    <button id="btn-abrir-popup2" class="button button2">Editar Clave</button>
 
                 </div>
                 {% endfor %}
@@ -112,9 +113,9 @@
 
     <!--ventana emergente1-->
 
-    <div class="overlay" id="overlay">
-        <div class="popup" id="popup" style="height: 65%; background-color: #0000007e;">
-            <a href="#" id="btn-cerrar-popup0" class="btn-cerrar-popup" style="margin-right: -100%"><i
+    <div class="overlay" id="overlay1">
+        <div class="popup" id="popup1" style="height: 65%; background-color: #0000007e;">
+            <a href="#" id="btn-cerrar-popup1" class="btn-cerrar-popup" style="margin-right: -100%"><i
                     class="fas fa-times"></i>
             </a>
             <div class="dialog-header">
@@ -130,14 +131,16 @@
                             <i data-lucide="user"></i>
                             No° Documento (id)
                         </label>
-                        <input type="number" id="documento" name="documento" value="{{ dato2['documento'] }}" placeholder="No° Documento (id)">
+                        <input type="number" id="documento" name="documento" value="{{ dato2['documento'] }}"
+                            placeholder="No° Documento (id)">
                     </div>
                     <div class="form-group">
                         <label for="clave">
                             <i data-lucide="key-round"></i>
                             Clave
                         </label>
-                        <input type="password" id="clave" name="clave" value="{{ dato2['password'] }}" placeholder="Clave">
+                        <input type="password" id="clave" name="clave" value="{{ dato2['password'] }}"
+                            placeholder="Clave">
                     </div>
                     <div class="form-group">
                         <label for="correo">
@@ -151,7 +154,8 @@
                             <i data-lucide="phone"></i>
                             Teléfono
                         </label>
-                        <input type="number" id="telefono" name="telefono" value="{{ dato2['telefono'] }}" placeholder="Teléfono">
+                        <input type="number" id="telefono" name="telefono" value="{{ dato2['telefono'] }}"
+                            placeholder="Teléfono">
                     </div>
                     <div class="form-group">
                         <label for="perfil">
@@ -165,14 +169,16 @@
                             <i data-lucide="user-plus"></i>
                             Nombres
                         </label>
-                        <input type="text" id="nombres" name="nombres" value="{{ dato2['nombres'] }}" placeholder="Nombres">
+                        <input type="text" id="nombres" name="nombres" value="{{ dato2['nombres'] }}"
+                            placeholder="Nombres">
                     </div>
                     <div class="form-group">
                         <label for="apellidos">
                             <i data-lucide="user-plus"></i>
                             Apellidos
                         </label>
-                        <input type="text" id="apellidos" name="apellidos" value="{{ dato2['apellidos'] }}" placeholder="Apellidos">
+                        <input type="text" id="apellidos" name="apellidos" value="{{ dato2['apellidos'] }}"
+                            placeholder="Apellidos">
                     </div>
                     <div class="form-group">
                         <label for="foto">
@@ -192,7 +198,56 @@
             lucide.createIcons();
         </script>
     </div>
-    </div>
+
+    <!--fin ventana emergente1-->
+
+    <!--ventana emergente2-->
+
+    <div class="overlay" id="overlay2">
+        <div class="popup" id="popup2" style="height: auto; background-color: #0000007e;">
+            <a href="#" id="btn-cerrar-popup2" class="btn-cerrar-popup" style="margin-right: -100%"><i
+                    class="fas fa-times"></i>
+            </a>
+            <div class="dialog-header">
+                <h2 class="dialog-title">Actualizar Clave</h2>
+                <p class="dialog-description">Actualiza tu clave. Haz clic en actualizar cuando termines.
+                </p>
+            </div>
+            <div class="dialog-content">
+                <form>
+                    {% for dato2 in usuario %}
+                    <div class="form-group">
+                        <label for="actual">
+                            <i data-lucide="key-round"></i>
+                            Clave Actual
+                        </label>
+                        <input type="password" id="actual" name="actual"
+                            placeholder="Clave Actual">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nueva">
+                            Nueva clave
+                        </label>
+                        <input type="password" id="nueva" name="nueva"
+                            placeholder="Nueva Clave">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmacion">
+                            Confirmacion de Clave
+                        </label>
+                        <input type="password" id="confirmacion" name="confirmacion" placeholder="Confirmar Clave">
+                    </div>
+                    {% endfor %}
+                </form>
+            </div>
+            <div class="dialog-footer">
+                <button type="submit" class="button">Actualizar</button>
+            </div>
+            <script>
+                lucide.createIcons();
+            </script>
+        </div>
     </div>
 
     <!--fin ventana emergente1-->

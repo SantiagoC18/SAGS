@@ -44,9 +44,9 @@
 
     {% endfor %}
 
-    <h3 class="text-4xl">Checklist de Documentación</h3>
+    <h3 class="text_tittle">Checklist de Documentación</h3>
 
-    <section>
+    <section class="sec1">
 
         <table id="myTable" class="display bg-[#000]" style="max-width:49vw; overflow: auto;">
             <thead>
@@ -67,9 +67,9 @@
                     <td>
                         <div class="inline-flex items-center">
                             <label class="flex items-center cursor-pointer relative">
-                                <input type="checkbox" 
+                                <input type="checkbox"
                                     class="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-blue-600 checked:border-blue-600"
-                                    id="check1" {% if data['aprobacion'] == 1 %} checked {% endif %} disabled >
+                                    id="check1" {% if data['aprobacion']==1 %} checked {% endif %} disabled>
                                 <span
                                     class="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20"
@@ -107,12 +107,26 @@
             </tbody>
         </table>
 
-        <div id="preview-container"
-            style="border: 1px solid #ccc; padding: 20px 0 0 0; margin-top: 20px; width: 95%; margin: auto;">
+        <div id="preview-container">
             <h1 id="preview-title">Selecciona un documento para visualizar</h1>
             <iframe id="preview-frame" style="width: 98%; height: 900px; border: none; margin: auto;"></iframe>
         </div>
 
+    </section>
+
+    <section class="sec2">
+        
+        <div class="contributors-container">
+        <h2 class="contributors-title">Colaboradores</h2>
+        <ul class="contributors-list">
+            {% for personal in colaboradores %}
+            <li class="contributor-item">
+                <img src="https://via.placeholder.com/20" alt="Avatar de Santiago" class="contributor-avatar">
+                <span class="contributor-name">{{ personal['nombres']}} {{ personal['apellidos']}}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
     </section>
 
 
