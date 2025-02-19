@@ -176,6 +176,12 @@ button:hover {
     top: -20px;
 }
 
+.generalizacion {
+    position: absolute;
+    width: 150px;
+    height: 100px;
+}
+
 
 /*PRUEBA CON ICONS*/
 
@@ -192,12 +198,28 @@ button:hover {
 }
 
 
+/*Table*/
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
 
+th,
+td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+}
 
-/*prueba generalizacón*/
-.generalizacion {
-    position: absolute;
-    width: 150px;
-    height: 100px;
+th {
+    background-color: #f2f2f2;
+}
+
+input {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 4px;
 }

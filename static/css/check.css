@@ -1,36 +1,58 @@
-section{
+section {
+    float: left;
+}
+
+.sec1 {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    width: 83%;
+    margin-right: 1%;
 }
 
-section h1{
+.sec2 {
+    width: 15%;
+    padding: 5px;
+    border-left: solid white 1px;
+}
+
+.sec2 h3 {
+    float: left;
+}
+
+section h1 {
     font-size: 60px;
     text-align: center;
 }
 
-h1{
+h1 {
     text-align: center;
 }
 
-h3{
+.text_tittle {
+    font-size: 30px;
+}
+
+h3 {
     font-size: 40px;
     text-align: center;
     margin-bottom: 20px;
 }
 
-h4{
+h4 {
     font-size: 25px;
     text-align: center;
     margin-bottom: 30px;
 }
 
-
-select, label, .pagination,.dt-info{
+select,
+label,
+.pagination,
+.dt-info {
     display: none;
 }
 
-tbody .info:hover{
+tbody .info:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -38,15 +60,97 @@ table th {
     font-size: 20px;
 }
 
-table td{
+table td {
     font-size: 17px;
 }
 
-#preview-container{
+#preview-container {
     background-color: black;
     border-radius: 12px;
+    border: 1px solid #ccc;
+    padding: 20px 0 0 0;
+    margin-top: 20px;
+    width: 95%;
+    margin: auto
 }
 
 #preview-container h1 {
     margin-bottom: 10px;
+}
+
+
+/* Contenedor principal */
+.contributors-container {
+    background-color: rgba(13, 17, 23, 0.5);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    width: 100%;
+    max-width: 20rem;
+}
+
+/* Título */
+.contributors-title {
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #21262D;
+}
+
+/* Lista de colaboradores */
+.contributors-list {
+    list-style: none;
+}
+
+/* Elemento individual de colaborador */
+.contributor-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.contributor-item:hover {
+    background-color: #1F2937;
+}
+
+/* Avatar */
+.contributor-avatar {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    background-color: #21262D;
+}
+
+/* Nombre del colaborador */
+.contributor-name {
+    color: #8B949E;
+    font-size: 0.875rem;
+    transition: color 0.2s ease;
+}
+
+.contributor-item:hover .contributor-name {
+    color: #fff;
+}
+
+@media (max-width: 600px) {
+
+    #preview-container {
+        width: 100%;
+        margin: auto;
+    }
+
+    #preview-container h1 {
+        font-size: 30px;
+    }
+
+    .sec2 {
+        visibility: hidden;
+        display: none;
+        position: absolute;
+    }
 }

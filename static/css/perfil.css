@@ -45,7 +45,7 @@ main {
     border: solid white 1.5px;
 }
 
-.container_img img{
+.container_img img {
     width: 180%;
 }
 
@@ -123,14 +123,8 @@ main {
     border: none;
 }
 
-@media screen and (max-width: 720px) {
-    .user-details {
-        flex-direction: column;
-    }
-
-    .user-details img {
-        margin-top: 15px;
-    }
+.button2 {
+    left: 10px;
 }
 
 .dialog-title {
@@ -146,6 +140,7 @@ main {
 }
 
 .dialog-content {
+    width: 70%;
     padding: 0 1.5rem;
 }
 
@@ -176,10 +171,22 @@ main {
     font-size: 0.875rem;
 }
 
-.dialog-footer .button{
+.dialog-footer .button {
     margin-top: 15px;
-    
+
 }
 
+@media (max-width: 600px) {
+    .dialog-content {
+        width: 100%;
+    }
 
+    .user-details {
+        flex-direction: column;
+        margin-top: 10px;
+    }
 
+    .user-details img {
+        margin-top: 15px;
+    }
+}
