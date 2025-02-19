@@ -1,3 +1,4 @@
+//Edición de formato de texto
 function editText() {
     document.execCommand("bold");
 }
@@ -6,7 +7,7 @@ function cursivaText() {
     document.execCommand("italic");
 }
 
-
+//Creación de figuras
 function addShape(type) {
     let edit = document.getElementById('edit');
     let shape = document.createElement('div');
@@ -63,7 +64,7 @@ function addShape(type) {
 }
 
 
-
+//Movimiento de Objetos
 function makeDraggable(element) {
     let ejeX, ejeY, isDragging = false;
 
@@ -90,6 +91,22 @@ function makeDraggable(element) {
 }
 
 
+function resizable(element) {
+    resizable({
+        edges: { left: true, right: true, bottom: true, top: true },
+        listeners: {
+            move(event) {
+                let target = event.target;
+                let { width, height } = event.rect;
+                target.style.width = width + 'px';
+                target.style.height = height + 'px';
+            }
+        }
+    })
+};
+
+
+//Icons 
 function addIcon(type) {
     let edit = document.getElementById('edit');
     let icon = document.createElement('img');
@@ -115,37 +132,4 @@ function addIcon(type) {
     makeInteractive(icon);
 }
 
-function makeInteractive(element) {
-    interact(element)
-        .draggable({
-            inertia: true,
-            modifiers: [
-                interact.modifiers.restrictRect({
-                    restriction: "parent",
-                    endOnly: true
-                })
-            ],
-            listeners: {
-                move(event) {
-                    let target = event.target;
-                    let x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-                    let y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
-                    target.style.transform = `translate(${x}px, ${y}px)`;
-                    target.setAttribute('data-x', x);
-                    target.setAttribute('data-y', y);
-                }
-            }
-        })
-        .resizable({
-            edges: { left: true, right: true, bottom: true, top: true },
-            listeners: {
-                move(event) {
-                    let target = event.target;
-                    let { width, height } = event.rect;
-                    target.style.width = width + 'px';
-                    target.style.height = height + 'px';
-                }
-            }
-        })
-};
