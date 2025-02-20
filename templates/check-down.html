@@ -97,8 +97,8 @@
                             class="preview-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
                             data-id="{{ url_for('static', filename='documentos/' ~  data['archivo']) }}"
                             data-filename="{{ data['nombre'] }}">Ver</button>
-                        <button
-                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Editar</button>
+                        <a href="https://app.diagrams.net/"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Editar</a>
                     </td>
                     <td>{{ data['fecha'] }}</td>
                 </tr>
