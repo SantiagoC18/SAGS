@@ -6,13 +6,13 @@ main {
 
 .user-info,
 .user-projects {
-    background-color: #020614;
+    background-color: rgba(0, 10, 17, 0.9);
     padding: 20px;
     margin-bottom: 20px;
     border: 1px solid white;
     border-radius: 5px;
-    box-shadow: -41px 41px 82px #010309,
-        41px -41px 82px #03091f;
+    box-shadow: -41px 41px 82px #000a11,
+        41px -41px 82px #000a11;
 }
 
 .user-info h2 {
