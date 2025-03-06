@@ -22,7 +22,7 @@
             <li><a href="{{ url_for('index') }}">Home</a></li>
             <li><a href="{{ url_for('sobre_nosotros') }}">Sobre Nosotros</a></li>
             <li><a href="{{ url_for('modulos') }}" class="active">Gestion de Proyectos</a></li>
-        <!--<li><a href="{{ url_for('opiniones') }}">Opiniones</a></li>-->
+            <!--<li><a href="{{ url_for('opiniones') }}">Opiniones</a></li>-->
             <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
         </ul>
 
@@ -115,18 +115,52 @@
     </section>
 
     <section class="sec2">
-        
+
         <div class="contributors-container">
-        <h2 class="contributors-title">Colaboradores</h2>
-        <ul class="contributors-list">
-            {% for personal in colaboradores %}
-            <li class="contributor-item">
-                <img src="https://via.placeholder.com/20" alt="Avatar de Santiago" class="contributor-avatar">
-                <span class="contributor-name">{{ personal['nombres']}} {{ personal['apellidos']}}</span>
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
+            <h2 class="contributors-title">Colaboradores</h2>
+            <ul class="contributors-list">
+                {% for personal in colaboradores %}
+                <li class="contributor-item">
+                    <img src="https://via.placeholder.com/20" alt="Avatar de Santiago" class="contributor-avatar">
+                    <span class="contributor-name">{{ personal['nombres']}} {{ personal['apellidos']}}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <br>
+
+        <div class="contributors-container">
+            <h2 class="contributors-title">Acciones</h2>
+            <ul class="contributors-list">
+                <li class="contributor-item">
+                    <a href="/sprints.html" >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+                        </svg>
+                        <span class="contributors-name">Sprints</span>
+                    </a>
+                </li>
+
+                <li class="contributor-item">
+                    <a href="/tareas.html" class="action-link">
+                        <div class="action-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M9 11l3 3L22 4" />
+                                <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
+                            </svg>
+                        </div>
+                        <span class="contributors-name">Tareas</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+  
     </section>
 
 

@@ -118,6 +118,15 @@ table td {
     background-color: #1F2937;
 }
 
+.contributor-item a {
+    display: flex;
+    flex-direction: row;
+}
+
+.contributor-item svg{
+    margin-right: 10px;
+}
+
 /* Avatar */
 .contributor-avatar {
     width: 1.25rem;
