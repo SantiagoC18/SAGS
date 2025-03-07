@@ -18,8 +18,9 @@
 
 .container__cover .text {
     max-width: 400px;
-    background-color: rgba(100, 100, 100, 0.5);
+    background-color: rgba(0, 10, 17, 0.8);
     padding: 50px;
+    border: solid white 1px;
     border-radius: 15px;
 }
 
@@ -281,7 +282,7 @@ button{
     display: flex;
     flex-direction: column;
     border-radius: 0.25rem;
-    background-color: rgba(17, 24, 39, 1);
+    background-color: rgba(0, 10, 17, 0.9);
     padding: 1.5rem;
 }
 
