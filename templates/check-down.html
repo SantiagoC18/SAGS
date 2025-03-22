@@ -134,7 +134,7 @@
             <h2 class="contributors-title">Acciones</h2>
             <ul class="contributors-list">
                 <li class="contributor-item">
-                    <a href="/sprints.html">
+                    <a href="{{ url_for('sprints', idproy = idproy) }}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path
@@ -145,7 +145,7 @@
                 </li>
 
                 <li class="contributor-item">
-                    <a href="/tareas.html" class="action-link">
+                    <a href="{{ url_for('tasks', idproy = idproy) }}" class="action-link">
                         <div class="action-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"

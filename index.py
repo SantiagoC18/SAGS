@@ -559,7 +559,7 @@ def checkdown(idproy):
                     WHERE checklists.idproy = %s;''',(idproy,))
         data = cur.fetchall()
         
-        cur.execute('''SELECT usuarios.nombres,usuarios.apellidos, count(usuarios.email) integrantes
+        cur.execute('''SELECT proyectos.idproy, usuarios.nombres,usuarios.apellidos, count(usuarios.email) integrantes
                     FROM proyectos
                     INNER JOIN usu_proy ON proyectos.idproy = usu_proy.idproy
                     INNER JOIN usuarios ON usuarios.email = usu_proy.email
@@ -567,11 +567,28 @@ def checkdown(idproy):
                     GROUP BY usuarios.nombres, usuarios.apellidos''', (idproy,))
         personal = cur.fetchall()
     
-        return render_template('check-down.html', data=data, data2=data2, colaboradores = personal, log='Cerrar')
+        return render_template('check-down.html', idproy = id, data=data, data2=data2, colaboradores = personal, log='Cerrar')
     
     else:
         return redirect(url_for('login'))
     
+
+@app.route("/tasks/<int:idproy>")
+def tasks(idproy):
+    if session.get('logueado'):
+        idproy = idproy
+        return render_template('tasks.html', log='Cerrar', idp=idproy)
+    else:
+        return redirect(url_for('login'))
+
+
+@app.route("/sprints/<int:idproy>")
+def sprints(idproy):
+    if session.get('logueado'):
+        idproy = idproy
+        return render_template('sprints.html', log='Cerrar')
+    else:
+        return redirect(url_for('login'))
 
 #mostrar usuarios en vista administrador
 @app.route("/get_usuarios")
