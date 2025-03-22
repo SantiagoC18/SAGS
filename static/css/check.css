@@ -12,6 +12,7 @@ section {
 
 .sec2 {
     width: 15%;
+    height: 100vh;
     padding: 5px;
     border-left: solid white 1px;
 }
