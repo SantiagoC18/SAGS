@@ -48,6 +48,54 @@
             Nueva Tarea
         </button>
 
+
+        <table id="myTable" class="display bg-[#000]" style="max-width:49vw; overflow: auto;">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>TAREA</th>
+                    <th>ESTADO</th>
+                    <th>PRIORIDAD</th>
+                    <th>ASIGNADO A</th>
+                    <th>FECHA LIMITE</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for data in data %}
+
+                <tr class="info">
+                    <td>
+                        
+                    </td>
+                    <td>nombre</td>
+                    <td>desc</td>
+                    <td>
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-blue-700 dark:text-white">{{ data['progreso']
+                                }}%</span>
+                        </div>
+                        
+                    </td>
+                    <td><button
+                            class="preview-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+                            data-id=""
+                            data-filename="">Ver</button>
+                        <a href="https://app.diagrams.net/"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Editar</a>
+                    </td>
+                    <td>fecha</td>
+                    <td>
+                        <a href="#"></a><i class="fa-regular fa-pen-to-square"></i></a>
+                        <a href="#"><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+
         <!-- Filtros -->
         <div class="filters">
             <div class="filter-group">
