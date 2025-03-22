@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 10-12-2024 a las 19:14:09
--- Versión del servidor: 8.2.0
--- Versión de PHP: 8.2.13
+-- Servidor: localhost
+-- Tiempo de generación: 22-03-2025 a las 03:14:14
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,19 +20,19 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `sags`
 --
+CREATE DATABASE IF NOT EXISTS `sags` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `sags`;
 
 DELIMITER $$
 --
 -- Procedimientos
 --
-DROP PROCEDURE IF EXISTS `ActualizarUsuario`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarUsuario` (IN `p_email` VARCHAR(40), IN `p_nuevosdatos` VARCHAR(50))   BEGIN
     UPDATE usuarios
     SET datos = CONCAT(datos, p_nuevosdatos)
     WHERE email = p_email;
 END$$
 
-DROP PROCEDURE IF EXISTS `Act_y_Reg_Proyectos`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Act_y_Reg_Proyectos` (IN `p_idproy` INT, IN `p_nombre` VARCHAR(45), IN `p_descripcion` VARCHAR(1000), IN `p_tipo` VARCHAR(25), IN `p_fechaI` DATE, IN `p_fechaF` DATE, IN `p_linkform` VARCHAR(200), IN `accion` VARCHAR(45))   BEGIN
  CASE 
   WHEN accion='registrar' THEN
@@ -45,7 +45,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Act_y_Reg_Proyectos` (IN `p_idproy`
  END CASE;
 END$$
 
-DROP PROCEDURE IF EXISTS `Act_y_Reg_Usuarios`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Act_y_Reg_Usuarios` (IN `u_email` VARCHAR(100), IN `u_tipodoc` VARCHAR(11), IN `u_documento` INT, IN `u_password` VARBINARY(10), IN `u_telefono` INT, IN `u_nombres` VARCHAR(33), IN `u_apellidos` VARCHAR(33), IN `u_foto` VARCHAR(200), IN `u_perfil` VARCHAR(80), IN `accion` VARCHAR(100))   BEGIN
   CASE 
     WHEN accion = 'registrar' THEN
@@ -58,35 +57,29 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Act_y_Reg_Usuarios` (IN `u_email` V
   END CASE;
 END$$
 
-DROP PROCEDURE IF EXISTS `Agregar_requisitos_a_proyecto`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Agregar_requisitos_a_proyecto` (IN `p_id_proyecto` INT, IN `p_id_requisito` INT)   INSERT INTO requisitos_proyectos (idreq, idproy)
   VALUES (p_id_requisito, p_id_proyecto)$$
 
-DROP PROCEDURE IF EXISTS `Asignar_usuario_a_proyecto`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Asignar_usuario_a_proyecto` (IN `p_id_proyecto` INT, IN `et_id` INT(100))   BEGIN
   INSERT INTO usu_proy (idproy, id)
   VALUES (p_id_proyecto,et_id);
 END$$
 
-DROP PROCEDURE IF EXISTS `EliminarRequisitosProyecto`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarRequisitosProyecto` (IN `p_idproy` INT)   BEGIN
     DELETE FROM requisitos_proyectos
     WHERE idproy = p_idproy;
 END$$
 
-DROP PROCEDURE IF EXISTS `EliminarUsuario`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarUsuario` (IN `p_email` VARCHAR(40))   BEGIN
     DELETE FROM usuarios
     WHERE email = p_email;
 END$$
 
-DROP PROCEDURE IF EXISTS `Eliminar_requisito_de_proyecto`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Eliminar_requisito_de_proyecto` (IN `p_id_proyecto` INT, IN `p_id_requisito` INT)   BEGIN
   DELETE FROM requisitos_proyectos
   WHERE idreq = p_id_requisito AND idproy = p_id_proyecto;
 END$$
 
-DROP PROCEDURE IF EXISTS `Elim_y_Cons_Proyectos`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Elim_y_Cons_Proyectos` (IN `p_idproy` INT, IN `accion` VARCHAR(20))   BEGIN
  CASE
     when accion ='eliminar' THEN
@@ -98,7 +91,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Elim_y_Cons_Proyectos` (IN `p_idpro
  END CASE;
 END$$
 
-DROP PROCEDURE IF EXISTS `Elim_y_Cons_Requisitos`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Elim_y_Cons_Requisitos` (IN `r_idreq` INT, IN `accion` VARCHAR(45))   BEGIN
  CASE
  WHEN accion='consultar' THEN
@@ -108,7 +100,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Elim_y_Cons_Requisitos` (IN `r_idre
  END CASE;
 END$$
 
-DROP PROCEDURE IF EXISTS `Elim_y_Cons_Usuarios`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Elim_y_Cons_Usuarios` (IN `p_email` VARCHAR(40), IN `accion` VARCHAR(20))   BEGIN
  CASE
     when accion ='eliminar' THEN
@@ -120,19 +111,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Elim_y_Cons_Usuarios` (IN `p_email`
  END CASE;
 END$$
 
-DROP PROCEDURE IF EXISTS `InsertarRequisito`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarRequisito` (IN `p_nombre` VARCHAR(20), IN `p_descripcion` VARCHAR(50), IN `p_tipo_pri_req` VARCHAR(80), IN `p_tipo_req` VARCHAR(80))   BEGIN
     INSERT INTO requisitos (nombre, descripcion, tipo_pri_req, tipo_req)
     VALUES (p_nombre, p_descripcion, p_tipo_pri_req, p_tipo_req);
 END$$
 
-DROP PROCEDURE IF EXISTS `InsertarUsuario`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InsertarUsuario` (IN `p_email` VARCHAR(100), IN `p_tipodoc` VARCHAR(11), IN `p_documento` INT, IN `p_password` VARCHAR(6), IN `p_telefono` INT, IN `p_nombres` VARCHAR(33), IN `p_apellidos` VARCHAR(33), IN `p_foto` VARCHAR(50), IN `p_idrol` INT)   BEGIN
     INSERT INTO usuarios (email, tipodoc, documento, password, telefono, nombres, apellidos, foto, idrol)
     VALUES (p_email, p_tipodoc, p_documento, p_password, p_telefono, p_nombres, p_apellidos, p_foto, p_idrol);
 END$$
 
-DROP PROCEDURE IF EXISTS `Proyectos_asociados`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Proyectos_asociados` (IN `id_usuario` VARCHAR(40))   BEGIN
   SELECT p.idproy, p.nombre, p.descripcion
   FROM proyectos p
@@ -141,7 +129,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Proyectos_asociados` (IN `id_usuari
   WHERE u.email = id_usuario;
 END$$
 
-DROP PROCEDURE IF EXISTS `Tareas_por_sprint`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Tareas_por_sprint` (IN `p_id_sprint` INT)   BEGIN
   SELECT t.id_tar, t.nombre, t.descripcion
   FROM tareas t
@@ -151,28 +138,24 @@ END$$
 --
 -- Funciones
 --
-DROP FUNCTION IF EXISTS `#_De_Tareas_por_Sprint`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `#_De_Tareas_por_Sprint` (`p_idsprint` INT) RETURNS INT  BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `#_De_Tareas_por_Sprint` (`p_idsprint` INT) RETURNS INT(11)  BEGIN
     DECLARE numero_tareas INT;
     SELECT COUNT(*) INTO numero_tareas FROM tareas WHERE idsprint = p_idsprint;
     RETURN numero_tareas;
 END$$
 
-DROP FUNCTION IF EXISTS `ContarProyectos`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `ContarProyectos` () RETURNS INT  BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `ContarProyectos` () RETURNS INT(11)  BEGIN
     DECLARE num_proyectos INT;
     SELECT COUNT(*) INTO num_proyectos FROM proyectos;
     RETURN num_proyectos;
 END$$
 
-DROP FUNCTION IF EXISTS `encriptar`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `encriptar` (`password` VARCHAR(20)) RETURNS VARBINARY(100)  BEGIN
 DECLARE ClaveEncri varbinary(100);
 SET ClaveEncri = AES_ENCRYPT(password,'sena');
 RETURN ClaveEncri;
 END$$
 
-DROP FUNCTION IF EXISTS `Nombre_del_Usuario`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `Nombre_del_Usuario` (`p_email` VARCHAR(100)) RETURNS VARCHAR(100) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
     DECLARE usuario_email VARCHAR(100);
     SELECT CONCAT(email, ' - ', nombres, ' ', apellidos) INTO usuario_email
@@ -181,14 +164,12 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `Nombre_del_Usuario` (`p_email` VARCH
     RETURN usuario_email;
 END$$
 
-DROP FUNCTION IF EXISTS `Numero_de_Requisitos`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `Numero_de_Requisitos` (`p_idproy` INT) RETURNS INT  BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `Numero_de_Requisitos` (`p_idproy` INT) RETURNS INT(11)  BEGIN
     DECLARE numero_requisitos INT;
     SELECT COUNT(*) INTO numero_requisitos FROM requisitos_proyectos WHERE idproy = p_idproy;
     RETURN numero_requisitos;
 END$$
 
-DROP FUNCTION IF EXISTS `ObtenerPrioridadRequisito`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `ObtenerPrioridadRequisito` (`p_idreq` INT) RETURNS VARCHAR(20) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
     DECLARE prioridad_requisito VARCHAR(20);
     SELECT tipo_pri_req INTO prioridad_requisito
@@ -197,7 +178,6 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `ObtenerPrioridadRequisito` (`p_idreq
     RETURN prioridad_requisito;
 END$$
 
-DROP FUNCTION IF EXISTS `ObtenerRequisitosProyecto`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `ObtenerRequisitosProyecto` (`p_idproy` INT) RETURNS VARCHAR(200) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
     DECLARE requisitos_proyecto VARCHAR(200);
     SELECT GROUP_CONCAT(r.nombre SEPARATOR ', ') INTO requisitos_proyecto
@@ -207,7 +187,6 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `ObtenerRequisitosProyecto` (`p_idpro
     RETURN requisitos_proyecto;
 END$$
 
-DROP FUNCTION IF EXISTS `ObtenerTipoRequisito`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `ObtenerTipoRequisito` (`p_idreq` INT) RETURNS VARCHAR(20) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
     DECLARE tipo_requisito VARCHAR(20);
     SELECT tipo_req INTO tipo_requisito
@@ -216,7 +195,6 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `ObtenerTipoRequisito` (`p_idreq` INT
     RETURN tipo_requisito;
 END$$
 
-DROP FUNCTION IF EXISTS `ObtenerUsuario`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `ObtenerUsuario` (`p_email` VARCHAR(100)) RETURNS VARCHAR(100) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
     DECLARE usuario_email VARCHAR(100);
     SELECT CONCAT(email, ' - ', nombres, ' ', apellidos) INTO usuario_email
@@ -225,7 +203,6 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `ObtenerUsuario` (`p_email` VARCHAR(1
     RETURN usuario_email;
 END$$
 
-DROP FUNCTION IF EXISTS `Prioridad_del_Requisito`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `Prioridad_del_Requisito` (`p_idreq` INT) RETURNS VARCHAR(20) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
     DECLARE prioridad_requisito VARCHAR(20);
     SELECT tipo_pri_req INTO prioridad_requisito
@@ -234,7 +211,6 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `Prioridad_del_Requisito` (`p_idreq` 
     RETURN prioridad_requisito;
 END$$
 
-DROP FUNCTION IF EXISTS `Requisitos_del_Proyecto`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `Requisitos_del_Proyecto` (`p_idproy` INT) RETURNS VARCHAR(200) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
     DECLARE requisitos_proyecto VARCHAR(200);
     SELECT GROUP_CONCAT(r.nombre SEPARATOR ', ') INTO requisitos_proyecto
@@ -244,14 +220,12 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `Requisitos_del_Proyecto` (`p_idproy`
     RETURN requisitos_proyecto;
 END$$
 
-DROP FUNCTION IF EXISTS `Rol_Del_Usuario`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `Rol_Del_Usuario` (`p_email` VARCHAR(100)) RETURNS VARCHAR(65) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
     DECLARE rol_usuario VARCHAR(65);
     SELECT descripcion INTO rol_usuario FROM roles WHERE idrol = (SELECT idrol FROM usuarios WHERE email = p_email);
     RETURN rol_usuario;
 END$$
 
-DROP FUNCTION IF EXISTS `Tipo_de_Requisito`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `Tipo_de_Requisito` (`p_idreq` INT) RETURNS VARCHAR(20) CHARSET utf8mb4 COLLATE utf8mb4_general_ci  BEGIN
     DECLARE tipo_requisito VARCHAR(20);
     SELECT tipo_req INTO tipo_requisito
@@ -260,8 +234,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `Tipo_de_Requisito` (`p_idreq` INT) R
     RETURN tipo_requisito;
 END$$
 
-DROP FUNCTION IF EXISTS `Total_de_Proyectos`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `Total_de_Proyectos` () RETURNS INT  BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `Total_de_Proyectos` () RETURNS INT(11)  BEGIN
     DECLARE num_proyectos INT;
     SELECT COUNT(*) INTO num_proyectos FROM proyectos;
     RETURN num_proyectos;
@@ -275,19 +248,15 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `checklists`
 --
 
-DROP TABLE IF EXISTS `checklists`;
-CREATE TABLE IF NOT EXISTS `checklists` (
-  `idcheck` int NOT NULL AUTO_INCREMENT COMMENT 'Identificador único del checklist',
-  `idmod` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `aprobacion` int DEFAULT NULL COMMENT 'Indica si el checklist está aprobado',
-  `archivo` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Archivo adjunto al checklist',
+CREATE TABLE `checklists` (
+  `idcheck` int(11) NOT NULL COMMENT 'Identificador único del checklist',
+  `idmod` varchar(5) NOT NULL,
+  `aprobacion` int(11) DEFAULT NULL COMMENT 'Indica si el checklist está aprobado',
+  `archivo` varchar(200) DEFAULT NULL COMMENT 'Archivo adjunto al checklist',
   `fecha` date DEFAULT NULL COMMENT 'Fecha del checklist',
-  `progreso` int NOT NULL,
-  `idproy` int DEFAULT NULL COMMENT 'ID del proyecto asociado',
-  PRIMARY KEY (`idcheck`),
-  KEY `idproy` (`idproy`),
-  KEY `idmod` (`idmod`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de checklists';
+  `progreso` int(11) NOT NULL,
+  `idproy` int(11) DEFAULT NULL COMMENT 'ID del proyecto asociado'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de checklists';
 
 --
 -- Volcado de datos para la tabla `checklists`
@@ -340,10 +309,7 @@ INSERT INTO `checklists` (`idcheck`, `idmod`, `aprobacion`, `archivo`, `fecha`, 
 (45, 'MER', 0, '', '0000-00-00', 0, 33),
 (46, 'MO', 0, '', '0000-00-00', 0, 33),
 (47, 'MR', 0, '', '0000-00-00', 0, 33),
-(48, 'RQ', 0, '', '0000-00-00', 0, 33),
-(72, 'RQ', NULL, NULL, NULL, 0, 40),
-(73, 'CU', NULL, NULL, NULL, 0, 40),
-(74, 'CUX', NULL, NULL, NULL, 0, 40);
+(48, 'RQ', 0, '', '0000-00-00', 0, 33);
 
 -- --------------------------------------------------------
 
@@ -351,12 +317,10 @@ INSERT INTO `checklists` (`idcheck`, `idmod`, `aprobacion`, `archivo`, `fecha`, 
 -- Estructura de tabla para la tabla `modelos`
 --
 
-DROP TABLE IF EXISTS `modelos`;
-CREATE TABLE IF NOT EXISTS `modelos` (
-  `idmod` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Identificador único del modelo',
-  `nombre` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Nombre del modelo',
-  `descripcion` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Descripción del modelo',
-  PRIMARY KEY (`idmod`)
+CREATE TABLE `modelos` (
+  `idmod` varchar(5) NOT NULL COMMENT 'Identificador único del modelo',
+  `nombre` varchar(40) DEFAULT NULL COMMENT 'Nombre del modelo',
+  `descripcion` varchar(80) DEFAULT NULL COMMENT 'Descripción del modelo'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de modelos';
 
 --
@@ -365,7 +329,6 @@ CREATE TABLE IF NOT EXISTS `modelos` (
 
 INSERT INTO `modelos` (`idmod`, `nombre`, `descripcion`) VALUES
 ('CU', 'Documento Casos de Uso', 'Modelo y Diagrama Casos de Uso'),
-('CUX', 'Casos de Uso Extendido', 'Modelo y Diagrama de Casos de Uso Extendido'),
 ('MC', 'Documento Diagrama de Clases', 'Modelo de clases del sistema'),
 ('MER', 'Documento del Modelo Entidad Relación', 'Diagrama del modelo entidad relación'),
 ('MO', 'Documento Diagrama de Objetos', 'Modelo de objetos del sistema'),
@@ -375,44 +338,13 @@ INSERT INTO `modelos` (`idmod`, `nombre`, `descripcion`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `opiniones`
---
-
-DROP TABLE IF EXISTS `opiniones`;
-CREATE TABLE IF NOT EXISTS `opiniones` (
-  `id_opi` int NOT NULL,
-  `opinion` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `calificacion` int DEFAULT NULL,
-  `tipo_opi` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id_opi`),
-  KEY `email` (`email`),
-  KEY `tipo_opi` (`tipo_opi`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar opiniones de usuarios';
-
---
--- Volcado de datos para la tabla `opiniones`
---
-
-INSERT INTO `opiniones` (`id_opi`, `opinion`, `calificacion`, `tipo_opi`, `email`) VALUES
-(0, 'Al intentar previsualizar algunos documentos PDF, noté que en ocasiones no se cargan correctamente o tardan demasiado en aparecer. Esto dificulta la revisión rápida de archivos, especialmente cuando necesito hacer comparaciones rápidas entre documentos.', 2, 'Queja', 'smithcortes01@gmail.com'),
-(1, 'Sería muy útil que el sistema incluyera una funcionalidad para enviar notificaciones a los usuarios cuando un documento ha sido actualizado o aprobado por el administrador. Esto nos permitiría estar al tanto de los cambios sin necesidad de revisar constantemente la plataforma.', 4, 'Petición ', 'majogalan2006@gmail.com'),
-(2, 'He notado que, al intentar cargar documentos de gran tamaño, el sistema tiende a ser un poco lento, lo que afecta la experiencia de usuario. Sería ideal optimizar la carga para archivos más pesados, ya que trabajamos con muchos documentos extensos.', 3, 'Queja', 'diego.lopezm0405@gmail.com'),
-(3, 'Me gustaría sugerir que se integre una función de búsqueda avanzada, donde los usuarios puedan filtrar los documentos por fecha de creación, tipo de archivo o estado de aprobación. Esto haría mucho más eficiente la gestión y localización de documentos específicos.', 4, 'Sugerencia', 'nicolasgiraldo1020@gmail.com'),
-(4, 'Sería excelente si el sistema permitiera colaborar en línea, es decir, que varios usuarios puedan realizar comentarios o editar ciertos documentos de forma colaborativa en tiempo real. Esto agilizaría el flujo de trabajo en proyectos donde varias personas necesitan revisar los mismos archivos.', 4, 'Sugerencia', 'linaessofia33@gmail.com');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `planes`
 --
 
-DROP TABLE IF EXISTS `planes`;
-CREATE TABLE IF NOT EXISTS `planes` (
-  `nomplan` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `descripcion` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `precio` int DEFAULT NULL,
-  PRIMARY KEY (`nomplan`)
+CREATE TABLE `planes` (
+  `nomplan` varchar(30) NOT NULL,
+  `descripcion` varchar(50) DEFAULT NULL,
+  `precio` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar planes disponibles';
 
 --
@@ -431,11 +363,9 @@ INSERT INTO `planes` (`nomplan`, `descripcion`, `precio`) VALUES
 -- Estructura de tabla para la tabla `priori_req`
 --
 
-DROP TABLE IF EXISTS `priori_req`;
-CREATE TABLE IF NOT EXISTS `priori_req` (
-  `tipo_pri_req` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `descripcion` varchar(350) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  PRIMARY KEY (`tipo_pri_req`)
+CREATE TABLE `priori_req` (
+  `tipo_pri_req` varchar(80) NOT NULL,
+  `descripcion` varchar(350) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar prioridades de requisitos';
 
 --
@@ -453,19 +383,16 @@ INSERT INTO `priori_req` (`tipo_pri_req`, `descripcion`) VALUES
 -- Estructura de tabla para la tabla `proyectos`
 --
 
-DROP TABLE IF EXISTS `proyectos`;
-CREATE TABLE IF NOT EXISTS `proyectos` (
-  `idproy` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `descripcion` varchar(700) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `tipo` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+CREATE TABLE `proyectos` (
+  `idproy` int(11) NOT NULL,
+  `nombre` varchar(55) DEFAULT NULL,
+  `descripcion` varchar(700) DEFAULT NULL,
+  `tipo` varchar(25) DEFAULT NULL,
   `fechaI` date DEFAULT NULL,
   `fechaF` date DEFAULT NULL,
-  `linkform` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `nomplan` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  PRIMARY KEY (`idproy`),
-  KEY `nomplan` (`nomplan`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de proyectos';
+  `linkform` varchar(200) DEFAULT NULL,
+  `nomplan` varchar(55) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de proyectos';
 
 --
 -- Volcado de datos para la tabla `proyectos`
@@ -479,8 +406,7 @@ INSERT INTO `proyectos` (`idproy`, `nombre`, `descripcion`, `tipo`, `fechaI`, `f
 (30, 'JOSE FELIX LIBRARY', 'El presente documento tiene como propósito definir las especificaciones de requisitos funcionales y no funcionales para el desarrollo de un sistema de información web modelo usuario/servidor, que permitirá sistematizar y gestionar los distintos materiales didácticos que se encuentran en la biblioteca del colegio JFR (libros, archivos, etc.), dirigido al desarrollo y análisis de nuevos proyectos.', 'Aplicativo Web', '2022-02-17', '0000-00-00', NULL, NULL),
 (31, 'SIVOTU', 'El presente documento tiene como propósito definir las especificaciones de requisitos funcionales y no funcionales para el desarrollo de un aplicativo web (SIVOTU) modelo cliente servidor, que permita sistematizar y gestionar distintos procesos administrativos y servidor online de la tienda \"the shift urbans\" dirigido al uso de usuarios externos empleados y administradores.', 'Aplicativo Web', '2004-07-24', '0000-00-00', NULL, NULL),
 (32, 'New Life', 'Brindar una herramienta que ayude a las entidades de salud mental a tratar profesionalmente a personas que fueron y son violentadas física y psicológicamente, así ayudándolos a progresar y tener un nuevo cambio en su vida social y personal.', 'Aplicativo Web', '2022-07-13', '0000-00-00', NULL, NULL),
-(33, 'All Sport System', 'Gestionar ayudas y acceso a la comunidad de alternativas de ayuda profesional a través de consultas y terapias que se les brindan de acuerdo al diagnóstico que se le den a los pacientes o usuarios registrados en el aplicativo.', 'Aplicativo Web', '2022-05-10', '0000-00-00', NULL, NULL),
-(40, 'SGIT', 'Sistema para la gestion e intercambio de equipos tecnologicos en la institucion educativa Colegio Tecnico Jose Felix Restrepo', 'web', '2024-12-09', NULL, NULL, 'BASIC');
+(33, 'All Sport System', 'Gestionar ayudas y acceso a la comunidad de alternativas de ayuda profesional a través de consultas y terapias que se les brindan de acuerdo al diagnóstico que se le den a los pacientes o usuarios registrados en el aplicativo.', 'Aplicativo Web', '2022-05-10', '0000-00-00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -488,14 +414,10 @@ INSERT INTO `proyectos` (`idproy`, `nombre`, `descripcion`, `tipo`, `fechaI`, `f
 -- Estructura de tabla para la tabla `proy_reu`
 --
 
-DROP TABLE IF EXISTS `proy_reu`;
-CREATE TABLE IF NOT EXISTS `proy_reu` (
-  `form_proy_reu` int NOT NULL,
-  `idproy` int DEFAULT NULL,
-  `idreu` int DEFAULT NULL,
-  PRIMARY KEY (`form_proy_reu`),
-  KEY `idproy` (`idproy`),
-  KEY `idreu` (`idreu`)
+CREATE TABLE `proy_reu` (
+  `form_proy_reu` int(11) NOT NULL,
+  `idproy` int(11) DEFAULT NULL,
+  `idreu` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla de relación entre proyectos y reuniones';
 
 --
@@ -514,16 +436,12 @@ INSERT INTO `proy_reu` (`form_proy_reu`, `idproy`, `idreu`) VALUES
 -- Estructura de tabla para la tabla `requisitos`
 --
 
-DROP TABLE IF EXISTS `requisitos`;
-CREATE TABLE IF NOT EXISTS `requisitos` (
-  `idreq` int NOT NULL,
-  `nombre` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `descripcion` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `tipo_pri_req` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `tipo_req` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`idreq`),
-  KEY `tipo_pri_req` (`tipo_pri_req`),
-  KEY `tipo_req` (`tipo_req`)
+CREATE TABLE `requisitos` (
+  `idreq` int(11) NOT NULL,
+  `nombre` varchar(30) DEFAULT NULL,
+  `descripcion` varchar(100) DEFAULT NULL,
+  `tipo_pri_req` varchar(80) NOT NULL,
+  `tipo_req` varchar(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar requisitos de proyectos';
 
 --
@@ -548,12 +466,9 @@ INSERT INTO `requisitos` (`idreq`, `nombre`, `descripcion`, `tipo_pri_req`, `tip
 -- Estructura de tabla para la tabla `requisitos_proyectos`
 --
 
-DROP TABLE IF EXISTS `requisitos_proyectos`;
-CREATE TABLE IF NOT EXISTS `requisitos_proyectos` (
-  `idreq` int DEFAULT NULL,
-  `idproy` int DEFAULT NULL,
-  KEY `idreq` (`idreq`),
-  KEY `idproy` (`idproy`)
+CREATE TABLE `requisitos_proyectos` (
+  `idreq` int(11) DEFAULT NULL,
+  `idproy` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla de relación entre requisitos y proyectos';
 
 --
@@ -588,15 +503,12 @@ INSERT INTO `requisitos_proyectos` (`idreq`, `idproy`) VALUES
 -- Estructura de tabla para la tabla `reset_tokens`
 --
 
-DROP TABLE IF EXISTS `reset_tokens`;
-CREATE TABLE IF NOT EXISTS `reset_tokens` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `expires_at` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `reset_tokens` (
+  `id` int(11) NOT NULL,
+  `user_id` varchar(100) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `expires_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `reset_tokens`
@@ -611,9 +523,7 @@ INSERT INTO `reset_tokens` (`id`, `user_id`, `token`, `expires_at`) VALUES
 (14, 'jeanpierrebbedoya@gmail.com', 'Nczjf677THxSwEFVmlnqDlu82vVrRW7I_Ws9GsoCz4A', '2024-09-30 18:27:28'),
 (16, 'jeanpierrebbedoya@gmail.com', '-wclB_XvcZ_GfYVbWT2j_5XyvrM0mQoTjkWVPZ103mg', '2024-09-30 18:27:28'),
 (17, 'jeanpierrebbedoya@gmail.com', 'WzyEGJnQg4is_Cd67DBy79lJswLIRO6ME-lEZYQa0qw', '2024-09-30 18:27:28'),
-(18, 'jeanpierrebbedoya@gmail.com', 'EINcjniG0nTGdVDmJ6sEddzH6b9gmlYMdCIwIOCctG0', '2024-09-30 18:27:28'),
-(19, 'santicardenash@gmail.com', '6TmXdNC3B6s8enFwO9RZJ_RaPtZwdkMWMaeQmA-ZW3M', '2024-12-08 16:13:26'),
-(21, 'mglnares2006@gmail.com', '6ZvxBqV6z6XrYyYKyw3j6YkEt47Pf-OeOfwmjv-fPtM', '2024-12-09 11:31:11');
+(18, 'jeanpierrebbedoya@gmail.com', 'EINcjniG0nTGdVDmJ6sEddzH6b9gmlYMdCIwIOCctG0', '2024-09-30 18:27:28');
 
 -- --------------------------------------------------------
 
@@ -621,14 +531,11 @@ INSERT INTO `reset_tokens` (`id`, `user_id`, `token`, `expires_at`) VALUES
 -- Estructura de tabla para la tabla `reuniones`
 --
 
-DROP TABLE IF EXISTS `reuniones`;
-CREATE TABLE IF NOT EXISTS `reuniones` (
-  `idreu` int NOT NULL,
+CREATE TABLE `reuniones` (
+  `idreu` int(11) NOT NULL,
   `fechavis` date DEFAULT NULL,
   `horavis` time DEFAULT NULL,
-  `tipo_reu` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`idreu`),
-  KEY `tipo_reu` (`tipo_reu`)
+  `tipo_reu` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de reuniones';
 
 --
@@ -647,11 +554,9 @@ INSERT INTO `reuniones` (`idreu`, `fechavis`, `horavis`, `tipo_reu`) VALUES
 -- Estructura de tabla para la tabla `roles`
 --
 
-DROP TABLE IF EXISTS `roles`;
-CREATE TABLE IF NOT EXISTS `roles` (
-  `idrol` int NOT NULL,
-  `descripcion` varchar(65) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  PRIMARY KEY (`idrol`)
+CREATE TABLE `roles` (
+  `idrol` int(11) NOT NULL,
+  `descripcion` varchar(65) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar roles de usuarios';
 
 --
@@ -670,17 +575,14 @@ INSERT INTO `roles` (`idrol`, `descripcion`) VALUES
 -- Estructura de tabla para la tabla `sprints`
 --
 
-DROP TABLE IF EXISTS `sprints`;
-CREATE TABLE IF NOT EXISTS `sprints` (
-  `idsprint` int NOT NULL,
+CREATE TABLE `sprints` (
+  `idsprint` int(11) NOT NULL,
   `fechaI` date DEFAULT NULL,
   `fechaF` date DEFAULT NULL,
-  `nombre` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `observaciones` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `estado` int DEFAULT NULL,
-  `idproy` int DEFAULT NULL,
-  PRIMARY KEY (`idsprint`),
-  KEY `idproy` (`idproy`)
+  `nombre` varchar(40) DEFAULT NULL,
+  `observaciones` varchar(300) DEFAULT NULL,
+  `estado` int(11) DEFAULT NULL,
+  `idproy` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar sprints de proyectos';
 
 --
@@ -706,16 +608,12 @@ INSERT INTO `sprints` (`idsprint`, `fechaI`, `fechaF`, `nombre`, `observaciones`
 -- Estructura de tabla para la tabla `tareas`
 --
 
-DROP TABLE IF EXISTS `tareas`;
-CREATE TABLE IF NOT EXISTS `tareas` (
-  `id_tar` int NOT NULL,
-  `nombre` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `descripcion` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `idsprint` int DEFAULT NULL,
-  `usu_proy_id` int NOT NULL,
-  PRIMARY KEY (`id_tar`),
-  KEY `idsprint` (`idsprint`),
-  KEY `usu_proy_id` (`usu_proy_id`)
+CREATE TABLE `tareas` (
+  `id_tar` int(11) NOT NULL,
+  `nombre` varchar(45) DEFAULT NULL,
+  `descripcion` varchar(500) DEFAULT NULL,
+  `idsprint` int(11) DEFAULT NULL,
+  `usu_proy_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tareas de proyectos';
 
 --
@@ -735,35 +633,12 @@ INSERT INTO `tareas` (`id_tar`, `nombre`, `descripcion`, `idsprint`, `usu_proy_i
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tipos_opi`
---
-
-DROP TABLE IF EXISTS `tipos_opi`;
-CREATE TABLE IF NOT EXISTS `tipos_opi` (
-  `tipo_opi` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`tipo_opi`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tipos de opiniones';
-
---
--- Volcado de datos para la tabla `tipos_opi`
---
-
-INSERT INTO `tipos_opi` (`tipo_opi`) VALUES
-('Petición '),
-('Queja'),
-('Sugerencia');
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `tipos_req`
 --
 
-DROP TABLE IF EXISTS `tipos_req`;
-CREATE TABLE IF NOT EXISTS `tipos_req` (
-  `tipo_req` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `descripcion` varchar(120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  PRIMARY KEY (`tipo_req`)
+CREATE TABLE `tipos_req` (
+  `tipo_req` varchar(80) NOT NULL,
+  `descripcion` varchar(120) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tipos de requisitos';
 
 --
@@ -780,10 +655,8 @@ INSERT INTO `tipos_req` (`tipo_req`, `descripcion`) VALUES
 -- Estructura de tabla para la tabla `tipos_reu`
 --
 
-DROP TABLE IF EXISTS `tipos_reu`;
-CREATE TABLE IF NOT EXISTS `tipos_reu` (
-  `tipo_reu` varchar(35) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`tipo_reu`)
+CREATE TABLE `tipos_reu` (
+  `tipo_reu` varchar(35) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tipos de reuniones';
 
 --
@@ -800,13 +673,11 @@ INSERT INTO `tipos_reu` (`tipo_reu`) VALUES
 -- Estructura de tabla para la tabla `ubicaciones`
 --
 
-DROP TABLE IF EXISTS `ubicaciones`;
-CREATE TABLE IF NOT EXISTS `ubicaciones` (
-  `idubi` int DEFAULT NULL,
-  `ciudad` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `direccion` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  KEY `email` (`email`)
+CREATE TABLE `ubicaciones` (
+  `idubi` int(11) DEFAULT NULL,
+  `ciudad` varchar(60) DEFAULT NULL,
+  `direccion` varchar(100) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar ubicaciones de usuarios';
 
 --
@@ -827,20 +698,17 @@ INSERT INTO `ubicaciones` (`idubi`, `ciudad`, `direccion`, `email`) VALUES
 -- Estructura de tabla para la tabla `usuarios`
 --
 
-DROP TABLE IF EXISTS `usuarios`;
-CREATE TABLE IF NOT EXISTS `usuarios` (
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `tipodoc` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `documento` int DEFAULT NULL,
+CREATE TABLE `usuarios` (
+  `email` varchar(100) NOT NULL,
+  `tipodoc` varchar(11) DEFAULT NULL,
+  `documento` int(11) DEFAULT NULL,
   `password` varbinary(255) DEFAULT NULL,
-  `telefono` int DEFAULT NULL,
-  `nombres` varchar(33) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `apellidos` varchar(33) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `foto` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `idrol` int DEFAULT NULL,
-  `perfil` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`email`),
-  KEY `idrol` (`idrol`)
+  `telefono` int(11) DEFAULT NULL,
+  `nombres` varchar(33) DEFAULT NULL,
+  `apellidos` varchar(33) DEFAULT NULL,
+  `foto` varchar(200) DEFAULT NULL,
+  `idrol` int(11) DEFAULT NULL,
+  `perfil` varchar(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de usuarios';
 
 --
@@ -862,10 +730,11 @@ INSERT INTO `usuarios` (`email`, `tipodoc`, `documento`, `password`, `telefono`,
 ('johanbenavides134@gmail.com', '', 0, 0x313233343536, NULL, 'Johan Steven', 'Benavides Sanchez', '', 3, ''),
 ('jssr217@gmail.com', '', 0, 0x4a75616e5369, NULL, 'Primer Nombre Juan', 'Primer Apellido Silva', '', 3, ''),
 ('juandaja2201@gmail.com', '', 0, 0x313233343536, NULL, 'Juan David', 'Jerez Amador', '', 3, ''),
+('juanj1323a@gmail.com', 'CC', 1070896287, '', 2042589513, 'Juan José', 'Contreras', NULL, 4, ''),
 ('julia@gmail.com', 'cc', 0, 0x316632343264, 587821, 'Julia', 'Perez', '', NULL, 'cliente'),
 ('linaessofia33@gmail.com', '', 0, 0x736f6669616c, NULL, 'Laura Sofia', 'Linares Piñeros', '', 3, ''),
 ('majogalan2006@gmail.com', '', 0, 0xd32ecc5d0d8d4e0cb5c2d7bdfdbd8f84, NULL, 'María José', 'Romero Gómez', '', 1, ''),
-('mglnares2006@gmail.com', '', 0, 0x63a13fe96e1005115b332d6a94a5f0de, NULL, 'Miguel Felipe', 'Linares Riaño', '', 3, ''),
+('mglnares2006@gmail.com', '', 0, 0x506f6c6c6f30, NULL, 'Miguel Felipe', 'Linares Riaño', '', 3, ''),
 ('nicolasgiraldo1020@gmail.com', '', 0, 0x31303230, NULL, 'Nicolas Santiago', 'Giraldo Valencia', '', 3, ''),
 ('rocio123@gmail.com', 'cc', 0, 0x363835396639, 14568745, 'Rocio', 'Caceres', 'dfsdgfd', NULL, 'cliente'),
 ('roger@gmail.com', '', 0, 0x3234323731, 2147483647, 'Roger Steec', 'Fuentes Ramirez', '/ferrari-enzo-rojo_3840x2160_xtrafondos.com.jpg', 3, 'Diseñador'),
@@ -882,62 +751,178 @@ INSERT INTO `usuarios` (`email`, `tipodoc`, `documento`, `password`, `telefono`,
 -- Estructura de tabla para la tabla `usu_proy`
 --
 
-DROP TABLE IF EXISTS `usu_proy`;
-CREATE TABLE IF NOT EXISTS `usu_proy` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `idproy` int DEFAULT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `stake` tinyint NOT NULL,
-  `Product_Owner` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `idproy` (`idproy`),
-  KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla de relación entre usuarios y proyectos';
+CREATE TABLE `usu_proy` (
+  `id` int(11) NOT NULL,
+  `idproy` int(11) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `Product_Owner` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla de relación entre usuarios y proyectos';
 
 --
 -- Volcado de datos para la tabla `usu_proy`
 --
 
-INSERT INTO `usu_proy` (`id`, `idproy`, `email`, `stake`, `Product_Owner`) VALUES
-(1, 4, 'santicardenash@gmail.com', 0, 1),
-(2, 4, 'majogalan2006@gmail.com', 0, 0),
-(3, 4, 'svalenzuela073@misena.edu.co', 0, 0),
-(4, 30, 'juandaja2201@gmail.com', 0, 0),
-(5, 27, 'caroceron28@gmail.com', 0, 0),
-(6, 27, 'jeanpierrebbedoya@gmail.com', 0, 0),
-(7, 27, 'mglnares2006@gmail.com', 0, 0),
-(8, 28, 'smithcortes01@gmail.com', 0, 0),
-(9, 28, '1029143097@ctjfr.edu.co', 0, 0),
-(10, 31, 'sebastianrm30yu@iclock.com', 0, 0),
-(12, 31, '1028661442@gmail.com', 0, 0),
-(13, 33, 'nicolasgiraldo1020@gmail.com', 0, 0),
-(14, 33, '1074811705@ctjfr.edu.co', 0, 0),
-(15, 28, '1012918020@ctjfr.edu.co', 0, 0),
-(16, 31, 'roger@gmail.com', 0, 0),
-(17, 30, '1127342346@ctjfr.edu.co', 0, 0),
-(18, 30, 'johanbenavides134@gmail.com', 0, 0),
-(19, 29, 'soff24ia@gmail.com', 0, 0),
-(20, 29, 'linaessofia33@gmail.com', 0, 0),
-(21, 29, '1023367786@ctjfr.edu.co', 0, 0),
-(26, 40, 'mglnares2006@gmail.com', 0, 1);
+INSERT INTO `usu_proy` (`id`, `idproy`, `email`, `Product_Owner`) VALUES
+(1, 4, 'santicardenash@gmail.com', 1),
+(2, 4, 'majogalan2006@gmail.com', 0),
+(3, 4, 'svalenzuela073@misena.edu.co', 0),
+(4, 30, 'juandaja2201@gmail.com', 0),
+(5, 27, 'caroceron28@gmail.com', 0),
+(6, 27, 'jeanpierrebbedoya@gmail.com', 0),
+(7, 27, 'mglnares2006@gmail.com', 0),
+(8, 28, 'smithcortes01@gmail.com', 0),
+(9, 28, '1029143097@ctjfr.edu.co', 0),
+(10, 31, 'sebastianrm30yu@iclock.com', 0),
+(12, 31, '1028661442@gmail.com', 0),
+(13, 33, 'nicolasgiraldo1020@gmail.com', 0),
+(14, 33, '1074811705@ctjfr.edu.co', 0),
+(15, 28, '1012918020@ctjfr.edu.co', 0),
+(16, 31, 'roger@gmail.com', 0),
+(17, 30, '1127342346@ctjfr.edu.co', 0),
+(18, 30, 'johanbenavides134@gmail.com', 0),
+(19, 29, 'soff24ia@gmail.com', 0),
+(20, 29, 'linaessofia33@gmail.com', 0),
+(21, 29, '1023367786@ctjfr.edu.co', 0);
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `planes`
+--
+ALTER TABLE `planes`
+  ADD PRIMARY KEY (`nomplan`);
+
+--
+-- Indices de la tabla `priori_req`
+--
+ALTER TABLE `priori_req`
+  ADD PRIMARY KEY (`tipo_pri_req`);
+
+--
+-- Indices de la tabla `proyectos`
+--
+ALTER TABLE `proyectos`
+  ADD PRIMARY KEY (`idproy`),
+  ADD KEY `nomplan` (`nomplan`);
+
+--
+-- Indices de la tabla `proy_reu`
+--
+ALTER TABLE `proy_reu`
+  ADD PRIMARY KEY (`form_proy_reu`),
+  ADD KEY `idproy` (`idproy`),
+  ADD KEY `idreu` (`idreu`);
+
+--
+-- Indices de la tabla `requisitos`
+--
+ALTER TABLE `requisitos`
+  ADD PRIMARY KEY (`idreq`),
+  ADD KEY `tipo_pri_req` (`tipo_pri_req`),
+  ADD KEY `tipo_req` (`tipo_req`);
+
+--
+-- Indices de la tabla `requisitos_proyectos`
+--
+ALTER TABLE `requisitos_proyectos`
+  ADD KEY `idreq` (`idreq`),
+  ADD KEY `idproy` (`idproy`);
+
+--
+-- Indices de la tabla `reset_tokens`
+--
+ALTER TABLE `reset_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indices de la tabla `reuniones`
+--
+ALTER TABLE `reuniones`
+  ADD PRIMARY KEY (`idreu`),
+  ADD KEY `tipo_reu` (`tipo_reu`);
+
+--
+-- Indices de la tabla `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`idrol`);
+
+--
+-- Indices de la tabla `sprints`
+--
+ALTER TABLE `sprints`
+  ADD PRIMARY KEY (`idsprint`),
+  ADD KEY `idproy` (`idproy`);
+
+--
+-- Indices de la tabla `tareas`
+--
+ALTER TABLE `tareas`
+  ADD PRIMARY KEY (`id_tar`),
+  ADD KEY `idsprint` (`idsprint`),
+  ADD KEY `usu_proy_id` (`usu_proy_id`);
+
+--
+-- Indices de la tabla `tipos_req`
+--
+ALTER TABLE `tipos_req`
+  ADD PRIMARY KEY (`tipo_req`);
+
+--
+-- Indices de la tabla `tipos_reu`
+--
+ALTER TABLE `tipos_reu`
+  ADD PRIMARY KEY (`tipo_reu`);
+
+--
+-- Indices de la tabla `ubicaciones`
+--
+ALTER TABLE `ubicaciones`
+  ADD KEY `email` (`email`);
+
+--
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`email`),
+  ADD KEY `idrol` (`idrol`);
+
+--
+-- Indices de la tabla `usu_proy`
+--
+ALTER TABLE `usu_proy`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idproy` (`idproy`),
+  ADD KEY `email` (`email`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `proyectos`
+--
+ALTER TABLE `proyectos`
+  MODIFY `idproy` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+
+--
+-- AUTO_INCREMENT de la tabla `reset_tokens`
+--
+ALTER TABLE `reset_tokens`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT de la tabla `usu_proy`
+--
+ALTER TABLE `usu_proy`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Restricciones para tablas volcadas
 --
-
---
--- Filtros para la tabla `checklists`
---
-ALTER TABLE `checklists`
-  ADD CONSTRAINT `checklists_ibfk_1` FOREIGN KEY (`idproy`) REFERENCES `proyectos` (`idproy`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `checklists_ibfk_2` FOREIGN KEY (`idmod`) REFERENCES `modelos` (`idmod`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `opiniones`
---
-ALTER TABLE `opiniones`
-  ADD CONSTRAINT `opiniones_ibfk_1` FOREIGN KEY (`email`) REFERENCES `usuarios` (`email`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  ADD CONSTRAINT `opiniones_ibfk_2` FOREIGN KEY (`tipo_opi`) REFERENCES `tipos_opi` (`tipo_opi`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `proyectos`
