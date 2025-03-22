@@ -39,7 +39,7 @@
     <!-- Contenido principal -->
     <section class="container_tasks">
 
-        <button class="button">
+        <button class="button" id="btn-abrir-popup1">
             <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -67,7 +67,7 @@
 
                 <tr class="info">
                     <td>
-                        
+
                     </td>
                     <td>nombre</td>
                     <td>desc</td>
@@ -76,12 +76,11 @@
                             <span class="text-sm font-medium text-blue-700 dark:text-white">{{ data['progreso']
                                 }}%</span>
                         </div>
-                        
+
                     </td>
                     <td><button
                             class="preview-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
-                            data-id=""
-                            data-filename="">Ver</button>
+                            data-id="" data-filename="">Ver</button>
                         <a href="https://app.diagrams.net/"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Editar</a>
                     </td>
@@ -346,6 +345,127 @@
             </div>
         </div>
     </section>
+
+    <!--ventana emergente2-->
+
+    <div class="overlay" id="overlay1">
+        <div class="popup" id="popup1">
+            <div class="modal-header">
+                <h2 class="modal-title">Nueva Tarea</h2>
+            </div>
+            <div class="modal-body">
+                <form id="task-form">
+                    <div class="form-group">
+                        <label for="task-title" class="form-label">Título de la tarea</label>
+                        <input type="text" class="form-control" id="task-title"
+                            placeholder="Ej: Implementar autenticación de usuarios">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="task-description" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="task-description"
+                            placeholder="Describe los detalles de la tarea"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="sprint" class="form-label">Sprint</label>
+                                <select class="form-control" id="sprint">
+                                    <option value="">Seleccionar Sprint</option>
+                                    <option value="sprint-1">Sprint 1: Diseño de UI</option>
+                                    <option value="sprint-2">Sprint 2: Desarrollo Frontend</option>
+                                    <option value="sprint-3">Sprint 3: Integración Backend</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="due-date" class="form-label">Fecha límite</label>
+                                <input type="date" class="form-control" id="due-date">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="status" class="form-label">Estado</label>
+                                <select class="form-control" id="status">
+                                    <option value="todo">Por hacer</option>
+                                    <option value="in-progress">En progreso</option>
+                                    <option value="review">En revisión</option>
+                                    <option value="done">Completado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-col">
+                            <div class="form-group">
+                                <label for="priority" class="form-label">Prioridad</label>
+                                <select class="form-control" id="priority">
+                                    <option value="low">Baja</option>
+                                    <option value="medium">Media</option>
+                                    <option value="high">Alta</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="assignee" class="form-label">Asignado a</label>
+                        <select class="form-control" id="assignee">
+                            <option value="">Sin asignar</option>
+                            <option value="santiago">
+                                Santiago
+                            </option>
+                            <option value="maria-jose">
+                                María José
+                            </option>
+                            <option value="shiuu">
+                                Shiuu
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Etiquetas</label>
+                        <div class="tags">
+                            <input type="checkbox" id="tag-1" class="tag-checkbox">
+                            <label for="tag-1" class="tag-label">Frontend</label>
+
+                            <input type="checkbox" id="tag-2" class="tag-checkbox">
+                            <label for="tag-2" class="tag-label">Backend</label>
+
+                            <input type="checkbox" id="tag-3" class="tag-checkbox">
+                            <label for="tag-3" class="tag-label">UI/UX</label>
+
+                            <input type="checkbox" id="tag-4" class="tag-checkbox">
+                            <label for="tag-4" class="tag-label">Bug</label>
+
+                            <input type="checkbox" id="tag-5" class="tag-checkbox">
+                            <label for="tag-5" class="tag-label">Mejora</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="estimated-hours" class="form-label">Horas estimadas</label>
+                        <input type="number" class="form-control" id="estimated-hours" min="0" step="0.5"
+                            placeholder="Ej: 4.5">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="btn-cerrar-popup1">Cancelar</button>
+                <button type="submit" form="task-form" class="btn btn-primary">Crear Tarea</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--fin ventana emergente2-->
+
+    <script src="/static/js/popup.js"></script>
 
     <!--scripts para dataTable-->
 

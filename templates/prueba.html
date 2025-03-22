@@ -1,110 +1,318 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recuperación de Contraseña</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Tarea</title>
+    <style>
+        /* Reset y estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: rgba(13, 17, 23, 0.5);
+            color: #c9d1d9;
+            line-height: 1.5;
+            padding: 0;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Modal */
+        .modal {
+            background-color: #161B22;
+            border-radius: 6px;
+            border: 1px solid #30363d;
+            width: 100%;
+            max-width: 550px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            padding: 1rem;
+            border-bottom: 1px solid #21262d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: #8b949e;
+            cursor: pointer;
+            font-size: 1.25rem;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            color: white;
+            background-color: #21262d;
+        }
+
+        .modal-body {
+            padding: 1rem;
+        }
+
+        .modal-footer {
+            padding: 1rem;
+            border-top: 1px solid #21262d;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+        }
+
+        /* Formulario */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #c9d1d9;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            color: white;
+            background-color: #0D1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            transition: border-color 0.15s ease-in-out;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #1f6feb;
+            box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.3);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-text {
+            display: block;
+            margin-top: 0.25rem;
+            font-size: 0.75rem;
+            color: #8b949e;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        /* Botones */
+        .btn {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid rgba(240, 246, 252, 0.1);
+        }
+
+        .btn-primary {
+            background-color: #238636;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2ea043;
+        }
+
+        .btn-secondary {
+            background-color: #21262d;
+            color: #c9d1d9;
+        }
+
+        .btn-secondary:hover {
+            background-color: #30363d;
+            color: white;
+        }
+
+        /* Etiquetas */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .tag-checkbox {
+            display: none;
+        }
+
+        .tag-label {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background-color: #21262d;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tag-label:hover {
+            background-color: #30363d;
+        }
+
+        .tag-checkbox:checked + .tag-label {
+            background-color: #1f6feb;
+            color: white;
+        }
+
+        /* Asignado a */
+        .assignee-select {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .assignee-avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+    </style>
 </head>
-<body style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif;">
-    <!-- Contenedor principal -->
-    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;">
-        <tr>
-            <td align="center" style="padding: 20px 0;">
-                <!-- Contenedor del email -->
-                <table border="0" cellpadding="0" cellspacing="0" width="600" style="max-width: 600px; background-color: rgba(0, 10, 17, 0.9); border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);">
-                    <!-- Encabezado -->
-                    <tr>
-                        <td align="center" style="padding: 30px 30px 20px 30px; border-radius: 8px 8px 0 0; background-color: rgba(16, 74, 110, 0.9);">
-                            <h1>SAGS</h1>
-                        </td>
-                    </tr>
-                    <!-- Contenido -->
-                    <tr>
-                        <td bgcolor="#ffffff" style="padding: 0 30px 20px 30px;">
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                <tr>
-                                    <td style="color: #333333; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; padding-bottom: 15px; text-align: center;">
-                                        Recuperación de Contraseña
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="color: #666666; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; padding-bottom: 10px;">
-                                        Hola,
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="color: #666666; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; padding-bottom: 10px;">
-                                        Hemos recibido una solicitud para restablecer tu contraseña. Si no realizaste esta solicitud, puedes ignorar este mensaje.
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="color: #666666; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; padding-bottom: 20px;">
-                                        Para cambiar tu contraseña, haz clic en el botón de abajo:
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="center" style="padding: 10px 0 30px 0;">
-                                        <!-- Botón con fallback para clientes que no soportan botones -->
-                                        <table border="0" cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td align="center" bgcolor="#007BFF" style="border-radius: 6px;">
-                                                    <a href="{enlace_recuperacion}" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: bold;">Restablecer Contraseña</a>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="color: #666666; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; padding-bottom: 10px;">
-                                        Si el botón no funciona, copia y pega el siguiente enlace en tu navegador:
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="color: #007BFF; font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; padding-bottom: 20px; word-break: break-all;">
-                                        {enlace_recuperacion}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="color: #999999; font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; font-style: italic; text-align: center;">
-                                        Este enlace expirará en 10 minutos por motivos de seguridad.
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <!-- Pie de página -->
-                    <tr>
-                        <td bgcolor="#f8f8f8" style="padding: 20px 30px; border-radius: 0 0 8px 8px; border-top: 1px solid #eeeeee;">
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                <tr>
-                                    <td style="color: #999999; font-family: Arial, sans-serif; font-size: 12px; line-height: 18px; text-align: center;">
-                                        &copy; 2024 Tu Empresa. Todos los derechos reservados.<br/>
-                                        Si no solicitaste este correo, puedes ignorarlo de forma segura.
-                                    </td>
-                                </tr>
-                                <tr style="display: none;">
-                                    <td align="center" style="padding: 15px 0 0 0;">
-                                        <table border="0" cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td style="text-align: center; padding: 0 10px;">
-                                                    <a href="https://www.facebook.com/tuempresa" target="_blank" style="color: #999999; text-decoration: none;">Facebook</a>
-                                                </td>
-                                                <td style="text-align: center; padding: 0 10px;">
-                                                    <a href="https://www.twitter.com/tuempresa" target="_blank" style="color: #999999; text-decoration: none;">Twitter</a>
-                                                </td>
-                                                <td style="text-align: center; padding: 0 10px;">
-                                                    <a href="https://www.instagram.com/tuempresa" target="_blank" style="color: #999999; text-decoration: none;">Instagram</a>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+<body>
+    <div class="modal">
+        <div class="modal-header">
+            <h2 class="modal-title">Nueva Tarea</h2>
+            <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="task-form">
+                <div class="form-group">
+                    <label for="task-title" class="form-label">Título de la tarea</label>
+                    <input type="text" class="form-control" id="task-title" placeholder="Ej: Implementar autenticación de usuarios">
+                </div>
+                
+                <div class="form-group">
+                    <label for="task-description" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="task-description" placeholder="Describe los detalles de la tarea"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="sprint" class="form-label">Sprint</label>
+                            <select class="form-control" id="sprint">
+                                <option value="">Seleccionar Sprint</option>
+                                <option value="sprint-1">Sprint 1: Diseño de UI</option>
+                                <option value="sprint-2">Sprint 2: Desarrollo Frontend</option>
+                                <option value="sprint-3">Sprint 3: Integración Backend</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="due-date" class="form-label">Fecha límite</label>
+                            <input type="date" class="form-control" id="due-date">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="status" class="form-label">Estado</label>
+                            <select class="form-control" id="status">
+                                <option value="todo">Por hacer</option>
+                                <option value="in-progress">En progreso</option>
+                                <option value="review">En revisión</option>
+                                <option value="done">Completado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="priority" class="form-label">Prioridad</label>
+                            <select class="form-control" id="priority">
+                                <option value="low">Baja</option>
+                                <option value="medium">Media</option>
+                                <option value="high">Alta</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="assignee" class="form-label">Asignado a</label>
+                    <select class="form-control" id="assignee">
+                        <option value="">Sin asignar</option>
+                        <option value="santiago">
+                            Santiago
+                        </option>
+                        <option value="maria-jose">
+                            María José
+                        </option>
+                        <option value="shiuu">
+                            Shiuu
+                        </option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Etiquetas</label>
+                    <div class="tags">
+                        <input type="checkbox" id="tag-1" class="tag-checkbox">
+                        <label for="tag-1" class="tag-label">Frontend</label>
+                        
+                        <input type="checkbox" id="tag-2" class="tag-checkbox">
+                        <label for="tag-2" class="tag-label">Backend</label>
+                        
+                        <input type="checkbox" id="tag-3" class="tag-checkbox">
+                        <label for="tag-3" class="tag-label">UI/UX</label>
+                        
+                        <input type="checkbox" id="tag-4" class="tag-checkbox">
+                        <label for="tag-4" class="tag-label">Bug</label>
+                        
+                        <input type="checkbox" id="tag-5" class="tag-checkbox">
+                        <label for="tag-5" class="tag-label">Mejora</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="estimated-hours" class="form-label">Horas estimadas</label>
+                    <input type="number" class="form-control" id="estimated-hours" min="0" step="0.5" placeholder="Ej: 4.5">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary">Cancelar</button>
+            <button type="submit" form="task-form" class="btn btn-primary">Crear Tarea</button>
+        </div>
+    </div>
 </body>
 </html>
