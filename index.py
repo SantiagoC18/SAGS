@@ -586,7 +586,11 @@ def tasks(idproy):
 def sprints(idproy):
     if session.get('logueado'):
         idproy = idproy
-        return render_template('sprints.html', log='Cerrar')
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM sprints WHERE idproy = %s", (idproy,))
+        data = cur.fetchall()
+
+        return render_template('sprints.html', log='Cerrar', data=data)
     else:
         return redirect(url_for('login'))
 

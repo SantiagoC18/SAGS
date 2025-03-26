@@ -55,25 +55,26 @@
             <!-- Lista de sprints -->
             <div class="sprint-list">
                 <!-- Sprint 1 -->
+                {% for data in data%}
                 <div class="sprint-card">
                     <div class="sprint-header">
-                        <h2 class="sprint-title">Sprint 1: Diseño de UI</h2>
-                        <span class="sprint-status status-completed">Completado</span>
+                        <h2 class="sprint-title">{{ data['nombre'] }}</h2>
+
                     </div>
                     <div class="sprint-dates">
-                        10 Mar - 24 Mar, 2023
+                        {{ data['fechaI'] }} - {{ data['fechaF'] }}
                     </div>
                     <div class="sprint-progress">
                         <div class="progress-bar">
-                            <div class="progress-value" style="width: 100%"></div>
+                            <div class="progress-value" style="width: {{ data['estado'] }}%"></div>
                         </div>
                         <div class="progress-stats">
-                            <span>12/12 tareas</span>
-                            <span>100%</span>
+                            <span>12 tareas</span>
+                            <span>{{ data['estado'] }}%</span>
                         </div>
                     </div>
                     <p class="sprint-description">
-                        Diseño de interfaces de usuario y experiencia de usuario para la aplicación móvil.
+                        {{ data['descripcion'] }}
                     </p>
                     <div class="sprint-footer">
                         <div class="sprint-members">
@@ -103,6 +104,7 @@
                         </div>
                     </div>
                 </div>
+                {% endfor %}
 
                 <!-- Sprint 2 -->
                 <div class="sprint-card">
