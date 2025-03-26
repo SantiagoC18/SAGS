@@ -237,7 +237,7 @@ def password_reset(token):
     return render_template('password_reset.html')
 
 
-#funcion de login para validar usuario y contraceñá
+#funcion de login para validar usuario y contraceña
 @app.route('/acceso_login', methods=["GET", "POST"])
 def acceso_login():
     
@@ -387,6 +387,45 @@ def adduser():
 
 #Finaliza para crear o agregar usuario
 
+
+
+#Actualizar Usuarios
+
+@app.route("/actualizar_usuario", methods=["POST"])
+def actualizar_usuario():
+    if request.method == "POST":
+        email = request.form.get("email")  # Aseguramos que email se recibe correctamente
+        nombres = request.form["nombres"]
+        apellidos = request.form["apellidos"]
+        telefono = request.form["telefono"]
+        documento = request.form["documento"]
+
+
+        print(f"Recibido email: {email}")  # Verifica en la terminal si el email llega correctamente
+
+        cur = mysql.connection.cursor()
+        try:
+            cur.execute("""
+                UPDATE usuarios
+                SET nombres=%s, apellidos=%s, telefono=%s, documento=%s
+                WHERE email=%s
+            """, (nombres, apellidos, telefono,documento, email))
+
+            mysql.connection.commit()
+            print(f"Filas afectadas: {cur.rowcount}")
+
+            flash("Datos actualizados correctamente", "success")
+        except Exception as e:
+            mysql.connection.rollback()
+            flash(f"Error al actualizar: {e}", "danger")
+            print(f"Error en la actualización: {e}")
+        finally:
+            cur.close()
+
+        return redirect(url_for("perfil"))
+
+
+#Fin actualizar usuarios
 
 
 #redireccion a los modulos de gestion y creacion de proyectos

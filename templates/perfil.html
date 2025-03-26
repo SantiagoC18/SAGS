@@ -66,10 +66,22 @@
 
         <section class="user-info">
             <h2>Información del Usuario</h2>
+
+<!-- Mensajes Flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+
+
+
             <div class="user-details">
                 {% for dato in usuario %}
                 <div class="container_img">
-                    <img src="/static/img/usuarios/{{dato['foto']}}" alt="">
+                    <img src="/static/img/usuarios/{{ dato['foto'] if dato['foto'] else 'default.jpg' }}" alt="Foto de perfil">
                 </div>
                 <div class="user-text">
 
@@ -115,81 +127,51 @@
 
     <div class="overlay" id="overlay1">
         <div class="popup" id="popup1" style="height: 65%; background-color: #0000007e;">
-            <a href="#" id="btn-cerrar-popup1" class="btn-cerrar-popup" style="margin-right: -100%"><i
-                    class="fas fa-times"></i>
-            </a>
+            <a href="#" id="btn-cerrar-popup1" class="btn-cerrar-popup"><i class="fas fa-times"></i></a>
+            
             <div class="dialog-header">
                 <h2 class="dialog-title">Actualizar Perfil</h2>
-                <p class="dialog-description">Actualiza tu información personal. Haz clic en actualizar cuando termines.
-                </p>
+                <p class="dialog-description">Actualiza tu información personal y haz clic en actualizar cuando termines.</p>
             </div>
+    
             <div class="dialog-content">
-                <form>
-                    {% for dato2 in usuario %}
+                <form action="{{ url_for('actualizar_usuario') }}" method="POST">
+                    {% for dato in usuario %}
+
                     <div class="form-group">
-                        <label for="documento">
-                            <i data-lucide="user"></i>
-                            No° Documento (id)
-                        </label>
-                        <input type="number" id="documento" name="documento" readonly value="{{ dato2['documento'] }}"
-                            placeholder="No° Documento (id)">
+                        <label for="email">Email</label>
+                        <input type="text" id="email" name="email" readonly value="{{ dato['email'] }}">
                     </div>
                     
                     <div class="form-group">
-                        <label for="correo">
-                            <i data-lucide="mail"></i>
-                            Correo
-                        </label>
-                        <input type="email" id="correo" name="correo" readonly value="{{ dato2['email'] }}" placeholder="Correo">
+                        <label for="nombres">Nombres</label>
+                        <input type="text" id="nombres" name="nombres" value="{{ dato['nombres'] }}" required>
                     </div>
+                    
                     <div class="form-group">
-                        <label for="telefono">
-                            <i data-lucide="phone"></i>
-                            Teléfono
-                        </label>
-                        <input type="number" id="telefono" name="telefono" value="{{ dato2['telefono'] }}"
-                            placeholder="Teléfono">
+                        <label for="apellidos">Apellidos</label>
+                        <input type="text" id="apellidos" name="apellidos" value="{{ dato['apellidos'] }}" required>
                     </div>
+
+
                     <div class="form-group">
-                        <label for="perfil">
-                            <i data-lucide="user-circle"></i>
-                            Perfil
-                        </label>
-                        <input type="text" id="perfil" name="perfil" value="{{ dato2['perfil'] }}" placeholder="Perfil">
+                        <label for="documento">Documento</label>
+                        <input type="text" id="documento" name="documento" value="{{ dato['documento'] }}" required>
                     </div>
+
+                    
                     <div class="form-group">
-                        <label for="nombres">
-                            <i data-lucide="user-plus"></i>
-                            Nombres
-                        </label>
-                        <input type="text" id="nombres" name="nombres" value="{{ dato2['nombres'] }}"
-                            placeholder="Nombres">
+                        <label for="telefono">Teléfono</label>
+                        <input type="number" id="telefono" name="telefono" value="{{ dato['telefono'] }}">
                     </div>
-                    <div class="form-group">
-                        <label for="apellidos">
-                            <i data-lucide="user-plus"></i>
-                            Apellidos
-                        </label>
-                        <input type="text" id="apellidos" name="apellidos" value="{{ dato2['apellidos'] }}"
-                            placeholder="Apellidos">
-                    </div>
-                    <div class="form-group">
-                        <label for="foto">
-                            <i data-lucide="file-image"></i>
-                            Foto
-                        </label>
-                        <input type="file" id="foto" name="foto" accept="image/*">
+                    
+                    <div class="dialog-footer">
+                        <button type="submit" class="button">Actualizar</button>
                     </div>
                     {% endfor %}
                 </form>
             </div>
-            <div class="dialog-footer">
-                <button type="submit" class="button">Actualizar</button>
-            </div>
         </div>
-        <script>
-            lucide.createIcons();
-        </script>
     </div>
 
     <!--fin ventana emergente1-->
