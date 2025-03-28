@@ -78,102 +78,128 @@ def recuperar_contraseña():
         enlace_recuperacion = url_for('password_reset', token=token, _external=True)
 
         mensaje = Message('Recuperación de contraseña', sender='softwareanalysissa@gmail.com', recipients=[correo])
-        mensaje.html = f'''<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        mensaje.html = f'''<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recuperación de Contraseña</title>
+    <title>Recuperación de Contraseña SAGS</title>
 </head>
-<body style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #f4f4f4; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
+
+<body
+    style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #000000; color: #ffffff; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
     <!-- Contenedor principal -->
-    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;">
+    <table border="0" cellpadding="0" cellspacing="0" width="90%" style="min-width: 100%;">
         <tr>
-            <td align="center" bgcolor="#f4f4f4" style="padding: 20px 0;">
+            <td align="center" valign="top" style="padding: 20px 10px;">
                 <!-- Contenedor del email -->
-                <table border="0" cellpadding="0" cellspacing="0" width="600" style="max-width: 600px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);">
-                    <!-- Encabezado -->
+                <table border="0" cellpadding="0" cellspacing="0" width="auto"
+                    style="max-width: 600px; background-color: #000000;">
+                    <!-- Header -->
                     <tr>
-                        <td align="center" bgcolor="#ffffff" style="padding: 30px 30px 20px 30px; border-radius: 8px 8px 0 0;">
-                            <h1>SAGS</h1>
-                        </td>
-                    </tr>
-                    <!-- Contenido -->
-                    <tr>
-                        <td bgcolor="#ffffff" style="padding: 0 30px 20px 30px;">
+                        <td align="left" valign="middle" style="padding: 20px 0;">
                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
-                                    <td style="color: #333333; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; padding-bottom: 15px; text-align: center;">
-                                        Recuperación de Contraseña
+                                    <td width="50" style="padding-right: 10px;">
+                                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/sirs-wf3veHKLHEjJ0wDWVcEeNGDjGZDhVj.jpg"
+                                            alt="SAGS Logo" width="40" height="40"
+                                            style="display: block; border-radius: 50%;" />
+                                    </td>
+                                    <td>
+                                        <span style="font-size: 20px; font-weight: bold; color: #ffffff;">SAGS</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Contenido principal -->
+                    <tr>
+                        <td
+                            style="background-color: #0a0e17; border: 1px solid #2a2a2a; border-radius: 8px; padding: 30px; position: relative;">
+
+                            <!-- Logo de fondo -->
+                            <div
+                                style="display: none; right: 0; top: 25%; width: 200px; height: 200px; opacity: 0.2; text-align: right;">
+                                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/sirs-wf3veHKLHEjJ0wDWVcEeNGDjGZDhVj.jpg"
+                                    alt="SAGS Logo Background" width="180" height="180"
+                                    style="display: inline-block;" />
+                            </div>
+
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td align="center" style="padding-bottom: 25px;">
+                                        <h1 style="font-size: 24px; font-weight: bold; color: #ffffff; margin: 0;">
+                                            Recuperación de Contraseña</h1>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="color: #666666; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; padding-bottom: 10px;">
-                                        Hola,
+                                    <td style="color: #cccccc; padding-bottom: 15px; position: relative; z-index: 2;">
+                                        <p style="margin: 0 0 15px 0;">Hola,</p>
+                                        <p style="margin: 0 0 15px 0;">Hemos recibido una solicitud para restablecer tu
+                                            contraseña. Si no realizaste esta solicitud, puedes ignorar este mensaje.
+                                        </p>
+                                        <p style="margin: 0 0 25px 0;">Para cambiar tu contraseña, haz clic en el botón
+                                            de abajo:</p>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="color: #666666; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; padding-bottom: 10px;">
-                                        Hemos recibido una solicitud para restablecer tu contraseña. Si no realizaste esta solicitud, puedes ignorar este mensaje.
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="color: #666666; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; padding-bottom: 20px;">
-                                        Para cambiar tu contraseña, haz clic en el botón de abajo:
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="center" style="padding: 10px 0 30px 0;">
-                                        <!-- Botón con fallback para clientes que no soportan botones -->
+                                    <td align="center" style="padding: 20px 0 30px 0; position: relative; z-index: 2;">
+                                        <!-- Botón -->
                                         <table border="0" cellpadding="0" cellspacing="0">
                                             <tr>
-                                                <td align="center" bgcolor="#007BFF" style="border-radius: 6px;">
-                                                    <a href="{enlace_recuperacion}" target="_blank" style="display: inline-block; padding: 16px 36px; font-family: Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: bold;">Restablecer Contraseña</a>
+                                                <td align="center" bgcolor="#0284C7" style="border-radius: 6px;">
+                                                    <a href="{enlace_recuperacion}" target="_blank"
+                                                        style="display: inline-block; padding: 12px 32px; font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none;">Restablecer
+                                                        Contraseña</a>
                                                 </td>
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="color: #666666; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px; padding-bottom: 10px;">
-                                        Si el botón no funciona, copia y pega el siguiente enlace en tu navegador:
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="color: #007BFF; font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; padding-bottom: 20px; word-break: break-all;">
-                                        {enlace_recuperacion}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="color: #999999; font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; font-style: italic; text-align: center;">
-                                        Este enlace expirará en 10 minutos por motivos de seguridad.
+                                    <td style="color: #999999; font-size: 14px; position: relative; z-index: 2;">
+                                        <p style="margin: 0 0 10px 0;">Si el botón no funciona, copia y pega el
+                                            siguiente enlace en tu navegador:</p>
+                                        <p style="margin: 0 0 20px 0; color: #0EA5E9; word-break: break-all;">
+                                            {enlace_recuperacion}</p>
+                                        <p style="margin: 0; font-style: italic; color: #777777;">Este enlace expirará
+                                            en 10 minutos por motivos de seguridad.</p>
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
-                    <!-- Pie de página -->
+
+                    <!-- Espacio -->
                     <tr>
-                        <td bgcolor="#f8f8f8" style="padding: 20px 30px; border-radius: 0 0 8px 8px; border-top: 1px solid #eeeeee;">
+                        <td height="30"></td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td
+                            style="border-top: 1px solid #2a2a2a; padding-top: 20px; text-align: center; color: #777777; font-size: 14px;">
+                            <p style="margin: 0 0 10px 0;">© 2024 Tu Empresa. Todos los derechos reservados.</p>
+                            <p style="margin: 0 0 20px 0;">Si no solicitaste este correo, puedes ignorarlo de forma
+                                segura.</p>
                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
-                                    <td style="color: #999999; font-family: Arial, sans-serif; font-size: 12px; line-height: 18px; text-align: center;">
-                                        &copy; 2024 Tu Empresa. Todos los derechos reservados.<br/>
-                                        Si no solicitaste este correo, puedes ignorarlo de forma segura.
-                                    </td>
-                                </tr>
-                                <tr style="display: none;">
-                                    <td align="center" style="padding: 15px 0 0 0;">
+                                    <td align="center">
                                         <table border="0" cellpadding="0" cellspacing="0">
                                             <tr>
-                                                <td style="text-align: center; padding: 0 10px;">
-                                                    <a href="https://www.facebook.com/tuempresa" target="_blank" style="color: #999999; text-decoration: none;">Facebook</a>
+                                                <td style="padding: 0 10px;">
+                                                    <a href="#" style="color: #0EA5E9; text-decoration: none;">Ayuda</a>
                                                 </td>
-                                                <td style="text-align: center; padding: 0 10px;">
-                                                    <a href="https://www.twitter.com/tuempresa" target="_blank" style="color: #999999; text-decoration: none;">Twitter</a>
+                                                <td style="padding: 0 10px;">
+                                                    <a href="#"
+                                                        style="color: #0EA5E9; text-decoration: none;">Contacto</a>
                                                 </td>
-                                                <td style="text-align: center; padding: 0 10px;">
-                                                    <a href="https://www.instagram.com/tuempresa" target="_blank" style="color: #999999; text-decoration: none;">Instagram</a>
+                                                <td style="padding: 0 10px;">
+                                                    <a href="#"
+                                                        style="color: #0EA5E9; text-decoration: none;">Privacidad</a>
                                                 </td>
                                             </tr>
                                         </table>
@@ -187,6 +213,7 @@ def recuperar_contraseña():
         </tr>
     </table>
 </body>
+
 </html>''' 
         
         gmail.send(mensaje)
@@ -629,9 +656,24 @@ def sprints(idproy):
         cur.execute("SELECT * FROM sprints WHERE idproy = %s", (idproy,))
         data = cur.fetchall()
 
-        return render_template('sprints.html', log='Cerrar', data=data)
+        return render_template('sprints.html', log='Cerrar', data=data, data2=idproy)
     else:
         return redirect(url_for('login'))
+
+@app.route('/registrar_sprint/<int:idproy>', methods=['POST'])
+def registrar_sprint(idproy):
+    nombre = request.form['sprint-name']
+    fechai = request.form['fi']
+    fechaf = request.form['ff']
+    desc = request.form['descripcion']
+    estado = request.form['estado']
+    
+    cur = mysql.connection.cursor()
+    cur.execute('INSERT INTO `sprints`(`fechaI`, `fechaF`, `nombre`, `descripcion`, `estado`, `idproy`) VALUES ( %s, %s, %s, %s, %s, %s)', (fechai, fechaf, nombre, desc, estado, idproy))
+    mysql.connection.commit()
+    cur.close()
+    
+    return redirect(url_for('sprints', idproy = idproy))
 
 #mostrar usuarios en vista administrador
 @app.route("/get_usuarios")
