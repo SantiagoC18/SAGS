@@ -55,126 +55,26 @@
             <!-- Lista de sprints -->
             <div class="sprint-list">
                 <!-- Sprint 1 -->
+                {% for data in data%}
                 <div class="sprint-card">
                     <div class="sprint-header">
-                        <h2 class="sprint-title">Sprint 1: Diseño de UI</h2>
-                        <span class="sprint-status status-completed">Completado</span>
-                    </div>
-                    <div class="sprint-dates">
-                        10 Mar - 24 Mar, 2023
-                    </div>
-                    <div class="sprint-progress">
-                        <div class="progress-bar">
-                            <div class="progress-value" style="width: 100%"></div>
-                        </div>
-                        <div class="progress-stats">
-                            <span>12/12 tareas</span>
-                            <span>100%</span>
-                        </div>
-                    </div>
-                    <p class="sprint-description">
-                        Diseño de interfaces de usuario y experiencia de usuario para la aplicación móvil.
-                    </p>
-                    <div class="sprint-footer">
-                        <div class="sprint-members">
-                            <img src="https://via.placeholder.com/20" alt="Avatar" class="member-avatar">
-                            <img src="https://via.placeholder.com/20" alt="Avatar" class="member-avatar">
-                            <img src="https://via.placeholder.com/20" alt="Avatar" class="member-avatar">
-                        </div>
-                        <div class="sprint-actions">
-                            <button class="action-button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                </svg>
-                            </button>
-                            <button class="action-button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                    <path
-                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                                    </path>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                        <h2 class="sprint-title">{{ data['nombre'] }}</h2>
 
-                <!-- Sprint 2 -->
-                <div class="sprint-card">
-                    <div class="sprint-header">
-                        <h2 class="sprint-title">Sprint 2: Desarrollo Frontend</h2>
-                        <span class="sprint-status status-active">Activo</span>
                     </div>
                     <div class="sprint-dates">
-                        25 Mar - 8 Abr, 2023
+                        {{ data['fechaI'] }} - {{ data['fechaF'] }}
                     </div>
                     <div class="sprint-progress">
                         <div class="progress-bar">
-                            <div class="progress-value" style="width: 65%"></div>
+                            <div class="progress-value" style="width: {{ data['estado'] }}%"></div>
                         </div>
                         <div class="progress-stats">
-                            <span>8/15 tareas</span>
-                            <span>65%</span>
+                            <span>12 tareas</span>
+                            <span>{{ data['estado'] }}%</span>
                         </div>
                     </div>
                     <p class="sprint-description">
-                        Implementación de componentes de interfaz y lógica de presentación.
-                    </p>
-                    <div class="sprint-footer">
-                        <div class="sprint-members">
-                            <img src="https://via.placeholder.com/20" alt="Avatar" class="member-avatar">
-                            <img src="https://via.placeholder.com/20" alt="Avatar" class="member-avatar">
-                            <img src="https://via.placeholder.com/20" alt="Avatar" class="member-avatar">
-                            <img src="https://via.placeholder.com/20" alt="Avatar" class="member-avatar">
-                        </div>
-                        <div class="sprint-actions">
-                            <button class="action-button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                </svg>
-                            </button>
-                            <button class="action-button">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                    <path
-                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                                    </path>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sprint 3 -->
-                <div class="sprint-card">
-                    <div class="sprint-header">
-                        <h2 class="sprint-title">Sprint 3: Integración Backend</h2>
-                        <span class="sprint-status status-planned">Planificado</span>
-                    </div>
-                    <div class="sprint-dates">
-                        9 Abr - 23 Abr, 2023
-                    </div>
-                    <div class="sprint-progress">
-                        <div class="progress-bar">
-                            <div class="progress-value" style="width: 0%"></div>
-                        </div>
-                        <div class="progress-stats">
-                            <span>0/18 tareas</span>
-                            <span>0%</span>
-                        </div>
-                    </div>
-                    <p class="sprint-description">
-                        Conexión con APIs y servicios de backend, implementación de autenticación.
+                        {{ data['descripcion'] }}
                     </p>
                     <div class="sprint-footer">
                         <div class="sprint-members">
@@ -204,6 +104,8 @@
                         </div>
                     </div>
                 </div>
+                {% endfor %}
+                
             </div>
         </div>
 
@@ -215,10 +117,10 @@
                 <h2 class="modal-title">Nuevo Sprint</h2>
             </div>
             <div class="modal-body">
-                <form id="sprint-form">
+                <form id="sprint-form" action="/registrar_sprint/{{ data2 }}" method="POST">
                     <div class="form-group">
                         <label for="sprint-name" class="form-label">Nombre del Sprint</label>
-                        <input type="text" class="form-control" id="sprint-name"
+                        <input type="text" class="form-control" name="sprint-name" id="sprint-name"
                             placeholder="Ej: Sprint 1: Diseño de UI">
                     </div>
 
@@ -226,49 +128,26 @@
                         <div class="form-col">
                             <div class="form-group">
                                 <label for="start-date" class="form-label">Fecha de inicio</label>
-                                <input type="date" class="form-control" id="start-date">
+                                <input type="date" class="form-control" name="fi" id="start-date">
                             </div>
                         </div>
                         <div class="form-col">
                             <div class="form-group">
                                 <label for="end-date" class="form-label">Fecha de finalización</label>
-                                <input type="date" class="form-control" id="end-date">
+                                <input type="date" class="form-control" name="ff" id="end-date">
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="sprint-description" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="sprint-description"
+                        <textarea class="form-control" name="descripcion" id="sprint-description"
                             placeholder="Describe los objetivos y alcance de este sprint"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Miembros del equipo</label>
-                        <div class="team-members">
-                            <input type="checkbox" id="member-1" class="member-checkbox">
-                            <label for="member-1" class="member-label">
-                                <img src="https://via.placeholder.com/16" alt="Avatar" class="member-avatar">
-                                Santiago
-                            </label>
-
-                            <input type="checkbox" id="member-2" class="member-checkbox">
-                            <label for="member-2" class="member-label">
-                                <img src="https://via.placeholder.com/16" alt="Avatar" class="member-avatar">
-                                María José
-                            </label>
-
-                            <input type="checkbox" id="member-3" class="member-checkbox">
-                            <label for="member-3" class="member-label">
-                                <img src="https://via.placeholder.com/16" alt="Avatar" class="member-avatar">
-                                Shiuu
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
                         <label for="sprint-status" class="form-label">Estado</label>
-                        <select class="form-control" id="sprint-status">
+                        <select class="form-control" name="estado" id="sprint-status">
                             <option value="planned">Planificado</option>
                             <option value="active">Activo</option>
                             <option value="completed">Completado</option>
