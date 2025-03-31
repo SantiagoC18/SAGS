@@ -264,7 +264,7 @@ def password_reset(token):
     return render_template('password_reset.html')
 
 
-#funcion de login para validar usuario y contraceña
+#funcion de login para validar usuario y contraseña
 @app.route('/acceso_login', methods=["GET", "POST"])
 def acceso_login():
     
@@ -416,7 +416,7 @@ def adduser():
 
 
 
-#Actualizar Usuarios
+#Actualizar datos de Usuarios
 
 @app.route("/actualizar_usuario", methods=["POST"])
 def actualizar_usuario():
@@ -451,8 +451,53 @@ def actualizar_usuario():
 
         return redirect(url_for("perfil"))
 
-
 #Fin actualizar usuarios
+
+
+# Cambiar contraseña apartado perfil
+
+@app.route("/actualizar_clave", methods=["POST"])
+def actualizar_clave():
+    if session.get('logueado'):
+        email = session['id'] # Se obtiene el email del usuario autenticado
+
+        actual = request.form["actual"]
+        nueva = request.form["nueva"]
+        confirmacion = request.form["confirmacion"]
+
+        cur = mysql.connection.cursor()
+
+        # Obtener y descifrar la contraseña actual desde la BD
+        cur.execute("SELECT (aes_decrypt(password,'AES')) AS cifrado FROM usuarios WHERE email = %s Limit 1", (email,))
+        usuario = cur.fetchone()
+
+        # Comparar la contraseña actual ingresada con la almacenada
+        if usuario['cifrado'].decode('utf-8') == actual:
+            if nueva != confirmacion:
+                flash("Las contraseñas no coinciden.", "error")
+                return redirect(url_for("perfil"))
+            
+            else:
+                # Actualizar la contraseña nueva encriptada
+                cur.execute("UPDATE usuarios SET `password` = (aes_encrypt(%s,'AES')) WHERE email = %s", (nueva, email))
+                mysql.connection.commit()
+
+                if cur.rowcount > 0:
+                    flash("Contraseña actualizada con éxito.", "success")
+                else:
+                    flash("Error al actualizar la contraseña.", "error")
+
+                cur.close()
+                return redirect(url_for("perfil"))
+            
+        else:
+            flash("La contraseña actual es incorrecta.", "error")
+            cur.close()
+            return redirect(url_for("perfil"))
+            
+
+
+# Fin cambiar contraseña apartado perfil
 
 
 #redireccion a los modulos de gestion y creacion de proyectos
