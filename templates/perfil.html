@@ -42,13 +42,15 @@
     <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
 
 
-
-    {% if hola %}
+    <!-- Mensajes Flash -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
     <script>
         swal.fire({
             title: "ACCESO CONCEDIDO",
-            text: "Hola {{hola}} bienvenido a (SIRS)",
-            icon: "success",
+            text: "{{message[0]}}",
+            icon: "{{message[1]}}",
             buttons: false,
             timer: 2000,
             showConfirmButton: false,
@@ -57,7 +59,10 @@
             position: "top"
         });
     </script>
-    {% endif %}
+    {% endfor %}
+{% endif %}
+{% endwith %}
+    
 
 
 
@@ -67,14 +72,7 @@
         <section class="user-info">
             <h2>Información del Usuario</h2>
 
-<!-- Mensajes Flash -->
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-    {% for category, message in messages %}
-        <div class="alert alert-{{ category }}">{{ message }}</div>
-    {% endfor %}
-{% endif %}
-{% endwith %}
+
 
 
 
@@ -176,56 +174,62 @@
 
     <!--fin ventana emergente1-->
 
+
+
     <!--ventana emergente2-->
 
     <div class="overlay" id="overlay2">
         <div class="popup" id="popup2" style="height: auto; background-color: #0000007e;">
-            <a href="#" id="btn-cerrar-popup2" class="btn-cerrar-popup" style="margin-right: -100%"><i
-                    class="fas fa-times"></i>
-            </a>
+            <a href="#" id="btn-cerrar-popup2" class="btn-cerrar-popup"><i class="fas fa-times"></i></a>
             <div class="dialog-header">
                 <h2 class="dialog-title">Actualizar Clave</h2>
-                <p class="dialog-description">Actualiza tu clave. Haz clic en actualizar cuando termines.
-                </p>
+                <p class="dialog-description">Ingresa tu clave actual y la nueva contraseña.</p>
             </div>
             <div class="dialog-content">
-                <form>
-                    {% for dato2 in usuario %}
+                <form id="form-actualizar-clave" action="{{ url_for('actualizar_clave') }}" method="POST">
+                    <input type="hidden" name="email" value="{{ usuario[0]['email'] }}">
                     <div class="form-group">
-                        <label for="actual">
-                            <i data-lucide="key-round"></i>
-                            Clave Actual
-                        </label>
-                        <input type="password" id="actual" name="actual"
-                            placeholder="Clave Actual">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="nueva">
-                            Nueva clave
-                        </label>
-                        <input type="password" id="nueva" name="nueva"
-                            placeholder="Nueva Clave">
+                        <label for="actual">Clave Actual</label>
+                        <input type="password" id="actual" name="actual" required>
                     </div>
                     <div class="form-group">
-                        <label for="confirmacion">
-                            Confirmacion de Clave
-                        </label>
-                        <input type="password" id="confirmacion" name="confirmacion" placeholder="Confirmar Clave">
+                        <label for="nueva">Nueva Clave</label>
+                        <input type="password" id="nueva" name="nueva" required>
                     </div>
-                    {% endfor %}
+                    <div class="form-group">
+                        <label for="confirmacion">Confirmar Nueva Clave</label>
+                        <input type="password" id="confirmacion" name="confirmacion" required>
+                    </div>
+                    <div class="dialog-footer">
+                        <button type="submit" class="button">Actualizar</button>
+                    </div>
                 </form>
             </div>
-            <div class="dialog-footer">
-                <button type="submit" class="button">Actualizar</button>
-            </div>
-            <script>
-                lucide.createIcons();
-            </script>
         </div>
     </div>
+    
+    <script>
+        document.getElementById("form-actualizar-clave").addEventListener("submit", function(event) {
+            let nueva = document.getElementById("nueva").value;
+            let confirmacion = document.getElementById("confirmacion").value;
+    
+            if (nueva !== confirmacion) {
+                event.preventDefault();
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Las contraseñas no coinciden",
+                    background: "#171717",
+                    toast: true,
+                    position: "top"
+                });
+            }
+        });
+    </script>
+    
+    
 
-    <!--fin ventana emergente1-->
+    <!--fin ventana emergente 2-->
 
 
 
