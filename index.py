@@ -459,7 +459,7 @@ def actualizar_usuario():
 @app.route("/actualizar_clave", methods=["POST"])
 def actualizar_clave():
     if session.get('logueado'):
-        email = session.get("email")  # Se obtiene el email del usuario autenticado
+        email = session['id'] # Se obtiene el email del usuario autenticado
 
         actual = request.form["actual"]
         nueva = request.form["nueva"]
@@ -468,30 +468,30 @@ def actualizar_clave():
         cur = mysql.connection.cursor()
 
         # Obtener y descifrar la contraseña actual desde la BD
-        cur.execute("SELECT (aes_decrypt(password,'AES')) AS cifrado FROM usuarios WHERE email = %s", (email,))
+        cur.execute("SELECT (aes_decrypt(password,'AES')) AS cifrado FROM usuarios WHERE email = %s Limit 1", (email,))
         usuario = cur.fetchone()
 
         # Comparar la contraseña actual ingresada con la almacenada
         if usuario['cifrado'].decode('utf-8') == actual:
             if nueva != confirmacion:
-                flash("Las contraseñas no coinciden.", "danger")
+                flash("Las contraseñas no coinciden.", "error")
                 return redirect(url_for("perfil"))
             
             else:
                 # Actualizar la contraseña nueva encriptada
-                cur.execute("UPDATE usuarios SET password = AES_ENCRYPT(%s, 'mi_clave_secreta') WHERE email = %s", (nueva, email))
+                cur.execute("UPDATE usuarios SET `password` = (aes_encrypt(%s,'AES')) WHERE email = %s", (nueva, email))
                 mysql.connection.commit()
 
                 if cur.rowcount > 0:
                     flash("Contraseña actualizada con éxito.", "success")
                 else:
-                    flash("Error al actualizar la contraseña.", "danger")
+                    flash("Error al actualizar la contraseña.", "error")
 
                 cur.close()
                 return redirect(url_for("perfil"))
             
         else:
-            flash("La contraseña actual es incorrecta.", "danger")
+            flash("La contraseña actual es incorrecta.", "error")
             cur.close()
             return redirect(url_for("perfil"))
             

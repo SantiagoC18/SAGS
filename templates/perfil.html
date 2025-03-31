@@ -48,13 +48,12 @@
     {% for category, message in messages %}
     <script>
         swal.fire({
-            title: "ACCESO CONCEDIDO",
-            text: "{{message[0]}}",
-            icon: "{{message[1]}}",
+            title: "{{message}}",
+            icon: "{{category}}",
             buttons: false,
             timer: 2000,
             showConfirmButton: false,
-            background: "#171717",
+            background: "#fff",
             toast: true,
             position: "top"
         });
