@@ -19,18 +19,18 @@
 <body>
 
     <header>
-        <a href="{{ url_for('index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
+        <a href="{{ url_for('main.index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
 
         <ul class="navbar">
-            <li><a href="{{ url_for('index') }}">Home</a></li>
-            <li><a href="{{ url_for('sobre_nosotros') }}">Sobre Nosotros</a></li>
-            <li><a href="{{ url_for('modulos') }}">Gestion de Proyectos</a></li>
-        <!--<li><a href="{{ url_for('opiniones') }}">Opiniones</a></li>-->
-            <li><a href="{{ url_for('perfil') }}" class="active">Perfil</a></li>
+            <li><a href="{{ url_for('main.index') }}">Home</a></li>
+            <li><a href="{{ url_for('main.sobre_nosotros') }}">Sobre Nosotros</a></li>
+            <li><a href="{{ url_for('main.modulos') }}">Gestion de Proyectos</a></li>
+        <!--<li><a href="{{ url_for('main.opiniones') }}">Opiniones</a></li>-->
+            <li><a href="{{ url_for('profile.perfil') }}" class="active">Perfil</a></li>
         </ul>
 
         <div class="main">
-            <a href="{{ url_for('logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion
+            <a href="{{ url_for('auth.logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion
                 {%
                 endif %}</a>
             <div class="bx bx-menu" id="menu-icon"><i class="fa-solid fa-bars"></i></div>
@@ -94,7 +94,7 @@
         </section>
 
         <section class="user-projects">
-            <a href="{{ url_for('registrar_pro') }}">
+            <a href="{{ url_for('projects.registrar_pro') }}">
                 <button title="Agregar proyecto" class="button_add">
                     <i class="fa-regular fa-square-plus fa-2xl" style="color: #ffffff;"></i>
                 </button>
@@ -104,9 +104,9 @@
             {% for dato in datos %}
             <div class="project">
                 <h3>Proyecto {{ dato['nombre'] }}</h3>
-                <p>Descripción:{{dato['descripcion']}}</p>
+                <p>Descripción: {{dato['descripcion']}}</p>
                 <p>Estado: En progreso</p>
-                <a href="{{ url_for('checkdown', idproy = dato['idproy']) }}">
+                <a href="{{ url_for('projects.checkdown', idproy = dato['idproy']) }}">
                     <button class="button_view" style="margin-bottom: 10px;">Ver</button>
                 </a>
             </div>
@@ -115,10 +115,6 @@
         </section>
 
     </main>
-
-
-
-
 
     <!--ventana emergente1-->
 
@@ -185,7 +181,7 @@
                 <p class="dialog-description">Ingresa tu clave actual y la nueva contraseña.</p>
             </div>
             <div class="dialog-content">
-                <form id="form-actualizar-clave" action="{{ url_for('actualizar_clave') }}" method="POST">
+                <form id="form-actualizar-clave" action="{{ url_for('password.actualizar_clave') }}" method="POST">
                     <input type="hidden" name="email" value="{{ usuario[0]['email'] }}">
                     <div class="form-group">
                         <label for="actual">Clave Actual</label>
