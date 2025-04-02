@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 26-03-2025 a las 15:25:43
+-- Tiempo de generación: 28-03-2025 a las 16:27:46
 -- Versión del servidor: 8.3.0
 -- Versión de PHP: 8.2.18
 
@@ -472,24 +472,7 @@ CREATE TABLE IF NOT EXISTS `reset_tokens` (
   `expires_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `reset_tokens`
---
-
-INSERT INTO `reset_tokens` (`id`, `user_id`, `token`, `expires_at`) VALUES
-(1, 'svalenzuela073@misena.edu.co', 'nOziarwXx_2tuwV-bdS2KkNVIKmUdla--KqGRMiLvOQ', '2024-09-26 20:18:18'),
-(9, 'roger@gmail.com', 'V3fXbpYCyi9N6UENq927slsYuE-1qnQkyRDOFhh1Ijc', '2024-09-30 17:42:01'),
-(11, 'jeanpierrebbedoya@gmail.com', '8lEeVePJ8kTPL8c3Dh5q3bkFgK_c9CDhQ4l1lnOYjL4', '2024-09-30 18:27:25'),
-(12, 'jeanpierrebbedoya@gmail.com', '_fsaaORguSYKPUpu7maOQ9N-et8rf2jyW47Slh0nF6o', '2024-09-30 18:27:26'),
-(13, 'jeanpierrebbedoya@gmail.com', '8hXgsyq5dRLH6eNK6r33P89jQI-RSMjXuIktsTUYtyg', '2024-09-30 18:27:27'),
-(14, 'jeanpierrebbedoya@gmail.com', 'Nczjf677THxSwEFVmlnqDlu82vVrRW7I_Ws9GsoCz4A', '2024-09-30 18:27:28'),
-(16, 'jeanpierrebbedoya@gmail.com', '-wclB_XvcZ_GfYVbWT2j_5XyvrM0mQoTjkWVPZ103mg', '2024-09-30 18:27:28'),
-(17, 'jeanpierrebbedoya@gmail.com', 'WzyEGJnQg4is_Cd67DBy79lJswLIRO6ME-lEZYQa0qw', '2024-09-30 18:27:28'),
-(18, 'jeanpierrebbedoya@gmail.com', 'EINcjniG0nTGdVDmJ6sEddzH6b9gmlYMdCIwIOCctG0', '2024-09-30 18:27:28'),
-(19, 'santicardenash@gmail.com', '6TmXdNC3B6s8enFwO9RZJ_RaPtZwdkMWMaeQmA-ZW3M', '2024-12-08 16:13:26'),
-(21, 'mglnares2006@gmail.com', '6ZvxBqV6z6XrYyYKyw3j6YkEt47Pf-OeOfwmjv-fPtM', '2024-12-09 11:31:11');
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -546,7 +529,7 @@ INSERT INTO `roles` (`idrol`, `descripcion`) VALUES
 
 DROP TABLE IF EXISTS `sprints`;
 CREATE TABLE IF NOT EXISTS `sprints` (
-  `idsprint` int NOT NULL,
+  `idsprint` int NOT NULL AUTO_INCREMENT,
   `fechaI` date DEFAULT NULL,
   `fechaF` date DEFAULT NULL,
   `nombre` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
@@ -555,24 +538,27 @@ CREATE TABLE IF NOT EXISTS `sprints` (
   `idproy` int DEFAULT NULL,
   PRIMARY KEY (`idsprint`),
   KEY `idproy` (`idproy`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar sprints de proyectos';
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar sprints de proyectos';
 
 --
 -- Volcado de datos para la tabla `sprints`
 --
 
 INSERT INTO `sprints` (`idsprint`, `fechaI`, `fechaF`, `nombre`, `descripcion`, `estado`, `idproy`) VALUES
-(1, '2024-06-04', '2024-09-20', 'Análisis de Informac', 'Analizar e iniciar con la plan', 50, 33),
-(2, '2017-07-05', '2018-04-05', 'Modelos ', 'Elaborar todos los modelos req', 0, 28),
-(3, '2022-07-27', '2023-01-04', 'Modelos ', 'CU, MER, MC', 10, NULL),
-(4, '2024-07-17', '2024-10-27', 'MR', 'Realizar el Modelo Relacional', 0, 29),
-(5, '2024-01-08', '2024-08-21', 'IEEE-830', 'Desarrollo de la IEEE-830', 20, 27),
-(6, '2022-01-01', '2021-05-01', 'RF', 'Registrar o asignar requisitos', 5, 32),
-(7, '2023-07-11', '2023-11-14', 'RNF', 'Registrar o asignar requisitos', 14, 30),
-(8, '2024-04-18', '2024-05-27', 'Análisis de Informac', 'Analizar e iniciar con la plan', 80, 4),
-(9, '2016-07-12', '2018-07-23', 'MC', 'Realizar y asignar el modelo d', 0, 30),
-(10, '2019-07-03', '2019-11-22', 'CU ', 'Realizar los casos de uso y ca', 3, 4),
-(11, '2023-10-09', '2024-04-18', 'IEEE-830', 'Elaboración de todos los ítems', 30, 27);
+(3, '2025-04-05', '2025-05-05', 'Validación de Modelos', 'Revisión de modelos y ajustes necesarios', 30, 29),
+(4, '2025-06-01', '2025-06-30', 'Desarrollo del Modelo Relacional', 'Implementación del esquema de base de datos', 40, 29),
+(5, '2025-07-01', '2025-08-01', 'Documentación IEEE-830', 'Redacción de especificaciones detalladas', 20, 27),
+(6, '2025-08-05', '2025-09-05', 'Requisitos Funcionales', 'Registro y asignación de requisitos funcionales', 60, 32),
+(7, '2025-09-10', '2025-10-10', 'Requisitos No Funcionales', 'Definición de requisitos adicionales del sistema', 70, 30),
+(8, '2025-11-01', '2025-11-30', 'Finalización del Análisis', 'Consolidación de todos los datos analizados', 80, 4),
+(9, '2025-12-01', '2026-01-01', 'Creación de Modelos Complementarios', 'Asignación de tareas específicas relacionadas', 90, 29),
+(10, '2026-01-05', '2026-02-05', 'Casos de Uso', 'Diseño y documentación de casos de uso', 95, 4),
+(11, '2026-02-10', '2026-03-10', 'Elaboración Final IEEE-830', 'Revisión y aprobación de todos los ítems', 100, 27),
+(13, '2025-01-01', '2025-02-01', 'Inicio del Proyecto', 'Planeación inicial del proyecto', 100, 4),
+(14, '2025-02-05', '2025-02-20', 'Análisis de Información', 'Analizar y organizar datos iniciales', 100, 33),
+(15, '2025-03-01', '2025-04-01', 'Diseño de Modelos', 'Creación de modelos para el sistema', 50, 28),
+(25, '2025-03-28', '2025-03-31', 'Terminar apartado de perfil', 'completar el desarrollo y la implementación del apartado de perfil, asegurando que todas las funcionalidades planificadas estén plenamente operativas y alineadas con los requisitos establecidos.', 0, 4),
+(26, '2025-03-28', '2025-03-30', 'Optimización de Procesos', 'Realizar mejoras en los procesos actuales para mayor eficiencia', 0, 4);
 
 -- --------------------------------------------------------
 
@@ -592,20 +578,6 @@ CREATE TABLE IF NOT EXISTS `tareas` (
   KEY `idsprint` (`idsprint`),
   KEY `usu_proy_id` (`usu_proy_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tareas de proyectos';
-
---
--- Volcado de datos para la tabla `tareas`
---
-
-INSERT INTO `tareas` (`id_tar`, `nombre`, `fechaLimite`, `idsprint`, `usu_proy_id`, `prioridad`) VALUES
-(1, 'MER', NULL, 3, 9, ''),
-(2, 'MR', NULL, 4, 1, ''),
-(3, 'MR', NULL, 4, 2, ''),
-(4, 'MR', NULL, 4, 3, ''),
-(5, 'IEEE-830', NULL, 5, 5, ''),
-(6, 'IEEE-830', NULL, 5, 6, ''),
-(7, 'Modelos', NULL, 2, 8, ''),
-(8, 'CU', NULL, 10, 10, '');
 
 -- --------------------------------------------------------
 
@@ -747,8 +719,8 @@ ALTER TABLE `sprints`
 -- Filtros para la tabla `tareas`
 --
 ALTER TABLE `tareas`
-  ADD CONSTRAINT `tareas_ibfk_1` FOREIGN KEY (`idsprint`) REFERENCES `sprints` (`idsprint`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tareas_ibfk_2` FOREIGN KEY (`usu_proy_id`) REFERENCES `usu_proy` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tareas_ibfk_2` FOREIGN KEY (`usu_proy_id`) REFERENCES `usu_proy` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tareas_ibfk_3` FOREIGN KEY (`idsprint`) REFERENCES `sprints` (`idsprint`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `usuarios`

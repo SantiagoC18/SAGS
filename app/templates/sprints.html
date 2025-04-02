@@ -14,18 +14,18 @@
 <body>
 
     <header>
-        <a href="{{ url_for('index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
+        <a href="{{ url_for('main.index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
 
         <ul class="navbar">
-            <li><a href="{{ url_for('index') }}">Home</a></li>
-            <li><a href="{{ url_for('sobre_nosotros') }}">Sobre Nosotros</a></li>
-            <li><a href="{{ url_for('modulos') }}" class="active">Gestion de Proyectos</a></li>
-            <!--<li><a href="{{ url_for('opiniones') }}">Opiniones</a></li>-->
-            <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
+            <li><a href="{{ url_for('main.index') }}">Home</a></li>
+            <li><a href="{{ url_for('main.sobre_nosotros') }}">Sobre Nosotros</a></li>
+            <li><a href="{{ url_for('main.modulos') }}" class="active">Gestion de Proyectos</a></li>
+            <!--<li><a href="{{ url_for('main.opiniones') }}">Opiniones</a></li>-->
+            <li><a href="{{ url_for('profile.perfil') }}">Perfil</a></li>
         </ul>
 
         <div class="main">
-            <a href="{{ url_for('logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion
+            <a href="{{ url_for('auth.logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion
                 {% endif %}
             </a>
             <div class="bx bx-menu" id="menu-icon"><i class="fa-solid fa-bars"></i></div>
@@ -77,11 +77,6 @@
                         {{ data['descripcion'] }}
                     </p>
                     <div class="sprint-footer">
-                        <div class="sprint-members">
-                            <img src="https://via.placeholder.com/20" alt="Avatar" class="member-avatar">
-                            <img src="https://via.placeholder.com/20" alt="Avatar" class="member-avatar">
-                            <img src="https://via.placeholder.com/20" alt="Avatar" class="member-avatar">
-                        </div>
                         <div class="sprint-actions">
                             <button class="action-button">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
@@ -105,7 +100,7 @@
                     </div>
                 </div>
                 {% endfor %}
-                
+
             </div>
         </div>
 

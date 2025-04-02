@@ -15,18 +15,18 @@
 <body>
 
     <header>
-        <a href="{{ url_for('index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
+        <a href="{{ url_for('main.index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
 
         <ul class="navbar">
-            <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
-            <li><a href="{{ url_for('sobre_nosotros') }}">Sobre Nosotros</a></li>
-            <li><a href="{{ url_for('modulos') }}">Gestion de Proyectos</a></li>
-        <!--<li><a href="{{ url_for('opiniones') }}">Opiniones</a></li>-->
-            <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
+            <li><a href="{{ url_for('main.index') }}" class="active">Home</a></li>
+            <li><a href="{{ url_for('main.sobre_nosotros') }}">Sobre Nosotros</a></li>
+            <li><a href="{{ url_for('main.modulos') }}">Gestion de Proyectos</a></li>
+            <!--<li><a href="{{ url_for('main.opiniones') }}">Opiniones</a></li>-->
+            <li><a href="{{ url_for('profile.perfil') }}">Perfil</a></li>
         </ul>
 
         <div class="main">
-            <a href="{{ url_for('logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion
+            <a href="{{ url_for('auth.logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion
                 {% endif %}</a>
             <div class="bx bx-menu" id="menu-icon"><i class="fa-solid fa-bars"></i></div>
         </div>
@@ -302,25 +302,25 @@
                     <span>Diagrama de Clases</span>
                 </li>
                 <li class="list">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor">
                         <path fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
                             clip-rule="evenodd"></path>
                     </svg>
                     <span>Diagrama de Objetos</span>
                 </li>
                 <li class="list">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor">
                         <path fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
                             clip-rule="evenodd"></path>
                     </svg>
                     <span>Modelo Entidad Relacion</span>
                 </li>
                 <li class="list">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor">
                         <path fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
                             clip-rule="evenodd"></path>
                     </svg>
                     <span>Modelo Relacional</span>
@@ -371,7 +371,7 @@
     <script>
 
         function registro_proyecto() {
-            window.location.href = "{{ url_for('registrar_pro') }}";
+            window.location.href = "{{ url_for('projects.registrar_pro') }}";
         }
 
     </script>
