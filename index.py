@@ -746,6 +746,64 @@ def asignar_usuarios():
     cur.close()
     return jsonify({"message": "Usuarios asignados correctamente"})
 
+#Asignar usuarios
+# Obtener datos del proyecto seleccionado
+@app.route("/get_proyecto/<int:proyecto_id>")
+def get_proyecto(proyecto_id):
+    conexion = obtener_conexion()
+    cursor = conexion.cursor(dictionary=True)
+
+    cursor.execute("SELECT nombre, scrum_master FROM proyectos WHERE idproy = %s", (proyecto_id,))
+    proyecto = cursor.fetchone()
+
+    cursor.close()
+    conexion.close()
+
+    if proyecto:
+        return jsonify(proyecto)
+    return jsonify({"error": "Proyecto no encontrado"}), 404
+
+# Obtener usuarios asignables con su rol
+@app.route("/get_usuarios/<int:proyecto_id>")
+def get_usuarios(proyecto_id):
+    conexion = obtener_conexion()
+    cursor = conexion.cursor(dictionary=True)
+
+    cursor.execute("SELECT id, nombre, rol FROM usuarios")
+    usuarios = cursor.fetchall()
+
+    cursor.close()
+    conexion.close()
+
+    return jsonify(usuarios)
+
+# Asignar usuarios a un proyecto
+
+@app.route("/asignar_usuarios", methods=["POST"])
+def asignar_usuarios():
+    datos = request.json
+    proyecto_id = datos.get("proyecto_id")
+    usuarios = datos.get("usuarios")
+
+    if not proyecto_id or not usuarios:
+        return jsonify({"error": "Datos inválidos"}), 400
+
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+
+    for usuario_id in usuarios:
+        cursor.execute("INSERT INTO asignaciones (proyecto_id, usuario_id) VALUES (%s, %s)", (proyecto_id, usuario_id))
+
+    conexion.commit()
+    cursor.close()
+    conexion.close()
+
+    return jsonify({"mensaje": "Usuarios asignados correctamente"})
+
+if __name__ == "__main__":
+    app.run(debug=True)
+    
+#Fin asignar usuarios
 
 
 #redireccion y destruccion de sesion del usuario
