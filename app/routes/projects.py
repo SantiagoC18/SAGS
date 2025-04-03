@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+
 from app import mysql
 
 bp = Blueprint('projects', __name__)
@@ -63,11 +64,11 @@ def registrar_pro():
         
         cur = mysql.connection.cursor()
         cur.execute('INSERT INTO proyectos (`nombre`, `descripcion`, `tipo`, `fechaI`) VALUES (%s, %s, %s, %s)', 
-                   (proyect_name, descripcion, tipo, fecha,))
+                    (proyect_name, descripcion, tipo, fecha,))
         idproy = cur.lastrowid
         
         cur.execute('INSERT INTO usu_proy (idproy, email, stake) VALUES (%s, %s, %s)', 
-                   (idproy, session['id'], stake))
+                    (idproy, session['id'], stake))
         mysql.connection.commit()
         
         return redirect(url_for('projects.plan', idproy=idproy))
@@ -102,7 +103,7 @@ def plan(idproy):
 
         for modelo in modelos:
             cur.execute("INSERT INTO checklists (idproy, idmod, progreso) VALUES (%s, %s, %s)", 
-                       (idproy, modelo, progreso))
+                        (idproy, modelo, progreso))
         mysql.connection.commit()
         
         return redirect(url_for('profile.perfil'))  # Updated endpoint
@@ -121,7 +122,7 @@ def checkdown(idproy):
     
     cur.execute('''
         SELECT checklists.aprobacion, modelos.nombre, modelos.descripcion, 
-               checklists.progreso, checklists.archivo, checklists.fecha
+                checklists.progreso, checklists.archivo, checklists.fecha
         FROM proyectos
         INNER JOIN checklists ON proyectos.idproy = checklists.idproy
         INNER JOIN modelos ON checklists.idmod = modelos.idmod
@@ -131,7 +132,7 @@ def checkdown(idproy):
     
     cur.execute('''
         SELECT proyectos.idproy, usuarios.nombres, usuarios.apellidos, 
-               count(usuarios.email) integrantes
+                count(usuarios.email) integrantes
         FROM proyectos
         INNER JOIN usu_proy ON proyectos.idproy = usu_proy.idproy
         INNER JOIN usuarios ON usuarios.email = usu_proy.email
@@ -141,7 +142,7 @@ def checkdown(idproy):
     personal = cur.fetchall()
 
     return render_template('check-down.html', idproy=idproy, data=data, 
-                         data2=data2, colaboradores=personal, log='Cerrar')
+                            data2=data2, colaboradores=personal, log='Cerrar')
 
 @bp.route("/tasks/<int:idproy>")
 def tasks(idproy):
@@ -178,3 +179,10 @@ def registrar_sprint(idproy):
     cur.close()
     
     return redirect(url_for('sprints', idproy = idproy))
+
+
+
+
+
+
+
