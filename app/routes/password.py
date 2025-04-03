@@ -184,12 +184,12 @@ def password_reset(token):
     
     if not reset_info:
         flash('Enlace de recuperación inválido.')
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
 
     # Comprobar si el token ha caducado
     if datetime.now() > reset_info['expires_at']:
         flash('El enlace de recuperación ha caducado.')
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
 
     # Si el token es válido y no ha caducado
     if request.method == 'POST':
