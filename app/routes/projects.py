@@ -150,7 +150,7 @@ def tasks(idproy):
         idproy = idproy
         return render_template('tasks.html', log='Cerrar', idp=idproy)
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
 
 
 @bp.route("/sprints/<int:idproy>")
@@ -163,7 +163,7 @@ def sprints(idproy):
 
         return render_template('sprints.html', log='Cerrar', data=data, data2=idproy)
     else:
-        return redirect(url_for('login'))
+        return redirect(url_for('auth.login'))
 
 @bp.route('/registrar_sprint/<int:idproy>', methods=['POST'])
 def registrar_sprint(idproy):
@@ -178,7 +178,7 @@ def registrar_sprint(idproy):
     mysql.connection.commit()
     cur.close()
     
-    return redirect(url_for('sprints', idproy = idproy))
+    return redirect(url_for('projects.sprints', idproy = idproy))
 
 
 
