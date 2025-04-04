@@ -3,6 +3,54 @@ from app import mysql
 
 bp = Blueprint('profile', __name__)
 
+#Funcion para crear o agregar usuario
+        
+@bp.route('/adduser', methods=['GET', 'POST'])
+def adduser():
+    if request.method == 'POST':
+        id_user = request.form['documento']
+        tipo = request.form['tipo']
+        correo = request.form['correo']
+        clave = request.form['clave']
+        rol = 3
+        
+    if id_user and tipo and correo and clave:
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO `usuarios`(`documento`, `tipodoc`, `email`, `idrol`, `password`) VALUES (%s, %s, %s, %s, aes_encrypt(%s,'AES'))",(id_user, tipo, correo, rol, clave,))
+        mysql.connection.commit()
+        cur.close()
+        
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM usuarios WHERE email = %s AND password = AES_ENCRYPT(%s, 'AES') LIMIT 1", (correo,clave,))
+        account = cur.fetchone()
+        cur.close()
+        
+        if account:
+            cur = mysql.connection.cursor()
+            cur.execute("SELECT (aes_decrypt(password,'AES')) AS cifrado FROM usuarios WHERE email = %s Limit 1", (correo,))
+            clave_cifrada = cur.fetchone()
+            cur.close()
+            # Verificar si la contraseña es correcta
+            if clave_cifrada['cifrado'].decode('utf-8') == clave:
+
+                session['logueado'] = True
+                session['nombre'] = account['nombres']
+                session['id'] = account['email']
+                
+                return redirect(url_for('perfil'))
+                    
+                
+            else:
+                # Contraseña incorrecta
+                return render_template('login.html', message="Contraseña incorrecta")
+        else:
+            # Usuario no encontrado
+            return render_template('login.html', message="Usuario no encontrado")
+    
+    return render_template('login.html', message="error")
+
+#Finaliza para crear o agregar usuario
+
 @bp.route('/perfil')
 def perfil():
     if not session.get('logueado'):
