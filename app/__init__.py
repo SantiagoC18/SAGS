@@ -20,4 +20,5 @@ def create_app():
     app.register_blueprint(password.bp)
     app.register_blueprint(projects.bp)
     
+    
     return app

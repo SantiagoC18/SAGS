@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash, Flask, jsonify
 
 from app import mysql
 
+app = Flask(__name__)
 bp = Blueprint('projects', __name__)
 
 @bp.route('/gestion_proyectos', methods=["GET", "POST"])
@@ -45,7 +46,11 @@ def gestion_proyectos():
             ''', (id,))
             consulta2 = cur.fetchall()
 
-            return render_template('gestor_proyectos.html', data=consulta, data2=consulta2, log='Cerrar')
+            cur = mysql.connection.cursor()
+            cur.execute('SELECT * FROM usuarios')
+            infousuarios = cur.fetchall()
+
+            return render_template('gestor_proyectos.html', data=consulta, data2=consulta2, infoUsu = infousuarios, log='Cerrar')
         else:
             flash("Contraseña incorrecta.")
             return redirect(url_for('main.modulos'))
@@ -186,3 +191,80 @@ def registrar_sprint(idproy):
 
 
 
+
+
+@bp.route('/asignarUsuario', methods=["GET", "POST"])
+def asignarUsuario():
+    if not session.get('logueado'):
+        flash("Debe iniciar sesión primero.")
+        return redirect(url_for('auth.login'))
+
+    cur = mysql.connection.cursor()
+
+    if request.method == 'POST':
+        # Asignación de usuarios a proyecto
+        if 'asignar_usuarios' in request.form:
+            proyecto_id = request.form['proyecto_id']
+            usuarios_asignar = request.form.getlist('usuarios')
+
+            for email in usuarios_asignar:
+                cur.execute("SELECT COUNT(*) FROM usu_proy WHERE email = %s AND idproy = %s", (email, proyecto_id))
+                if cur.fetchone()[0] == 0:
+                    cur.execute("INSERT INTO usu_proy (idproy, email, stake) VALUES (%s, %s, %s)",
+                                (proyecto_id, email, 0))  # stake 0 por defecto
+
+            mysql.connection.commit()
+            flash("Usuarios asignados correctamente.")
+            return redirect(url_for('projects.gestion_proyectos'))
+
+        # Validación de correo y contraseña (acceso)
+        correo = request.form.get('correo')
+        clave = request.form.get('clave')
+
+        if correo != session.get('id'):
+            flash("Debe utilizar el mismo correo con el que inició sesión.")
+            return redirect(url_for('main.modulos'))
+
+        cur.execute("SELECT * FROM usuarios WHERE email = %s LIMIT 1", (correo,))
+        usuario = cur.fetchone()
+
+        if not usuario:
+            flash("Usuario no encontrado.")
+            return redirect(url_for('main.modulos'))
+
+        cur.execute(
+            "SELECT * FROM usuarios WHERE email = %s AND password = AES_ENCRYPT(%s, 'AES') LIMIT 1",
+            (correo, clave,)
+        )
+        account = cur.fetchone()
+
+        if not account:
+            flash("Contraseña incorrecta.")
+            return redirect(url_for('main.modulos'))
+
+        # Si pasa la validación, continúa abajo para renderizar vista
+
+    # -------- GET o después de validación --------
+    cur.execute("SELECT * FROM proyectos")
+    consulta = cur.fetchall()
+
+    id = session['id']
+    cur.execute('''
+        SELECT * FROM proyectos
+        INNER JOIN usu_proy ON proyectos.idproy = usu_proy.idproy
+        INNER JOIN usuarios ON usuarios.email = usu_proy.email
+        WHERE usu_proy.email = %s
+    ''', (id,))
+    consulta2 = cur.fetchall()
+
+    # Obtener todos los usuarios disponibles para mostrar en el modal
+    cur.execute("SELECT email, nombres, apellidos, idrol FROM usuarios WHERE idrol = 2")
+    usuarios = cur.fetchall()
+
+    cur.close()
+
+    return render_template('gestor_proyectos.html',
+                            data=consulta,
+                            data2=consulta2,
+                            usuarios=usuarios,
+                            log='Cerrar')
