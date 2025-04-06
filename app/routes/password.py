@@ -173,7 +173,7 @@ def recuperar_contraseña():
         return redirect(url_for('auth.login'))
     else:
         flash("El correo no está registrado")
-        return redirect(url_for('recovery_email'))
+        return redirect(url_for('password.recovery_email'))
 
 @bp.route('/password_reset/<token>', methods=['GET', 'POST'])
 def password_reset(token):
@@ -207,7 +207,7 @@ def password_reset(token):
             mysql.connection.commit()
 
             flash('Contraseña restablecida exitosamente.')
-            return redirect(url_for('login'))
+            return redirect(url_for('auth.login'))
         else:
             flash('Las contraseñas no coinciden.')
     

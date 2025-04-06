@@ -58,7 +58,6 @@ def sobre_nosotros():
     else:
         return render_template('sobre_nosotros.html', log = 'Iniciar')
 
-
 @app.route('/recuperar_contraseña', methods=['GET','POST'])
 def recuperar_contraseña():
     correo = request.form['correo']
