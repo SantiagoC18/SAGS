@@ -257,8 +257,8 @@ def asignarUsuario():
     ''', (id,))
     consulta2 = cur.fetchall()
 
-    # Obtener todos los usuarios disponibles para mostrar en el modal
-    cur.execute("SELECT email, nombres, apellidos, idrol FROM usuarios WHERE idrol = 2")
+# Obtener solo usuarios con rol 1 o 2
+    cur.execute("SELECT email, nombres, apellidos, idrol FROM usuarios WHERE idrol IN (1, 2)")
     usuarios = cur.fetchall()
 
     cur.close()

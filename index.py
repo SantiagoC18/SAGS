@@ -58,6 +58,7 @@ def sobre_nosotros():
     else:
         return render_template('sobre_nosotros.html', log = 'Iniciar')
 
+
 @app.route('/recuperar_contraseña', methods=['GET','POST'])
 def recuperar_contraseña():
     correo = request.form['correo']
@@ -181,7 +182,7 @@ def recuperar_contraseña():
                     <tr>
                         <td
                             style="border-top: 1px solid #2a2a2a; padding-top: 20px; text-align: center; color: #777777; font-size: 14px;">
-                            <p style="margin: 0 0 10px 0;">© 2025 SAGS. Todos los derechos reservados.</p>
+                            <p style="margin: 0 0 10px 0;">© 2025 . Todos los derechos reservados.</p>
                             <p style="margin: 0 0 20px 0;">Si no solicitaste este correo, puedes ignorarlo de forma
                                 segura.</p>
                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
