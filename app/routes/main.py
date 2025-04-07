@@ -26,7 +26,33 @@ def opiniones():
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM opiniones")
     data = cur.fetchall()
-        
+
     if session.get('logueado'):
         return render_template('opiniones.html', log='Cerrar', data=data)
     return render_template('opiniones.html', log='Iniciar', data=data)
+
+@bp.route('/edit_sprint/<int:idsprint>')
+def edit_sprint(idsprint):
+    if not session.get('logueado'):
+        return redirect(url_for('auth.login', log='Iniciar'))
+    
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM sprints WHERE idsprint = %s", (idsprint,))
+    data = cur.fetchall()
+
+    return render_template('edit-sprint.html', data=data, log='Cerrar')
+
+@bp.route('/delete_sprint/<int:idsprint>')
+def delete_sprint(idsprint):
+    if not session.get('logueado'):
+        return redirect(url_for('auth.login', log='Iniciar'))
+
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM sprints WHERE idsprint = %s", (idsprint,))
+    data = cur.fetchone()
+
+    cur = mysql.connection.cursor()
+    cur.execute("DELETE FROM sprints WHERE idsprint = %s", (idsprint,))
+    mysql.connection.commit()
+
+    return redirect(url_for('projects.sprints', idproy=data['idproy'], log='Cerrar'))

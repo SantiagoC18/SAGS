@@ -170,6 +170,27 @@ def sprints(idproy):
     else:
         return redirect(url_for('auth.login'))
 
+@bp.route("/update_sprint/<int:idsprint>", methods=['GET', 'POST'])
+def update_sprint(idsprint):
+    if session.get('logueado'):
+        if request.method == 'POST':
+            nombre = request.form['sprint-name']
+            fechai = request.form['fi']
+            fechaf = request.form['ff']
+            desc = request.form['descripcion']
+
+            cur = mysql.connection.cursor()
+            cur.execute("UPDATE sprints SET nombre = %s, fechaI = %s, fechaF = %s, descripcion = %s WHERE idsprint = %s",
+                        (nombre, fechai, fechaf, desc, idsprint,))
+            mysql.connection.commit()
+            cur.close()
+
+            cur = mysql.connection.cursor()
+            cur.execute("SELECT * FROM sprints WHERE idsprint = %s", (idsprint,))
+            data = cur.fetchone()
+
+            return redirect(url_for('projects.sprints', idproy = data['idproy']))
+
 @bp.route('/registrar_sprint/<int:idproy>', methods=['POST'])
 def registrar_sprint(idproy):
     nombre = request.form['sprint-name']
@@ -184,13 +205,6 @@ def registrar_sprint(idproy):
     cur.close()
     
     return redirect(url_for('projects.sprints', idproy = idproy))
-
-
-
-
-
-
-
 
 
 @bp.route('/asignarUsuario', methods=["GET", "POST"])
