@@ -1,4 +1,3 @@
-
 .container_buttons{
     margin-top: 20px;
     min-width: 90vw;
@@ -34,104 +33,339 @@
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/*  */
+
+
+
+/* Contenido del modal - Más responsive */
+/* ===== ESTILOS GENERALES DEL MODAL ===== */
 #modalAsignar {
     position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
     display: none;
-    justify-content: center;
-    align-items: center;
+    place-items: center; /* Método moderno para centrado */
     z-index: 1000;
+    overflow: hidden;
+    backdrop-filter: blur(3px);
+    animation: fadeIn 0.3s ease-out;
+    padding: 20px; /* Espacio seguro para móviles */
+    box-sizing: border-box;
 }
 
-/* Caja del modal */
+/* Asegurar centrado perfecto en todos los navegadores */
+@supports not (place-items: center) {
+    #modalAsignar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+* Contenedor interno del modal */
+.modal-content {
+    position: relative;
+    max-width: 90vw; /* Ancho máximo responsive */
+    width: 600px; /* Ancho ideal para desktop */
+    max-height: 90vh; /* Altura máxima */
+    margin: auto; /* Centrado adicional como respaldo */
+    overflow: auto; /* Scroll interno si es necesario */
+}
+
+
+
+
+
+
+
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
 #modalAsignar .modal-content {
-    background: rgba(20, 20, 20, 0.9); /* Fondo oscuro casi negro */
-    width: 40%;
+    background: rgba(30, 30, 30, 0.95);
+    width: 90%;
     max-width: 500px;
-    max-height: 80vh;
-    overflow-y: auto;
-    padding: 25px;
+    max-height: 90vh;
     border-radius: 12px;
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.4);
-    color: white; /* Texto en blanco */
-    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(-50%);
+    top: 50%;
+    position: relative;
 }
 
-/* Título del modal */
-#modalAsignar h2 {
+/* ===== CABECERA DEL MODAL ===== */
+.modal-header {
+    padding: 1.5rem 1.5rem 0;
+    position: relative;
+}
+
+.modal-header h2 {
+    margin: 0;
     font-size: 1.5rem;
-    margin-bottom: 15px;
-    border-bottom: 2px solid white;
-    padding-bottom: 10px;
+    color: #fff;
+    text-align: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Lista de usuarios dentro del modal */
-#listaUsuarios {
-    max-height: 300px;
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: #fff;
+}
+
+/* ===== BARRA DE BÚSQUEDA ===== */
+.search-container {
+    padding: 1rem 1.5rem 0;
+}
+
+#buscarUsuario {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+}
+
+#buscarUsuario:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.05);
+}
+
+#buscarUsuario::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* ===== LISTA DE USUARIOS ===== */
+.users-list-container {
+    flex: 1;
     overflow-y: auto;
-    padding: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem 1.5rem;
+    margin: 0.5rem 0;
 }
 
-/* Estilos para los checkboxes */
-#listaUsuarios li {
-    padding: 8px;
+#listaUsuarios {
     list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#listaUsuarios li {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background 0.2s;
+}
+
+#listaUsuarios li:last-child {
+    border-bottom: none;
+}
+
+#listaUsuarios li:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.user-item {
     display: flex;
     align-items: center;
-    gap: 8px;
-}
-
-/* Botones */
-#modalAsignar button {
-    display: inline-block;
-    margin: 15px 5px 0 5px;
-    padding: 10px 15px;
-    border: none;
+    gap: 1rem;
     cursor: pointer;
-    border-radius: 5px;
-    font-size: 1rem;
-    transition: background 0.3s, transform 0.2s ease-in-out;
 }
 
-/* Botón Asignar */
-#btnAsignarUsuarios {
-    background: #0f4101;
+/* Checkbox personalizado */
+.user-checkbox {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.user-checkbox:checked {
+    background: #1e8a3e;
+    border-color: #1e8a3e;
+}
+
+.user-checkbox:checked::after {
+    content: "✓";
+    position: absolute;
     color: white;
+    font-size: 12px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-/* Botón Cancelar */
+.user-info {
+    flex: 1;
+    overflow: hidden;
+}
+
+.user-name {
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 0.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-role {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ===== PIE DEL MODAL - BOTONES ===== */
+.modal-footer {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    background: rgba(20, 20, 20, 0.9);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    position: sticky;
+    bottom: 0;
+}
+
+.modal-btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
 #btnCancelar {
-    background: #500101;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+#btnCancelar:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+#btnAsignarUsuarios {
+    background: #1e8a3e;
     color: white;
 }
 
-
-
-/* Efecto OnFocus */
-button:focus {
-    outline: none;
-    box-shadow: 0px 0px 10px #1e3a8a; /* Azul marino */
+#btnAsignarUsuarios:hover {
+    background: #25a349;
 }
 
-/* Efecto Click */
-button:active {
-    transform: scale(0.95);
+#btnAsignarUsuarios:disabled {
+    background: rgba(30, 138, 62, 0.5);
+    cursor: not-allowed;
 }
 
-#listaUsuarios::-webkit-scrollbar {
+/* ===== SCROLLBAR PERSONALIZADA ===== */
+.users-list-container::-webkit-scrollbar {
     width: 8px;
 }
 
-#listaUsuarios::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 5px;
+.users-list-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
 }
 
-#listaUsuarios::-webkit-scrollbar-thumb:hover {
-    background: #555;
+.users-list-container::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+
+.users-list-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== EFECTOS DE TRANSICIÓN ===== */
+.modal-content {
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px) translateY(-50%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) translateY(-50%);
+    }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+    #modalAsignar .modal-content {
+        width: 95%;
+        max-height: 85vh;
+    }
+    
+    .modal-header,
+    .search-container,
+    .users-list-container,
+    .modal-footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+
+/* Mensaje de error/notificación */
+#modalMessage {
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+#modalMessage.danger {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border-left: 4px solid #b91c1c;
+}
+
+#modalMessage.success {
+    background-color: #dcfce7;
+    color: #166534;
+    border-left: 4px solid #166534;
+}
+
+#modalMessage.hidden {
+    opacity: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
 }
