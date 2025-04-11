@@ -118,7 +118,7 @@
                         <tr class="info">
                             <td>{{ data['idproy'] }}</td>
                             <td>{{ data['nombre'] }}</td>
-                            <td>{{ data2['nomplan'] }}</td>
+                            <td>{{ data['nomplan'] }}</td>
                             <td>
                                 <div class="progress"><span style="width: 50%"></span></div>
                             </td>
@@ -140,85 +140,181 @@
 
     <div id="modalAsignar" class="modal hidden">
         <div class="modal-content">
+            <span class="close">&times;</span>
             <h2 class="text-xl font-bold mb-4">Asignar Usuarios</h2>
-            {% for infoUsu in infoUsu  %}
-            <ul id="listaUsuarios">{{ infoUsu['nombres'] }} {{ infoUsu['apellidos'] }}</ul>
-            {% endfor%}
-            <button id="btnAsignarUsuarios">Asignar</button>
-            <button id="btnCancelar" onclick="cerrarModal()">Cancelar</button>
+            
+            <div id="modalMessage" class="hidden"></div>
+        
+            <div class="mb-4">
+                <input type="text" id="buscarUsuario" placeholder="Buscar usuarios..." 
+                        class="w-full p-2 border rounded">
+            </div>
+            
+            <ul id="listaUsuarios" class="max-h-60 overflow-y-auto mb-4">
+                <!-- Los usuarios se cargarán aquí dinámicamente -->
+            </ul>
+            
+            <div class="flex justify-end space-x-2">
+                <button id="btnCancelar" 
+                        class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded">
+                    Cancelar
+                </button>
+                <button id="btnAsignarUsuarios" 
+                        class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
+                    Asignar
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
-        const developerBtn = document.getElementById('developerBtn');
-        const adminBtn = document.getElementById('adminBtn');
-        const developerView = document.getElementById('developerView');
-        const adminView = document.getElementById('adminView');
+        //Variables globales
+        let proyectoSeleccionado = null;
+        const modal = document.getElementById("modalAsignar");
 
-        developerBtn.addEventListener('click', () => {
-            developerBtn.classList.add('select');
-            adminBtn.classList.remove('select');
-            developerView.classList.add('active');
-            developerView.classList.remove('view-section');
-            adminView.classList.add('view-section');
-            adminView.classList.remove('active');
+        //Configuración de vistas (Desarrollador/Admin)
+        document.getElementById('developerBtn').addEventListener('click', () => {
+            toggleView('developerView', 'adminView', 'developerBtn', 'adminBtn');
         });
 
-        adminBtn.addEventListener('click', () => {
-            developerBtn.classList.remove('select');
-            adminBtn.classList.add('select');
-            developerView.classList.add('view-section');
-            developerView.classList.remove('active');
-            adminView.classList.add('active');
-            adminView.classList.remove('view-section');
+        document.getElementById('adminBtn').addEventListener('click', () => {
+            toggleView('adminView', 'developerView', 'adminBtn', 'developerBtn');
         });
 
-        document.addEventListener("DOMContentLoaded", function () {
-            let proyectoSeleccionado = null;
+        function toggleView(showId, hideId, activeBtnId, inactiveBtnId) {
+            document.getElementById(showId).classList.add('active');
+            document.getElementById(showId).classList.remove('view-section');
+            document.getElementById(hideId).classList.add('view-section');
+            document.getElementById(hideId).classList.remove('active');
+            document.getElementById(activeBtnId).classList.add('select');
+            document.getElementById(inactiveBtnId).classList.remove('select');
+        }
 
+            //Modal de asignación
+            document.addEventListener("DOMContentLoaded", function() {
+                // Configuración del modal
+                const btnCerrar = modal.querySelector(".close");
+                btnCerrar.addEventListener("click", cerrarModal);
+                document.getElementById("btnCancelar").addEventListener("click", cerrarModal);
+
+            // Asignar usuarios
             document.querySelectorAll(".asignar-btn").forEach(btn => {
-                btn.addEventListener("click", async function () {
+                btn.addEventListener("click", function() {
                     proyectoSeleccionado = this.getAttribute("data-proyecto-id");
-                    document.getElementById("modalAsignar").style.display = "flex";
-
-                    try {
-                        const response = await fetch("/get_usuarios");
-                        if (!response.ok) throw new Error("Error al obtener usuarios");
-                        const usuarios = await response.json();
-                        const lista = document.getElementById("listaUsuarios");
-                        lista.innerHTML = "";
-                        usuarios.forEach(usuario => {
-                            const li = document.createElement("li");
-                            li.innerHTML = `<input type="checkbox" value="${usuario.email}" /> ${usuario.nombre} - ${usuario.cargo}`;
-                            lista.appendChild(li);
-                        });
-                    } catch (error) {
-                        console.error("Error cargando usuarios:", error);
-                    }
+                    cargarUsuarios();
+                    modal.style.display = "block";
                 });
             });
 
-            document.getElementById("btnAsignarUsuarios").addEventListener("click", async function () {
-                const seleccionados = Array.from(document.querySelectorAll("#listaUsuarios input:checked"))
-                            .map(input => input.value);
-                try {
-                    await fetch("/asignar_usuarios", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ proyecto_id: proyectoSeleccionado, usuarios: seleccionados })
-                    });
-                    cerrarModal();
-                } catch (error) {
-                    console.error("Error al asignar usuarios:", error);
-                }
+            // Cerrar al hacer clic fuera
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) cerrarModal();
             });
-
-            document.getElementById("btnCancelar").addEventListener("click", cerrarModal);
-
-            function cerrarModal() {
-                document.getElementById("modalAsignar").style.display = "none";
-            }
         });
+
+        async function cargarUsuarios() {
+            const lista = document.getElementById("listaUsuarios");
+            lista.innerHTML = '<li class="p-4 text-center"><i class="fas fa-spinner fa-spin"></i> Cargando usuarios...</li>';
+            
+            try {
+                const response = await fetch("/get_usuarios");
+                if (!response.ok) throw new Error("Error al obtener usuarios");
+                
+                const usuarios = await response.json();
+                renderizarUsuarios(usuarios);
+                configurarBusqueda();
+                
+            } catch (error) {
+                lista.innerHTML = '<li class="p-4 text-center text-red-500">Error al cargar usuarios</li>';
+                console.error("Error:", error);
+            }
+        }
+
+        function renderizarUsuarios(usuarios) {
+            const lista = document.getElementById("listaUsuarios");
+            lista.innerHTML = "";
+            
+            const roles = {1: "Admin", 2: "Scrum Master", 3: "Desarrollador"};
+            
+            usuarios.forEach(usuario => {
+                const li = document.createElement("li");
+                li.className = "p-2 hover:bg-gray-100";
+                li.innerHTML = `
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input type="checkbox" value="${usuario.email}" class="checkbox-usuario rounded">
+                        <span class="flex-1">
+                            ${usuario.nombre_completo} 
+                            <span class="text-sm text-gray-500">${roles[usuario.idrol]}</span>
+                        </span>
+                    </label>
+                `;
+                lista.appendChild(li);
+            });
+        }
+
+        function configurarBusqueda() {
+            document.getElementById("buscarUsuario").addEventListener("input", function(e) {
+                const termino = e.target.value.toLowerCase();
+                document.querySelectorAll("#listaUsuarios li").forEach(item => {
+                    item.style.display = item.textContent.toLowerCase().includes(termino) ? "block" : "none";
+                });
+            });
+        }
+
+        async function asignarUsuarios() {
+            const btn = document.getElementById("btnAsignarUsuarios");
+            const checkboxes = document.querySelectorAll(".checkbox-usuario:checked");
+            const usuarios = Array.from(checkboxes).map(cb => cb.value);
+            
+            if (usuarios.length === 0) {
+                mostrarMensaje("Selecciona al menos un usuario", "error");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Asignando...';
+
+            try {
+                const response = await fetch("/asignar_usuarios", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        proyecto_id: proyectoSeleccionado,
+                        usuarios: usuarios
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (!response.ok) throw new Error(result.error || "Error al asignar");
+                
+                mostrarMensaje(result.message || "Usuarios asignados", "success");
+                setTimeout(cerrarModal, 2000);
+                
+            } catch (error) {
+                mostrarMensaje(error.message, "error");
+                console.error("Error:", error);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Asignar';
+            }
+        }
+
+        function mostrarMensaje(texto, tipo) {
+            const messageEl = document.getElementById("modalMessage");
+            messageEl.textContent = texto;
+            messageEl.className = `mensaje-${tipo}`;
+            messageEl.classList.remove("hidden");
+            setTimeout(() => messageEl.classList.add("hidden"), 5000);
+        }
+
+        function cerrarModal() {
+            modal.style.display = "none";
+            document.getElementById("modalMessage").classList.add("hidden");
+        }
+
+        // Asigna el nuevo manejador de eventos
+        document.getElementById("btnAsignarUsuarios").addEventListener("click", asignarUsuarios);
     </script>
 
 
@@ -234,8 +330,3 @@
 </body>
 
 </html>
-
-
-
-
-

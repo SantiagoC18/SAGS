@@ -11,6 +11,18 @@ def gestion_proyectos():
         flash("Debe iniciar sesión primero.")
         return redirect(url_for('auth.login'))
 
+
+# Verificar rol de usuario
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT idrol FROM usuarios WHERE email = %s", (session['id'],))
+    usuario = cur.fetchone()
+    
+    if not usuario or usuario['idrol'] not in [1, 2]:  # Solo admin y Scrum Master
+        flash("No tiene permisos para acceder a esta sección.")
+        return redirect(url_for('main.index'))
+
+
+
     if request.method == 'POST':
         correo = request.form['correo']
         clave = request.form['clave']
@@ -50,7 +62,7 @@ def gestion_proyectos():
             cur.execute('SELECT * FROM usuarios')
             infousuarios = cur.fetchall()
 
-            return render_template('gestor_proyectos.html', data=consulta, data2=consulta2, infoUsu = infousuarios, log='Cerrar')
+            return render_template('gestor_proyectos.html', data=consulta, data2=consulta2, infoUsu=infousuarios)
         else:
             flash("Contraseña incorrecta.")
             return redirect(url_for('main.modulos'))
@@ -207,78 +219,86 @@ def registrar_sprint(idproy):
     return redirect(url_for('projects.sprints', idproy = idproy))
 
 
-@bp.route('/asignarUsuario', methods=["GET", "POST"])
-def asignarUsuario():
+@bp.route('/get_usuarios')
+def get_usuarios():
     if not session.get('logueado'):
-        flash("Debe iniciar sesión primero.")
-        return redirect(url_for('auth.login'))
-
+        return jsonify({"error": "No autorizado"}), 401
+    
     cur = mysql.connection.cursor()
-
-    if request.method == 'POST':
-        # Asignación de usuarios a proyecto
-        if 'asignar_usuarios' in request.form:
-            proyecto_id = request.form['proyecto_id']
-            usuarios_asignar = request.form.getlist('usuarios')
-
-            for email in usuarios_asignar:
-                cur.execute("SELECT COUNT(*) FROM usu_proy WHERE email = %s AND idproy = %s", (email, proyecto_id))
-                if cur.fetchone()[0] == 0:
-                    cur.execute("INSERT INTO usu_proy (idproy, email, stake) VALUES (%s, %s, %s)",
-                                (proyecto_id, email, 0))  # stake 0 por defecto
-
-            mysql.connection.commit()
-            flash("Usuarios asignados correctamente.")
-            return redirect(url_for('projects.gestion_proyectos'))
-
-        # Validación de correo y contraseña (acceso)
-        correo = request.form.get('correo')
-        clave = request.form.get('clave')
-
-        if correo != session.get('id'):
-            flash("Debe utilizar el mismo correo con el que inició sesión.")
-            return redirect(url_for('main.modulos'))
-
-        cur.execute("SELECT * FROM usuarios WHERE email = %s LIMIT 1", (correo,))
-        usuario = cur.fetchone()
-
-        if not usuario:
-            flash("Usuario no encontrado.")
-            return redirect(url_for('main.modulos'))
-
-        cur.execute(
-            "SELECT * FROM usuarios WHERE email = %s AND password = AES_ENCRYPT(%s, 'AES') LIMIT 1",
-            (correo, clave,)
-        )
-        account = cur.fetchone()
-
-        if not account:
-            flash("Contraseña incorrecta.")
-            return redirect(url_for('main.modulos'))
-
-        # Si pasa la validación, continúa abajo para renderizar vista
-
-    # -------- GET o después de validación --------
-    cur.execute("SELECT * FROM proyectos")
-    consulta = cur.fetchall()
-
-    id = session['id']
-    cur.execute('''
-        SELECT * FROM proyectos
-        INNER JOIN usu_proy ON proyectos.idproy = usu_proy.idproy
-        INNER JOIN usuarios ON usuarios.email = usu_proy.email
-        WHERE usu_proy.email = %s
-    ''', (id,))
-    consulta2 = cur.fetchall()
-
-    # Obtener todos los usuarios disponibles para mostrar en el modal
-    cur.execute("SELECT email, nombres, apellidos, idrol FROM usuarios WHERE idrol = 2")
+    cur.execute("""
+        SELECT email, CONCAT(nombres, ' ', apellidos) as nombre_completo, idrol 
+        FROM usuarios 
+        WHERE idrol IN (1, 2, 3)
+        ORDER BY nombres
+    """)
     usuarios = cur.fetchall()
-
     cur.close()
+    
+    return jsonify(usuarios)
 
-    return render_template('gestor_proyectos.html',
-                            data=consulta,
-                            data2=consulta2,
-                            usuarios=usuarios,
-                            log='Cerrar')
+
+@bp.route('/asignar_usuarios', methods=['POST'])
+def asignar_usuarios():
+    # Verificar autenticación
+    if not session.get('logueado'):
+        return jsonify({"error": "No autorizado"}), 401
+
+    try:
+        # Asegurarse de recibir datos JSON
+        if not request.is_json:
+            return jsonify({"error": "Se esperaba JSON"}), 400
+
+        # Parsear los datos JSON
+        data = request.get_json()
+        
+        # Validar datos requeridos
+        proyecto_id = data.get('proyecto_id')
+        usuarios = data.get('usuarios', [])  # Lista vacía por defecto
+
+        if not proyecto_id:
+            return jsonify({"error": "Falta el ID del proyecto"}), 400
+
+        if not isinstance(usuarios, list):
+            return jsonify({"error": "Formato inválido para usuarios"}), 400
+
+        # Procesar asignación
+        cur = mysql.connection.cursor()
+        asignaciones_exitosas = 0
+
+        for email in usuarios:
+            try:
+                # Verificar si la asignación ya existe
+                cur.execute("""
+                    SELECT 1 FROM usu_proy 
+                    WHERE idproy = %s AND email = %s
+                """, (proyecto_id, email))
+                
+                if not cur.fetchone():
+                    # Insertar nueva asignación
+                    cur.execute("""
+                        INSERT INTO usu_proy (idproy, email, stake, Product_Owner)
+                        VALUES (%s, %s, 1, 0)
+                    """, (proyecto_id, email))
+                    asignaciones_exitosas += 1
+
+            except Exception as e:
+                mysql.connection.rollback()
+                return jsonify({
+                    "error": f"Error al asignar usuario {email}",
+                    "detalle": str(e)
+                }), 500
+
+        mysql.connection.commit()
+        return jsonify({
+            "success": True,
+            "message": f"Asignación completada",
+            "asignados": asignaciones_exitosas,
+            "total": len(usuarios)
+        })
+
+    except Exception as e:
+        mysql.connection.rollback()
+        return jsonify({
+            "error": "Error interno del servidor",
+            "detalle": str(e)
+        }), 500
