@@ -42,14 +42,9 @@ def create_pqrs():
     
     cur = mysql.connection.cursor()
     
-    # Get the next ID
-    cur.execute("SELECT MAX(id_opi) FROM opiniones")
-    max_id = cur.fetchone()[0]
-    next_id = 0 if max_id is None else max_id + 1
-    
     cur.execute(
-        "INSERT INTO opiniones (id_opi, opinion, calificacion, tipo_opi, email) VALUES (%s, %s, %s, %s, %s)",
-        (next_id, descripcion, prioridad, tipo_pqrs, email)
+        "INSERT INTO opiniones (opinion, calificacion, tipo_opi, email) VALUES (%s, %s, %s, %s)",
+        (descripcion, prioridad, tipo_pqrs, email)
     )
     mysql.connection.commit()
     cur.close()
