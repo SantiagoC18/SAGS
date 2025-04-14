@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/img/sirs.jpg">
+    <title>Detalle de PQRS</title>
+    <link rel="stylesheet" href="/static/css/foro.css">
+    <link rel="stylesheet" href="/static/css/estilos.css">
+    <script src="https://kit.fontawesome.com/25eed41d7b.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .pqrs-detail {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px auto;
+            max-width: 800px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .pqrs-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .pqrs-type {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+        .pqrs-priority {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+        .priority-1 { background-color: #28a745; }
+        .priority-2 { background-color: #5cb85c; }
+        .priority-3 { background-color: #ffc107; }
+        .priority-4 { background-color: #fd7e14; }
+        .priority-5 { background-color: #dc3545; }
+        .pqrs-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .pqrs-actions button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .edit-btn {
+            background-color: #007bff;
+            color: white;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        .back-btn {
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="{{ url_for('main.index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
+
+        <ul class="navbar">
+            <li><a href="{{ url_for('main.index') }}">Home</a></li>
+            <li><a href="{{ url_for('main.sobre_nosotros') }}">Sobre Nosotros</a></li>
+            <li><a href="{{ url_for('main.modulos') }}">Gestion de Proyectos</a></li>
+            <li><a href="{{ url_for('api.list_pqrs') }}" class="active">PQRS</a></li>
+            <li><a href="{{ url_for('profile.perfil') }}">Perfil</a></li>
+        </ul>
+
+        <div class="main">
+            <a href="{{ url_for('auth.logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion
+                {%endif %}</a>
+            <div class="bx bx-menu" id="menu-icon"><i class="fa-solid fa-bars"></i></div>
+        </div>
+    </header>
+
+    <div class="pqrs-detail">
+        <div class="pqrs-header">
+            <h1>{{ pqrs.opinion }}</h1>
+            <div>
+                <span class="pqrs-type">{{ pqrs.tipo_opi }}</span>
+                <span class="pqrs-priority priority-{{ pqrs.calificacion }}">Prioridad: {{ pqrs.calificacion }}/5</span>
+            </div>
+        </div>
+        
+        <div class="pqrs-content">
+            <p>{{ pqrs.opinion }}</p>
+            <p><strong>Usuario:</strong> {{ pqrs.email }}</p>
+        </div>
+        
+        <div class="pqrs-actions">
+            <button class="edit-btn" onclick="openEditModal()">Editar</button>
+            <button class="delete-btn" onclick="deletePQRS()">Eliminar</button>
+            <a href="{{ url_for('api.list_pqrs') }}" class="back-btn">Volver a la lista</a>
+        </div>
+    </div>
+
+    <!-- Modal para editar PQRS -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Editar PQRS</h2>
+            <form id="editForm">
+                <div class="form-group">
+                    <label for="edit_tipo_pqrs">Tipo de PQRS:</label>
+                    <select id="edit_tipo_pqrs" name="tipo_pqrs">
+                        <option value="Petición" {% if pqrs.tipo_opi == 'Petición' %}selected{% endif %}>Petición</option>
+                        <option value="Queja" {% if pqrs.tipo_opi == 'Queja' %}selected{% endif %}>Queja</option>
+                        <option value="Reclamo" {% if pqrs.tipo_opi == 'Reclamo' %}selected{% endif %}>Reclamo</option>
+                        <option value="Sugerencia" {% if pqrs.tipo_opi == 'Sugerencia' %}selected{% endif %}>Sugerencia</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit_descripcion">Descripción:</label>
+                    <textarea id="edit_descripcion" name="descripcion">{{ pqrs.opinion }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="edit_prioridad">Prioridad:</label>
+                    <select id="edit_prioridad" name="prioridad">
+                        <option value="1" {% if pqrs.calificacion == 1 %}selected{% endif %}>1 - Baja</option>
+                        <option value="2" {% if pqrs.calificacion == 2 %}selected{% endif %}>2 - Media-Baja</option>
+                        <option value="3" {% if pqrs.calificacion == 3 %}selected{% endif %}>3 - Media</option>
+                        <option value="4" {% if pqrs.calificacion == 4 %}selected{% endif %}>4 - Media-Alta</option>
+                        <option value="5" {% if pqrs.calificacion == 5 %}selected{% endif %}>5 - Alta</option>
+                    </select>
+                </div>
+                <button type="button" onclick="updatePQRS()">Guardar cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        const editModal = document.getElementById("editModal");
+        
+        function openEditModal() {
+            editModal.style.display = "block";
+        }
+        
+        function closeEditModal() {
+            editModal.style.display = "none";
+        }
+        
+        window.onclick = function(event) {
+            if (event.target == editModal) {
+                editModal.style.display = "none";
+            }
+        }
+        
+        // API functions
+        function updatePQRS() {
+            const tipo = document.getElementById("edit_tipo_pqrs").value;
+            const descripcion = document.getElementById("edit_descripcion").value;
+            const prioridad = document.getElementById("edit_prioridad").value;
+            
+            fetch('/api/pqrs/{{ pqrs.id_opi }}', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    tipo_opi: tipo,
+                    opinion: descripcion,
+                    calificacion: prioridad
+                })
+            }).then(response => {
+                if (response.ok) {
+                    Swal.fire({
+                        title: "PQRS Actualizado",
+                        text: "Los cambios han sido guardados correctamente",
+                        icon: "success",
+                        showConfirmButton: false,
+                        timer: 1500,
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                }
+            });
+        }
+        
+        function deletePQRS() {
+            Swal.fire({
+                title: "¿Está seguro?",
+                text: "Esta acción no se puede deshacer",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch('/api/pqrs/{{ pqrs.id_opi }}', {
+                        method: 'DELETE'
+                    }).then(response => {
+                        if (response.ok) {
+                            Swal.fire({
+                                title: "Eliminado",
+                                text: "El PQRS ha sido eliminado correctamente",
+                                icon: "success",
+                                showConfirmButton: false,
+                                timer: 1500,
+                            }).then(() => {
+                                window.location.href = "{{ url_for('api.list_pqrs') }}";
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>

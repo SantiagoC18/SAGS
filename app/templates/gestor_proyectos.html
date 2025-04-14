@@ -168,170 +168,154 @@
     </div>
 
     <script>
-        const developerBtn = document.getElementById('developerBtn');
-        const adminBtn = document.getElementById('adminBtn');
-        const developerView = document.getElementById('developerView');
-        const adminView = document.getElementById('adminView');
+        //Variables globales
+        let proyectoSeleccionado = null;
+        const modal = document.getElementById("modalAsignar");
 
-        developerBtn.addEventListener('click', () => {
-            developerBtn.classList.add('select');
-            adminBtn.classList.remove('select');
-            developerView.classList.add('active');
-            developerView.classList.remove('view-section');
-            adminView.classList.add('view-section');
-            adminView.classList.remove('active');
+        //Configuración de vistas (Desarrollador/Admin)
+        document.getElementById('developerBtn').addEventListener('click', () => {
+            toggleView('developerView', 'adminView', 'developerBtn', 'adminBtn');
         });
 
-        adminBtn.addEventListener('click', () => {
-            developerBtn.classList.remove('select');
-            adminBtn.classList.add('select');
-            developerView.classList.add('view-section');
-            developerView.classList.remove('active');
-            adminView.classList.add('active');
-            adminView.classList.remove('view-section');
+        document.getElementById('adminBtn').addEventListener('click', () => {
+            toggleView('adminView', 'developerView', 'adminBtn', 'developerBtn');
         });
 
-        document.addEventListener("DOMContentLoaded", function() {
-    let proyectoSeleccionado = null;
-    const modal = document.getElementById("modalAsignar");
-    const btnCerrar = modal.querySelector(".close");
-    
-    // Función para cerrar modal
-    function cerrarModal() {
-        modal.style.display = "none";
-        document.getElementById("modalMessage").classList.add("hidden");
-    }
-    
-    // Manejadores para abrir/cerrar modal
-    document.querySelectorAll(".asignar-btn").forEach(btn => {
-        btn.addEventListener("click", function() {
-            proyectoSeleccionado = this.getAttribute("data-proyecto-id");
-            cargarUsuarios();
-            modal.style.display = "block";
-        });
-    });
-    
-    btnCerrar.addEventListener("click", cerrarModal);
-    document.getElementById("btnCancelar").addEventListener("click", cerrarModal);
-    
-    // Cerrar al hacer click fuera del modal
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            cerrarModal();
+        function toggleView(showId, hideId, activeBtnId, inactiveBtnId) {
+            document.getElementById(showId).classList.add('active');
+            document.getElementById(showId).classList.remove('view-section');
+            document.getElementById(hideId).classList.add('view-section');
+            document.getElementById(hideId).classList.remove('active');
+            document.getElementById(activeBtnId).classList.add('select');
+            document.getElementById(inactiveBtnId).classList.remove('select');
         }
-    });
-    
-    // Función para cargar usuarios
-    async function cargarUsuarios() {
-        const lista = document.getElementById("listaUsuarios");
-        lista.innerHTML = '<li class="p-4 text-center"><i class="fas fa-spinner fa-spin"></i> Cargando usuarios...</li>';
-        
-        try {
-            const response = await fetch("/get_usuarios");
-            if (!response.ok) throw new Error("Error al obtener usuarios");
+
+            //Modal de asignación
+            document.addEventListener("DOMContentLoaded", function() {
+                // Configuración del modal
+                const btnCerrar = modal.querySelector(".close");
+                btnCerrar.addEventListener("click", cerrarModal);
+                document.getElementById("btnCancelar").addEventListener("click", cerrarModal);
+
+            // Asignar usuarios
+            document.querySelectorAll(".asignar-btn").forEach(btn => {
+                btn.addEventListener("click", function() {
+                    proyectoSeleccionado = this.getAttribute("data-proyecto-id");
+                    cargarUsuarios();
+                    modal.style.display = "block";
+                });
+            });
+
+            // Cerrar al hacer clic fuera
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) cerrarModal();
+            });
+        });
+
+        async function cargarUsuarios() {
+            const lista = document.getElementById("listaUsuarios");
+            lista.innerHTML = '<li class="p-4 text-center"><i class="fas fa-spinner fa-spin"></i> Cargando usuarios...</li>';
             
-            const usuarios = await response.json();
+            try {
+                const response = await fetch("/get_usuarios");
+                if (!response.ok) throw new Error("Error al obtener usuarios");
+                
+                const usuarios = await response.json();
+                renderizarUsuarios(usuarios);
+                configurarBusqueda();
+                
+            } catch (error) {
+                lista.innerHTML = '<li class="p-4 text-center text-red-500">Error al cargar usuarios</li>';
+                console.error("Error:", error);
+            }
+        }
+
+        function renderizarUsuarios(usuarios) {
+            const lista = document.getElementById("listaUsuarios");
             lista.innerHTML = "";
             
-            const roles = {
-                1: "Administrador",
-                2: "Scrum Master",
-                3: "Desarrollador"
-            };
+            const roles = {1: "Admin", 2: "Scrum Master", 3: "Desarrollador"};
             
             usuarios.forEach(usuario => {
                 const li = document.createElement("li");
                 li.className = "p-2 hover:bg-gray-100";
-                
                 li.innerHTML = `
                     <label class="flex items-center space-x-2 cursor-pointer">
-                        <input type="checkbox" value="${usuario.email}" 
-                            class="checkbox-usuario rounded">
+                        <input type="checkbox" value="${usuario.email}" class="checkbox-usuario rounded">
                         <span class="flex-1">
                             ${usuario.nombre_completo} 
                             <span class="text-sm text-gray-500">${roles[usuario.idrol]}</span>
                         </span>
                     </label>
                 `;
-                
                 lista.appendChild(li);
             });
-            
-            // Función de búsqueda
+        }
+
+        function configurarBusqueda() {
             document.getElementById("buscarUsuario").addEventListener("input", function(e) {
                 const termino = e.target.value.toLowerCase();
-                const items = lista.getElementsByTagName("li");
-                
-                Array.from(items).forEach(item => {
-                    const texto = item.textContent.toLowerCase();
-                    item.style.display = texto.includes(termino) ? "block" : "none";
+                document.querySelectorAll("#listaUsuarios li").forEach(item => {
+                    item.style.display = item.textContent.toLowerCase().includes(termino) ? "block" : "none";
                 });
             });
-            
-        } catch (error) {
-            console.error("Error:", error);
-            lista.innerHTML = '<li class="p-4 text-center text-red-500">Error al cargar usuarios</li>';
         }
-    }
-    
-    // Asignar usuarios seleccionados
-    document.getElementById("btnAsignarUsuarios").addEventListener("click", async function() {
-        const btn = this;
-        const checkboxes = document.querySelectorAll(".checkbox-usuario:checked");
-        const usuarios = Array.from(checkboxes).map(cb => cb.value);
-        const messageEl = document.getElementById("modalMessage");
-        
-        if (usuarios.length === 0) {
-            mostrarMensaje("Por favor selecciona al menos un usuario", "error");
-            return;
-        }
-        
-        // Cambiar estado del botón
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Asignando...';
-        
-        try {
-            const response = await fetch("/asignar_usuarios", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    proyecto_id: proyectoSeleccionado,
-                    usuarios: usuarios
-                })
-            });
+
+        async function asignarUsuarios() {
+            const btn = document.getElementById("btnAsignarUsuarios");
+            const checkboxes = document.querySelectorAll(".checkbox-usuario:checked");
+            const usuarios = Array.from(checkboxes).map(cb => cb.value);
             
-            const result = await response.json();
-            
-            if (response.ok) {
-                mostrarMensaje("Usuarios asignados correctamente", "exito");
-                setTimeout(cerrarModal, 1500);
-            } else {
-                throw new Error(result.error || "Error al asignar usuarios");
+            if (usuarios.length === 0) {
+                mostrarMensaje("Selecciona al menos un usuario", "error");
+                return;
             }
-            
-        } catch (error) {
-            console.error("Error:", error);
-            mostrarMensaje(error.message, "error");
-        } finally {
-            btn.disabled = false;
-            btn.textContent = 'Asignar';
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Asignando...';
+
+            try {
+                const response = await fetch("/asignar_usuarios", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        proyecto_id: proyectoSeleccionado,
+                        usuarios: usuarios
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (!response.ok) throw new Error(result.error || "Error al asignar");
+                
+                mostrarMensaje(result.message || "Usuarios asignados", "success");
+                setTimeout(cerrarModal, 2000);
+                
+            } catch (error) {
+                mostrarMensaje(error.message, "error");
+                console.error("Error:", error);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Asignar';
+            }
         }
-    });
-    
-    // Función para mostrar mensajes
-    function mostrarMensaje(texto, tipo = "error") {
-    const messageEl = document.getElementById("modalMessage");
-    messageEl.textContent = texto; 
-        messageEl.className = `mensaje-${tipo}`;
-        messageEl.classList.remove("hidden");
-        
-        setTimeout(() => {
-            messageEl.classList.add("hidden");
-        }, 3000);
-    }
-});    </script>
+
+        function mostrarMensaje(texto, tipo) {
+            const messageEl = document.getElementById("modalMessage");
+            messageEl.textContent = texto;
+            messageEl.className = `mensaje-${tipo}`;
+            messageEl.classList.remove("hidden");
+            setTimeout(() => messageEl.classList.add("hidden"), 5000);
+        }
+
+        function cerrarModal() {
+            modal.style.display = "none";
+            document.getElementById("modalMessage").classList.add("hidden");
+        }
+
+        // Asigna el nuevo manejador de eventos
+        document.getElementById("btnAsignarUsuarios").addEventListener("click", asignarUsuarios);
+    </script>
 
 
     <!--Enlaces de scripts-->

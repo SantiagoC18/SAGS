@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/img/sirs.jpg">
+    <script src="https://kit.fontawesome.com/25eed41d7b.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Sistema PQRS</title>
+    <link rel="stylesheet" href="/static/css/foro.css">
+    <link rel="stylesheet" href="/static/css/estilos.css">
+
+    <script type="text/javascript">
+        function validarPQRS() {
+            var nombre = document.getElementById("nombre");
+            var tipo_pqrs = document.getElementById("tipo_pqrs");
+            var descripcion = document.getElementById("descripcion");
+            var prioridad = document.getElementById("prioridad");
+
+            if (nombre.value == "" || tipo_pqrs.value === "Seleccionar" || descripcion.value == "" || prioridad.value === "Seleccionar") {
+                Swal.fire({
+                    title: "Celda vacía o dato no seleccionado",
+                    text: "Todos los campos son obligatorios",
+                    icon: "warning",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    toast: true,
+                    position: "top",
+                });
+                return false;
+            } else {
+                Swal.fire({
+                    title: "PQRS Enviado",
+                    text: "Su solicitud ha sido registrada correctamente",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+                return true;
+            }
+        };
+    </script>
+</head>
+
+<body>
+    <header>
+        <a href="{{ url_for('main.index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
+
+        <ul class="navbar">
+            <li><a href="{{ url_for('main.index') }}">Home</a></li>
+            <li><a href="{{ url_for('main.sobre_nosotros') }}">Sobre Nosotros</a></li>
+            <li><a href="{{ url_for('main.modulos') }}">Gestion de Proyectos</a></li>
+            <li><a href="{{ url_for('api.list_pqrs') }}" class="active">PQRS</a></li>
+            <li><a href="{{ url_for('profile.perfil') }}">Perfil</a></li>
+        </ul>
+
+        <div class="main">
+            <a href="{{ url_for('auth.logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}}
+                Sesion
+                {%endif %}</a>
+            <div class="bx bx-menu" id="menu-icon"><i class="fa-solid fa-bars"></i></div>
+        </div>
+    </header>
+
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.3.8/build/spline-viewer.js"></script>
+    <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
+
+    <div id="pqrs-list">
+        <center>
+            <h2>Sistema de PQRS</h2>
+            <p>Peticiones, Quejas, Reclamos y Sugerencias</p>
+        </center>
+
+        <div class="grid">
+            {% for pqrs in pqrs_list %}
+            <div class="opinion">
+                <h3>{{ pqrs.email }}</h3>
+                <p>{{ pqrs.opinion }}</p>
+                <div class="pqrs-actions">
+                    <a href="{{ url_for('api.view_pqrs', id=pqrs.id_opi) }}" class="view-btn">Ver detalles</a>
+                </div>
+                <br>
+                <div class="calificacion">
+                    <p><strong>Tipo:</strong> {{ pqrs.tipo_opi }}</p>
+                    <p><strong>Prioridad:</strong> {{ pqrs.calificacion }}/5</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Botón para abrir el modal -->
+    <center>
+        <button id="btn-abrir-popup1">Crear nueva PQRS</button>
+    </center>
+
+    <!-- Modal para crear PQRS -->
+    <div class="overlay" id="overlay1">
+        <div class="popup" id="popup1" style="height: auto; max-height: 75%; overflow: auto;">
+            <a href="#" id="btn-cerrar-popup1" class="btn-cerrar-popup" style="margin-right: -100%; z-index: 100;"><i
+                    class="fas fa-times fa-xl"></i></a>
+            <h2>Crear nueva PQRS</h2>
+            <form action="{{ url_for('api.create_pqrs') }}" method="POST" onsubmit="return validarPQRS()">
+                <div class="form-group">
+                    <label for="tipo_pqrs">Tipo de PQRS:</label>
+                    <select id="tipo_pqrs" name="tipo_pqrs">
+                        <option value="Seleccionar">Seleccionar</option>
+                        <option value="Petición">Petición</option>
+                        <option value="Queja">Queja</option>
+                        <option value="Reclamo">Reclamo</option>
+                        <option value="Sugerencia">Sugerencia</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Asunto:</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ingrese el asunto de su PQRS">
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea id="descripcion" name="descripcion"
+                        placeholder="Describa detalladamente su PQRS"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="prioridad">Prioridad:</label>
+                    <select id="prioridad" name="prioridad">
+                        <option value="Seleccionar">Seleccionar</option>
+                        <option value="1">1 - Baja</option>
+                        <option value="2">2 - Media-Baja</option>
+                        <option value="3">3 - Media</option>
+                        <option value="4">4 - Media-Alta</option>
+                        <option value="5">5 - Alta</option>
+                    </select>
+                </div>
+                <br>
+                <button class="button" type="submit">Enviar PQRS</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/js/popup.js"></script>
+    <script src="/static/js/bar.js"></script>
+</body>
+
+</html>

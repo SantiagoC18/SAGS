@@ -13,7 +13,8 @@ def create_app():
     mysql.init_app(app)
     gmail.init_app(app)
     
-    from app.routes import auth, profile, password, projects, main
+    from app.routes import api, auth, profile, password, projects, main
+    app.register_blueprint(api.bp)
     app.register_blueprint(main.bp)
     app.register_blueprint(auth.bp)
     app.register_blueprint(profile.bp)
