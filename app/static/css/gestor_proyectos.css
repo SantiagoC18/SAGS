@@ -55,7 +55,6 @@
     box-sizing: border-box;
 }
 
-/* Asegurar centrado perfecto en todos los navegadores */
 @supports not (place-items: center) {
     #modalAsignar {
         display: flex;
@@ -64,7 +63,6 @@
     }
 }
 
-* Contenedor interno del modal */
 .modal-content {
     position: relative;
     max-width: 90vw; /* Ancho máximo responsive */
@@ -368,4 +366,74 @@
     padding: 0;
     margin: 0;
     overflow: hidden;
+}
+
+
+
+
+/* Estos estilos ya deberían estar en tu CSS para el modal de asignación */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: rgba(30, 30, 30, 0.95);
+    width: 90%;
+    max-width: 500px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.close {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close:hover {
+    color: #fff;
+}
+
+/* Estilos para mensajes (igual que en el otro modal) */
+.mensaje-error {
+    color: #e53e3e;
+    background-color: #fff5f5;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 0.25rem;
+}
+
+.mensaje-success {
+    color: #166534;
+    background-color: #dcfce7;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 0.25rem;
+}
+
+/* Estilos para la lista de usuarios */
+#listaUsuariosDesasignar li {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background 0.2s;
+}
+
+#listaUsuariosDesasignar li:last-child {
+    border-bottom: none;
+}
+
+#listaUsuariosDesasignar li:hover {
+    background: rgba(255, 255, 255, 0.03);
 }
