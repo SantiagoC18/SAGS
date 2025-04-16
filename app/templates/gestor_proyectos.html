@@ -28,15 +28,19 @@
             <li><a href="{{ url_for('profile.perfil') }}">Perfil</a></li>
         </ul>
 
+
+
         <div class="main">
             <a href="{{ url_for('auth.logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion
-                {% endif
-                %}</a>
-            <div class="bx bx-menu" id="menu-icon">
-                <i class="fa-solid fa-bars"></i>
-            </div>
+                {%
+                endif %}</a>
+            <div class="bx bx-menu" id="menu-icon"><i class="fa-solid fa-bars"></i></div>
         </div>
     </header>
+
+
+
+    
 
 
     <section class="container_buttons">
@@ -124,9 +128,14 @@
                             </td>
                             <td>
                                 <button
-                                    class="asignar-btn bg-[#058fe9] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                                    class="asignar-btn"
                                     data-proyecto-id="{{ data['idproy'] }}">
-                                    Asignar Usuarios
+                                    <i class="fa-solid fa-user-plus"></i> 
+                                </button>
+                                <button
+                                    class="desasignar-btn"
+                                    data-proyecto-id="{{ data['idproy'] }}">
+                                    <i class="fa-solid fa-user-minus"></i>                                
                                 </button>
                             </td>
                         </tr>
@@ -167,6 +176,40 @@
         </div>
     </div>
 
+
+    
+    <div id="modalDesasignar" class="modal hidden">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="text-xl font-bold mb-4">Desasignar Usuarios</h2>
+            
+            <div id="modalDesasignarMessage" class="hidden"></div>
+        
+            <div class="mb-4">
+                <input type="text" id="buscarUsuarioDesasignar" placeholder="Buscar usuarios..." 
+                        class="w-full p-2 border rounded">
+            </div>
+            
+            <ul id="listaUsuariosDesasignar" class="max-h-60 overflow-y-auto mb-4">
+                <!-- Los usuarios asignados se cargarán aquí dinámicamente -->
+            </ul>
+            
+            <div class="flex justify-end space-x-2">
+                <button id="btnCancelarDesasignar" 
+                        class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded">
+                    Cancelar
+                </button>
+                <button id="btnConfirmarDesasignar" 
+                        class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded">
+                    <i class="fas fa-user-minus mr-2"></i>Desasignar
+                </button>
+            </div>
+        </div>
+    </div>
+    
+
+
+
     <script>
         //Variables globales
         let proyectoSeleccionado = null;
@@ -196,6 +239,7 @@
                 const btnCerrar = modal.querySelector(".close");
                 btnCerrar.addEventListener("click", cerrarModal);
                 document.getElementById("btnCancelar").addEventListener("click", cerrarModal);
+
 
             // Asignar usuarios
             document.querySelectorAll(".asignar-btn").forEach(btn => {
@@ -315,6 +359,185 @@
 
         // Asigna el nuevo manejador de eventos
         document.getElementById("btnAsignarUsuarios").addEventListener("click", asignarUsuarios);
+
+
+
+// Variables globales para desasignación
+const modalDesasignar = document.getElementById("modalDesasignar");
+
+// Configuración inicial del modal de desasignación
+document.addEventListener("DOMContentLoaded", function() {
+    // Cerrar modal al hacer clic en la X
+    modalDesasignar.querySelector(".close").addEventListener("click", cerrarModalDesasignar);
+    
+    // Cerrar modal al hacer clic en Cancelar
+    document.getElementById("btnCancelarDesasignar").addEventListener("click", cerrarModalDesasignar);
+    
+    // Cerrar modal al hacer clic fuera
+    window.addEventListener('click', (event) => {
+        if (event.target === modalDesasignar) {
+            cerrarModalDesasignar();
+        }
+    });
+});
+
+// Función para cerrar el modal de desasignación
+function cerrarModalDesasignar() {
+    modalDesasignar.style.display = "none";
+    document.getElementById("modalDesasignarMessage").classList.add("hidden");
+}
+
+// Eventos para botones de desasignar en la tabla
+document.querySelectorAll(".desasignar-btn").forEach(btn => {
+    btn.addEventListener("click", function() {
+        proyectoSeleccionado = this.getAttribute("data-proyecto-id");
+        cargarUsuariosParaDesasignar();
+    });
+});
+
+// Función para cargar usuarios asignados al proyecto
+async function cargarUsuariosParaDesasignar() {
+    const lista = document.getElementById("listaUsuariosDesasignar");
+    
+    // Mostrar spinner mientras carga
+    lista.innerHTML = '<li class="p-4 text-center"><i class="fas fa-spinner fa-spin"></i> Cargando usuarios asignados...</li>';
+    
+    // Mostrar el modal de desasignación
+    modalDesasignar.style.display = "block";
+
+    try {
+        // Obtener usuarios asignados a este proyecto
+        const response = await fetch(`/get_usuarios_asignados?proyecto_id=${proyectoSeleccionado}`);
+        if (!response.ok) throw new Error("Error al obtener usuarios asignados");
+        
+        const usuarios = await response.json();
+        
+        // Renderizar lista de usuarios asignados
+        renderizarUsuariosParaDesasignar(usuarios);
+        
+        // Configurar búsqueda
+        configurarBusquedaDesasignar();
+        
+    } catch (error) {
+        lista.innerHTML = '<li class="p-4 text-center text-red-500">Error al cargar usuarios asignados</li>';
+        console.error("Error:", error);
+    }
+}
+
+// Función para renderizar usuarios en el modal de desasignación (con mismos estilos que asignación)
+function renderizarUsuariosParaDesasignar(usuarios) {
+    const lista = document.getElementById("listaUsuariosDesasignar");
+    lista.innerHTML = "";
+    
+    const roles = {1: "Admin", 2: "Scrum Master", 3: "Desarrollador"};
+    
+    usuarios.forEach(usuario => {
+        const li = document.createElement("li");
+        li.className = "p-2 hover:bg-gray-100"; // Mismo estilo que el modal de asignación
+        li.innerHTML = `
+            <label class="flex items-center space-x-2 cursor-pointer">
+                <input type="checkbox" value="${usuario.email}" class="checkbox-desasignar rounded">
+                <span class="flex-1">
+                    ${usuario.nombre_completo} 
+                    <span class="text-sm text-gray-500">${roles[usuario.idrol]}</span>
+                </span>
+            </label>
+        `;
+        lista.appendChild(li);
+    });
+}
+
+// Función para mostrar mensajes con mismos estilos
+function mostrarMensajeDesasignar(texto, tipo) {
+    const messageEl = document.getElementById("modalDesasignarMessage");
+    messageEl.textContent = texto;
+    messageEl.className = `mensaje-${tipo}`; // Usa las mismas clases que el otro modal
+    messageEl.classList.remove("hidden");
+    setTimeout(() => messageEl.classList.add("hidden"), 3000);
+}
+
+// Función para configurar búsqueda en modal de desasignación
+function configurarBusquedaDesasignar() {
+    document.getElementById("buscarUsuarioDesasignar").addEventListener("input", function(e) {
+        const termino = e.target.value.toLowerCase();
+        document.querySelectorAll("#listaUsuariosDesasignar li").forEach(item => {
+            const texto = item.textContent.toLowerCase();
+            item.style.display = texto.includes(termino) ? "block" : "none";
+        });
+    });
+}
+
+// Función para confirmar desasignación
+document.getElementById("btnConfirmarDesasignar").addEventListener("click", async function() {
+    const btn = this;
+    const checkboxes = document.querySelectorAll(".checkbox-desasignar:checked");
+    const usuarios = Array.from(checkboxes).map(cb => cb.value);
+    
+    if (usuarios.length === 0) {
+        mostrarMensajeDesasignar("Selecciona al menos un usuario para desasignar", "error");
+        return;
+    }
+
+    // Mostrar estado de carga
+    btn.disabled = true;
+    const icono = btn.querySelector("i");
+    icono.classList.replace("fa-user-minus", "fa-spinner", "fa-spin");
+
+    try {
+        const response = await fetch("/desasignar_usuarios", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                proyecto_id: proyectoSeleccionado,
+                usuarios: usuarios
+            })
+        });
+
+        const result = await response.json();
+        
+        if (!response.ok) throw new Error(result.error || "Error al desasignar usuarios");
+        
+        mostrarMensajeDesasignar(`Se desasignaron ${result.desasignados} usuario(s) correctamente`, "success");
+        
+        // Recargar lista después de 1 segundo
+        setTimeout(() => {
+            cargarUsuariosParaDesasignar();
+            btn.disabled = false;
+            icono.classList.replace("fa-spinner", "fa-spin", "fa-user-minus");
+        }, 1000);
+        
+    } catch (error) {
+        mostrarMensajeDesasignar(error.message, "error");
+        btn.disabled = false;
+        icono.classList.replace("fa-spinner", "fa-spin", "fa-user-minus");
+        console.error("Error:", error);
+    }
+});
+
+// Función para mostrar mensajes en modal de desasignación
+function mostrarMensajeDesasignar(texto, tipo) {
+    const messageEl = document.getElementById("modalDesasignarMessage");
+    messageEl.textContent = texto;
+    messageEl.className = `p-2 rounded mb-2 ${tipo === "error" ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`;
+    messageEl.classList.remove("hidden");
+    
+    setTimeout(() => {
+        messageEl.classList.add("hidden");
+    }, 3000);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+        
     </script>
 
 

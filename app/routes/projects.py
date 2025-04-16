@@ -5,10 +5,10 @@ from app import mysql
 app = Flask(__name__)
 bp = Blueprint('projects', __name__)
 
-@bp.route('/gestion_proyectos', methods=["GET", "POST"])
+@bp.route('/gestor_pectos', methods=["GET", "POST"])
 def gestion_proyectos():
     if not session.get('logueado'):
-        flash("Debe iniciar sesión primero.")
+        flash("Debe iniciar sesión primero.") 
         return redirect(url_for('auth.login'))
 
 
@@ -17,10 +17,9 @@ def gestion_proyectos():
     cur.execute("SELECT idrol FROM usuarios WHERE email = %s", (session['id'],))
     usuario = cur.fetchone()
     
-    if not usuario or usuario['idrol'] not in [1, 2]:  # Solo admin y Scrum Master
+    if not usuario or usuario['idrol'] not in [1, 2]: # Admin y Scrumn Master
         flash("No tiene permisos para acceder a esta sección.")
         return redirect(url_for('main.index'))
-
 
 
     if request.method == 'POST':
@@ -300,5 +299,82 @@ def asignar_usuarios():
         mysql.connection.rollback()
         return jsonify({
             "error": "Error interno del servidor",
+            "detalle": str(e)
+        }), 500
+    
+
+
+
+
+
+
+# Ruta para obtener usuarios asignados a un proyecto
+@bp.route('/get_usuarios_asignados', methods=['GET'])
+def get_usuarios_asignados():
+    if not session.get('logueado'):
+        return jsonify({"error": "No autorizado"}), 401
+
+    proyecto_id = request.args.get('proyecto_id')
+    if not proyecto_id:
+        return jsonify({"error": "Falta proyecto_id"}), 400
+
+    try:
+        cur = mysql.connection.cursor()
+        cur.execute("""
+            SELECT u.email, 
+                   CONCAT(u.nombres, ' ', u.apellidos) as nombre_completo, 
+                   CASE u.idrol 
+                     WHEN 1 THEN 'Administrador' 
+                     WHEN 2 THEN 'Scrum Master' 
+                     WHEN 3 THEN 'Desarrollador' 
+                   END as rol
+            FROM usu_proy up
+            JOIN usuarios u ON up.email = u.email
+            WHERE up.idproy = %s
+            ORDER BY u.nombres
+        """, (proyecto_id,))
+        asignados = cur.fetchall()
+        return jsonify(asignados)
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# Ruta para desasignar usuarios seleccionados
+@bp.route('/desasignar_usuarios', methods=['POST'])
+def desasignar_usuarios():
+    if not session.get('logueado'):
+        return jsonify({"error": "No autorizado"}), 401
+
+    try:
+        data = request.get_json()
+        proyecto_id = data.get('proyecto_id')
+        usuarios = data.get('usuarios', [])
+
+        if not proyecto_id or not usuarios:
+            return jsonify({"error": "Datos incompletos"}), 400
+
+        cur = mysql.connection.cursor()
+        desasignados = 0
+
+        for email in usuarios:
+            # Verificar si existe la asignación
+            cur.execute("""
+                DELETE FROM usu_proy 
+                WHERE idproy = %s AND email = %s
+            """, (proyecto_id, email))
+            desasignados += cur.rowcount
+
+        mysql.connection.commit()
+        
+        return jsonify({
+            "success": True,
+            "message": "Usuarios desasignados correctamente",
+            "desasignados": desasignados
+        })
+
+    except Exception as e:
+        mysql.connection.rollback()
+        return jsonify({
+            "error": "Error al desasignar usuarios",
             "detalle": str(e)
         }), 500
