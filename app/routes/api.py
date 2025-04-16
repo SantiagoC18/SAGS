@@ -6,6 +6,10 @@ bp = Blueprint('api', __name__, url_prefix='/api')
 
 @bp.route('/pqrs', methods=['GET'])
 def list_pqrs():
+    if not session.get('logueado'):
+        flash('Debe iniciar sesión para ver las PQRS', 'error')
+        return redirect(url_for('auth.login'))
+
     """List all PQRS entries"""
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM opiniones ORDER BY id_opi DESC")
@@ -26,7 +30,7 @@ def view_pqrs(id):
         flash('PQRS no encontrado', 'error')
         return redirect(url_for('api.list_pqrs'))
     
-    return render_template('pqrs_detail.html', pqrs=pqrs, log=session.get('id'))
+    return render_template('pqrs_detail.html', pqrs=pqrs, log='Cerrar')
 
 @bp.route('/pqrs', methods=['POST'])
 def create_pqrs():
@@ -42,10 +46,7 @@ def create_pqrs():
     
     cur = mysql.connection.cursor()
     
-    cur.execute(
-        "INSERT INTO opiniones (opinion, calificacion, tipo_opi, email) VALUES (%s, %s, %s, %s)",
-        (descripcion, prioridad, tipo_pqrs, email)
-    )
+    cur.execute("INSERT INTO opiniones (opinion, calificacion, tipo_opi, email) VALUES (%s, %s, %s, %s)",(descripcion, prioridad, tipo_pqrs, email))
     mysql.connection.commit()
     cur.close()
     
@@ -96,25 +97,39 @@ def delete_pqrs(id):
     
     cur = mysql.connection.cursor()
     
-    # Check if the PQRS belongs to the current user or if user is admin
-    cur.execute("SELECT email FROM opiniones WHERE id_opi = %s", (id,))
-    result = cur.fetchone()
-    
-    if not result:
-        return jsonify({'error': 'PQRS not found'}), 404
-    
-    pqrs_owner = result[0]
-    current_user = session.get('id')
-    
-    # Check if user is admin (assuming role 1 is admin)
-    cur.execute("SELECT idrol FROM usuarios WHERE email = %s", (current_user,))
-    user_role = cur.fetchone()[0]
-    
-    if pqrs_owner != current_user and user_role != 1:
-        return jsonify({'error': 'Unauthorized'}), 403
-    
-    cur.execute("DELETE FROM opiniones WHERE id_opi = %s", (id,))
-    mysql.connection.commit()
-    cur.close()
+    try:
+        # Check if the PQRS belongs to the current user or if user is admin
+        cur.execute("SELECT email FROM opiniones WHERE id_opi = %s", (id,))
+        result = cur.fetchone()
+        
+        if not result:
+            return jsonify({'error': 'PQRS not found'}), 404
+        
+        pqrs_owner = result[0]
+        current_user = session.get('id')
+        
+        # Check if user is admin (assuming role 1 is admin)
+        cur.execute("SELECT idrol FROM usuarios WHERE email = %s", (current_user,))
+        user_role = cur.fetchone()[0]
+        
+        if pqrs_owner != current_user and user_role != 1:
+            return jsonify({'error': 'Unauthorized'}), 403
+        
+        cur.execute("DELETE FROM opiniones WHERE id_opi = %s", (id,))
+        mysql.connection.commit()
+        
+        return jsonify({
+            'success': True,
+            'message': 'PQRS eliminado correctamente'
+        }), 200
+        
+    except Exception as e:
+        mysql.connection.rollback()
+        return jsonify({
+            'error': 'Error al eliminar el PQRS',
+            'details': str(e)
+        }), 500
+    finally:
+        cur.close()
     
     return jsonify({'success': True})

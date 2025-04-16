@@ -66,34 +66,80 @@
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.3.8/build/spline-viewer.js"></script>
     <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
 
-    <div id="pqrs-list">
-        <center>
-            <h2>Sistema de PQRS</h2>
+    <div class="container">
+        <div class="header">
+            <h1>Sistema de PQRS</h1>
             <p>Peticiones, Quejas, Reclamos y Sugerencias</p>
-        </center>
+        </div>
 
-        <div class="grid">
+        <div class="search-filter">
+            <div class="search-container">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="searchInput" class="search-input" placeholder="Buscar por correo o contenido...">
+            </div>
+            <div class="filter-container">
+                <select id="filterSelect" class="filter-select">
+                    <option value="all">Todos los tipos</option>
+                    <option value="Sugerencia">Sugerencias</option>
+                    <option value="Queja">Quejas</option>
+                    <option value="Petición">Peticiones</option>
+                    <option value="Reclamo">Reclamos</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="cards-grid" id="cardsContainer">
             {% for pqrs in pqrs_list %}
-            <div class="opinion">
-                <h3>{{ pqrs.email }}</h3>
-                <p>{{ pqrs.opinion }}</p>
-                <div class="pqrs-actions">
-                    <a href="{{ url_for('api.view_pqrs', id=pqrs.id_opi) }}" class="view-btn">Ver detalles</a>
-                </div>
-                <br>
-                <div class="calificacion">
-                    <p><strong>Tipo:</strong> {{ pqrs.tipo_opi }}</p>
-                    <p><strong>Prioridad:</strong> {{ pqrs.calificacion }}/5</p>
+            <div class="card" data-type="{{ pqrs.tipo_opi }}" data-email="{{ pqrs.email }}">
+                <div class="card-content">
+                    <div class="card-header">
+                        <div class="user-info">
+                            <div class="avatar"><img src="/static/img/user.png" width="50px"></div>
+                            <div class="user-details">
+                                <p>{{ pqrs.email }}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="badge badge-${typeClass}">{{ pqrs.tipo_opi }}</span>
+                        </div>
+                    </div>
+
+                    <p class="card-description">{{ pqrs.opinion }}</p>
+
+                    <div class="card-footer">
+                        <div class="priority-stars">
+                            Prioridad: {{ pqrs.calificacion }}/5
+                        </div>
+                        <a href="{{ url_for('api.view_pqrs', id=pqrs.id_opi) }}" class="view-btn">
+                            <button class="details-button">
+                                Ver detalles
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                        </a>
+                    </div>
                 </div>
             </div>
             {% endfor %}
         </div>
-    </div>
 
-    <!-- Botón para abrir el modal -->
-    <center>
-        <button id="btn-abrir-popup1">Crear nueva PQRS</button>
-    </center>
+        <div class="create-button-container">
+            <button class="create-button" id="btn-abrir-popup1">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Crear nueva PQRS
+            </button>
+        </div>
+    </div>
 
     <!-- Modal para crear PQRS -->
     <div class="overlay" id="overlay1">
@@ -133,10 +179,38 @@
                     </select>
                 </div>
                 <br>
-                <button class="button" type="submit">Enviar PQRS</button>
+                <button class="create-button" type="submit" style="width: 115px;">Enviar PQRS</button>
             </form>
         </div>
     </div>
+
+
+    <script>
+        function filterCards() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filterType = document.getElementById('filterSelect').value;
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                const email = card.getAttribute('data-email').toLowerCase();
+                const description = card.querySelector('.card-description').textContent.toLowerCase();
+                const type = card.getAttribute('data-type');
+
+                const matchesSearch = description.includes(searchTerm) || email.includes(searchTerm);
+                const matchesType = filterType === 'all' || type === filterType;
+
+                if (matchesSearch && matchesType) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Eventos para filtrar
+        document.getElementById('searchInput').addEventListener('input', filterCards);
+        document.getElementById('filterSelect').addEventListener('change', filterCards);
+    </script>
 
     <script src="/static/js/popup.js"></script>
     <script src="/static/js/bar.js"></script>

@@ -1,79 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/static/img/sirs.jpg">
     <title>Detalle de PQRS</title>
-    <link rel="stylesheet" href="/static/css/foro.css">
+    <link rel="stylesheet" href="/static/css/pqrs-detail.css">
     <link rel="stylesheet" href="/static/css/estilos.css">
     <script src="https://kit.fontawesome.com/25eed41d7b.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
-        .pqrs-detail {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 30px auto;
-            max-width: 800px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .pqrs-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-        .pqrs-type {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 5px;
-            background: #f0f0f0;
-            font-weight: bold;
-        }
-        .pqrs-priority {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-        }
-        .priority-1 { background-color: #28a745; }
-        .priority-2 { background-color: #5cb85c; }
-        .priority-3 { background-color: #ffc107; }
-        .priority-4 { background-color: #fd7e14; }
-        .priority-5 { background-color: #dc3545; }
-        .pqrs-actions {
-            margin-top: 20px;
-            display: flex;
-            gap: 10px;
-        }
-        .pqrs-actions button {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .edit-btn {
-            background-color: #007bff;
-            color: white;
-        }
-        .delete-btn {
-            background-color: #dc3545;
-            color: white;
-        }
-        .back-btn {
-            background-color: #6c757d;
-            color: white;
-            text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            display: inline-block;
-        }
-    </style>
+    
 </head>
+
 <body>
     <header>
         <a href="{{ url_for('main.index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
@@ -87,32 +26,114 @@
         </ul>
 
         <div class="main">
-            <a href="{{ url_for('auth.logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion
+            <a href="{{ url_for('auth.logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}}
+                Sesion
                 {%endif %}</a>
             <div class="bx bx-menu" id="menu-icon"><i class="fa-solid fa-bars"></i></div>
         </div>
     </header>
 
-    <div class="pqrs-detail">
-        <div class="pqrs-header">
-            <h1>{{ pqrs.opinion }}</h1>
-            <div>
-                <span class="pqrs-type">{{ pqrs.tipo_opi }}</span>
-                <span class="pqrs-priority priority-{{ pqrs.calificacion }}">Prioridad: {{ pqrs.calificacion }}/5</span>
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.3.8/build/spline-viewer.js"></script>
+    <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="header-content">
+                <div class="user-info">
+                    <div class="avatar">LS</div>
+                    <div class="user-details">
+                        <p>{{ pqrs.email }}</p>
+                    </div>
+                </div>
+                <div class="badges">
+                    
+                    <span class="badge badge-priority pqrs-priority priority-{{ pqrs.calificacion }}">
+                        <svg class="icon-small icon-star" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                        </svg>
+                        Prioridad: {{ pqrs.calificacion }}/5
+                    </span>
+                </div>
             </div>
         </div>
-        
-        <div class="pqrs-content">
-            <p>{{ pqrs.opinion }}</p>
-            <p><strong>Usuario:</strong> {{ pqrs.email }}</p>
+        <div class="separator"></div>
+        <div class="card-content">
+            <h2 class="badge badge-suggestion">{{ pqrs.tipo_opi }}</h2>
+            <p class="card-description">
+                {{ pqrs.opinion }}
+            </p>
+
+            <div id="expandedContent" class="expanded-content">
+                <p class="expanded-text">
+                    Esto agilizaría el flujo de trabajo en proyectos donde varias personas necesitan revisar los mismos
+                    archivos. La colaboración en tiempo real reduciría los tiempos de espera y mejoraría la
+                    productividad
+                    del equipo.
+                </p>
+                <div class="comment-count">
+                    <svg class="icon-small" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span>3 comentarios</span>
+                </div>
+            </div>
+
+            <button id="expandButton" class="expand-button">Ver más</button>
         </div>
-        
-        <div class="pqrs-actions">
-            <button class="edit-btn" onclick="openEditModal()">Editar</button>
-            <button class="delete-btn" onclick="deletePQRS()">Eliminar</button>
-            <a href="{{ url_for('api.list_pqrs') }}" class="back-btn">Volver a la lista</a>
+        <div class="card-footer">
+            <a href="{{ url_for('api.list_pqrs') }}">
+                <button class="button button-back">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Volver a la lista
+                </button>
+            </a>
+            <div class="actions">
+                <button class="button button-edit">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                    </svg>
+                    Editar
+                </button>
+                <button class="button button-delete" onclick="deletePQRS()">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                    </svg>
+                    Eliminar
+                </button>
+            </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const expandButton = document.getElementById('expandButton');
+            const expandedContent = document.getElementById('expandedContent');
+            let isExpanded = false;
+
+            expandButton.addEventListener('click', function () {
+                isExpanded = !isExpanded;
+                if (isExpanded) {
+                    expandedContent.classList.add('active');
+                    expandButton.textContent = 'Ver menos';
+                } else {
+                    expandedContent.classList.remove('active');
+                    expandButton.textContent = 'Ver más';
+                }
+            });
+        });
+    </script>
+
+    
 
     <!-- Modal para editar PQRS -->
     <div id="editModal" class="modal">
@@ -123,10 +144,11 @@
                 <div class="form-group">
                     <label for="edit_tipo_pqrs">Tipo de PQRS:</label>
                     <select id="edit_tipo_pqrs" name="tipo_pqrs">
-                        <option value="Petición" {% if pqrs.tipo_opi == 'Petición' %}selected{% endif %}>Petición</option>
-                        <option value="Queja" {% if pqrs.tipo_opi == 'Queja' %}selected{% endif %}>Queja</option>
-                        <option value="Reclamo" {% if pqrs.tipo_opi == 'Reclamo' %}selected{% endif %}>Reclamo</option>
-                        <option value="Sugerencia" {% if pqrs.tipo_opi == 'Sugerencia' %}selected{% endif %}>Sugerencia</option>
+                        <option value="Petición" {% if pqrs.tipo_opi=='Petición' %}selected{% endif %}>Petición</option>
+                        <option value="Queja" {% if pqrs.tipo_opi=='Queja' %}selected{% endif %}>Queja</option>
+                        <option value="Reclamo" {% if pqrs.tipo_opi=='Reclamo' %}selected{% endif %}>Reclamo</option>
+                        <option value="Sugerencia" {% if pqrs.tipo_opi=='Sugerencia' %}selected{% endif %}>Sugerencia
+                        </option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -136,11 +158,11 @@
                 <div class="form-group">
                     <label for="edit_prioridad">Prioridad:</label>
                     <select id="edit_prioridad" name="prioridad">
-                        <option value="1" {% if pqrs.calificacion == 1 %}selected{% endif %}>1 - Baja</option>
-                        <option value="2" {% if pqrs.calificacion == 2 %}selected{% endif %}>2 - Media-Baja</option>
-                        <option value="3" {% if pqrs.calificacion == 3 %}selected{% endif %}>3 - Media</option>
-                        <option value="4" {% if pqrs.calificacion == 4 %}selected{% endif %}>4 - Media-Alta</option>
-                        <option value="5" {% if pqrs.calificacion == 5 %}selected{% endif %}>5 - Alta</option>
+                        <option value="1" {% if pqrs.calificacion==1 %}selected{% endif %}>1 - Baja</option>
+                        <option value="2" {% if pqrs.calificacion==2 %}selected{% endif %}>2 - Media-Baja</option>
+                        <option value="3" {% if pqrs.calificacion==3 %}selected{% endif %}>3 - Media</option>
+                        <option value="4" {% if pqrs.calificacion==4 %}selected{% endif %}>4 - Media-Alta</option>
+                        <option value="5" {% if pqrs.calificacion==5 %}selected{% endif %}>5 - Alta</option>
                     </select>
                 </div>
                 <button type="button" onclick="updatePQRS()">Guardar cambios</button>
@@ -149,29 +171,13 @@
     </div>
 
     <script>
-        // Modal functionality
-        const editModal = document.getElementById("editModal");
-        
-        function openEditModal() {
-            editModal.style.display = "block";
-        }
-        
-        function closeEditModal() {
-            editModal.style.display = "none";
-        }
-        
-        window.onclick = function(event) {
-            if (event.target == editModal) {
-                editModal.style.display = "none";
-            }
-        }
-        
+
         // API functions
         function updatePQRS() {
             const tipo = document.getElementById("edit_tipo_pqrs").value;
             const descripcion = document.getElementById("edit_descripcion").value;
             const prioridad = document.getElementById("edit_prioridad").value;
-            
+
             fetch('/api/pqrs/{{ pqrs.id_opi }}', {
                 method: 'PUT',
                 headers: {
@@ -196,7 +202,7 @@
                 }
             });
         }
-        
+
         function deletePQRS() {
             Swal.fire({
                 title: "¿Está seguro?",
@@ -211,22 +217,31 @@
                 if (result.isConfirmed) {
                     fetch('/api/pqrs/{{ pqrs.id_opi }}', {
                         method: 'DELETE'
-                    }).then(response => {
+                    })
+                    .then(response => {
                         if (response.ok) {
+                            window.location.href = "{{ url_for('api.list_pqrs') }}";
+                        } else {
                             Swal.fire({
-                                title: "Eliminado",
-                                text: "El PQRS ha sido eliminado correctamente",
-                                icon: "success",
-                                showConfirmButton: false,
-                                timer: 1500,
-                            }).then(() => {
-                                window.location.href = "{{ url_for('api.list_pqrs') }}";
+                                title: "Error",
+                                text: "No se pudo eliminar el PQRS",
+                                icon: "error",
+                                confirmButtonText: "OK"
                             });
                         }
+                    })
+                    .catch(() => {
+                        Swal.fire({
+                            title: "Error",
+                            text: "No se pudo eliminar el PQRS",
+                            icon: "error",
+                            confirmButtonText: "OK"
+                        });
                     });
                 }
             });
         }
     </script>
 </body>
+
 </html>
