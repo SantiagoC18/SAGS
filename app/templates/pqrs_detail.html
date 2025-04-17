@@ -10,10 +10,31 @@
     <link rel="stylesheet" href="/static/css/estilos.css">
     <script src="https://kit.fontawesome.com/25eed41d7b.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
 </head>
 
 <body>
+
+    <!-- Mensajes Flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <script>
+        swal.fire({
+            title: "{{message}}",
+            icon: "{{category}}",
+            buttons: false,
+            timer: 2000,
+            showConfirmButton: false,
+            background: "#fff",
+            toast: true,
+            position: "top"
+        });
+    </script>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
     <header>
         <a href="{{ url_for('main.index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
 
@@ -46,7 +67,7 @@
                     </div>
                 </div>
                 <div class="badges">
-                    
+
                     <span class="badge badge-priority pqrs-priority priority-{{ pqrs.calificacion }}">
                         <svg class="icon-small icon-star" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -93,23 +114,26 @@
                 </button>
             </a>
             <div class="actions">
-                <button class="button button-edit">
+                <button id="btn-abrir-popup1" class="button button-edit">
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round">
                         <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
                     </svg>
                     Editar
                 </button>
-                <button class="button button-delete" onclick="deletePQRS()">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                        <line x1="10" y1="11" x2="10" y2="17"></line>
-                        <line x1="14" y1="11" x2="14" y2="17"></line>
-                    </svg>
-                    Eliminar
-                </button>
+                <form action="{{ url_for('api.delete_pqrs', id = pqrs.id_opi) }}" method="POST" style="display: inline;">
+                    <button class="button button-delete">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                            </path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                        </svg>
+                        Eliminar
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -133,115 +157,50 @@
         });
     </script>
 
-    
-
     <!-- Modal para editar PQRS -->
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeEditModal()">&times;</span>
+    <div class="overlay" id="overlay1">
+        <div class="popup" id="popup1" style="width: auto; height: auto; max-height: 75%;">
+            <a href="#" id="btn-cerrar-popup1" class="btn-cerrar-popup" style="margin-right: -100%"><i
+                    class="fas fa-times"></i></a>
             <h2>Editar PQRS</h2>
-            <form id="editForm">
-                <div class="form-group">
-                    <label for="edit_tipo_pqrs">Tipo de PQRS:</label>
-                    <select id="edit_tipo_pqrs" name="tipo_pqrs">
+            <form action="{{ url_for('api.update_pqrs', idp = pqrs.id_opi) }}" method="POST" class="editform"
+                id="editForm">
+                <input type="hidden" name="_method" value="PUT">
+                <div class="input-container">
+                    <label for="edit_tipo_pqrs" class="name">Tipo de PQRS:</label>
+                    <select id="edit_tipo_pqrs" name="tipo_opi" class="input">
                         <option value="Petición" {% if pqrs.tipo_opi=='Petición' %}selected{% endif %}>Petición</option>
                         <option value="Queja" {% if pqrs.tipo_opi=='Queja' %}selected{% endif %}>Queja</option>
                         <option value="Reclamo" {% if pqrs.tipo_opi=='Reclamo' %}selected{% endif %}>Reclamo</option>
                         <option value="Sugerencia" {% if pqrs.tipo_opi=='Sugerencia' %}selected{% endif %}>Sugerencia
                         </option>
                     </select>
+                    <div class="underline"></div>
                 </div>
-                <div class="form-group">
-                    <label for="edit_descripcion">Descripción:</label>
-                    <textarea id="edit_descripcion" name="descripcion">{{ pqrs.opinion }}</textarea>
+                <div class="input-container">
+                    <label for="edit_descripcion" class="name">Descripción:</label>
+                    <textarea id="edit_descripcion" name="descripcion" class="input">{{ pqrs.opinion }}</textarea>
+                    <div class="underline"></div>
                 </div>
-                <div class="form-group">
-                    <label for="edit_prioridad">Prioridad:</label>
-                    <select id="edit_prioridad" name="prioridad">
+                <div class="input-container">
+                    <label for="edit_prioridad" class="name">Prioridad:</label>
+                    <select id="edit_prioridad" name="prioridad" class="input">
                         <option value="1" {% if pqrs.calificacion==1 %}selected{% endif %}>1 - Baja</option>
                         <option value="2" {% if pqrs.calificacion==2 %}selected{% endif %}>2 - Media-Baja</option>
                         <option value="3" {% if pqrs.calificacion==3 %}selected{% endif %}>3 - Media</option>
                         <option value="4" {% if pqrs.calificacion==4 %}selected{% endif %}>4 - Media-Alta</option>
                         <option value="5" {% if pqrs.calificacion==5 %}selected{% endif %}>5 - Alta</option>
                     </select>
+                    <div class="underline"></div>
                 </div>
-                <button type="button" onclick="updatePQRS()">Guardar cambios</button>
+                <button class="button_view">Guardar cambios</button>
             </form>
         </div>
     </div>
 
-    <script>
+    <script src="/static/js/popup.js"></script>
+    <script src="/static/js/bar.js"></script>
 
-        // API functions
-        function updatePQRS() {
-            const tipo = document.getElementById("edit_tipo_pqrs").value;
-            const descripcion = document.getElementById("edit_descripcion").value;
-            const prioridad = document.getElementById("edit_prioridad").value;
-
-            fetch('/api/pqrs/{{ pqrs.id_opi }}', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    tipo_opi: tipo,
-                    opinion: descripcion,
-                    calificacion: prioridad
-                })
-            }).then(response => {
-                if (response.ok) {
-                    Swal.fire({
-                        title: "PQRS Actualizado",
-                        text: "Los cambios han sido guardados correctamente",
-                        icon: "success",
-                        showConfirmButton: false,
-                        timer: 1500,
-                    }).then(() => {
-                        window.location.reload();
-                    });
-                }
-            });
-        }
-
-        function deletePQRS() {
-            Swal.fire({
-                title: "¿Está seguro?",
-                text: "Esta acción no se puede deshacer",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Sí, eliminar",
-                cancelButtonText: "Cancelar"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    fetch('/api/pqrs/{{ pqrs.id_opi }}', {
-                        method: 'DELETE'
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            window.location.href = "{{ url_for('api.list_pqrs') }}";
-                        } else {
-                            Swal.fire({
-                                title: "Error",
-                                text: "No se pudo eliminar el PQRS",
-                                icon: "error",
-                                confirmButtonText: "OK"
-                            });
-                        }
-                    })
-                    .catch(() => {
-                        Swal.fire({
-                            title: "Error",
-                            text: "No se pudo eliminar el PQRS",
-                            icon: "error",
-                            confirmButtonText: "OK"
-                        });
-                    });
-                }
-            });
-        }
-    </script>
 </body>
 
 </html>

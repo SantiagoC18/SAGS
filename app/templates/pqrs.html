@@ -7,9 +7,10 @@
     <link rel="shortcut icon" href="/static/img/sirs.jpg">
     <script src="https://kit.fontawesome.com/25eed41d7b.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Sistema PQRS</title>
     <link rel="stylesheet" href="/static/css/foro.css">
     <link rel="stylesheet" href="/static/css/estilos.css">
+    <title>Sistema PQRS</title>
+    
 
     <script type="text/javascript">
         function validarPQRS() {
@@ -44,6 +45,27 @@
 </head>
 
 <body>
+
+    <!-- Mensajes Flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <script>
+        swal.fire({
+            title: "{{message}}",
+            icon: "{{category}}",
+            buttons: false,
+            timer: 2000,
+            showConfirmButton: false,
+            background: "#fff",
+            toast: true,
+            position: "top"
+        });
+    </script>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
     <header>
         <a href="{{ url_for('main.index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
 
@@ -71,7 +93,6 @@
             <h1>Sistema de PQRS</h1>
             <p>Peticiones, Quejas, Reclamos y Sugerencias</p>
         </div>
-
         <div class="search-filter">
             <div class="search-container">
                 <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -157,10 +178,6 @@
                         <option value="Reclamo">Reclamo</option>
                         <option value="Sugerencia">Sugerencia</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <label for="nombre">Asunto:</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Ingrese el asunto de su PQRS">
                 </div>
                 <div class="form-group">
                     <label for="descripcion">Descripción:</label>
