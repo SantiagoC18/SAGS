@@ -1,10 +1,11 @@
-.container_buttons{
+/* Estilos generales */
+.container_buttons {
     margin-top: 20px;
     min-width: 90vw;
     margin-left: 4.6vw;
 }
 
-.select{
+.select {
     box-shadow: inset 0px 0px 5px 0px black;
     transition: all 1ms ease;
 }
@@ -16,29 +17,24 @@
     transition: all 0.5s ease-in-out;
 }
 
-.view-section .active {
+.view-section.active {
     display: inline-block;
     margin: 0 0.5rem;
-    animation: bounce; /* referring directly to the animation's @keyframe declaration */
-    animation-duration: 2s; /* don't forget to set a duration! */
+    animation: bounce 2s;
     opacity: 1;
     transform: translateX(0);
 }
 
-.pagination .relative, .next{
+.pagination .relative, .next {
     color: white;
 }
 
-.info:hover{
+.info:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-
-
-
-/* Contenido del modal - Más responsive */
-/* ===== ESTILOS GENERALES DEL MODAL ===== */
-#modalAsignar {
+/* ===== ESTILOS DEL MODAL ===== */
+.modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -46,17 +42,17 @@
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.8);
     display: none;
-    place-items: center; /* Método moderno para centrado */
+    place-items: center;
     z-index: 1000;
     overflow: hidden;
     backdrop-filter: blur(3px);
     animation: fadeIn 0.3s ease-out;
-    padding: 20px; /* Espacio seguro para móviles */
+    padding: 20px;
     box-sizing: border-box;
 }
 
 @supports not (place-items: center) {
-    #modalAsignar {
+    .modal {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -64,28 +60,6 @@
 }
 
 .modal-content {
-    position: relative;
-    max-width: 90vw; /* Ancho máximo responsive */
-    width: 600px; /* Ancho ideal para desktop */
-    max-height: 90vh; /* Altura máxima */
-    margin: auto; /* Centrado adicional como respaldo */
-    overflow: auto; /* Scroll interno si es necesario */
-}
-
-
-
-
-
-
-
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* ===== CONTENEDOR PRINCIPAL ===== */
-#modalAsignar .modal-content {
     background: rgba(30, 30, 30, 0.95);
     width: 90%;
     max-width: 500px;
@@ -96,9 +70,8 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transform: translateY(-50%);
-    top: 50%;
     position: relative;
+    animation: slideUp 0.3s ease-out;
 }
 
 /* ===== CABECERA DEL MODAL ===== */
@@ -116,7 +89,7 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.close-btn {
+.close-btn, .close {
     position: absolute;
     top: 1rem;
     right: 1rem;
@@ -128,7 +101,7 @@
     transition: color 0.2s;
 }
 
-.close-btn:hover {
+.close-btn:hover, .close:hover {
     color: #fff;
 }
 
@@ -167,23 +140,23 @@
     margin: 0.5rem 0;
 }
 
-#listaUsuarios {
+#listaUsuarios, #listaUsuariosDesasignar {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-#listaUsuarios li {
+#listaUsuarios li, #listaUsuariosDesasignar li {
     padding: 0.8rem 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     transition: background 0.2s;
 }
 
-#listaUsuarios li:last-child {
+#listaUsuarios li:last-child, #listaUsuariosDesasignar li:last-child {
     border-bottom: none;
 }
 
-#listaUsuarios li:hover {
+#listaUsuarios li:hover, #listaUsuariosDesasignar li:hover {
     background: rgba(255, 255, 255, 0.03);
 }
 
@@ -194,7 +167,7 @@
     cursor: pointer;
 }
 
-/* Checkbox personalizado */
+/* Checkbox */
 .user-checkbox {
     appearance: none;
     width: 18px;
@@ -242,7 +215,7 @@
     color: rgba(255, 255, 255, 0.6);
 }
 
-/* ===== PIE DEL MODAL - BOTONES ===== */
+/* ===== BOTONES DEL MODAL ===== */
 .modal-footer {
     padding: 1.5rem;
     display: flex;
@@ -306,41 +279,8 @@
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* ===== EFECTOS DE TRANSICIÓN ===== */
-.modal-content {
-    animation: slideUp 0.3s ease-out;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px) translateY(-50%);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) translateY(-50%);
-    }
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 600px) {
-    #modalAsignar .modal-content {
-        width: 95%;
-        max-height: 85vh;
-    }
-    
-    .modal-header,
-    .search-container,
-    .users-list-container,
-    .modal-footer {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-}
-
-
-/* Mensaje de error/notificación */
-#modalMessage {
+/* ===== MENSAJES ===== */
+#modalMessage, .mensaje-error, .mensaje-success {
     padding: 0.75rem 1rem;
     margin-bottom: 1rem;
     border-radius: 0.375rem;
@@ -348,13 +288,13 @@
     transition: all 0.3s ease;
 }
 
-#modalMessage.danger {
+#modalMessage.danger, .mensaje-error {
     background-color: #fee2e2;
     color: #b91c1c;
     border-left: 4px solid #b91c1c;
 }
 
-#modalMessage.success {
+#modalMessage.success, .mensaje-success {
     background-color: #dcfce7;
     color: #166534;
     border-left: 4px solid #166534;
@@ -368,72 +308,35 @@
     overflow: hidden;
 }
 
-
-
-
-/* Estos estilos ya deberían estar en tu CSS para el modal de asignación */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.8);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
+/* ===== ANIMACIONES ===== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-.modal-content {
-    background: rgba(30, 30, 30, 0.95);
-    width: 90%;
-    max-width: 500px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    padding: 1.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.close {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: color 0.2s;
-}
-
-.close:hover {
-    color: #fff;
-}
-
-/* Estilos para mensajes (igual que en el otro modal) */
-.mensaje-error {
-    color: #e53e3e;
-    background-color: #fff5f5;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border-radius: 0.25rem;
-}
-
-.mensaje-success {
-    color: #166534;
-    background-color: #dcfce7;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border-radius: 0.25rem;
-}
-
-/* Estilos para la lista de usuarios */
-#listaUsuariosDesasignar li {
-    padding: 0.8rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    transition: background 0.2s;
-}
-
-#listaUsuariosDesasignar li:last-child {
-    border-bottom: none;
-}
-
-#listaUsuariosDesasignar li:hover {
-    background: rgba(255, 255, 255, 0.03);
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+    .modal-content {
+        width: 95%;
+        max-height: 85vh;
+    }
+    
+    .modal-header,
+    .search-container,
+    .users-list-container,
+    .modal-footer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 }

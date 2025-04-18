@@ -8,7 +8,7 @@ bp = Blueprint('projects', __name__)
 @bp.route('/gestion_proyectos', methods=["GET", "POST"])
 def gestion_proyectos():
     if not session.get('logueado'):
-        flash("Debe iniciar sesión primero.")
+        flash("Debe iniciar sesión primero.") 
         return redirect(url_for('auth.login'))
 
 
@@ -17,7 +17,7 @@ def gestion_proyectos():
     cur.execute("SELECT idrol FROM usuarios WHERE email = %s", (session['id'],))
     usuario = cur.fetchone()
     
-    if not usuario or usuario['idrol'] not in [1, 2]: # Admin y Scrumn Master
+    if not usuario or usuario['idrol'] not in [1, 2]: # Admin and Scrum Master
         flash("No tiene permisos para acceder a esta sección.")
         return redirect(url_for('main.index'))
 
@@ -238,7 +238,7 @@ def get_usuarios():
 
 @bp.route('/asignar_usuarios', methods=['POST'])
 def asignar_usuarios():
-    # Verificar autenticación
+    # Autenticación
     if not session.get('logueado'):
         return jsonify({"error": "No autorizado"}), 401
 
@@ -308,7 +308,7 @@ def asignar_usuarios():
 
 
 
-# Ruta para obtener usuarios asignados a un proyecto
+# Obtener usuarios asignados a un proyecto
 @bp.route('/get_usuarios_asignados', methods=['GET'])
 def get_usuarios_asignados():
     if not session.get('logueado'):
@@ -339,7 +339,7 @@ def get_usuarios_asignados():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Ruta para desasignar usuarios seleccionados
+# Desasignar usuarios seleccionados
 @bp.route('/desasignar_usuarios', methods=['POST'])
 def desasignar_usuarios():
     if not session.get('logueado'):
