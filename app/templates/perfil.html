@@ -25,12 +25,13 @@
             <li><a href="{{ url_for('main.index') }}">Home</a></li>
             <li><a href="{{ url_for('main.sobre_nosotros') }}">Sobre Nosotros</a></li>
             <li><a href="{{ url_for('main.modulos') }}">Gestion de Proyectos</a></li>
-        <!--<li><a href="{{ url_for('main.opiniones') }}">Opiniones</a></li>-->
+            <!--<li><a href="{{ url_for('main.opiniones') }}">Opiniones</a></li>-->
             <li><a href="{{ url_for('profile.perfil') }}" class="active">Perfil</a></li>
         </ul>
 
         <div class="main">
-            <a href="{{ url_for('auth.logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion
+            <a href="{{ url_for('auth.logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}}
+                Sesion
                 {%
                 endif %}</a>
             <div class="bx bx-menu" id="menu-icon"><i class="fa-solid fa-bars"></i></div>
@@ -43,8 +44,8 @@
 
 
     <!-- Mensajes Flash -->
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
     {% for category, message in messages %}
     <script>
         swal.fire({
@@ -59,9 +60,9 @@
         });
     </script>
     {% endfor %}
-{% endif %}
-{% endwith %}
-    
+    {% endif %}
+    {% endwith %}
+
     <main>
 
         <section class="user-info">
@@ -70,7 +71,8 @@
             <div class="user-details">
                 {% for dato in usuario %}
                 <div class="container_img">
-                    <img src="/static/img/usuarios/{{ dato['foto'] if dato['foto'] else 'default.jpg' }}" alt="Foto de perfil">
+                    <img src="/static/img/usuarios/{{ dato['foto'] if dato['foto'] else 'default.jpg' }}"
+                        alt="Foto de perfil">
                 </div>
                 <div class="user-text">
 
@@ -103,7 +105,7 @@
                 </a>
             </div>
             {% endfor %}
-            
+
         </section>
 
     </main>
@@ -112,13 +114,15 @@
 
     <div class="overlay" id="overlay1">
         <div class="popup" id="popup1" style=" background-color: #0000007e;">
-            <a href="#" id="btn-cerrar-popup1" class="btn-cerrar-popup" style="margin-right: -100%;"><i class="fas fa-times"></i></a>
-            
+            <a href="#" id="btn-cerrar-popup1" class="btn-cerrar-popup" style="margin-right: -100%;"><i
+                    class="fas fa-times"></i></a>
+
             <div class="dialog-header">
                 <h2 class="dialog-title">Actualizar Perfil</h2>
-                <p class="dialog-description">Actualiza tu información personal y haz clic en actualizar cuando termines.</p>
+                <p class="dialog-description">Actualiza tu información personal y haz clic en actualizar cuando
+                    termines.</p>
             </div>
-    
+
             <div class="dialog-content">
                 <form action="actualizar_usuario" method="POST">
                     {% for dato in usuario %}
@@ -127,12 +131,12 @@
                         <label for="email">Email</label>
                         <input type="text" id="email" name="email" readonly value="{{ dato['email'] }}">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="nombres">Nombres</label>
                         <input type="text" id="nombres" name="nombres" value="{{ dato['nombres'] }}" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="apellidos">Apellidos</label>
                         <input type="text" id="apellidos" name="apellidos" value="{{ dato['apellidos'] }}" required>
@@ -144,12 +148,12 @@
                         <input type="text" id="documento" name="documento" value="{{ dato['documento'] }}" required>
                     </div>
 
-                    
+
                     <div class="form-group">
                         <label for="telefono">Teléfono</label>
                         <input type="number" id="telefono" name="telefono" value="{{ dato['telefono'] }}">
                     </div>
-                    
+
                     <div class="dialog-footer">
                         <button type="submit" class="button">Actualizar</button>
                     </div>
@@ -194,12 +198,12 @@
             </div>
         </div>
     </div>
-    
+
     <script>
-        document.getElementById("form-actualizar-clave").addEventListener("submit", function(event) {
+        document.getElementById("form-actualizar-clave").addEventListener("submit", function (event) {
             let nueva = document.getElementById("nueva").value;
             let confirmacion = document.getElementById("confirmacion").value;
-    
+
             if (nueva !== confirmacion) {
                 event.preventDefault();
                 Swal.fire({
@@ -213,8 +217,8 @@
             }
         });
     </script>
-    
-    
+
+
 
     <!--fin ventana emergente 2-->
 
