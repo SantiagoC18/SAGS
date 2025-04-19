@@ -208,7 +208,7 @@ def registrar_sprint(idproy):
     fechai = request.form['fi']
     fechaf = request.form['ff']
     desc = request.form['descripcion']
-    estado = request.form['estado']
+    estado = 0
     
     cur = mysql.connection.cursor()
     cur.execute('INSERT INTO `sprints`(`fechaI`, `fechaF`, `nombre`, `descripcion`, `estado`, `idproy`) VALUES ( %s, %s, %s, %s, %s, %s)', (fechai, fechaf, nombre, desc, estado, idproy))

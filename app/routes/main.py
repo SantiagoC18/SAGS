@@ -23,16 +23,6 @@ def modulos():
         return render_template('modulos.html', log='Cerrar')
     return redirect(url_for('auth.login', log='Iniciar'))
 
-@bp.route('/opiniones')
-def opiniones():
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT * FROM opiniones")
-    data = cur.fetchall()
-
-    if session.get('logueado'):
-        return render_template('opiniones.html', log='Cerrar', data=data)
-    return render_template('opiniones.html', log='Iniciar', data=data)
-
 @bp.route('/edit_sprint/<int:idsprint>')
 def edit_sprint(idsprint):
     if not session.get('logueado'):
