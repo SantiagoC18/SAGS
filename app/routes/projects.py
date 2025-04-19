@@ -322,12 +322,12 @@ def get_usuarios_asignados():
         cur = mysql.connection.cursor()
         cur.execute("""
             SELECT u.email, 
-                   CONCAT(u.nombres, ' ', u.apellidos) as nombre_completo, 
-                   CASE u.idrol 
-                     WHEN 1 THEN 'Administrador' 
-                     WHEN 2 THEN 'Scrum Master' 
-                     WHEN 3 THEN 'Desarrollador' 
-                   END as rol
+                    CONCAT(u.nombres, ' ', u.apellidos) as nombre_completo, 
+                    CASE u.idrol 
+                        WHEN 1 THEN 'Administrador' 
+                        WHEN 2 THEN 'Scrum Master' 
+                        WHEN 3 THEN 'Desarrollador' 
+                    END as rol
             FROM usu_proy up
             JOIN usuarios u ON up.email = u.email
             WHERE up.idproy = %s
