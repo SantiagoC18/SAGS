@@ -25,7 +25,7 @@ SAGS es una herramienta diseñada para optimizar las etapas de planificación y 
 
 **Clona este repositorio en tu máquina local.** 
 
-    Git clone https://github.com/SntiagoC18/sags.gi
+    Git clone https://github.com/SntiagoC18/sags.git
 
 **Instala las dependencias del proyecto.** 
 
