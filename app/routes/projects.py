@@ -164,7 +164,26 @@ def checkdown(idproy):
 def tasks(idproy):
     if session.get('logueado'):
         idproy = idproy
-        return render_template('tasks.html', log='Cerrar', idp=idproy)
+        cur = mysql.connection.cursor()
+        cur.execute('''SELECT 
+        t.id_tar,
+        t.nombre AS nombre_tarea,
+        t.fechaLimite,
+        t.estado,
+        t.prioridad,
+        s.nombre AS nombre_sprint,
+        p.nombre AS nombre_proyecto,
+        usuarios.nombres AS nombre_usuario,
+        usuarios.apellidos AS apellido_usuario
+        FROM tareas t
+        JOIN sprints s ON t.idsprint = s.idsprint
+        JOIN proyectos p ON s.idproy = p.idproy
+        JOIN usu_proy ON p.idproy = usu_proy.idproy
+        JOIN usuarios ON usu_proy.email = usuarios.email
+        WHERE p.idproy = %s
+        ''', (idproy,))
+        data = cur.fetchall()
+        return render_template('tasks.html', log='Cerrar', idproy=idproy, data = data)
     else:
         return redirect(url_for('auth.login'))
 
@@ -208,7 +227,7 @@ def registrar_sprint(idproy):
     fechai = request.form['fi']
     fechaf = request.form['ff']
     desc = request.form['descripcion']
-    estado = request.form['estado']
+    estado = 0
     
     cur = mysql.connection.cursor()
     cur.execute('INSERT INTO `sprints`(`fechaI`, `fechaF`, `nombre`, `descripcion`, `estado`, `idproy`) VALUES ( %s, %s, %s, %s, %s, %s)', (fechai, fechaf, nombre, desc, estado, idproy))
@@ -301,11 +320,6 @@ def asignar_usuarios():
             "error": "Error interno del servidor",
             "detalle": str(e)
         }), 500
-    
-
-
-
-
 
 
 # Ruta para obtener usuarios asignados a un proyecto
