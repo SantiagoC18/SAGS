@@ -17,7 +17,7 @@
 
     <header>
         <a href="{{ url_for('main.index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
-        
+
         <ul class="navbar">
             <li><a href="{{ url_for('main.index') }}">Home</a></li>
             <li><a href="{{ url_for('main.sobre_nosotros') }}">Sobre Nosotros</a></li>
@@ -27,9 +27,12 @@
         </ul>
 
         <div class="main">
-            <a href="{{ url_for('auth.logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}} Sesion
-                {%
-                endif %}</a>
+            <a href="{{ url_for('auth.logout') }}" class="user">
+                <i class="fa-solid fa-user"></i>
+                {% if log %} 
+                {{log}} Sesion
+                {% endif %}
+            </a>
             <div class="bx bx-menu" id="menu-icon"><i class="fa-solid fa-bars"></i></div>
         </div>
     </header>
@@ -86,11 +89,12 @@
                     <td>{{ data['descripcion'] }}</td>
                     <td>
                         <div class="flex justify-between mb-1">
-                            <span class="text-sm font-medium text-blue-700 dark:text-white">{{ data['progreso'] }}%</span>
+                            <span class="text-sm font-medium text-blue-700 dark:text-white">{{ data['progreso']
+                                }}%</span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
                             <!--<div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ data['progreso'] }}%;"></div>-->
-                            <div class="bg-blue-600 h-2.5 rounded-full w-[{{ data['progreso'] }}%]"></div>                    
+                            <div class="bg-blue-600 h-2.5 rounded-full w-[{{ data['progreso'] }}%]"></div>
                     </td>
                     <td><button
                             class="preview-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
@@ -132,19 +136,19 @@
         <div class="contributors-container">
             <h2 class="contributors-title">Acciones</h2>
             <ul class="contributors-list">
-                <li class="contributor-item">
-                    <a href="{{ url_for('projects.sprints', idproy = idproy) }}">
+                <a href="{{ url_for('projects.sprints', idproy = idproy) }}">
+                    <li class="contributor-item">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path
                                 d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
                         </svg>
                         <span class="contributors-name">Sprints</span>
-                    </a>
-                </li>
+                    </li>
+                </a>
 
-                <li class="contributor-item">
-                    <a href="{{ url_for('projects.tasks', idproy = idproy) }}" class="action-link">
+                <a href="{{ url_for('projects.tasks', idproy = idproy) }}" class="action-link">
+                    <li class="contributor-item">
                         <div class="action-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -154,8 +158,9 @@
                             </svg>
                         </div>
                         <span class="contributors-name">Tareas</span>
-                    </a>
-                </li>
+                    </li>
+                </a>
+
             </ul>
         </div>
 

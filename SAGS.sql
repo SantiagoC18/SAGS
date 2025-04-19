@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 17-04-2025 a las 23:46:30
+-- Tiempo de generación: 19-04-2025 a las 18:28:00
 -- Versión del servidor: 8.3.0
 -- Versión de PHP: 8.2.18
 
@@ -444,7 +444,7 @@ CREATE TABLE IF NOT EXISTS `proyectos` (
   `nomplan` varchar(55) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`idproy`),
   KEY `nomplan` (`nomplan`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de proyectos';
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de proyectos';
 
 --
 -- Volcado de datos para la tabla `proyectos`
@@ -575,7 +575,7 @@ INSERT INTO `roles` (`idrol`, `descripcion`) VALUES
 
 DROP TABLE IF EXISTS `sprints`;
 CREATE TABLE IF NOT EXISTS `sprints` (
-  `idsprint` int NOT NULL,
+  `idsprint` int NOT NULL AUTO_INCREMENT,
   `fechaI` date DEFAULT NULL,
   `fechaF` date DEFAULT NULL,
   `nombre` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
@@ -584,7 +584,7 @@ CREATE TABLE IF NOT EXISTS `sprints` (
   `idproy` int DEFAULT NULL,
   PRIMARY KEY (`idsprint`),
   KEY `idproy` (`idproy`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar sprints de proyectos';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar sprints de proyectos';
 
 --
 -- Volcado de datos para la tabla `sprints`
@@ -598,8 +598,17 @@ INSERT INTO `sprints` (`idsprint`, `fechaI`, `fechaF`, `nombre`, `descripcion`, 
 (5, '2024-01-08', '2024-08-21', 'IEEE-830', 'Desarrollo de la IEEE-830', 20, 27),
 (6, '2022-01-01', '2021-05-01', 'RF', 'Registrar o asignar requisitos', 5, 32),
 (7, '2023-07-11', '2023-11-14', 'RNF', 'Registrar o asignar requisitos', 14, 30),
-(9, '2016-07-12', '2018-07-23', 'MC', 'Realizar y asignar el modelo d', 0, 30),
-(11, '2023-10-09', '2024-04-18', 'IEEE-830', 'Elaboración de todos los ítems', 30, 27);
+(8, '2016-07-12', '2018-07-23', 'MC', 'Realizar y asignar el modelo d', 0, 30),
+(9, '2023-10-09', '2024-04-18', 'IEEE-830', 'Elaboración de todos los ítems', 30, 27),
+(11, '2024-09-01', '2024-09-20', 'Sprint 1 - Análisis', 'Análisis detallado de los requisitos y planificación inicial', 90, 4),
+(12, '2018-03-15', '2018-04-05', 'Sprint 2 - Modelado', 'Creación de modelos estructurados y de datos', 75, 4),
+(13, '2022-12-10', '2023-01-04', 'Sprint 3 - Diseño', 'Diseño y elaboración de diagramas clave', 60, 4),
+(14, '2024-10-01', '2024-10-27', 'Sprint 4 - Base de Datos', 'Modelado relacional para la base de datos', 85, 4),
+(15, '2024-08-01', '2024-08-21', 'Sprint 5 - Requisitos', 'Definición y documentación de requisitos funcionales', 70, 4),
+(16, '2021-04-10', '2021-05-01', 'Sprint 6 - Documentación', 'Generación de documentación técnica y descriptiva', 50, 4),
+(17, '2023-10-20', '2023-11-14', 'Sprint 7 - Desarrollo', 'Implementación y desarrollo de funcionalidades', 95, 4),
+(18, '2018-07-01', '2018-07-23', 'Sprint 8 - Validación', 'Validación y pruebas de software', 80, 4),
+(19, '2024-03-30', '2024-04-18', 'Sprint 9 - Entrega Final', 'Entrega final y revisión del proyecto', 100, 4);
 
 -- --------------------------------------------------------
 
@@ -609,7 +618,7 @@ INSERT INTO `sprints` (`idsprint`, `fechaI`, `fechaF`, `nombre`, `descripcion`, 
 
 DROP TABLE IF EXISTS `tareas`;
 CREATE TABLE IF NOT EXISTS `tareas` (
-  `id_tar` int NOT NULL,
+  `id_tar` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `fechaLimite` date DEFAULT NULL,
   `idsprint` int DEFAULT NULL,
@@ -619,20 +628,21 @@ CREATE TABLE IF NOT EXISTS `tareas` (
   PRIMARY KEY (`id_tar`),
   KEY `idsprint` (`idsprint`),
   KEY `usu_proy_id` (`usu_proy_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tareas de proyectos';
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tareas de proyectos';
 
 --
 -- Volcado de datos para la tabla `tareas`
 --
 
 INSERT INTO `tareas` (`id_tar`, `nombre`, `fechaLimite`, `idsprint`, `usu_proy_id`, `estado`, `prioridad`) VALUES
-(1, 'MER', NULL, 3, 9, '', ''),
-(2, 'MR', NULL, 4, 1, '', ''),
-(3, 'MR', NULL, 4, 2, '', ''),
-(4, 'MR', NULL, 4, 3, '', ''),
-(5, 'IEEE-830', NULL, 5, 5, '', ''),
-(6, 'IEEE-830', NULL, 5, 6, '', ''),
-(7, 'Modelos', NULL, 2, 8, '', '');
+(31, 'Análisis de Información', '2024-09-20', 18, 1, 'Completado', 'Alta'),
+(32, 'Modelos', '2018-04-05', 18, 2, 'Activo', 'Alta'),
+(34, 'MR', '2024-10-27', 15, 1, 'Evaluando', 'Alta'),
+(35, 'IEEE-830', '2024-08-21', 14, 2, 'Pendiente', 'Baja'),
+(36, 'RF', '2021-05-01', 14, 3, 'Pendiente', 'Media'),
+(37, 'RNF', '2023-11-14', 15, 1, 'Activo', 'Alta'),
+(38, 'MC', '2018-07-23', 15, 2, 'Evaluando', 'Media'),
+(39, 'IEEE-830', '2024-04-18', 13, 3, 'Completado', 'Alta');
 
 -- --------------------------------------------------------
 
@@ -646,7 +656,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `tipodoc` varchar(11) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `documento` int DEFAULT NULL,
   `password` varbinary(255) DEFAULT NULL,
-  `telefono` int DEFAULT NULL,
+  `telefono` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `nombres` varchar(33) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `apellidos` varchar(33) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `foto` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
@@ -675,15 +685,15 @@ INSERT INTO `usuarios` (`email`, `tipodoc`, `documento`, `password`, `telefono`,
 ('johanbenavides134@gmail.com', '', 0, 0x313233343536, NULL, 'Johan Steven', 'Benavides Sanchez', '', 3, ''),
 ('jssr217@gmail.com', '', 0, 0x4a75616e5369, NULL, 'Primer Nombre Juan', 'Primer Apellido Silva', '', 3, ''),
 ('juandaja2201@gmail.com', '', 0, 0x313233343536, NULL, 'Juan David', 'Jerez Amador', '', 3, ''),
-('julia@gmail.com', 'cc', 0, 0x316632343264, 587821, 'Julia', 'Perez', '', NULL, 'cliente'),
+('julia@gmail.com', 'cc', 0, 0x316632343264, '587821', 'Julia', 'Perez', '', NULL, 'cliente'),
 ('linaessofia33@gmail.com', '', 0, 0x736f6669616c, NULL, 'Laura Sofia', 'Linares Piñeros', '', 3, ''),
 ('majogalan2006@gmail.com', '', 0, 0xd32ecc5d0d8d4e0cb5c2d7bdfdbd8f84, NULL, 'María José', 'Romero Gómez', '', 1, ''),
 ('mglnares2006@gmail.com', '', 0, 0x63a13fe96e1005115b332d6a94a5f0de, NULL, 'Miguel Felipe', 'Linares Riaño', '', 3, ''),
 ('nicolasgiraldo1020@gmail.com', '', 0, 0x31303230, NULL, 'Nicolas Santiago', 'Giraldo Valencia', '', 3, ''),
-('rocio123@gmail.com', 'cc', 0, 0x363835396639, 14568745, 'Rocio', 'Caceres', 'dfsdgfd', NULL, 'cliente'),
-('roger@gmail.com', '', 0, 0x3234323731, 2147483647, 'Roger Steec', 'Fuentes Ramirez', '/ferrari-enzo-rojo_3840x2160_xtrafondos.com.jpg', 3, 'Diseñador'),
+('rocio123@gmail.com', 'cc', 0, 0x363835396639, '14568745', 'Rocio', 'Caceres', 'dfsdgfd', NULL, 'cliente'),
+('roger@gmail.com', '', 0, 0x3234323731, '2147483647', 'Roger Steec', 'Fuentes Ramirez', '/ferrari-enzo-rojo_3840x2160_xtrafondos.com.jpg', 3, 'Diseñador'),
 ('rogerfuentes893@gmail.com', 'C.C.', 1011200831, 0xf1a26d813fd1b734af4e327e670502f3, NULL, NULL, NULL, NULL, 3, ''),
-('santicardenash@gmail.com', '', 0, 0x2538822c3012250e592a20d0d131d0bf, 2147483647, 'Santiago', 'Cárdenas Hernández', '/c59f9ad6da00a07b253d86a97c23d6d5 (1).jpg', 1, 'Desarrollador'),
+('santicardenash@gmail.com', '', 1029143096, 0x2538822c3012250e592a20d0d131d0bf, '3226432732', 'Santiago', 'Cárdenas Hernández', '/c59f9ad6da00a07b253d86a97c23d6d5 (1).jpg', 1, 'Desarrollador'),
 ('sebastianrm30yu@iclock.com', '', 0, 0x313233343536, NULL, 'Johann Sebastian', 'Rivero Martinez', '', 3, ''),
 ('smithcortes01@gmail.com', '', 0, 0x66616d696c69, NULL, 'Steveen Smith', 'Cortes Cardenas', '', 3, ''),
 ('soff24ia@gmail.com', '', 0, 0x31323334, NULL, 'Ana Sofia', 'Alarcon Santana', '', 3, ''),
@@ -705,7 +715,7 @@ CREATE TABLE IF NOT EXISTS `usu_proy` (
   PRIMARY KEY (`id`),
   KEY `idproy` (`idproy`),
   KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla de relación entre usuarios y proyectos';
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla de relación entre usuarios y proyectos';
 
 --
 -- Volcado de datos para la tabla `usu_proy`
@@ -780,8 +790,8 @@ ALTER TABLE `sprints`
 -- Filtros para la tabla `tareas`
 --
 ALTER TABLE `tareas`
-  ADD CONSTRAINT `tareas_ibfk_1` FOREIGN KEY (`idsprint`) REFERENCES `sprints` (`idsprint`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tareas_ibfk_2` FOREIGN KEY (`usu_proy_id`) REFERENCES `usu_proy` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tareas_ibfk_2` FOREIGN KEY (`usu_proy_id`) REFERENCES `usu_proy` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tareas_ibfk_3` FOREIGN KEY (`idsprint`) REFERENCES `sprints` (`idsprint`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `usuarios`
