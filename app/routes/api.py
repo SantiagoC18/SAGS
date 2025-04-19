@@ -28,11 +28,11 @@ def list_pqrs():
     
     # Pasar las variables adicionales al template
     return render_template('pqrs.html', 
-                          pqrs_list=pqrs_list, 
-                          log='Cerrar',
-                          user_role=user_role,
-                          current_user=current_user,
-                          usu=current_user)
+                            pqrs_list=pqrs_list, 
+                            log='Cerrar',
+                            user_role=user_role,
+                            current_user=current_user,
+                            usu=current_user)
 
 @bp.route('/pqrs/<int:id>', methods=['GET'])
 def view_pqrs(id):
