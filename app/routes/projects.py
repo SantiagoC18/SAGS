@@ -5,7 +5,7 @@ from app import mysql
 app = Flask(__name__)
 bp = Blueprint('projects', __name__)
 
-@bp.route('/gestor_pectos', methods=["GET", "POST"])
+@bp.route('/gestion_proyectos', methods=["GET", "POST"])
 def gestion_proyectos():
     if not session.get('logueado'):
         flash("Debe iniciar sesión primero.") 
