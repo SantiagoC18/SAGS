@@ -84,24 +84,6 @@
             <p class="card-description">
                 {{ pqrs.opinion }}
             </p>
-
-            <div id="expandedContent" class="expanded-content">
-                <p class="expanded-text">
-                    Esto agilizaría el flujo de trabajo en proyectos donde varias personas necesitan revisar los mismos
-                    archivos. La colaboración en tiempo real reduciría los tiempos de espera y mejoraría la
-                    productividad
-                    del equipo.
-                </p>
-                <div class="comment-count">
-                    <svg class="icon-small" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                    <span>3 comentarios</span>
-                </div>
-            </div>
-
-            <button id="expandButton" class="expand-button">Ver más</button>
         </div>
         <div class="card-footer">
             <a href="{{ url_for('api.list_pqrs') }}">
