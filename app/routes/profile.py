@@ -37,7 +37,7 @@ def adduser():
                 session['nombre'] = account['nombres']
                 session['id'] = account['email']
                 
-                return redirect(url_for('perfil'))
+                return redirect(url_for('profile.perfil'))
                     
                 
             else:

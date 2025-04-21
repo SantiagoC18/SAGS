@@ -56,11 +56,11 @@
 
 	<div class="container" id="container">
 		<div class="form-container sign-up-container">
-			<form action="profile.adduser" method="POST" onsubmit="return validatePassword()">
+			<form action="{{ url_for('profile.adduser') }}" method="POST" onsubmit="return validatePassword()">
 				<h1>Crear Cuenta</h1>
 				<span>Ingresa tus datos para registrarte</span>
 				<select class="input" id="tipo" name="tipo">
-					<option selected disabled>Seleccionar</option>
+					<option value="" selected disabled>Seleccionar</option>
 					<option value="C.C." aria-required="true">C.C.</option>
 					<option value="T.I." aria-required="true">T.I.</option>
 				</select>
@@ -105,6 +105,7 @@
 	</div>
 
 	<script type="text/javascript">
+
 		var signUpButton = document.getElementById('signUp');
 		var signInButton = document.getElementById('signIn');
 		var container = document.getElementById('container');
@@ -118,10 +119,27 @@
 		});
 
 
-
 		var tipo = document.getElementById("tipo");
 		var documento = document.getElementById("documento");
 		var correo = document.getElementById("correo");
+
+		document.querySelector("form").addEventListener("submit", function (event) {
+			let selectElement = document.getElementById("tipo");
+			if (selectElement.value === "") {
+				swal.fire({
+					text: "Por favor, selecciona un tipo de documento válido.",
+					icon: "error",
+					buttons: false,
+					timer: 4000,
+					showConfirmButton: false,
+					background: "#fff",
+					toast: true,
+					position: "top"
+				});
+				//alert("Por favor, selecciona un tipo de documento válido.");
+				event.preventDefault();
+			}
+		});
 
 		function validarLogin() {
 			if (tipo == '' || documento == '' || correo == '' || password == '') {
