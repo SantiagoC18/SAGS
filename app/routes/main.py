@@ -1,7 +1,5 @@
 from flask import Blueprint, render_template, session, redirect, url_for
 from app import mysql
-# Add this import at the top of the file
-from app.routes import api
 
 bp = Blueprint('main', __name__)
 
@@ -48,9 +46,3 @@ def delete_sprint(idsprint):
     mysql.connection.commit()
 
     return redirect(url_for('projects.sprints', idproy=data['idproy'], log='Cerrar'))
-
-
-# In your create_app function or wherever you register blueprints
-def create_app():
-    # Register the API blueprint
-    app.register_blueprint(api.bp)
