@@ -35,6 +35,8 @@ SAGS es una herramienta diseñada para optimizar las etapas de planificación y 
     pip install FLASK_mail
     pip install FLASK-MySQLdb
     pip install MySQL
+    pip install PyJWT
+    
 
 **Configura la base de datos MySQL según las especificaciones en el archivo `index.py`.** 
 

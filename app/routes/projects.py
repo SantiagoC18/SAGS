@@ -1,18 +1,18 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash, Flask, jsonify
-
+from app.routes.auth import token_required 
 from app import mysql
 
 app = Flask(__name__)
 bp = Blueprint('projects', __name__)
 
 @bp.route('/gestion_proyectos', methods=["GET", "POST"])
+@token_required
 def gestion_proyectos():
     if not session.get('logueado'):
         flash("Debe iniciar sesión primero.") 
         return redirect(url_for('auth.login'))
 
-
-# Verificar rol de usuario
+    # Verificar rol de usuario
     cur = mysql.connection.cursor()
     cur.execute("SELECT idrol FROM usuarios WHERE email = %s", (session['id'],))
     usuario = cur.fetchone()
@@ -67,6 +67,7 @@ def gestion_proyectos():
             return redirect(url_for('main.modulos'))
 
 @bp.route('/registrar_pro', methods=['GET', 'POST'])
+@token_required
 def registrar_pro():
     if not session.get('logueado'):
         return redirect(url_for('auth.login'))  # Updated endpoint
@@ -127,6 +128,7 @@ def plan(idproy):
     return render_template('formulario-plan.html', log='Cerrar')
 
 @bp.route("/checkdown/<int:idproy>")
+@token_required
 def checkdown(idproy):
     if not session.get('logueado'):
         return redirect(url_for('auth.login'))  # Updated endpoint
@@ -161,6 +163,7 @@ def checkdown(idproy):
                             data2=data2, colaboradores=personal, log='Cerrar')
 
 @bp.route("/tasks/<int:idproy>")
+@token_required
 def tasks(idproy):
     if session.get('logueado'):
         idproy = idproy
@@ -187,8 +190,73 @@ def tasks(idproy):
     else:
         return redirect(url_for('auth.login'))
 
+@bp.route("/update_task/<int:id_tar>", methods=['GET', 'POST'])
+@token_required
+def update_task(id_tar):
+    if session.get('logueado'):
+        if request.method == 'POST':
+            nombre = request.form['nombre_tarea']
+            descripcion = request.form['descripcion']
+            fechaLimite = request.form['fechaLimite']
+            estado = request.form['estado']
+            prioridad = request.form['prioridad']
+            idsprint = request.form['idsprint']
+
+            cur = mysql.connection.cursor() 
+            cur.execute("UPDATE tareas SET nombre = %s, descripcion = %s, fechaLimite = %s, estado = %s, prioridad = %s, idsprint = %s WHERE id_tar = %s",
+                        (nombre, descripcion, fechaLimite, estado, prioridad, idsprint, id_tar,))
+            mysql.connection.commit()
+            cur.close()
+
+            flash('La tarea ha sido actualizada exitosamente', 'success')
+
+            cur = mysql.connection.cursor()
+            cur.execute("SELECT * FROM tareas WHERE id_tar = %s", (id_tar,))
+            data = cur.fetchone()
+            # render_template('esit-task.html', log='Cerrar', idproy=idproy, data = data)
+            return redirect(request.referrer)
+            #return render_template('edit-task.html', log='Cerrar', idproy=idproy, data = data)
+        else:
+            cur = mysql.connection.cursor()
+            cur.execute("SELECT * FROM tareas WHERE id_tar = %s", (id_tar,))
+            data = cur.fetchall()
+            cur.execute('''SELECT t.id_tar,
+            t.nombre AS nombre_tarea,
+            t.descripcion,
+            t.fechaLimite,
+            t.estado,
+            t.prioridad,
+            s.nombre AS nombre_sprint,
+            p.nombre AS nombre_proyecto,
+            p.idproy,
+            usuarios.nombres AS nombre_usuario,
+            usuarios.apellidos AS apellido_usuario
+            FROM tareas t
+            JOIN sprints s ON t.idsprint = s.idsprint
+            JOIN proyectos p ON s.idproy = p.idproy
+            JOIN usu_proy ON p.idproy = usu_proy.idproy
+            JOIN usuarios ON usu_proy.email = usuarios.email
+            WHERE t.id_tar = %s limit 1
+            ''', (id_tar,))
+            data = cur.fetchall()
+
+            idproy = data[0]['idproy']
+            cur.execute('SELECT * FROM sprints WHERE idproy = %s', (idproy,))
+            data2 = cur.fetchall()
+
+            cur.execute('''SELECT usu_proy.id AS idusu, usuarios.nombres, usuarios.apellidos
+            FROM proyectos
+            INNER JOIN usu_proy ON proyectos.idproy = usu_proy.idproy
+            INNER JOIN usuarios ON usuarios.email = usu_proy.email
+            WHERE usu_proy.idproy = %s
+            GROUP BY usuarios.nombres, usuarios.apellidos''', (idproy,))
+            data3 = cur.fetchall()
+
+            return render_template('edit-task.html', log='Cerrar', data = data, data2 = data2, data3 = data3, id_tar = id_tar)
+
 
 @bp.route("/sprints/<int:idproy>")
+@token_required
 def sprints(idproy):
     if session.get('logueado'):
         idproy = idproy
@@ -201,6 +269,7 @@ def sprints(idproy):
         return redirect(url_for('auth.login'))
 
 @bp.route("/update_sprint/<int:idsprint>", methods=['GET', 'POST'])
+@token_required
 def update_sprint(idsprint):
     if session.get('logueado'):
         if request.method == 'POST':
@@ -222,6 +291,7 @@ def update_sprint(idsprint):
             return redirect(url_for('projects.sprints', idproy = data['idproy']))
 
 @bp.route('/registrar_sprint/<int:idproy>', methods=['POST'])
+@token_required
 def registrar_sprint(idproy):
     nombre = request.form['sprint-name']
     fechai = request.form['fi']
@@ -256,6 +326,7 @@ def get_usuarios():
 
 
 @bp.route('/asignar_usuarios', methods=['POST'])
+@token_required
 def asignar_usuarios():
     # Autenticación
     if not session.get('logueado'):
@@ -324,6 +395,7 @@ def asignar_usuarios():
 
 # Obtener usuarios asignados a un proyecto
 @bp.route('/get_usuarios_asignados', methods=['GET'])
+@token_required
 def get_usuarios_asignados():
     if not session.get('logueado'):
         return jsonify({"error": "No autorizado"}), 401
@@ -355,6 +427,7 @@ def get_usuarios_asignados():
 
 # Desasignar usuarios seleccionados
 @bp.route('/desasignar_usuarios', methods=['POST'])
+@token_required
 def desasignar_usuarios():
     if not session.get('logueado'):
         return jsonify({"error": "No autorizado"}), 401
