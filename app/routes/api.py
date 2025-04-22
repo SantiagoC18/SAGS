@@ -6,9 +6,7 @@ bp = Blueprint('api', __name__, url_prefix='/api')
 
 @bp.route('/pqrs', methods=['GET'])
 def list_pqrs():
-    if not session.get('logueado'):
-        flash('Debe iniciar sesión para ver las PQRS', 'error')
-        return redirect(url_for('auth.login'))
+    
 
     """Listar todas las entradas PQRS"""
     cur = mysql.connection.cursor()
