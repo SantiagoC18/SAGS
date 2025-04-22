@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/img/sirs.jpg">
+    <script src="https://kit.fontawesome.com/25eed41d7b.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="/static/css/estilos.css">
+    <link rel="stylesheet" href="/static/css/tareas.css">
+
+    <title>Perfil</title>
+
+
+</head>
+
+<body>
+
+    <header>
+        <a href="{{ url_for('main.index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
+        <ul class="navbar">
+            <li><a href="{{ url_for('main.index') }}">Home</a></li>
+            <li><a href="{{ url_for('main.sobre_nosotros') }}">Sobre Nosotros</a></li>
+            <li><a href="{{ url_for('main.modulos') }}">Gestion de Proyectos</a></li>
+            <li><a href="{{ url_for('api.list_pqrs') }}">PQRS</a></li>
+            <li><a href="{{ url_for('profile.perfil') }}" class="active">Perfil</a></li>
+        </ul>
+
+        <div class="main">
+            <a href="{{ url_for('auth.logout') }}" class="user"><i class="fa-solid fa-user"></i>{% if log %} {{log}}
+                Sesion
+                {%
+                endif %}</a>
+            <div class="bx bx-menu" id="menu-icon"><i class="fa-solid fa-bars"></i></div>
+        </div>
+    </header>
+
+
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.3.8/build/spline-viewer.js"></script>
+    <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
+
+    <div class="container-sprints" style="padding: 0px 100px;">
+        {% for data in data %}
+        <div class="modal-header">
+            <h2 class="modal-title">Nueva Tarea</h2>
+        </div>
+        <div class="modal-body">
+            <form action="{{ url_for('projects.update_task', id_tar = id_tar) }}" method="post" id="task-form">
+                <div class="form-group">
+                    <label for="task-title" class="form-label">Título de la tarea</label>
+                    <input type="text" class="form-control" id="task-title" value="{{ data.nombre_tarea }}" name="nombre_tarea"
+                        placeholder="Ej: Implementar autenticación de usuarios">
+                </div>
+
+                <div class="form-group">
+                    <label for="task-description" class="form-label">Descripción</label>
+                    <textarea class="form-control" id="task-description" name="descripcion" rows="2"
+                        placeholder="Describe los detalles de la tarea">{{ data.descripcion }}</textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="sprint" class="form-label">Sprint</label>
+                            <select class="form-control" id="sprint" name="idsprint">
+                                <option value="" disabled selected>Seleccionar Sprint</option>
+                                {% for data2 in data2 %}
+                                <option value="{{ data2.idsprint }}">{{ data2.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="due-date" class="form-label">Fecha límite</label>
+                            <input type="date" class="form-control" id="due-date" value="{{ data.fechaLimite }}" name="fechaLimite">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="status" class="form-label">Estado</label>
+                            <select class="form-control" id="status" name="estado">
+                                <option value="" disabled selected>Seleccionar</option>
+                                <option value="Activo">Activo</option>
+                                <option value="Evaluando">Evaluando</option>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="Completado">Completado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label for="priority" class="form-label">Prioridad</label>
+                            <select class="form-control" id="priority" name="prioridad">
+                                <option value="" disabled selected>Seleccionar</option>
+                                <option value="Baja">Baja</option>
+                                <option value="Media">Media</option>
+                                <option value="Alta">Alta</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="assignee" class="form-label">Asignado a</label>
+                    <select class="form-control" id="assignee">
+                        <option value="" disabled selected>Sin asignar</option>
+                        {% for data3 in data3 %}
+                        <option value="{{ data3.idusu }}">{{ data3.nombres }} {{ data3.apellidos }}</option>
+                        {% endfor %}
+                        
+                    </select>
+                </div>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="btn-cerrar-popup1">Cancelar</button>
+            <button type="submit" form="task-form" class="btn btn-primary">Crear Tarea</button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script src="/static/js/bar.js"></script>
+    <script>
+        document.querySelector("form").addEventListener("submit", function (event) {
+            // Verificar el sprint
+            let sprintElement = document.getElementById("sprint");
+            if (sprintElement.value === "") {
+                Swal.fire({
+                    text: "Por favor, selecciona un sprint para la tarea.",
+                    icon: "error",
+                    buttons: false,
+                    timer: 4000,
+                    showConfirmButton: false,
+                    background: "#fff",
+                    toast: true,
+                    position: "top"
+                });
+                event.preventDefault();
+                return;
+            }
+
+            // Verificar el estado
+            let statusElement = document.getElementById("status");
+            if (statusElement.value === "") {
+                Swal.fire({
+                    text: "Por favor, selecciona el estado de la tarea.",
+                    icon: "error",
+                    buttons: false,
+                    timer: 4000,
+                    showConfirmButton: false,
+                    background: "#fff",
+                    toast: true,
+                    position: "top"
+                });
+                event.preventDefault();
+                return;
+            }
+            
+            // Verificar la prioridad
+            let priorityElement = document.getElementById("priority");
+            if (priorityElement.value === "") {
+                Swal.fire({
+                    text: "Por favor, selecciona la prioridad de la tarea.",
+                    icon: "error",
+                    buttons: false,
+                    timer: 4000,
+                    showConfirmButton: false,
+                    background: "#fff",
+                    toast: true,
+                    position: "top"
+                });
+                event.preventDefault();
+                return;
+            }
+            
+            // Verificar la prioridad
+            let asignarElement = document.getElementById("assignee");
+            if (asignarElement.value === "") {
+                Swal.fire({
+                    text: "Por favor, Asigna la tarea.",
+                    icon: "error",
+                    buttons: false,
+                    timer: 4000,
+                    showConfirmButton: false,
+                    background: "#fff",
+                    toast: true,
+                    position: "top"
+                });
+                event.preventDefault();
+                return;
+            }
+        });
+    </script>
+</body>
+
+</html>

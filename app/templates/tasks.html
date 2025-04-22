@@ -12,6 +12,28 @@
 </head>
 
 <body>
+    {% with messages = get_flashed_messages() %}
+	{% if messages %}
+	<ul>
+		{% for message in messages %}
+		{% if message %}
+		<script style=" position: fixed; z-index: 1000;">
+			swal.fire({
+				text: "{{ message }}",
+				icon: "info",
+				buttons: false,
+				timer: 2000,
+				showConfirmButton: false,
+				background: "#fff",
+				toast: true,
+				position: "top"
+			});
+		</script>
+		{% endif %}
+		{% endfor %}
+	</ul>
+	{% endif %}
+	{% endwith %}
 
     <header>
         <a href="{{ url_for('main.index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
@@ -84,7 +106,7 @@
                     <td>{{ data['nombre_usuario'] }} {{ data['apellido_usuario'] }}</td>
                     <td>{{ data['fechaLimite'] }}</td>
                     <td>
-                        <a href="#"><i class="fa-solid fa-circle-info"></i></a>
+                        <a href="{{ url_for('projects.update_task', id_tar = data['id_tar'] ) }}"><i class="fa-solid fa-circle-info"></i></a>
                         <a href="#"><i class="fa-solid fa-trash"></i></a>
                     </td>
                 </tr>
@@ -174,31 +196,6 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Etiquetas</label>
-                            <div class="tags">
-                                <input type="checkbox" id="tag-1" class="tag-checkbox">
-                                <label for="tag-1" class="tag-label">Frontend</label>
-
-                                <input type="checkbox" id="tag-2" class="tag-checkbox">
-                                <label for="tag-2" class="tag-label">Backend</label>
-
-                                <input type="checkbox" id="tag-3" class="tag-checkbox">
-                                <label for="tag-3" class="tag-label">UI/UX</label>
-
-                                <input type="checkbox" id="tag-4" class="tag-checkbox">
-                                <label for="tag-4" class="tag-label">Bug</label>
-
-                                <input type="checkbox" id="tag-5" class="tag-checkbox">
-                                <label for="tag-5" class="tag-label">Mejora</label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="estimated-hours" class="form-label">Horas estimadas</label>
-                            <input type="number" class="form-control" id="estimated-hours" min="0" step="0.5"
-                                placeholder="Ej: 4.5">
-                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
