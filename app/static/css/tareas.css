@@ -1,6 +1,6 @@
 .container_tasks {
-    margin-top: 20px;
-    padding: 0 10px;
+    margin-top: 40px;
+    padding: 0 100px;
 }
 
 .button {
@@ -278,4 +278,136 @@ textarea.form-control {
 
 .modal {
     width: 100%;
+}
+
+/* Estilos para editar tarea */
+/* Contenedor principal */
+.task-detail-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: rgba(0, 10, 17, 0.9);
+    border: solid white 1.5px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Cabecera de la tarea */
+.task-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #21262d;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.task-title-section {
+    flex: 1;
+}
+
+.task-id {
+    font-size: 0.875rem;
+    color: #8b949e;
+    margin-bottom: 0.5rem;
+}
+
+.task-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.task-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.task-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-danger {
+    background-color: #da3633;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #f85149;
+}
+
+.btn-icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* Contenido de la tarea */
+.task-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .task-content {
+        flex-direction: row;
+    }
+}
+
+.task-main {
+    flex: 2;
+}
+
+.task-sidebar {
+    flex: 1;
+}
+
+.content-section {
+    margin-bottom: 1.5rem;
+}
+
+.section-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #8b949e;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+.task-description {
+    background-color: #161B22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 1rem;
+    font-size: 0.9375rem;
+    color: #c9d1d9;
+    line-height: 1.6;
+}
+
+/* Sidebar items */
+.sidebar-item {
+    background-color: #161B22;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.sidebar-label {
+    font-size: 0.75rem;
+    color: #8b949e;
+    margin-bottom: 0.25rem;
+}
+
+.sidebar-value {
+    font-size: 0.875rem;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }

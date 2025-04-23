@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 19-04-2025 a las 18:28:00
+-- Tiempo de generación: 23-04-2025 a las 05:32:04
 -- Versión del servidor: 8.3.0
 -- Versión de PHP: 8.2.18
 
@@ -48,7 +48,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Act_y_Reg_Proyectos` (IN `p_idproy`
 END$$
 
 DROP PROCEDURE IF EXISTS `Act_y_Reg_Usuarios`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Act_y_Reg_Usuarios` (IN `u_email` VARCHAR(100), IN `u_tipodoc` VARCHAR(11), IN `u_documento` INT, IN `u_password` VARBINARY(10), IN `u_telefono` BIGINT, IN `u_nombres` VARCHAR(33), IN `u_apellidos` VARCHAR(33), IN `u_foto` VARCHAR(200), IN `u_perfil` VARCHAR(80), IN `accion` VARCHAR(100))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Act_y_Reg_Usuarios` (IN `u_email` VARCHAR(100), IN `u_tipodoc` VARCHAR(11), IN `u_documento` INT, IN `u_password` VARBINARY(10), IN `u_telefono` INT, IN `u_nombres` VARCHAR(33), IN `u_apellidos` VARCHAR(33), IN `u_foto` VARCHAR(200), IN `u_perfil` VARCHAR(80), IN `accion` VARCHAR(100))   BEGIN
   CASE 
     WHEN accion = 'registrar' THEN
       INSERT INTO usuarios (email, tipodoc, documento, password, telefono, nombres, apellidos, foto, perfil)
@@ -344,7 +344,22 @@ INSERT INTO `checklists` (`idcheck`, `idmod`, `aprobacion`, `archivo`, `fecha`, 
 (48, 'RQ', 0, '', '0000-00-00', 0, 33),
 (72, 'RQ', NULL, NULL, NULL, 0, 40),
 (73, 'CU', NULL, NULL, NULL, 0, 40),
-(74, 'CUX', NULL, NULL, NULL, 0, 40);
+(74, 'CUX', NULL, NULL, NULL, 0, 40),
+(0, 'RQ', NULL, NULL, NULL, 0, 42),
+(0, 'CU', NULL, NULL, NULL, 0, 42),
+(0, 'CUX', NULL, NULL, NULL, 0, 42),
+(0, 'MC', NULL, NULL, NULL, 0, 42),
+(0, 'MO', NULL, NULL, NULL, 0, 42),
+(0, 'MER', NULL, NULL, NULL, 0, 42),
+(0, 'MR', NULL, NULL, NULL, 0, 42),
+(0, 'RQ', NULL, NULL, NULL, 0, 43),
+(0, 'CU', NULL, NULL, NULL, 0, 43),
+(0, 'CUX', NULL, NULL, NULL, 0, 43),
+(0, 'RQ', NULL, NULL, NULL, 0, 44),
+(0, 'CU', NULL, NULL, NULL, 0, 44),
+(0, 'CUX', NULL, NULL, NULL, 0, 44),
+(0, 'MC', NULL, NULL, NULL, 0, 44),
+(0, 'MO', NULL, NULL, NULL, 0, 44);
 
 -- --------------------------------------------------------
 
@@ -444,7 +459,7 @@ CREATE TABLE IF NOT EXISTS `proyectos` (
   `nomplan` varchar(55) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`idproy`),
   KEY `nomplan` (`nomplan`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de proyectos';
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de proyectos';
 
 --
 -- Volcado de datos para la tabla `proyectos`
@@ -459,7 +474,10 @@ INSERT INTO `proyectos` (`idproy`, `nombre`, `descripcion`, `tipo`, `fechaI`, `f
 (31, 'SIVOTU', 'El presente documento tiene como propósito definir las especificaciones de requisitos funcionales y no funcionales para el desarrollo de un aplicativo web (SIVOTU) modelo cliente servidor, que permita sistematizar y gestionar distintos procesos administrativos y servidor online de la tienda \"the shift urbans\" dirigido al uso de usuarios externos empleados y administradores.', 'Aplicativo Web', '2004-07-24', '0000-00-00', NULL, NULL),
 (32, 'New Life', 'Brindar una herramienta que ayude a las entidades de salud mental a tratar profesionalmente a personas que fueron y son violentadas física y psicológicamente, así ayudándolos a progresar y tener un nuevo cambio en su vida social y personal.', 'Aplicativo Web', '2022-07-13', '0000-00-00', NULL, NULL),
 (33, 'All Sport System', 'Gestionar ayudas y acceso a la comunidad de alternativas de ayuda profesional a través de consultas y terapias que se les brindan de acuerdo al diagnóstico que se le den a los pacientes o usuarios registrados en el aplicativo.', 'Aplicativo Web', '2022-05-10', '0000-00-00', NULL, NULL),
-(40, 'SGIT', 'Sistema para la gestion e intercambio de equipos tecnologicos en la institucion educativa Colegio Tecnico Jose Felix Restrepo', 'web', '2024-12-09', NULL, NULL, 'BASIC');
+(40, 'SGIT', 'Sistema para la gestion e intercambio de equipos tecnologicos en la institucion educativa Colegio Tecnico Jose Felix Restrepo', 'web', '2024-12-09', NULL, NULL, 'BASIC'),
+(42, 'Sirs2', 'gsfgs', 'web', '2025-04-19', NULL, NULL, 'PREMIUM'),
+(43, 'Sirs', 'fdfsdf', 'web', '2025-04-19', NULL, NULL, 'BASIC'),
+(44, 'Sirs', 'hrhgh', 'web', '2025-05-09', NULL, NULL, 'STANDARD');
 
 -- --------------------------------------------------------
 
@@ -563,9 +581,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
 
 INSERT INTO `roles` (`idrol`, `descripcion`) VALUES
 (1, 'Administrador'),
-(2, 'Scrum Master'),
-(3, 'Development Tea'),
-(4, 'Stakeholder');
+(2, 'Scrum Master');
 
 -- --------------------------------------------------------
 
@@ -620,29 +636,30 @@ DROP TABLE IF EXISTS `tareas`;
 CREATE TABLE IF NOT EXISTS `tareas` (
   `id_tar` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `descripcion` varchar(500) COLLATE utf8mb4_general_ci NOT NULL,
   `fechaLimite` date DEFAULT NULL,
   `idsprint` int DEFAULT NULL,
-  `usu_proy_id` int NOT NULL,
   `estado` varchar(15) COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Se inserta el estado actual de la tarea',
   `prioridad` varchar(6) COLLATE utf8mb4_general_ci NOT NULL,
+  `usu_proy` int NOT NULL,
   PRIMARY KEY (`id_tar`),
   KEY `idsprint` (`idsprint`),
-  KEY `usu_proy_id` (`usu_proy_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tareas de proyectos';
+  KEY `tareas_ibfk_4` (`usu_proy`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tareas de proyectos';
 
 --
 -- Volcado de datos para la tabla `tareas`
 --
 
-INSERT INTO `tareas` (`id_tar`, `nombre`, `fechaLimite`, `idsprint`, `usu_proy_id`, `estado`, `prioridad`) VALUES
-(31, 'Análisis de Información', '2024-09-20', 18, 1, 'Completado', 'Alta'),
-(32, 'Modelos', '2018-04-05', 18, 2, 'Activo', 'Alta'),
-(34, 'MR', '2024-10-27', 15, 1, 'Evaluando', 'Alta'),
-(35, 'IEEE-830', '2024-08-21', 14, 2, 'Pendiente', 'Baja'),
-(36, 'RF', '2021-05-01', 14, 3, 'Pendiente', 'Media'),
-(37, 'RNF', '2023-11-14', 15, 1, 'Activo', 'Alta'),
-(38, 'MC', '2018-07-23', 15, 2, 'Evaluando', 'Media'),
-(39, 'IEEE-830', '2024-04-18', 13, 3, 'Completado', 'Alta');
+INSERT INTO `tareas` (`id_tar`, `nombre`, `descripcion`, `fechaLimite`, `idsprint`, `estado`, `prioridad`, `usu_proy`) VALUES
+(26, 'Análisis de Información', 'Análisis detallado de la información y planificación inicial', '2024-09-19', 12, 'Activo', 'Baja', 1),
+(27, 'Modelos', 'Creación de modelos estructurados y de datos clave', '2018-04-05', 18, 'Activo', 'Alta', 2),
+(28, 'MR', 'Elaboración del modelo relacional para la base de datos', '2024-10-27', 15, 'Evaluando', 'Alta', 3),
+(29, 'IEEE-830', 'Desarrollo de la documentación IEEE-830', '2024-08-21', 14, 'Pendiente', 'Baja', 1),
+(30, 'RF', 'Registro y asignación de requisitos funcionales', '2021-05-01', 14, 'Pendiente', 'Media', 2),
+(31, 'RNF', 'Registro y asignación de requisitos no funcionales', '2023-11-14', 15, 'Activo', 'Alta', 3),
+(32, 'MC', 'Creación y asignación del modelo de datos', '2018-07-23', 15, 'Evaluando', 'Media', 1),
+(33, 'IEEE-830  hola', 'Elaboración de todos los ítems de la IEEE-830', '2024-04-18', 11, 'Activo', 'Baja', 2);
 
 -- --------------------------------------------------------
 
@@ -671,32 +688,33 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 --
 
 INSERT INTO `usuarios` (`email`, `tipodoc`, `documento`, `password`, `telefono`, `nombres`, `apellidos`, `foto`, `idrol`, `perfil`) VALUES
-('1012918020@ctjfr.edu.co', '', 0, 0x313031323931, NULL, 'Karol Andrea', 'Beltran Diaz', '', 3, ''),
-('1023367786@ctjfr.edu.co', '', 0, 0x313032333336, NULL, 'Maria Camila', 'Puerto Guerrero', '', 3, ''),
+('1012918020@ctjfr.edu.co', '', 0, 0x313031323931, NULL, 'Karol Andrea', 'Beltran Diaz', '', 2, ''),
+('1023367786@ctjfr.edu.co', '', 0, 0x313032333336, NULL, 'Maria Camila', 'Puerto Guerrero', '', 2, ''),
 ('1028661442@gmail.com', '', 0, 0x333130373131, NULL, 'Emanuel Felipe', 'Rodriguez Ramirez', '', 1, ''),
-('1029143097@ctjfr.edu.co', '', 0, 0x313032393134, NULL, 'Sebastian', 'Cardenas Hernandez', '', 3, ''),
-('1033696558@ctjfr.edu.co', '', 0, 0x77656e646972, NULL, 'Wendi Vanessa', 'Russi Antolinez', '', 3, ''),
-('1074811705@ctjfr.edu.co', '', 0, 0x313037343831, NULL, 'Keiner Jean Paul', 'Martínez Araujo', '', 3, ''),
-('1127342346@ctjfr.edu.co', '', 0, 0x303130374d, NULL, 'Genesis Veronica', 'Sanabria Leon', '', 3, ''),
-('1234juandavis@gmail.com', '', 0, 0x313032313637, NULL, 'Juan David', 'Diaz Muñoz', '', 3, ''),
-('caroceron28@gmail.com', '', 0, 0x313031303137, NULL, 'Sharit Carolina', 'Ceron Varela', '', 3, ''),
-('diego.lopezm0405@gmail.com', '', 0, 0x313031313230, NULL, 'Diego Esteban', 'López Melo', '', 3, ''),
-('jeanpierrebbedoya@gmail.com', '', 0, 0xd431ca78f0d4d2b91343bdb5980b6afc, NULL, 'Jean Pierre', 'Bolaños Beodya', '', 3, ''),
-('johanbenavides134@gmail.com', '', 0, 0x313233343536, NULL, 'Johan Steven', 'Benavides Sanchez', '', 3, ''),
-('jssr217@gmail.com', '', 0, 0x4a75616e5369, NULL, 'Primer Nombre Juan', 'Primer Apellido Silva', '', 3, ''),
-('juandaja2201@gmail.com', '', 0, 0x313233343536, NULL, 'Juan David', 'Jerez Amador', '', 3, ''),
+('1029143097@ctjfr.edu.co', '', 0, 0x313032393134, NULL, 'Sebastian', 'Cardenas Hernandez', '', 2, ''),
+('1033696558@ctjfr.edu.co', '', 0, 0x77656e646972, NULL, 'Wendi Vanessa', 'Russi Antolinez', '', 2, ''),
+('1074811705@ctjfr.edu.co', '', 0, 0x313037343831, NULL, 'Keiner Jean Paul', 'Martínez Araujo', '', 2, ''),
+('1127342346@ctjfr.edu.co', '', 0, 0x303130374d, NULL, 'Genesis Veronica', 'Sanabria Leon', '', 2, ''),
+('1234juandavis@gmail.com', '', 0, 0x313032313637, NULL, 'Juan David', 'Diaz Muñoz', '', 2, ''),
+('caroceron28@gmail.com', '', 0, 0x313031303137, NULL, 'Sharit Carolina', 'Ceron Varela', '', 2, ''),
+('diego.lopezm0405@gmail.com', '', 0, 0x313031313230, NULL, 'Diego Esteban', 'López Melo', '', 2, ''),
+('jeanpierrebbedoya@gmail.com', '', 0, 0xd431ca78f0d4d2b91343bdb5980b6afc, NULL, 'Jean Pierre', 'Bolaños Beodya', '', 2, ''),
+('johanbenavides134@gmail.com', '', 0, 0x313233343536, NULL, 'Johan Steven', 'Benavides Sanchez', '', 2, ''),
+('jssr217@gmail.com', '', 0, 0x4a75616e5369, NULL, 'Primer Nombre Juan', 'Primer Apellido Silva', '', 2, ''),
+('juandaja2201@gmail.com', '', 0, 0x313233343536, NULL, 'Juan David', 'Jerez Amador', '', 2, ''),
 ('julia@gmail.com', 'cc', 0, 0x316632343264, '587821', 'Julia', 'Perez', '', NULL, 'cliente'),
-('linaessofia33@gmail.com', '', 0, 0x736f6669616c, NULL, 'Laura Sofia', 'Linares Piñeros', '', 3, ''),
+('linaessofia33@gmail.com', '', 0, 0x736f6669616c, NULL, 'Laura Sofia', 'Linares Piñeros', '', 2, ''),
 ('majogalan2006@gmail.com', '', 0, 0xd32ecc5d0d8d4e0cb5c2d7bdfdbd8f84, NULL, 'María José', 'Romero Gómez', '', 1, ''),
-('mglnares2006@gmail.com', '', 0, 0x63a13fe96e1005115b332d6a94a5f0de, NULL, 'Miguel Felipe', 'Linares Riaño', '', 3, ''),
-('nicolasgiraldo1020@gmail.com', '', 0, 0x31303230, NULL, 'Nicolas Santiago', 'Giraldo Valencia', '', 3, ''),
+('mglnares2006@gmail.com', '', 0, 0x63a13fe96e1005115b332d6a94a5f0de, NULL, 'Miguel Felipe', 'Linares Riaño', '', 2, ''),
+('nicolasgiraldo1020@gmail.com', '', 0, 0x31303230, NULL, 'Nicolas Santiago', 'Giraldo Valencia', '', 2, ''),
 ('rocio123@gmail.com', 'cc', 0, 0x363835396639, '14568745', 'Rocio', 'Caceres', 'dfsdgfd', NULL, 'cliente'),
-('roger@gmail.com', '', 0, 0x3234323731, '2147483647', 'Roger Steec', 'Fuentes Ramirez', '/ferrari-enzo-rojo_3840x2160_xtrafondos.com.jpg', 3, 'Diseñador'),
-('rogerfuentes893@gmail.com', 'C.C.', 1011200831, 0xf1a26d813fd1b734af4e327e670502f3, NULL, NULL, NULL, NULL, 3, ''),
+('roger@gmail.com', '', 0, 0x3234323731, '2147483647', 'Roger Steec', 'Fuentes Ramirez', '/ferrari-enzo-rojo_3840x2160_xtrafondos.com.jpg', 2, 'Diseñador'),
+('rogerfuentes893@gmail.com', 'C.C.', 1011200831, 0xf1a26d813fd1b734af4e327e670502f3, NULL, NULL, NULL, NULL, 2, ''),
 ('santicardenash@gmail.com', '', 1029143096, 0x2538822c3012250e592a20d0d131d0bf, '3226432732', 'Santiago', 'Cárdenas Hernández', '/c59f9ad6da00a07b253d86a97c23d6d5 (1).jpg', 1, 'Desarrollador'),
-('sebastianrm30yu@iclock.com', '', 0, 0x313233343536, NULL, 'Johann Sebastian', 'Rivero Martinez', '', 3, ''),
-('smithcortes01@gmail.com', '', 0, 0x66616d696c69, NULL, 'Steveen Smith', 'Cortes Cardenas', '', 3, ''),
-('soff24ia@gmail.com', '', 0, 0x31323334, NULL, 'Ana Sofia', 'Alarcon Santana', '', 3, ''),
+('scardenashernandez620@gmail.com', 'C.C.', 2147483647, 0xe4bb00b9ec11aaf8ead0f78685ee155b, NULL, NULL, NULL, NULL, 2, ''),
+('sebastianrm30yu@iclock.com', '', 0, 0x313233343536, NULL, 'Johann Sebastian', 'Rivero Martinez', '', 2, ''),
+('smithcortes01@gmail.com', '', 0, 0x66616d696c69, NULL, 'Steveen Smith', 'Cortes Cardenas', '', 2, ''),
+('soff24ia@gmail.com', '', 0, 0x31323334, NULL, 'Ana Sofia', 'Alarcon Santana', '', 2, ''),
 ('svalenzuela073@misena.edu.co', '', 0, 0x9b8427feb0e4826e362d3cdb096efc22, NULL, 'Shiuu', 'Valenzuela Penagos', '', 1, '');
 
 -- --------------------------------------------------------
@@ -715,7 +733,7 @@ CREATE TABLE IF NOT EXISTS `usu_proy` (
   PRIMARY KEY (`id`),
   KEY `idproy` (`idproy`),
   KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla de relación entre usuarios y proyectos';
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla de relación entre usuarios y proyectos';
 
 --
 -- Volcado de datos para la tabla `usu_proy`
@@ -742,7 +760,10 @@ INSERT INTO `usu_proy` (`id`, `idproy`, `email`, `stake`, `Product_Owner`) VALUE
 (19, 29, 'soff24ia@gmail.com', 0, 0),
 (20, 29, 'linaessofia33@gmail.com', 0, 0),
 (21, 29, '1023367786@ctjfr.edu.co', 0, 0),
-(26, 40, 'mglnares2006@gmail.com', 0, 1);
+(26, 40, 'mglnares2006@gmail.com', 0, 1),
+(28, 42, 'santicardenash@gmail.com', 1, 0),
+(29, 43, 'santicardenash@gmail.com', 1, 0),
+(30, 44, 'santicardenash@gmail.com', 1, 0);
 
 --
 -- Restricciones para tablas volcadas
@@ -790,8 +811,8 @@ ALTER TABLE `sprints`
 -- Filtros para la tabla `tareas`
 --
 ALTER TABLE `tareas`
-  ADD CONSTRAINT `tareas_ibfk_2` FOREIGN KEY (`usu_proy_id`) REFERENCES `usu_proy` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tareas_ibfk_3` FOREIGN KEY (`idsprint`) REFERENCES `sprints` (`idsprint`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tareas_ibfk_3` FOREIGN KEY (`idsprint`) REFERENCES `sprints` (`idsprint`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tareas_ibfk_4` FOREIGN KEY (`usu_proy`) REFERENCES `usu_proy` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `usuarios`

@@ -41,91 +41,186 @@
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.3.8/build/spline-viewer.js"></script>
     <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
 
-    <div class="container-sprints" style="padding: 0px 100px;">
+    <div class="container_tasks">
+
         {% for data in data %}
-        <div class="modal-header">
-            <h2 class="modal-title">Nueva Tarea</h2>
+        <div class="task-detail-container">
+            <!-- Cabecera de la tarea -->
+            <div class="task-header">
+                <div class="task-title-section">
+                    <div class="task-id">#: {{ data['id_tar'] }}</div>
+                    <h1 class="task-title">{{ data['nombre_tarea'] }}</h1>
+                    <div class="task-meta">
+
+                        <span class="insignia prioridad estado-{{ data['estado'] }}">
+                            Estado: {{ data['estado'] }}
+                        </span>
+
+                        <span class="insignia prioridad prioridad-{{ data['prioridad'] }}">
+                            Prioridad: {{ data['prioridad'] }}
+                        </span>
+
+                    </div>
+                </div>
+                <div class="task-actions">
+                    <button class="btn btn-primary" id="btn-abrir-popup1">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                        Editar
+                    </button>
+                    <a href="{{ url_for('projects.delete_task', id_tar = id_tar)}}">
+                        <button class="btn btn-danger">
+                            <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                </path>
+                            </svg>
+                            Eliminar
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Contenido de la tarea -->
+            <div class="task-content">
+                <!-- Columna principal -->
+                <div class="task-main">
+                    <!-- Descripción -->
+                    <div class="content-section">
+                        <h2 class="section-title">Descripción</h2>
+                        <div class="task-description">
+                            <p>{{ data['descripcion'] }}</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Barra lateral -->
+                <div class="task-sidebar">
+                    <!-- Detalles -->
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Sprint</div>
+                        <div class="sidebar-value">{{ data['nombre_sprint'] }}</div>
+                    </div>
+
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Fecha límite</div>
+                        <div class="sidebar-value">{{ data['fechaLimite'] }}</div>
+                    </div>
+
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Asignado a</div>
+                        <div class="sidebar-value">
+                            <img src="https://via.placeholder.com/20" alt="Avatar" class="assignee-avatar">
+                            {{ data['nombre_usuario'] }}
+                            {{ data['apellido_usuario'] }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-            <form action="{{ url_for('projects.update_task', id_tar = id_tar) }}" method="post" id="task-form">
-                <div class="form-group">
-                    <label for="task-title" class="form-label">Título de la tarea</label>
-                    <input type="text" class="form-control" id="task-title" value="{{ data.nombre_tarea }}" name="nombre_tarea"
-                        placeholder="Ej: Implementar autenticación de usuarios">
-                </div>
 
-                <div class="form-group">
-                    <label for="task-description" class="form-label">Descripción</label>
-                    <textarea class="form-control" id="task-description" name="descripcion" rows="2"
-                        placeholder="Describe los detalles de la tarea">{{ data.descripcion }}</textarea>
-                </div>
 
-                <div class="form-row">
-                    <div class="form-col">
+        <!--ventana emergente2-->
+
+        <div class="overlay" id="overlay1">
+            <div class="popup" id="popup1">
+                <div class="modal-header">
+                    <h2 class="modal-title">Actualizar Tarea</h2>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('projects.update_task', id_tar = id_tar) }}" method="post" id="task-form">
                         <div class="form-group">
-                            <label for="sprint" class="form-label">Sprint</label>
-                            <select class="form-control" id="sprint" name="idsprint">
-                                <option value="" disabled selected>Seleccionar Sprint</option>
-                                {% for data2 in data2 %}
-                                <option value="{{ data2.idsprint }}">{{ data2.nombre }}</option>
+                            <label for="task-title" class="form-label">Título de la tarea</label>
+                            <input type="text" class="form-control" id="task-title" value="{{ data.nombre_tarea }}"
+                                name="nombre_tarea" placeholder="Ej: Implementar autenticación de usuarios">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="task-description" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="task-description" name="descripcion" rows="2"
+                                placeholder="Describe los detalles de la tarea">{{ data.descripcion }}</textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="sprint" class="form-label">Sprint</label>
+                                    <select class="form-control" id="sprint" name="idsprint">
+                                        <option value="" disabled selected>Seleccionar Sprint</option>
+                                        {% for data2 in data2 %}
+                                        <option value="{{ data2.idsprint }}">{{ data2.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="due-date" class="form-label">Fecha límite</label>
+                                    <input type="date" class="form-control" id="due-date" value="{{ data.fechaLimite }}"
+                                        name="fechaLimite">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="status" class="form-label">Estado</label>
+                                    <select class="form-control" id="status" name="estado">
+                                        <option value="" disabled selected>Seleccionar</option>
+                                        <option value="Activo">Activo</option>
+                                        <option value="Evaluando">Evaluando</option>
+                                        <option value="Pendiente">Pendiente</option>
+                                        <option value="Completado">Completado</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-col">
+                                <div class="form-group">
+                                    <label for="priority" class="form-label">Prioridad</label>
+                                    <select class="form-control" id="priority" name="prioridad">
+                                        <option value="" disabled selected>Seleccionar</option>
+                                        <option value="Baja">Baja</option>
+                                        <option value="Media">Media</option>
+                                        <option value="Alta">Alta</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="assignee" class="form-label">Asignado a</label>
+                            <select class="form-control" id="assignee">
+                                <option value="" disabled selected>Sin asignar</option>
+                                {% for data3 in data3 %}
+                                <option value="{{ data3.idusu }}">{{ data3.nombres }} {{ data3.apellidos }}</option>
                                 {% endfor %}
+
                             </select>
                         </div>
-                    </div>
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="due-date" class="form-label">Fecha límite</label>
-                            <input type="date" class="form-control" id="due-date" value="{{ data.fechaLimite }}" name="fechaLimite">
-                        </div>
-                    </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="status" class="form-label">Estado</label>
-                            <select class="form-control" id="status" name="estado">
-                                <option value="" disabled selected>Seleccionar</option>
-                                <option value="Activo">Activo</option>
-                                <option value="Evaluando">Evaluando</option>
-                                <option value="Pendiente">Pendiente</option>
-                                <option value="Completado">Completado</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-col">
-                        <div class="form-group">
-                            <label for="priority" class="form-label">Prioridad</label>
-                            <select class="form-control" id="priority" name="prioridad">
-                                <option value="" disabled selected>Seleccionar</option>
-                                <option value="Baja">Baja</option>
-                                <option value="Media">Media</option>
-                                <option value="Alta">Alta</option>
-                            </select>
-                        </div>
-                    </div>
+                    </form>
                 </div>
-
-                <div class="form-group">
-                    <label for="assignee" class="form-label">Asignado a</label>
-                    <select class="form-control" id="assignee">
-                        <option value="" disabled selected>Sin asignar</option>
-                        {% for data3 in data3 %}
-                        <option value="{{ data3.idusu }}">{{ data3.nombres }} {{ data3.apellidos }}</option>
-                        {% endfor %}
-                        
-                    </select>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="btn-cerrar-popup1">Cancelar</button>
+                    <button type="submit" form="task-form" class="btn btn-primary">Actualizar Tarea</button>
                 </div>
-
-            </form>
+                {% endfor %}
+            </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" id="btn-cerrar-popup1">Cancelar</button>
-            <button type="submit" form="task-form" class="btn btn-primary">Crear Tarea</button>
-        </div>
-        {% endfor %}
     </div>
 
+
+
+    <!--fin ventana emergente2-->
+
+    <script src="/static/js/popup.js"></script>
     <script src="/static/js/bar.js"></script>
     <script>
         document.querySelector("form").addEventListener("submit", function (event) {
@@ -162,7 +257,7 @@
                 event.preventDefault();
                 return;
             }
-            
+
             // Verificar la prioridad
             let priorityElement = document.getElementById("priority");
             if (priorityElement.value === "") {
@@ -179,7 +274,7 @@
                 event.preventDefault();
                 return;
             }
-            
+
             // Verificar la prioridad
             let asignarElement = document.getElementById("assignee");
             if (asignarElement.value === "") {

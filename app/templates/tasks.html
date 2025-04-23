@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/static/img/sirs.jpg">
     <script src="https://kit.fontawesome.com/25eed41d7b.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="/static/css/estilos.css">
     <link rel="stylesheet" href="/static/css/tareas.css">
     <title>Tareas</title>
@@ -123,35 +124,35 @@
                     <h2 class="modal-title">Nueva Tarea</h2>
                 </div>
                 <div class="modal-body">
-                    <form id="task-form">
+                    <form action="{{ url_for('projects.registrar_task', idproy = idproy)}}" method="post" id="task-form">
                         <div class="form-group">
                             <label for="task-title" class="form-label">Título de la tarea</label>
-                            <input type="text" class="form-control" id="task-title"
+                            <input type="text" class="form-control" id="task-title" name="nombre_tarea"
                                 placeholder="Ej: Implementar autenticación de usuarios">
                         </div>
 
                         <div class="form-group">
                             <label for="task-description" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="task-description"
+                            <textarea class="form-control" id="task-description" name="descripcion" rows="2"
                                 placeholder="Describe los detalles de la tarea"></textarea>
                         </div>
 
                         <div class="form-row">
                             <div class="form-col">
                                 <div class="form-group">
-                                    <label for="sprint" class="form-label">Sprint</label>
-                                    <select class="form-control" id="sprint">
-                                        <option value="">Seleccionar Sprint</option>
-                                        <option value="sprint-1">Sprint 1: Diseño de UI</option>
-                                        <option value="sprint-2">Sprint 2: Desarrollo Frontend</option>
-                                        <option value="sprint-3">Sprint 3: Integración Backend</option>
+                                    <label for="sprint" class="form-label" id="sprint">Sprint</label>
+                                    <select class="form-control" id="sprint" name="idsprint">
+                                        <option value="" disabled selected>Seleccionar Sprint</option>
+                                        {% for data2 in data2 %}
+                                        <option value="{{ data2.idsprint }}">{{ data2.nombre }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>
                             <div class="form-col">
                                 <div class="form-group">
                                     <label for="due-date" class="form-label">Fecha límite</label>
-                                    <input type="date" class="form-control" id="due-date">
+                                    <input type="date" class="form-control" id="due-date" name="fechaLimite">
                                 </div>
                             </div>
                         </div>
@@ -159,40 +160,36 @@
                         <div class="form-row">
                             <div class="form-col">
                                 <div class="form-group">
-                                    <label for="status" class="form-label">Estado</label>
-                                    <select class="form-control" id="status">
-                                        <option value="todo">Por hacer</option>
-                                        <option value="in-progress">En progreso</option>
-                                        <option value="review">En revisión</option>
-                                        <option value="done">Completado</option>
+                                    <label for="status" class="form-label" id="status">Estado</label>
+                                    <select class="form-control" id="status" name="estado">
+                                        <option value="" disabled selected>Seleccionar</option>
+                                        <option value="Activo">Activo</option>
+                                        <option value="Evaluando">Evaluando</option>
+                                        <option value="Pendiente">Pendiente</option>
+                                        <option value="Completado">Completado</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-col">
                                 <div class="form-group">
-                                    <label for="priority" class="form-label">Prioridad</label>
-                                    <select class="form-control" id="priority">
-                                        <option value="low">Baja</option>
-                                        <option value="medium">Media</option>
-                                        <option value="high">Alta</option>
+                                    <label for="priority" class="form-label" id="priority">Prioridad</label>
+                                    <select class="form-control" id="priority" name="prioridad">
+                                        <option value="" disabled selected>Seleccionar</option>
+                                        <option value="Baja">Baja</option>
+                                        <option value="Media">Media</option>
+                                        <option value="Alta">Alta</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="assignee" class="form-label">Asignado a</label>
-                            <select class="form-control" id="assignee">
-                                <option value="">Sin asignar</option>
-                                <option value="santiago">
-                                    Santiago
-                                </option>
-                                <option value="maria-jose">
-                                    María José
-                                </option>
-                                <option value="shiuu">
-                                    Shiuu
-                                </option>
+                            <label for="assignee" class="form-label" id="assignee">Asignado a</label>
+                            <select class="form-control" id="assignee" name="idusu">
+                                <option value="" disabled selected>Seleccionar usuario</option>
+                                <option value="santiago">Santiago</option>
+                                <option value="maria-jose">María José</option>
+                                <option value="shiuu">Shiuu</option>
                             </select>
                         </div>
 
@@ -210,6 +207,76 @@
         <!--fin ventana emergente2-->
 
         <script src="/static/js/popup.js"></script>
+
+        <script>
+            document.getElementById("task-form").addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevenir el envío del formulario por defecto
+                
+                // Verificar título
+                let titleElement = document.getElementById("task-title");
+                if (!titleElement.value.trim()) {
+                    Swal.fire({
+                        text: "Por favor, ingresa el título de la tarea.",
+                        icon: "error",
+                        timer: 4000,
+                        showConfirmButton: false,
+                        background: "#fff",
+                        toast: true,
+                        position: "top"
+                    });
+                    return false;
+                }
+
+                // Verificar descripción
+                let descriptionElement = document.getElementById("task-description");
+                if (!descriptionElement.value.trim()) {
+                    Swal.fire({
+                        text: "Por favor, ingresa la descripción de la tarea.",
+                        icon: "error",
+                        timer: 4000,
+                        showConfirmButton: false,
+                        background: "#fff",
+                        toast: true,
+                        position: "top"
+                    });
+                    return false;
+                }
+
+                // Verificar fecha límite
+                let dueDateElement = document.getElementById("due-date");
+                if (!dueDateElement.value) {
+                    Swal.fire({
+                        text: "Por favor, selecciona una fecha límite.",
+                        icon: "error",
+                        timer: 4000,
+                        showConfirmButton: false,
+                        background: "#fff",
+                        toast: true,
+                        position: "top"
+                    });
+                    return false;
+                }
+                
+                // Verificar el sprint
+                let sprintElement = document.getElementById("sprint");
+                if (!sprintElement.value === "") {
+                    Swal.fire({
+                        text: "Por favor, selecciona un sprint para la tarea.",
+                        icon: "error",
+                        timer: 4000,
+                        showConfirmButton: false,
+                        background: "#fff",
+                        toast: true,
+                        position: "top"
+                    });
+                    return false;
+                }
+            
+            
+                // Si todas las validaciones pasan, enviar el formulario
+                this.submit();
+            });
+        </script>
 
         <!--scripts para dataTable-->
 

@@ -186,9 +186,34 @@ def tasks(idproy):
         WHERE p.idproy = %s
         ''', (idproy,))
         data = cur.fetchall()
-        return render_template('tasks.html', log='Cerrar', idproy=idproy, data = data)
+
+        cur.execute('SELECT * FROM sprints WHERE idproy = %s', (idproy,))
+        data2 = cur.fetchall()
+
+        return render_template('tasks.html', log='Cerrar', idproy=idproy, data = data, data2 = data2)
     else:
         return redirect(url_for('auth.login'))
+
+@bp.route("/registrar_task/<int:idproy>", methods=['POST'])
+@token_required
+def registrar_task(idproy):
+    if session.get('logueado'):
+        nombre = request.form['nombre_tarea']
+        descripcion = request.form['descripcion']
+        fechaLimite = request.form['fechaLimite']
+        estado = request.form['estado']
+        prioridad = request.form['prioridad']
+        idsprint = request.form['idsprint']
+
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO tareas (nombre, descripcion, fechaLimite, estado, prioridad, idsprint, usu_proy) VALUES (%s, %s, %s, %s, %s, %s, 3)",
+                    (nombre, descripcion, fechaLimite, estado, prioridad, idsprint,))
+        mysql.connection.commit()
+        cur.close()
+
+        flash('La tarea ha sido registrada exitosamente','success')
+
+        return redirect(url_for('projects.tasks', idproy=idproy))
 
 @bp.route("/update_task/<int:id_tar>", methods=['GET', 'POST'])
 @token_required
@@ -254,6 +279,20 @@ def update_task(id_tar):
 
             return render_template('edit-task.html', log='Cerrar', data = data, data2 = data2, data3 = data3, id_tar = id_tar)
 
+@bp.route("/delete_task/<int:id_tar>")
+@token_required
+def delete_task(id_tar):
+    if session.get('logueado'):
+        cur = mysql.connection.cursor()
+        cur.execute("DELETE FROM tareas WHERE id_tar = %s", (id_tar,))
+        mysql.connection.commit()
+        cur.close()
+
+        flash('La tarea ha sido eliminada exitosamente','success')
+
+        return redirect(request.referrer)
+    else:
+        return redirect(url_for('auth.login'))
 
 @bp.route("/sprints/<int:idproy>")
 @token_required
