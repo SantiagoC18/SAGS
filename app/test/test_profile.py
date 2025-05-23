@@ -9,3 +9,8 @@ def test_perfil():
         login_true = perfil("santicardenash@gmail.com", "2006")
         assert login_true 
 
+
+def test_perfil_fail():
+    with app.test_request_context():
+        login_false = perfil("usuario@gmail.com", "12345")
+        assert login_false
