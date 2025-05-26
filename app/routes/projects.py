@@ -168,23 +168,11 @@ def tasks(idproy):
     if session.get('logueado'):
         idproy = idproy
         cur = mysql.connection.cursor()
-        cur.execute('''SELECT 
-        t.id_tar,
-        t.nombre AS nombre_tarea,
-        t.fechaLimite,
-        t.estado,
-        t.prioridad,
-        s.nombre AS nombre_sprint,
-        p.nombre AS nombre_proyecto,
-        usuarios.nombres AS nombre_usuario,
-        usuarios.apellidos AS apellido_usuario
+        cur.execute('''SELECT DISTINCT t.*
         FROM tareas t
         JOIN sprints s ON t.idsprint = s.idsprint
         JOIN proyectos p ON s.idproy = p.idproy
-        JOIN usu_proy ON p.idproy = usu_proy.idproy
-        JOIN usuarios ON usu_proy.email = usuarios.email
-        WHERE p.idproy = %s
-        ''', (idproy,))
+        WHERE p.idproy = %s''', (idproy,))
         data = cur.fetchall()
 
         cur.execute('SELECT * FROM sprints WHERE idproy = %s', (idproy,))

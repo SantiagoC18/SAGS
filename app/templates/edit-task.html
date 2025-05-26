@@ -194,17 +194,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="assignee" class="form-label">Asignado a</label>
-                            <select class="form-control" id="assignee">
-                                <option value="" disabled selected>Sin asignar</option>
-                                {% for data3 in data3 %}
-                                <option value="{{ data3.idusu }}">{{ data3.nombres }} {{ data3.apellidos }}</option>
-                                {% endfor %}
-
-                            </select>
-                        </div>
-
                     </form>
                 </div>
                 <div class="modal-footer">

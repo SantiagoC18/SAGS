@@ -82,9 +82,8 @@
                     <th>TAREA</th>
                     <th>ESTADO</th>
                     <th>PRIORIDAD</th>
-                    <th>ASIGNADO A</th>
                     <th>FECHA LIMITE</th>
-                    <th>ACCIONES</th>
+                    <th>Info</th>
                 </tr>
             </thead>
             <tbody>
@@ -93,7 +92,7 @@
 
                 <tr class="info">
                     <td>{{ data['id_tar'] }}</td>
-                    <td>{{ data['nombre_tarea'] }}</td>
+                    <td>{{ data['nombre'] }}</td>
                     <td>
                         <span class="insignia prioridad estado-{{ data['estado'] }}">
                             {{ data['estado'] }}
@@ -104,11 +103,9 @@
                             {{ data['prioridad'] }}
                         </span>
                     </td>
-                    <td>{{ data['nombre_usuario'] }} {{ data['apellido_usuario'] }}</td>
                     <td>{{ data['fechaLimite'] }}</td>
                     <td>
                         <a href="{{ url_for('projects.update_task', id_tar = data['id_tar'] ) }}"><i class="fa-solid fa-circle-info"></i></a>
-                        <a href="#"><i class="fa-solid fa-trash"></i></a>
                     </td>
                 </tr>
 
@@ -181,16 +178,6 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="assignee" class="form-label" id="assignee">Asignado a</label>
-                            <select class="form-control" id="assignee" name="idusu">
-                                <option value="" disabled selected>Seleccionar usuario</option>
-                                <option value="santiago">Santiago</option>
-                                <option value="maria-jose">María José</option>
-                                <option value="shiuu">Shiuu</option>
-                            </select>
                         </div>
 
                     </form>
