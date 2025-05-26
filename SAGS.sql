@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 23-04-2025 a las 05:32:04
--- Versión del servidor: 8.3.0
--- Versión de PHP: 8.2.18
+-- Tiempo de generación: 26-05-2025 a las 04:51:42
+-- Versión del servidor: 9.1.0
+-- Versión de PHP: 8.3.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `sags`
 --
-CREATE DATABASE IF NOT EXISTS `sags` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `sags`;
 
 DELIMITER $$
 --
@@ -280,9 +278,9 @@ DELIMITER ;
 DROP TABLE IF EXISTS `checklists`;
 CREATE TABLE IF NOT EXISTS `checklists` (
   `idcheck` int NOT NULL COMMENT 'Identificador único del checklist',
-  `idmod` varchar(5) COLLATE utf8mb4_general_ci NOT NULL,
+  `idmod` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `aprobacion` int DEFAULT NULL COMMENT 'Indica si el checklist está aprobado',
-  `archivo` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Archivo adjunto al checklist',
+  `archivo` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Archivo adjunto al checklist',
   `fecha` date DEFAULT NULL COMMENT 'Fecha del checklist',
   `progreso` int NOT NULL,
   `idproy` int DEFAULT NULL COMMENT 'ID del proyecto asociado',
@@ -369,9 +367,9 @@ INSERT INTO `checklists` (`idcheck`, `idmod`, `aprobacion`, `archivo`, `fecha`, 
 
 DROP TABLE IF EXISTS `modelos`;
 CREATE TABLE IF NOT EXISTS `modelos` (
-  `idmod` varchar(5) COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Identificador único del modelo',
-  `nombre` varchar(40) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Nombre del modelo',
-  `descripcion` varchar(80) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Descripción del modelo',
+  `idmod` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Identificador único del modelo',
+  `nombre` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Nombre del modelo',
+  `descripcion` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Descripción del modelo',
   PRIMARY KEY (`idmod`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de modelos';
 
@@ -425,8 +423,8 @@ INSERT INTO `opiniones` (`id_opi`, `opinion`, `calificacion`, `tipo_opi`, `email
 
 DROP TABLE IF EXISTS `planes`;
 CREATE TABLE IF NOT EXISTS `planes` (
-  `nomplan` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `descripcion` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nomplan` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `descripcion` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `precio` int DEFAULT NULL,
   PRIMARY KEY (`nomplan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar planes disponibles';
@@ -450,13 +448,13 @@ INSERT INTO `planes` (`nomplan`, `descripcion`, `precio`) VALUES
 DROP TABLE IF EXISTS `proyectos`;
 CREATE TABLE IF NOT EXISTS `proyectos` (
   `idproy` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(55) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `descripcion` varchar(700) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `tipo` varchar(25) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombre` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `descripcion` varchar(700) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `tipo` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `fechaI` date DEFAULT NULL,
   `fechaF` date DEFAULT NULL,
-  `linkform` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `nomplan` varchar(55) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `linkform` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nomplan` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`idproy`),
   KEY `nomplan` (`nomplan`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de proyectos';
@@ -514,8 +512,8 @@ INSERT INTO `proy_reu` (`form_proy_reu`, `idproy`, `idreu`) VALUES
 DROP TABLE IF EXISTS `reset_tokens`;
 CREATE TABLE IF NOT EXISTS `reset_tokens` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_general_ci NOT NULL,
+  `user_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `expires_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
@@ -571,7 +569,7 @@ INSERT INTO `reuniones` (`idreu`, `fechavis`, `horavis`) VALUES
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
   `idrol` int NOT NULL,
-  `descripcion` varchar(65) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `descripcion` varchar(65) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`idrol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar roles de usuarios';
 
@@ -594,8 +592,8 @@ CREATE TABLE IF NOT EXISTS `sprints` (
   `idsprint` int NOT NULL AUTO_INCREMENT,
   `fechaI` date DEFAULT NULL,
   `fechaF` date DEFAULT NULL,
-  `nombre` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `descripcion` varchar(1000) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombre` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `descripcion` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `estado` int DEFAULT NULL,
   `idproy` int DEFAULT NULL,
   PRIMARY KEY (`idsprint`),
@@ -635,31 +633,44 @@ INSERT INTO `sprints` (`idsprint`, `fechaI`, `fechaF`, `nombre`, `descripcion`, 
 DROP TABLE IF EXISTS `tareas`;
 CREATE TABLE IF NOT EXISTS `tareas` (
   `id_tar` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `descripcion` varchar(500) COLLATE utf8mb4_general_ci NOT NULL,
+  `nombre` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `descripcion` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `fechaLimite` date DEFAULT NULL,
   `idsprint` int DEFAULT NULL,
-  `estado` varchar(15) COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Se inserta el estado actual de la tarea',
-  `prioridad` varchar(6) COLLATE utf8mb4_general_ci NOT NULL,
-  `usu_proy` int NOT NULL,
+  `estado` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Se inserta el estado actual de la tarea',
+  `prioridad` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_tar`),
-  KEY `idsprint` (`idsprint`),
-  KEY `tareas_ibfk_4` (`usu_proy`)
+  KEY `idsprint` (`idsprint`)
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tareas de proyectos';
 
 --
 -- Volcado de datos para la tabla `tareas`
 --
 
-INSERT INTO `tareas` (`id_tar`, `nombre`, `descripcion`, `fechaLimite`, `idsprint`, `estado`, `prioridad`, `usu_proy`) VALUES
-(26, 'Análisis de Información', 'Análisis detallado de la información y planificación inicial', '2024-09-19', 12, 'Activo', 'Baja', 1),
-(27, 'Modelos', 'Creación de modelos estructurados y de datos clave', '2018-04-05', 18, 'Activo', 'Alta', 2),
-(28, 'MR', 'Elaboración del modelo relacional para la base de datos', '2024-10-27', 15, 'Evaluando', 'Alta', 3),
-(29, 'IEEE-830', 'Desarrollo de la documentación IEEE-830', '2024-08-21', 14, 'Pendiente', 'Baja', 1),
-(30, 'RF', 'Registro y asignación de requisitos funcionales', '2021-05-01', 14, 'Pendiente', 'Media', 2),
-(31, 'RNF', 'Registro y asignación de requisitos no funcionales', '2023-11-14', 15, 'Activo', 'Alta', 3),
-(32, 'MC', 'Creación y asignación del modelo de datos', '2018-07-23', 15, 'Evaluando', 'Media', 1),
-(33, 'IEEE-830  hola', 'Elaboración de todos los ítems de la IEEE-830', '2024-04-18', 11, 'Activo', 'Baja', 2);
+INSERT INTO `tareas` (`id_tar`, `nombre`, `descripcion`, `fechaLimite`, `idsprint`, `estado`, `prioridad`) VALUES
+(27, 'Modelos', 'Creación de modelos estructurados y de datos clave', '2018-04-05', 18, 'Activo', 'Alta'),
+(28, 'MR', 'Elaboración del modelo relacional para la base de datos', '2024-10-27', 15, 'Evaluando', 'Alta'),
+(29, 'IEEE-830', 'Desarrollo de la documentación IEEE-830', '2024-08-21', 14, 'Pendiente', 'Baja'),
+(30, 'RF', 'Registro y asignación de requisitos funcionales', '2021-05-01', 14, 'Pendiente', 'Media'),
+(31, 'RNF', 'Registro y asignación de requisitos no funcionales', '2023-11-14', 15, 'Activo', 'Alta'),
+(32, 'MC', 'Creación y asignación del modelo de datos', '2018-07-23', 15, 'Evaluando', 'Media'),
+(33, 'IEEE-830  hola', 'Elaboración de todos los ítems de la IEEE-830', '2024-04-18', 11, 'Activo', 'Baja');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tarea_asignaciones`
+--
+
+DROP TABLE IF EXISTS `tarea_asignaciones`;
+CREATE TABLE IF NOT EXISTS `tarea_asignaciones` (
+  `id_asignacion` int NOT NULL AUTO_INCREMENT,
+  `id_tar` int DEFAULT NULL,
+  `id_usu_proy` int DEFAULT NULL,
+  PRIMARY KEY (`id_asignacion`),
+  UNIQUE KEY `id_tar` (`id_tar`),
+  KEY `id_usu_proy` (`id_usu_proy`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -669,16 +680,16 @@ INSERT INTO `tareas` (`id_tar`, `nombre`, `descripcion`, `fechaLimite`, `idsprin
 
 DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE IF NOT EXISTS `usuarios` (
-  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `tipodoc` varchar(11) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tipodoc` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `documento` int DEFAULT NULL,
   `password` varbinary(255) DEFAULT NULL,
-  `telefono` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `nombres` varchar(33) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `apellidos` varchar(33) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `foto` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `telefono` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `nombres` varchar(33) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `apellidos` varchar(33) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `foto` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `idrol` int DEFAULT NULL,
-  `perfil` varchar(80) COLLATE utf8mb4_general_ci NOT NULL,
+  `perfil` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`email`),
   KEY `idrol` (`idrol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de usuarios';
@@ -727,7 +738,7 @@ DROP TABLE IF EXISTS `usu_proy`;
 CREATE TABLE IF NOT EXISTS `usu_proy` (
   `id` int NOT NULL AUTO_INCREMENT,
   `idproy` int DEFAULT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `stake` tinyint NOT NULL,
   `Product_Owner` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
@@ -811,8 +822,14 @@ ALTER TABLE `sprints`
 -- Filtros para la tabla `tareas`
 --
 ALTER TABLE `tareas`
-  ADD CONSTRAINT `tareas_ibfk_3` FOREIGN KEY (`idsprint`) REFERENCES `sprints` (`idsprint`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tareas_ibfk_4` FOREIGN KEY (`usu_proy`) REFERENCES `usu_proy` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tareas_ibfk_3` FOREIGN KEY (`idsprint`) REFERENCES `sprints` (`idsprint`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tarea_asignaciones`
+--
+ALTER TABLE `tarea_asignaciones`
+  ADD CONSTRAINT `tarea_asignaciones_ibfk_1` FOREIGN KEY (`id_tar`) REFERENCES `tareas` (`id_tar`),
+  ADD CONSTRAINT `tarea_asignaciones_ibfk_2` FOREIGN KEY (`id_usu_proy`) REFERENCES `usu_proy` (`id`);
 
 --
 -- Filtros para la tabla `usuarios`
