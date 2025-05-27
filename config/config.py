@@ -13,3 +13,8 @@ class Config:
     MAIL_USE_SSL = True
     
     SECRET_KEY = "4546416vblñvkbmgvlñkbjfgñfglñv.ñ"
+
+class TestingConfig(Config):
+    TESTING = True
+    MYSQL_DB = 'sags_test'  # Base de datos separada para pruebas
+    WTF_CSRF_ENABLED = False  # Desactivar CSRF para pruebas

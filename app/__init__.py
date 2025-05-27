@@ -6,9 +6,9 @@ from config.config import Config
 mysql = MySQL()
 gmail = Mail()
 
-def create_app():
+def create_app(config_class=Config):
     app = Flask(__name__, template_folder='templates')
-    app.config.from_object(Config)
+    app.config.from_object(config_class)
     
     mysql.init_app(app)
     gmail.init_app(app)
