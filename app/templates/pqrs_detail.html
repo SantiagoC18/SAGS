@@ -57,67 +57,99 @@
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.3.8/build/spline-viewer.js"></script>
     <spline-viewer url="https://prod.spline.design/oP1Rx8Le7K9noHAa/scene.splinecode"></spline-viewer>
 
-    <div class="card">
-        <div class="card-header">
-            <div class="header-content">
-                <div class="user-info">
-                    <div class="avatar">LS</div>
-                    <div class="user-details">
-                        <p>{{ pqrs.email }}</p>
-                    </div>
-                </div>
-                <div class="badges">
+    <div class="card" id="card">
+        <script>
+            fetch('/api/pqrs/{{id}}').then(response => response.json()).then(data => {
+                if (data.error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al cargar los datos.',
+                        toast: true,
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+                    return;
+                } else {
+                    document.getElementById('card').innerHTML = `
+                        <div class="card-header">
+                            <div class="header-content">
+                                <div class="user-info">
+                                    <div class="avatar">LS</div>
+                                    <div class="user-details">
+                                        <p> ${data.email}</p>
+                                    </div>
+                                </div>
+                                <div class="badges">
+                                    <span class="badge badge-priority pqrs-priority priority- ${data.calificacion}">
+                                        <svg class="icon-small icon-star" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                            d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                                        </svg>
+                                        Prioridad: ${data.calificacion}/5
+                        	        </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="separator"></div>
+                        <div class="card-content">
+                            <h2 class="badge badge-suggestion">${data.tipo_opi}</h2>
+                            <p class="card-description">
+                                ${data.opinion}
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('api.list_pqrs') }}">
+                                <button class="button button-back">
+                                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                                    </svg>
+                                    Volver a la lista
+                                </button>
+                            </a>
+                            <div class="actions">
+                                <button id="btn-abrir-popup1" class="button button-edit">
+                                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                                    </svg>
+                                    Editar
+                                </button>
+                                <form action="/api/pqrs/${data.id_opi}" method="POST" style="display: inline;">
+                                    <button class="button button-delete">
+                                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="3 6 5 6 21 6"></polyline>
+                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                            </path>
+                                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                                        </svg>
+                                        Eliminar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        `;
+                }
+                
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al cargar los datos.',
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            });
 
-                    <span class="badge badge-priority pqrs-priority priority-{{ pqrs.calificacion }}">
-                        <svg class="icon-small icon-star" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-                        </svg>
-                        Prioridad: {{ pqrs.calificacion }}/5
-                    </span>
-                </div>
-            </div>
-        </div>
-        <div class="separator"></div>
-        <div class="card-content">
-            <h2 class="badge badge-suggestion">{{ pqrs.tipo_opi }}</h2>
-            <p class="card-description">
-                {{ pqrs.opinion }}
-            </p>
-        </div>
-        <div class="card-footer">
-            <a href="{{ url_for('api.list_pqrs') }}">
-                <button class="button button-back">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M19 12H5M12 19l-7-7 7-7" />
-                    </svg>
-                    Volver a la lista
-                </button>
-            </a>
-            <div class="actions">
-                <button id="btn-abrir-popup1" class="button button-edit">
-                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
-                    </svg>
-                    Editar
-                </button>
-                <form action="{{ url_for('api.delete_pqrs', id = pqrs.id_opi) }}" method="POST" style="display: inline;">
-                    <button class="button button-delete">
-                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="3 6 5 6 21 6"></polyline>
-                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                            </path>
-                            <line x1="10" y1="11" x2="10" y2="17"></line>
-                            <line x1="14" y1="11" x2="14" y2="17"></line>
-                        </svg>
-                        Eliminar
-                    </button>
-                </form>
-            </div>
-        </div>
+        </script>
     </div>
 
     <script>
@@ -139,46 +171,7 @@
         });
     </script>
 
-    <!-- Modal para editar PQRS -->
-    <div class="overlay" id="overlay1">
-        <div class="popup" id="popup1" style="width: auto; height: auto; max-height: 75%;">
-            <a href="#" id="btn-cerrar-popup1" class="btn-cerrar-popup" style="margin-right: -100%"><i
-                    class="fas fa-times"></i></a>
-            <h2>Editar PQRS</h2>
-            <form action="{{ url_for('api.update_pqrs', idp = pqrs.id_opi) }}" method="POST" class="editform"
-                id="editForm">
-                <input type="hidden" name="_method" value="PUT">
-                <div class="input-container">
-                    <label for="edit_tipo_pqrs" class="name">Tipo de PQRS:</label>
-                    <select id="edit_tipo_pqrs" name="tipo_opi" class="input">
-                        <option value="Petición" {% if pqrs.tipo_opi=='Petición' %}selected{% endif %}>Petición</option>
-                        <option value="Queja" {% if pqrs.tipo_opi=='Queja' %}selected{% endif %}>Queja</option>
-                        <option value="Reclamo" {% if pqrs.tipo_opi=='Reclamo' %}selected{% endif %}>Reclamo</option>
-                        <option value="Sugerencia" {% if pqrs.tipo_opi=='Sugerencia' %}selected{% endif %}>Sugerencia
-                        </option>
-                    </select>
-                    <div class="underline"></div>
-                </div>
-                <div class="input-container">
-                    <label for="edit_descripcion" class="name">Descripción:</label>
-                    <textarea id="edit_descripcion" name="descripcion" class="input">{{ pqrs.opinion }}</textarea>
-                    <div class="underline"></div>
-                </div>
-                <div class="input-container">
-                    <label for="edit_prioridad" class="name">Prioridad:</label>
-                    <select id="edit_prioridad" name="prioridad" class="input">
-                        <option value="1" {% if pqrs.calificacion==1 %}selected{% endif %}>1 - Baja</option>
-                        <option value="2" {% if pqrs.calificacion==2 %}selected{% endif %}>2 - Media-Baja</option>
-                        <option value="3" {% if pqrs.calificacion==3 %}selected{% endif %}>3 - Media</option>
-                        <option value="4" {% if pqrs.calificacion==4 %}selected{% endif %}>4 - Media-Alta</option>
-                        <option value="5" {% if pqrs.calificacion==5 %}selected{% endif %}>5 - Alta</option>
-                    </select>
-                    <div class="underline"></div>
-                </div>
-                <button class="button_view">Guardar cambios</button>
-            </form>
-        </div>
-    </div>
+
 
     <script src="/static/js/popup.js"></script>
     <script src="/static/js/bar.js"></script>

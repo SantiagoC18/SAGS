@@ -4,6 +4,8 @@ import MySQLdb
 
 bp = Blueprint('api', __name__)
 
+#metodos para web 
+
 @bp.route('/list_pqrs')
 def list_pqrs():
     if not session.get('id'):
@@ -16,7 +18,7 @@ def view_pqrs(id):
     if not session.get('id'):
         return redirect(url_for('auth.login'))
     
-    return render_template('pqrs_detail.html', log='Cerrar')
+    return render_template('pqrs_detail.html', log='Cerrar', id = id)
 
 
 
