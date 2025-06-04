@@ -6,13 +6,19 @@ bp = Blueprint('api', __name__)
 
 @bp.route('/list_pqrs')
 def list_pqrs():
+    if not session.get('id'):
+        return redirect(url_for('auth.login'))
 
     return render_template('pqrs.html', log='Cerrar')
 
 @bp.route('/view_pqrs/<int:id>', methods=['GET'])
 def view_pqrs(id):
+    if not session.get('id'):
+        return redirect(url_for('auth.login'))
     
     return render_template('pqrs_detail.html', log='Cerrar')
+
+
 
 @bp.route('/api/pqrs', methods=['GET'])
 def get_all_pqrs():

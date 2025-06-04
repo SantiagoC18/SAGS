@@ -11,60 +11,9 @@
     <link rel="stylesheet" href="/static/css/estilos.css">
     <title>Sistema PQRS</title>
 
-
-    <script type="text/javascript">
-        function validarPQRS() {
-            var nombre = document.getElementById("nombre");
-            var tipo_pqrs = document.getElementById("tipo_pqrs");
-            var descripcion = document.getElementById("descripcion");
-            var prioridad = document.getElementById("prioridad");
-
-            if (nombre.value == "" || tipo_pqrs.value === "Seleccionar" || descripcion.value == "" || prioridad.value === "Seleccionar") {
-                Swal.fire({
-                    title: "Celda vacía o dato no seleccionado",
-                    text: "Todos los campos son obligatorios",
-                    icon: "warning",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    toast: true,
-                    position: "top",
-                });
-                return false;
-            } else {
-                Swal.fire({
-                    title: "PQRS Enviado",
-                    text: "Su solicitud ha sido registrada correctamente",
-                    icon: "success",
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
-                return true;
-            }
-        };
-    </script>
 </head>
 
 <body>
-
-    <!-- Mensajes Flash -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    {% for category, message in messages %}
-    <script>
-        swal.fire({
-            title: "{{message}}",
-            icon: "{{category}}",
-            buttons: false,
-            timer: 2000,
-            showConfirmButton: false,
-            background: "#fff",
-            toast: true,
-            position: "top"
-        });
-    </script>
-    {% endfor %}
-    {% endif %}
-    {% endwith %}
 
     <header>
         <a href="{{ url_for('main.index') }}" class="logo"><img src="/static/img/sirs.jpg" width="60px"></a>
@@ -191,10 +140,10 @@
             <a href="#" id="btn-cerrar-popup1" class="btn-cerrar-popup" style="margin-right: -100%; z-index: 100;"><i
                     class="fas fa-times fa-xl"></i></a>
             <h2>Crear nueva PQRS</h2>
-            <form action="{{ url_for('api.create_pqrs') }}" method="POST" onsubmit="return validarPQRS()">
+            <form onsubmit="return validateForm(event)" id="opinionForm">
                 <div class="form-group">
                     <label for="tipo_pqrs">Tipo de PQRS:</label>
-                    <select id="tipo_pqrs" name="tipo_pqrs">
+                    <select id="tipo_opi" name="tipo_opi">
                         <option value="Seleccionar">Seleccionar</option>
                         <option value="Petición">Petición</option>
                         <option value="Queja">Queja</option>
@@ -204,12 +153,11 @@
                 </div>
                 <div class="form-group">
                     <label for="descripcion">Descripción:</label>
-                    <textarea id="descripcion" name="descripcion"
-                        placeholder="Describa detalladamente su PQRS"></textarea>
+                    <textarea id="opinion" name="opinion" placeholder="Describa detalladamente su PQRS"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="prioridad">Prioridad:</label>
-                    <select id="prioridad" name="prioridad">
+                    <select id="calificacion" name="calificacion">
                         <option value="Seleccionar">Seleccionar</option>
                         <option value="1">1 - Baja</option>
                         <option value="2">2 - Media-Baja</option>
@@ -221,6 +169,91 @@
                 <br>
                 <button class="create-button" type="submit" style="width: 115px;">Enviar PQRS</button>
             </form>
+
+            <script>
+                document.getElementById('opinionForm').addEventListener('submit', async (e) => {
+                    e.preventDefault(); // Evitar el envío del formulario por defecto
+
+                    // Obtener valores de los campos del formulario
+                    const tipo_opi = document.getElementById('tipo_opi').value;
+                    const opinion = document.getElementById('opinion').value.trim();
+                    const calificacion = document.getElementById('calificacion').value;
+
+                    // Validación: revisar que ningún campo esté vacío o con la opción por defecto
+                    if (tipo_opi === 'Seleccionar' || opinion === '' || calificacion === 'Seleccionar') {
+                        Swal.fire({
+                            title: 'Error de validación',
+                            text: 'Por favor complete todos los campos y seleccione las opciones requeridas',
+                            icon: 'warning',
+                            toast: true,
+                            position: 'top',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+                        return;  // Si la validación falla, salen de la función sin enviar el formulario
+                    }
+
+                    // Preparar objeto con los datos a enviar.
+                    // Nota: Se usa parseInt para calificación, ya que esperamos un número.
+                    const data = {
+                        opinion: opinion,
+                        calificacion: parseInt(calificacion),
+                        tipo_opi: tipo_opi
+                    };
+
+                    try {
+                        // Envío asíncrono del formulario mediante fetch
+                        const response = await fetch('/api/pqrs', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        });
+
+                        // Extraemos el resultado de la respuesta en formato json; se asume que el backend envía "message" o "error"
+                        const resultado = await response.json();
+
+                        // Mostramos mensaje de éxito o error basado en la respuesta
+                        if (resultado.message || resultado.error) {
+                            Swal.fire({
+                                title: resultado.message || resultado.error,
+                                icon: resultado.message ? 'success' : 'error',
+                                toast: true,
+                                position: 'top',
+                                showConfirmButton: false,
+                                timer: 3000
+                            }).then(() => {
+                                // Recargar la página después de cerrar la notificación
+                                window.location.reload();
+                            });
+                        } else {
+                            // Caso en que el objeto recibido no tenga "message" ni "error"
+                            Swal.fire({
+                                title: 'Respuesta inesperada del servidor',
+                                icon: 'error',
+                                toast: true,
+                                position: 'top',
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                        }
+                    } catch (error) {
+                        // Manejo de errores en la conexión o procesamiento de la solicitud
+                        Swal.fire({
+                            title: 'Error al enviar la solicitud',
+                            text: error.message,
+                            icon: 'error',
+                            toast: true,
+                            position: 'top',
+                            showConfirmButton: false,
+                            timer: 3000
+                        });
+                    }
+                });
+
+            </script>
+
         </div>
     </div>
 
