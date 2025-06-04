@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 26-05-2025 a las 04:51:42
+-- Tiempo de generación: 03-06-2025 a las 23:57:04
 -- Versión del servidor: 9.1.0
 -- Versión de PHP: 8.3.14
 
@@ -278,11 +278,11 @@ DELIMITER ;
 DROP TABLE IF EXISTS `checklists`;
 CREATE TABLE IF NOT EXISTS `checklists` (
   `idcheck` int NOT NULL COMMENT 'Identificador único del checklist',
-  `idmod` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `idmod` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Llave foránea, identificadora de tabla modelos ',
   `aprobacion` int DEFAULT NULL COMMENT 'Indica si el checklist está aprobado',
   `archivo` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Archivo adjunto al checklist',
   `fecha` date DEFAULT NULL COMMENT 'Fecha del checklist',
-  `progreso` int NOT NULL,
+  `progreso` int NOT NULL COMMENT 'Campo de seguimiento acerca del avance de proyecto',
   `idproy` int DEFAULT NULL COMMENT 'ID del proyecto asociado',
   KEY `idproy` (`idproy`),
   KEY `idmod` (`idmod`)
@@ -394,11 +394,11 @@ INSERT INTO `modelos` (`idmod`, `nombre`, `descripcion`) VALUES
 
 DROP TABLE IF EXISTS `opiniones`;
 CREATE TABLE IF NOT EXISTS `opiniones` (
-  `id_opi` int NOT NULL AUTO_INCREMENT,
-  `opinion` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `calificacion` int DEFAULT NULL,
-  `tipo_opi` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `id_opi` int NOT NULL AUTO_INCREMENT COMMENT 'Identificador clave de tabla opiniones',
+  `opinion` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Descripción de contenido de PQRS por parte del usuario',
+  `calificacion` int DEFAULT NULL COMMENT 'Prioridad de PQRS',
+  `tipo_opi` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Tipo de categoría (Petición, Queja, Reclamo, Sugerencia) ',
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Llave foránea, email del usuario que registra el PQRS',
   PRIMARY KEY (`id_opi`),
   KEY `email` (`email`),
   KEY `tipo_opi` (`tipo_opi`)
@@ -423,9 +423,9 @@ INSERT INTO `opiniones` (`id_opi`, `opinion`, `calificacion`, `tipo_opi`, `email
 
 DROP TABLE IF EXISTS `planes`;
 CREATE TABLE IF NOT EXISTS `planes` (
-  `nomplan` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `descripcion` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `precio` int DEFAULT NULL,
+  `nomplan` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Nombre descriptivo de planes',
+  `descripcion` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Descripción según lo ofrecido en cada categoría del plan',
+  `precio` int DEFAULT NULL COMMENT 'Valor estimado por servicios ofrecidos',
   PRIMARY KEY (`nomplan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar planes disponibles';
 
@@ -447,14 +447,13 @@ INSERT INTO `planes` (`nomplan`, `descripcion`, `precio`) VALUES
 
 DROP TABLE IF EXISTS `proyectos`;
 CREATE TABLE IF NOT EXISTS `proyectos` (
-  `idproy` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `descripcion` varchar(700) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `tipo` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `fechaI` date DEFAULT NULL,
-  `fechaF` date DEFAULT NULL,
-  `linkform` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `nomplan` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `idproy` int NOT NULL AUTO_INCREMENT COMMENT 'Identificador primario de la tabla proyectos',
+  `nombre` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Identificador de proyectos por medio de un nombre descriptivo',
+  `descripcion` varchar(700) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Explicación breve del proyecto',
+  `tipo` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Categoría del proyecto (web - móvil)',
+  `fechaI` date DEFAULT NULL COMMENT 'Fecha de registro del proyecto',
+  `fechaF` date DEFAULT NULL COMMENT 'Fecha de entrega del proyecto',
+  `nomplan` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Llave foránea del plan asignado al proyecto ',
   PRIMARY KEY (`idproy`),
   KEY `nomplan` (`nomplan`)
 ) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de proyectos';
@@ -463,19 +462,19 @@ CREATE TABLE IF NOT EXISTS `proyectos` (
 -- Volcado de datos para la tabla `proyectos`
 --
 
-INSERT INTO `proyectos` (`idproy`, `nombre`, `descripcion`, `tipo`, `fechaI`, `fechaF`, `linkform`, `nomplan`) VALUES
-(4, 'SAGS', 'El presente documento tiene como fin definir los requisitos funcionales y no funcionales para el desarrollo del aplicativo web (SIRS) con el fin de conocer sus fundamentos, sus bases y motivos de su surgimiento, creación o causas originarias.', 'Aplicativo Web', '2022-04-10', '0000-00-00', NULL, NULL),
-(27, 'TOEXS', 'Para el desarrollo del proyecto se tiene como propósito definir y establecer los RF y RNF del aplicativo Web TOEXS, con un modelo cliente/servidor, que permita llevar a cabo procesos de comunicación, gestión e intercambio de juguetes online.', 'Aplicativo Web', '2023-08-24', '0000-00-00', NULL, NULL),
-(28, 'GIET', 'El presente documento tiene como propósito definir las especificaciones funcionales y no funcionales que deberá cumplir el aplicativo web (GIET), el cual hará uso de las herramientas y prestaciones administrativas para la gestión de recursos informáticos, dirigido al uso de usuarios específicos y administradores del inventario de la institución educativa (CTJFR).', 'Aplicativo Web', '2022-02-01', '0000-00-00', NULL, NULL),
-(29, 'SOFT_SPA', 'Tiene como propósito definir las especificaciones de requisitos funcionales y no funcionales para el desarrollo del aplicativo web (soft-spa).', 'Aplicativo Web', '2022-04-01', '0000-00-00', NULL, NULL),
-(30, 'JOSE FELIX LIBRARY', 'El presente documento tiene como propósito definir las especificaciones de requisitos funcionales y no funcionales para el desarrollo de un sistema de información web modelo usuario/servidor, que permitirá sistematizar y gestionar los distintos materiales didácticos que se encuentran en la biblioteca del colegio JFR (libros, archivos, etc.), dirigido al desarrollo y análisis de nuevos proyectos.', 'Aplicativo Web', '2022-02-17', '0000-00-00', NULL, NULL),
-(31, 'SIVOTU', 'El presente documento tiene como propósito definir las especificaciones de requisitos funcionales y no funcionales para el desarrollo de un aplicativo web (SIVOTU) modelo cliente servidor, que permita sistematizar y gestionar distintos procesos administrativos y servidor online de la tienda \"the shift urbans\" dirigido al uso de usuarios externos empleados y administradores.', 'Aplicativo Web', '2004-07-24', '0000-00-00', NULL, NULL),
-(32, 'New Life', 'Brindar una herramienta que ayude a las entidades de salud mental a tratar profesionalmente a personas que fueron y son violentadas física y psicológicamente, así ayudándolos a progresar y tener un nuevo cambio en su vida social y personal.', 'Aplicativo Web', '2022-07-13', '0000-00-00', NULL, NULL),
-(33, 'All Sport System', 'Gestionar ayudas y acceso a la comunidad de alternativas de ayuda profesional a través de consultas y terapias que se les brindan de acuerdo al diagnóstico que se le den a los pacientes o usuarios registrados en el aplicativo.', 'Aplicativo Web', '2022-05-10', '0000-00-00', NULL, NULL),
-(40, 'SGIT', 'Sistema para la gestion e intercambio de equipos tecnologicos en la institucion educativa Colegio Tecnico Jose Felix Restrepo', 'web', '2024-12-09', NULL, NULL, 'BASIC'),
-(42, 'Sirs2', 'gsfgs', 'web', '2025-04-19', NULL, NULL, 'PREMIUM'),
-(43, 'Sirs', 'fdfsdf', 'web', '2025-04-19', NULL, NULL, 'BASIC'),
-(44, 'Sirs', 'hrhgh', 'web', '2025-05-09', NULL, NULL, 'STANDARD');
+INSERT INTO `proyectos` (`idproy`, `nombre`, `descripcion`, `tipo`, `fechaI`, `fechaF`, `nomplan`) VALUES
+(4, 'SAGS', 'El presente documento tiene como fin definir los requisitos funcionales y no funcionales para el desarrollo del aplicativo web (SIRS) con el fin de conocer sus fundamentos, sus bases y motivos de su surgimiento, creación o causas originarias.', 'Aplicativo Web', '2022-04-10', '0000-00-00', NULL),
+(27, 'TOEXS', 'Para el desarrollo del proyecto se tiene como propósito definir y establecer los RF y RNF del aplicativo Web TOEXS, con un modelo cliente/servidor, que permita llevar a cabo procesos de comunicación, gestión e intercambio de juguetes online.', 'Aplicativo Web', '2023-08-24', '0000-00-00', NULL),
+(28, 'GIET', 'El presente documento tiene como propósito definir las especificaciones funcionales y no funcionales que deberá cumplir el aplicativo web (GIET), el cual hará uso de las herramientas y prestaciones administrativas para la gestión de recursos informáticos, dirigido al uso de usuarios específicos y administradores del inventario de la institución educativa (CTJFR).', 'Aplicativo Web', '2022-02-01', '0000-00-00', NULL),
+(29, 'SOFT_SPA', 'Tiene como propósito definir las especificaciones de requisitos funcionales y no funcionales para el desarrollo del aplicativo web (soft-spa).', 'Aplicativo Web', '2022-04-01', '0000-00-00', NULL),
+(30, 'JOSE FELIX LIBRARY', 'El presente documento tiene como propósito definir las especificaciones de requisitos funcionales y no funcionales para el desarrollo de un sistema de información web modelo usuario/servidor, que permitirá sistematizar y gestionar los distintos materiales didácticos que se encuentran en la biblioteca del colegio JFR (libros, archivos, etc.), dirigido al desarrollo y análisis de nuevos proyectos.', 'Aplicativo Web', '2022-02-17', '0000-00-00', NULL),
+(31, 'SIVOTU', 'El presente documento tiene como propósito definir las especificaciones de requisitos funcionales y no funcionales para el desarrollo de un aplicativo web (SIVOTU) modelo cliente servidor, que permita sistematizar y gestionar distintos procesos administrativos y servidor online de la tienda \"the shift urbans\" dirigido al uso de usuarios externos empleados y administradores.', 'Aplicativo Web', '2004-07-24', '0000-00-00', NULL),
+(32, 'New Life', 'Brindar una herramienta que ayude a las entidades de salud mental a tratar profesionalmente a personas que fueron y son violentadas física y psicológicamente, así ayudándolos a progresar y tener un nuevo cambio en su vida social y personal.', 'Aplicativo Web', '2022-07-13', '0000-00-00', NULL),
+(33, 'All Sport System', 'Gestionar ayudas y acceso a la comunidad de alternativas de ayuda profesional a través de consultas y terapias que se les brindan de acuerdo al diagnóstico que se le den a los pacientes o usuarios registrados en el aplicativo.', 'Aplicativo Web', '2022-05-10', '0000-00-00', NULL),
+(40, 'SGIT', 'Sistema para la gestion e intercambio de equipos tecnologicos en la institucion educativa Colegio Tecnico Jose Felix Restrepo', 'web', '2024-12-09', NULL, 'BASIC'),
+(42, 'Sirs2', 'gsfgs', 'web', '2025-04-19', NULL, 'PREMIUM'),
+(43, 'Sirs', 'fdfsdf', 'web', '2025-04-19', NULL, 'BASIC'),
+(44, 'Sirs', 'hrhgh', 'web', '2025-05-09', NULL, 'STANDARD');
 
 -- --------------------------------------------------------
 
@@ -485,9 +484,9 @@ INSERT INTO `proyectos` (`idproy`, `nombre`, `descripcion`, `tipo`, `fechaI`, `f
 
 DROP TABLE IF EXISTS `proy_reu`;
 CREATE TABLE IF NOT EXISTS `proy_reu` (
-  `form_proy_reu` int NOT NULL,
-  `idproy` int DEFAULT NULL,
-  `idreu` int DEFAULT NULL,
+  `form_proy_reu` int NOT NULL COMMENT 'Identificador primario de la tercer tabla entre proyectos y reuniones',
+  `idproy` int DEFAULT NULL COMMENT 'Llave foránea proveniente de la tabla proyectos',
+  `idreu` int DEFAULT NULL COMMENT 'Llave foránea proveniente de la tabla reuniones',
   PRIMARY KEY (`form_proy_reu`),
   KEY `idproy` (`idproy`),
   KEY `idreu` (`idreu`)
@@ -511,10 +510,10 @@ INSERT INTO `proy_reu` (`form_proy_reu`, `idproy`, `idreu`) VALUES
 
 DROP TABLE IF EXISTS `reset_tokens`;
 CREATE TABLE IF NOT EXISTS `reset_tokens` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `expires_at` datetime NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Identificador primario de la tabla asignadora de tokens',
+  `user_id` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Llave foránea, identificadora del usuario',
+  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Código de autorización asignado al usuario para inicio de sesión ',
+  `expires_at` datetime NOT NULL COMMENT 'Tiempo limite de sesión inactiva',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -544,9 +543,9 @@ INSERT INTO `reset_tokens` (`id`, `user_id`, `token`, `expires_at`) VALUES
 
 DROP TABLE IF EXISTS `reuniones`;
 CREATE TABLE IF NOT EXISTS `reuniones` (
-  `idreu` int NOT NULL,
-  `fechavis` date DEFAULT NULL,
-  `horavis` time DEFAULT NULL,
+  `idreu` int NOT NULL COMMENT 'Identificador primario de la tabla reuniones',
+  `fechavis` date DEFAULT NULL COMMENT 'Fecha asignada para la visita o reunión ',
+  `horavis` time DEFAULT NULL COMMENT 'Hora asignada del encuentro programado',
   PRIMARY KEY (`idreu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de reuniones';
 
@@ -568,8 +567,8 @@ INSERT INTO `reuniones` (`idreu`, `fechavis`, `horavis`) VALUES
 
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
-  `idrol` int NOT NULL,
-  `descripcion` varchar(65) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `idrol` int NOT NULL COMMENT 'Identificador primario de la tabla roles',
+  `descripcion` varchar(65) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Nombre descriptivo de los roles',
   PRIMARY KEY (`idrol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar roles de usuarios';
 
@@ -579,7 +578,8 @@ CREATE TABLE IF NOT EXISTS `roles` (
 
 INSERT INTO `roles` (`idrol`, `descripcion`) VALUES
 (1, 'Administrador'),
-(2, 'Scrum Master');
+(2, 'Development Team'),
+(3, 'Stakeholder');
 
 -- --------------------------------------------------------
 
@@ -589,13 +589,13 @@ INSERT INTO `roles` (`idrol`, `descripcion`) VALUES
 
 DROP TABLE IF EXISTS `sprints`;
 CREATE TABLE IF NOT EXISTS `sprints` (
-  `idsprint` int NOT NULL AUTO_INCREMENT,
-  `fechaI` date DEFAULT NULL,
-  `fechaF` date DEFAULT NULL,
-  `nombre` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `descripcion` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `estado` int DEFAULT NULL,
-  `idproy` int DEFAULT NULL,
+  `idsprint` int NOT NULL AUTO_INCREMENT COMMENT 'Identificador primario de la tabla sprint',
+  `fechaI` date DEFAULT NULL COMMENT 'Fecha de creación del sprint',
+  `fechaF` date DEFAULT NULL COMMENT 'Fecha de finalización esperada del sprint',
+  `nombre` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Nombre del sprint',
+  `descripcion` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Descripción breve de lo que se trabajará en el sprint',
+  `estado` int DEFAULT NULL COMMENT 'Etapa en la que se encuentra el sprint',
+  `idproy` int DEFAULT NULL COMMENT 'Llave foránea proveniente de la tabla proyectos',
   PRIMARY KEY (`idsprint`),
   KEY `idproy` (`idproy`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar sprints de proyectos';
@@ -632,13 +632,13 @@ INSERT INTO `sprints` (`idsprint`, `fechaI`, `fechaF`, `nombre`, `descripcion`, 
 
 DROP TABLE IF EXISTS `tareas`;
 CREATE TABLE IF NOT EXISTS `tareas` (
-  `id_tar` int NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `descripcion` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `fechaLimite` date DEFAULT NULL,
-  `idsprint` int DEFAULT NULL,
+  `id_tar` int NOT NULL AUTO_INCREMENT COMMENT 'Identificador primario de la tabla tareas',
+  `nombre` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Nombre descriptivo de la tarea',
+  `descripcion` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Comentario breve de lo que se debe realizar en la tarea asignada',
+  `fechaLimite` date DEFAULT NULL COMMENT 'Plazo máximo para la finalización de la tarea',
+  `idsprint` int DEFAULT NULL COMMENT 'Llave foránea proveniente de la tabla sprint',
   `estado` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Se inserta el estado actual de la tarea',
-  `prioridad` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `prioridad` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Nivel de prioridad de la tarea (baja, media, alta)',
   PRIMARY KEY (`id_tar`),
   KEY `idsprint` (`idsprint`)
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar tareas de proyectos';
@@ -664,9 +664,9 @@ INSERT INTO `tareas` (`id_tar`, `nombre`, `descripcion`, `fechaLimite`, `idsprin
 
 DROP TABLE IF EXISTS `tarea_asignaciones`;
 CREATE TABLE IF NOT EXISTS `tarea_asignaciones` (
-  `id_asignacion` int NOT NULL AUTO_INCREMENT,
-  `id_tar` int DEFAULT NULL,
-  `id_usu_proy` int DEFAULT NULL,
+  `id_asignacion` int NOT NULL AUTO_INCREMENT COMMENT 'Identificador primario',
+  `id_tar` int DEFAULT NULL COMMENT 'Llave foránea proveniente de la tabla tareas',
+  `id_usu_proy` int DEFAULT NULL COMMENT 'Llave foránea proveniente de la tercer tabla entre usuarios y proyectos',
   PRIMARY KEY (`id_asignacion`),
   UNIQUE KEY `id_tar` (`id_tar`),
   KEY `id_usu_proy` (`id_usu_proy`)
@@ -680,16 +680,16 @@ CREATE TABLE IF NOT EXISTS `tarea_asignaciones` (
 
 DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE IF NOT EXISTS `usuarios` (
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `tipodoc` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `documento` int DEFAULT NULL,
-  `password` varbinary(255) DEFAULT NULL,
-  `telefono` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `nombres` varchar(33) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `apellidos` varchar(33) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `foto` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `idrol` int DEFAULT NULL,
-  `perfil` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Identificador de la tabla usuarios',
+  `tipodoc` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Tipo de documento del usuario (ti, cc, cedula de extranjería, etc)',
+  `documento` int DEFAULT NULL COMMENT 'Número de identificación del usuario',
+  `password` varbinary(255) DEFAULT NULL COMMENT 'Clave privada y única',
+  `telefono` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Número de contacto del usuario',
+  `nombres` varchar(33) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Nombre legal del usuario',
+  `apellidos` varchar(33) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Apellido legal del usuario',
+  `foto` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Imagen de perfil para reconocimiento del usuario',
+  `idrol` int DEFAULT NULL COMMENT 'Llave foránea proveniente de la tabla roles',
+  `perfil` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Descripción de la función del usuario',
   PRIMARY KEY (`email`),
   KEY `idrol` (`idrol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Tabla para almacenar información de usuarios';
@@ -736,11 +736,10 @@ INSERT INTO `usuarios` (`email`, `tipodoc`, `documento`, `password`, `telefono`,
 
 DROP TABLE IF EXISTS `usu_proy`;
 CREATE TABLE IF NOT EXISTS `usu_proy` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `idproy` int DEFAULT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `stake` tinyint NOT NULL,
-  `Product_Owner` tinyint(1) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Identificador clave de la tercer tabla entre usuarios y proyectos',
+  `idproy` int DEFAULT NULL COMMENT 'Llave foránea proveniente de la tabla proyectos',
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Llave foránea proveniente de la tabla usuarios',
+  `Scrum Master` tinyint NOT NULL COMMENT 'Identificador de el usuario Scrum Master',
   PRIMARY KEY (`id`),
   KEY `idproy` (`idproy`),
   KEY `email` (`email`)
@@ -750,31 +749,31 @@ CREATE TABLE IF NOT EXISTS `usu_proy` (
 -- Volcado de datos para la tabla `usu_proy`
 --
 
-INSERT INTO `usu_proy` (`id`, `idproy`, `email`, `stake`, `Product_Owner`) VALUES
-(1, 4, 'santicardenash@gmail.com', 0, 1),
-(2, 4, 'majogalan2006@gmail.com', 0, 0),
-(3, 4, 'svalenzuela073@misena.edu.co', 0, 0),
-(4, 30, 'juandaja2201@gmail.com', 0, 0),
-(5, 27, 'caroceron28@gmail.com', 0, 0),
-(6, 27, 'jeanpierrebbedoya@gmail.com', 0, 0),
-(7, 27, 'mglnares2006@gmail.com', 0, 0),
-(8, 28, 'smithcortes01@gmail.com', 0, 0),
-(9, 28, '1029143097@ctjfr.edu.co', 0, 0),
-(10, 31, 'sebastianrm30yu@iclock.com', 0, 0),
-(12, 31, '1028661442@gmail.com', 0, 0),
-(13, 33, 'nicolasgiraldo1020@gmail.com', 0, 0),
-(14, 33, '1074811705@ctjfr.edu.co', 0, 0),
-(15, 28, '1012918020@ctjfr.edu.co', 0, 0),
-(16, 31, 'roger@gmail.com', 0, 0),
-(17, 30, '1127342346@ctjfr.edu.co', 0, 0),
-(18, 30, 'johanbenavides134@gmail.com', 0, 0),
-(19, 29, 'soff24ia@gmail.com', 0, 0),
-(20, 29, 'linaessofia33@gmail.com', 0, 0),
-(21, 29, '1023367786@ctjfr.edu.co', 0, 0),
-(26, 40, 'mglnares2006@gmail.com', 0, 1),
-(28, 42, 'santicardenash@gmail.com', 1, 0),
-(29, 43, 'santicardenash@gmail.com', 1, 0),
-(30, 44, 'santicardenash@gmail.com', 1, 0);
+INSERT INTO `usu_proy` (`id`, `idproy`, `email`, `Scrum Master`) VALUES
+(1, 4, 'santicardenash@gmail.com', 0),
+(2, 4, 'majogalan2006@gmail.com', 0),
+(3, 4, 'svalenzuela073@misena.edu.co', 0),
+(4, 30, 'juandaja2201@gmail.com', 0),
+(5, 27, 'caroceron28@gmail.com', 0),
+(6, 27, 'jeanpierrebbedoya@gmail.com', 0),
+(7, 27, 'mglnares2006@gmail.com', 0),
+(8, 28, 'smithcortes01@gmail.com', 0),
+(9, 28, '1029143097@ctjfr.edu.co', 0),
+(10, 31, 'sebastianrm30yu@iclock.com', 0),
+(12, 31, '1028661442@gmail.com', 0),
+(13, 33, 'nicolasgiraldo1020@gmail.com', 0),
+(14, 33, '1074811705@ctjfr.edu.co', 0),
+(15, 28, '1012918020@ctjfr.edu.co', 0),
+(16, 31, 'roger@gmail.com', 0),
+(17, 30, '1127342346@ctjfr.edu.co', 0),
+(18, 30, 'johanbenavides134@gmail.com', 0),
+(19, 29, 'soff24ia@gmail.com', 0),
+(20, 29, 'linaessofia33@gmail.com', 0),
+(21, 29, '1023367786@ctjfr.edu.co', 0),
+(26, 40, 'mglnares2006@gmail.com', 0),
+(28, 42, 'santicardenash@gmail.com', 1),
+(29, 43, 'santicardenash@gmail.com', 1),
+(30, 44, 'santicardenash@gmail.com', 1);
 
 --
 -- Restricciones para tablas volcadas
