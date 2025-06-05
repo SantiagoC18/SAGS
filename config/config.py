@@ -8,7 +8,7 @@ class Config:
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 465
     MAIL_USERNAME = 'softwareanalysissa@gmail.com'
-    MAIL_PASSWORD = 'kwsv tbct pxwi nczi'
+    MAIL_PASSWORD = 'uahw rsnt nqko kzyb'
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
     
