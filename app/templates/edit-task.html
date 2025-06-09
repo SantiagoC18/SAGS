@@ -108,7 +108,7 @@
             <div class="task-header">
                 <div class="task-title-section">
                     <div class="task-id">#: {{ data['id_tar'] }}</div>
-                    <h1 class="task-title">{{ data['nombre_tarea'] }}</h1>
+                    <h1 class="task-title">{{ data['nombre'] }}</h1>
                     <div class="task-meta">
 
                         <span class="insignia prioridad estado-{{ data['estado'] }}">
@@ -175,7 +175,7 @@
                         <div class="sidebar-label">Asignado a</div>
                         <div class="sidebar-value">
                             <img src="https://via.placeholder.com/20" alt="Avatar" class="assignee-avatar">
-                            {{ data['nombre_usuario'] }}
+                            {{ data['asignados'] }}
                             {{ data['apellido_usuario'] }}
                         </div>
                     </div>
@@ -188,7 +188,7 @@
         <!--ventana emergente2-->
 
         <div class="overlay" id="overlay1">
-            <div class="popup" id="popup1">
+            <div class="popup" id="popup1" style="height: auto;">
                 <div class="modal-header">
                     <h2 class="modal-title">Actualizar Tarea</h2>
                 </div>
