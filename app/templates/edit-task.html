@@ -13,6 +13,7 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <title>Perfil</title>
     <style>
         .modal {
             display: none;
@@ -24,13 +25,13 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
         }
-        
+
         .modal.show {
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        
+
         .dropdown {
             display: none;
             position: absolute;
@@ -38,11 +39,11 @@
             top: 100%;
             z-index: 100;
         }
-        
+
         .dropdown.show {
             display: block;
         }
-        
+
         .avatar {
             width: 40px;
             height: 40px;
@@ -53,24 +54,22 @@
             font-size: 14px;
             font-weight: 600;
         }
-        
+
         .avatar-sm {
             width: 32px;
             height: 32px;
             font-size: 12px;
         }
-        
+
         .scrollbar-hide {
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        
+
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
         }
     </style>
-
-    <title>Perfil</title>
 
 
 </head>
@@ -102,23 +101,20 @@
 
     <div class="container_tasks">
 
-        {% for data in data %}
+        {% if data %}
         <div class="task-detail-container">
             <!-- Cabecera de la tarea -->
             <div class="task-header">
                 <div class="task-title-section">
-                    <div class="task-id">#: {{ data['id_tar'] }}</div>
-                    <h1 class="task-title">{{ data['nombre'] }}</h1>
+                    <div class="task-id">#: {{ data.id_tar }}</div>
+                    <h1 class="task-title">{{ data.nombre }}</h1>
                     <div class="task-meta">
-
-                        <span class="insignia prioridad estado-{{ data['estado'] }}">
-                            Estado: {{ data['estado'] }}
+                        <span class="insignia prioridad estado-{{ data.estado }}">
+                            Estado: {{ data.estado }}
                         </span>
-
-                        <span class="insignia prioridad prioridad-{{ data['prioridad'] }}">
-                            Prioridad: {{ data['prioridad'] }}
+                        <span class="insignia prioridad prioridad-{{ data.prioridad }}">
+                            Prioridad: {{ data.prioridad }}
                         </span>
-
                     </div>
                 </div>
                 <div class="task-actions">
@@ -130,12 +126,13 @@
                         </svg>
                         Editar
                     </button>
-                    <a href="{{ url_for('projects.delete_task', id_tar = id_tar)}}">
+                    <a href="{{ url_for('projects.delete_task', id_tar = data.id_tar)}}">
                         <button class="btn btn-danger">
                             <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="3 6 5 6 21 6"></polyline>
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                <path
+                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
                                 </path>
                             </svg>
                             Eliminar
@@ -152,10 +149,9 @@
                     <div class="content-section">
                         <h2 class="section-title">Descripción</h2>
                         <div class="task-description">
-                            <p>{{ data['descripcion'] }}</p>
+                            <p>{{ data.descripcion }}</p>
                         </div>
                     </div>
-
                 </div>
 
                 <!-- Barra lateral -->
@@ -163,37 +159,65 @@
                     <!-- Detalles -->
                     <div class="sidebar-item">
                         <div class="sidebar-label">Sprint</div>
-                        <div class="sidebar-value">{{ data['nombre_sprint'] }}</div>
+                        <div class="sidebar-value">{{ data.nombre_sprint }}</div>
                     </div>
 
                     <div class="sidebar-item">
                         <div class="sidebar-label">Fecha límite</div>
-                        <div class="sidebar-value">{{ data['fechaLimite'] }}</div>
+                        <div class="sidebar-value">{{ data.fechaLimite }}</div>
                     </div>
 
                     <div class="sidebar-item">
-                        <div class="sidebar-label">Asignado a</div>
+                        <div class="header-member">
+                            <div class="sidebar-label">Asignado a</div>
+                            <button id="btn-abrir-popup2"
+                                class="flex items-center justify-center w-8 h-8 rounded-md transition-colors btn-more">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
                         <div class="sidebar-value">
-                            <img src="https://via.placeholder.com/20" alt="Avatar" class="assignee-avatar">
-                            {{ data['asignados'] }}
-                            {{ data['apellido_usuario'] }}
+                            <div class="p-3 bg-gray-700/50 rounded-lg w-full" data-member-id="${member.id}">
+                                <div class="flex items-center gap-3">
+                                    <div class="avatar bg-gray-600 text-white">
+                                        <i class="fa-solid fa-circle-user"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="font-medium text-white truncate">{{ data.asignados }}</div>
+                                        <div class="text-sm text-gray-400 truncate">{{ data.perfil }}</div>
+                                    </div>
+                                    <div class="relative">
+                                        <button
+                                            class="member-menu-btn m h-8 w-8 p-0 text-gray-400 hover:text-white rounded-md hover:bg-gray-600 flex items-center justify-center"
+                                            data-member-id="${member.id}">
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                        </button>
+                                        <div class="dropdown bg-gray-800 border border-gray-700 rounded-md py-1 mt-1 min-w-[120px]"
+                                            id="dropdown-${member.id}">
+                                            <button
+                                                class="remove-member m-px w-full px-3 py-2 text-left text-red-400 hover:bg-gray-700 flex items-center gap-2 text-sm"
+                                                data-member-id="${member.id}">
+                                                <i data-lucide="x" class="w-4 h-4"></i>
+                                                Remover
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
 
-
-        <!--ventana emergente2-->
-
+        <!--ventana emergente1-->
         <div class="overlay" id="overlay1">
             <div class="popup" id="popup1" style="height: auto;">
                 <div class="modal-header">
                     <h2 class="modal-title">Actualizar Tarea</h2>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ url_for('projects.update_task', id_tar = id_tar) }}" method="post" id="task-form">
+                    <form action="{{ url_for('projects.update_task', id_tar = data.id_tar) }}" method="post"
+                        id="task-form">
                         <div class="form-group">
                             <label for="task-title" class="form-label">Título de la tarea</label>
                             <input type="text" class="form-control" id="task-title" value="{{ data.nombre_tarea }}"
@@ -252,155 +276,95 @@
                                 </div>
                             </div>
                         </div>
-
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" id="btn-cerrar-popup1">Cancelar</button>
                     <button type="submit" form="task-form" class="btn btn-primary">Actualizar Tarea</button>
                 </div>
-                {% endfor %}
             </div>
         </div>
+        <!--fin ventana emergente1-->
+        {% endif %}
     </div>
 
-    <div class="p-6">
-        <div class="max-w-6xl mx-auto bg-gray-800 border border-gray-700 rounded-lg">
-            <!-- Header -->
-            <div class="border-b border-gray-700 p-6">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <div class="text-sm text-gray-400">#: 27</div>
-                        <h1 class="text-2xl font-bold">Modelos</h1>
-                    </div>
-                    <div class="flex gap-2">
-                        <button class="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 border border-blue-600 rounded-md text-sm font-medium transition-colors">
-                            <i data-lucide="edit" class="w-4 h-4"></i>
-                            Editar
-                        </button>
-                        <button class="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 border border-red-600 rounded-md text-sm font-medium transition-colors">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i>
-                            Eliminar
-                        </button>
-                    </div>
+    <!--ventana emergente2-->
+    <div class="overlay" id="overlay2">
+        <div class="popup" id="popup2" style="height: auto;">
+            <div class=" p-6 w-full max-w-md mx-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h4 class="text-lg font-semibold text-white">Asignar miembro del equipo</h4>
+                    <button id="btn-cerrar-popup2" class="text-gray-400 hover:text-white">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </div>
-                <div class="flex gap-2 mt-4">
-                    <span class="px-3 py-1 bg-blue-600/20 text-blue-400 border border-blue-600 rounded-full text-sm">
-                        Estado: Activo
-                    </span>
-                    <span class="px-3 py-1 bg-red-600/20 text-red-400 border border-red-600 rounded-full text-sm">
-                        Prioridad: Alta
-                    </span>
-                </div>
-            </div>
 
-            <!-- Content -->
-            <div class="p-6">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Descripción -->
-                    <div class="lg:col-span-2">
-                        <div class="space-y-4">
-                            <div>
-                                <label class="text-gray-300 text-sm font-medium">DESCRIPCIÓN</label>
-                                <textarea 
-                                    class="mt-2 w-full p-3 bg-gray-700 border border-gray-600 text-white rounded-lg resize-none" 
-                                    rows="3" 
-                                    readonly>Creación de modelos estructurados y de datos clave</textarea>
-                            </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="text-gray-300 text-sm font-medium">Buscar miembro</label>
+                        <div class="relative mt-2">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 w-4 h-4 text-gray-400"></i>
+                            <input id="search-input" type="text" placeholder="Buscar por nombre, email o rol..."
+                                class="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 text-white rounded-lg focus:outline-none focus:border-blue-500">
                         </div>
                     </div>
 
-                    <!-- Panel lateral -->
-                    <div class="space-y-6">
-                        <!-- Sprint -->
-                        <div>
-                            <label class="text-gray-400 text-sm">Sprint</label>
-                            <div class="mt-2 p-3 bg-gray-700 rounded-lg">
-                                <div class="text-white font-medium">Sprint 8 - Validación</div>
+                    <div id="available-members" class="max-h-60 overflow-y-auto scrollbar-hide space-y-2">
+                        <!-- Los miembros disponibles se cargarán aquí -->
+                         {% for data1 in data1 %}
+                        <div class="flex items-center gap-3 p-3 bg-gray-700 rounded-lg hover:bg-gray-600 cursor-pointer transition-colors assign-member" data-member-id="${member.id}">
+                            <div class="avatar-sm bg-gray-600 text-white" style="display: flex; justify-content: center; align-content: center; align-items: center; border-radius: 50%;">
+                                <i class="fa-solid fa-circle-user"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="font-medium text-white truncate">{{ data1.nombres }} {{ data1.apellidos }}</div>
+                                <div class="text-sm text-gray-400 truncate">{{ data1.perfil }}</div>
                             </div>
                         </div>
-
-                        <!-- Fecha límite -->
-                        <div>
-                            <label class="text-gray-400 text-sm">Fecha límite</label>
-                            <div class="mt-2 p-3 bg-gray-700 rounded-lg flex items-center gap-2">
-                                <i data-lucide="calendar" class="w-4 h-4 text-gray-400"></i>
-                                <span class="text-white">2018-04-05</span>
-                            </div>
-                        </div>
-
-                        <!-- Asignado a -->
-                        <div>
-                            <div class="flex items-center justify-between mb-3">
-                                <label class="text-gray-400 text-sm flex items-center gap-2">
-                                    <i data-lucide="users" class="w-4 h-4"></i>
-                                    Asignado a (<span id="assigned-count">1</span>)
-                                </label>
-                                <button 
-                                    id="add-member-btn"
-                                    class="flex items-center justify-center w-8 h-8 bg-green-600 hover:bg-green-700 border border-green-600 rounded-md transition-colors">
-                                    <i data-lucide="plus" class="w-4 h-4"></i>
-                                </button>
-                            </div>
-
-                            <div id="assigned-members" class="space-y-3">
-                                <!-- Los miembros asignados se cargarán aquí -->
-                            </div>
-
-                            <!-- Estadísticas -->
-                            <div id="team-stats" class="mt-4 p-3 bg-gray-700/50 rounded-lg">
-                                <div class="text-xs text-gray-400 mb-2">Resumen del equipo</div>
-                                <div class="flex justify-between text-sm">
-                                    <span class="text-gray-300">Total asignados:</span>
-                                    <span id="total-assigned" class="text-white font-medium">1</span>
-                                </div>
-                                <div class="flex justify-between text-sm">
-                                    <span class="text-gray-300">Disponibles:</span>
-                                    <span id="total-available" class="text-white font-medium">4</span>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Modal para asignar miembros -->
-    <div id="assign-modal" class="modal">
-        <div class="bg-gray-800 border border-gray-700 rounded-lg p-6 w-full max-w-md mx-4">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-semibold text-white">Asignar miembro del equipo</h3>
-                <button id="close-modal" class="text-gray-400 hover:text-white">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-            
-            <div class="space-y-4">
-                <div>
-                    <label class="text-gray-300 text-sm font-medium">Buscar miembro</label>
-                    <div class="relative mt-2">
-                        <i data-lucide="search" class="absolute left-3 top-3 w-4 h-4 text-gray-400"></i>
-                        <input 
-                            id="search-input"
-                            type="text" 
-                            placeholder="Buscar por nombre, email o rol..."
-                            class="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 text-white rounded-lg focus:outline-none focus:border-blue-500">
-                    </div>
-                </div>
-                
-                <div id="available-members" class="max-h-60 overflow-y-auto scrollbar-hide space-y-2">
-                    <!-- Los miembros disponibles se cargarán aquí -->
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!--fin ventana emergente2-->
 
     <script src="/static/js/popup.js"></script>
     <script src="/static/js/bar.js"></script>
     <script>
+        document.addEventListener('click', function (e) {
+            // Asignar miembro
+            if (e.target.closest('.assign-member')) {
+                const memberId = e.target.closest('.assign-member').dataset.memberId;
+                assignMember(memberId);
+            }
+
+            // Remover miembro
+            if (e.target.closest('.remove-member')) {
+                const memberId = e.target.closest('.remove-member').dataset.memberId;
+                removeMember(memberId);
+            }
+
+            // Toggle dropdown menu
+            if (e.target.closest('.member-menu-btn')) {
+                e.stopPropagation();
+                const memberId = e.target.closest('.member-menu-btn').dataset.memberId;
+                const dropdown = document.getElementById(`dropdown-${memberId}`);
+
+                // Cerrar otros dropdowns
+                document.querySelectorAll('.dropdown').forEach(d => {
+                    if (d !== dropdown) d.classList.remove('show');
+                });
+
+                dropdown.classList.toggle('show');
+            }
+
+            // Cerrar dropdowns al hacer clic fuera
+            if (!e.target.closest('.member-menu-btn') && !e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+            }
+        });
+
         document.querySelector("form").addEventListener("submit", function (event) {
             // Verificar el sprint
             let sprintElement = document.getElementById("sprint");

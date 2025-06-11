@@ -231,11 +231,9 @@ def update_task(id_tar):
             #return render_template('edit-task.html', log='Cerrar', idproy=idproy, data = data)
         else:
             cur = mysql.connection.cursor()
-            cur.execute("SELECT * FROM tareas WHERE id_tar = %s", (id_tar,))
-            data = cur.fetchone()
 
             cur.execute('''SELECT 
-            t.*, s.nombre AS nombre_sprint,
+            t.*, s.nombre AS nombre_sprint, s.idsprint, p.idproy, u.perfil,
             GROUP_CONCAT(CONCAT(u.nombres, ' ', u.apellidos) SEPARATOR ', ') AS asignados
             FROM tareas t
             JOIN sprints s ON t.idsprint = s.idsprint
@@ -243,12 +241,21 @@ def update_task(id_tar):
             LEFT JOIN tarea_asignaciones ta ON t.id_tar = ta.id_tar
             LEFT JOIN usu_proy up ON ta.id_usu_proy = up.id
             LEFT JOIN usuarios u ON up.email = u.email
-            WHERE p.idproy = %s
-            GROUP BY t.id_tar;
-            ''', (id_tar,))
-            data = cur.fetchall()
+            WHERE t.id_tar = %s
+            GROUP BY t.id_tar;''', (id_tar,))
+            data = cur.fetchone()
 
-            return render_template('edit-task.html', log='Cerrar', data = data, id_tar = id_tar)
+            idproy = data['idproy']
+
+            cur.execute("""SELECT * FROM usuarios 
+            INNER JOIN usu_proy ON usuarios.email = usu_proy.email 
+            where idproy = %s""", (idproy,))
+            data1 = cur.fetchall()
+
+            cur.execute("SELECT * FROM sprints where idproy = %s", (idproy,))
+            data2 = cur.fetchall()
+
+            return render_template('edit-task.html', log='Cerrar', data = data, data1 = data1, data2 = data2, id_tar = id_tar)
 
 @bp.route("/delete_task/<int:id_tar>")
 @token_required
@@ -475,3 +482,5 @@ def desasignar_usuarios():
             "error": "Error al desasignar usuarios",
             "detalle": str(e)
         }), 500
+
+

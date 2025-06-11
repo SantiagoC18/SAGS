@@ -198,6 +198,12 @@ textarea.form-control {
     flex: 1;
 }
 
+.header-member {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 /* Botones */
 .btn {
     display: flex;
