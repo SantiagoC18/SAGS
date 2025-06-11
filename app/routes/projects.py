@@ -194,7 +194,7 @@ def registrar_task(idproy):
         idsprint = request.form['idsprint']
 
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO tareas (nombre, descripcion, fechaLimite, estado, prioridad, idsprint, usu_proy) VALUES (%s, %s, %s, %s, %s, %s, 3)",
+        cur.execute("INSERT INTO tareas (nombre, descripcion, fechaLimite, estado, prioridad, idsprint) VALUES (%s, %s, %s, %s, %s, %s)",
                     (nombre, descripcion, fechaLimite, estado, prioridad, idsprint,))
         mysql.connection.commit()
         cur.close()
@@ -232,40 +232,23 @@ def update_task(id_tar):
         else:
             cur = mysql.connection.cursor()
             cur.execute("SELECT * FROM tareas WHERE id_tar = %s", (id_tar,))
-            data = cur.fetchall()
-            cur.execute('''SELECT t.id_tar,
-            t.nombre AS nombre_tarea,
-            t.descripcion,
-            t.fechaLimite,
-            t.estado,
-            t.prioridad,
-            s.nombre AS nombre_sprint,
-            p.nombre AS nombre_proyecto,
-            p.idproy,
-            usuarios.nombres AS nombre_usuario,
-            usuarios.apellidos AS apellido_usuario
+            data = cur.fetchone()
+
+            cur.execute('''SELECT 
+            t.*, s.nombre AS nombre_sprint,
+            GROUP_CONCAT(CONCAT(u.nombres, ' ', u.apellidos) SEPARATOR ', ') AS asignados
             FROM tareas t
             JOIN sprints s ON t.idsprint = s.idsprint
             JOIN proyectos p ON s.idproy = p.idproy
-            JOIN usu_proy ON p.idproy = usu_proy.idproy
-            JOIN usuarios ON usu_proy.email = usuarios.email
-            WHERE t.id_tar = %s limit 1
+            LEFT JOIN tarea_asignaciones ta ON t.id_tar = ta.id_tar
+            LEFT JOIN usu_proy up ON ta.id_usu_proy = up.id
+            LEFT JOIN usuarios u ON up.email = u.email
+            WHERE p.idproy = %s
+            GROUP BY t.id_tar;
             ''', (id_tar,))
             data = cur.fetchall()
 
-            idproy = data[0]['idproy']
-            cur.execute('SELECT * FROM sprints WHERE idproy = %s', (idproy,))
-            data2 = cur.fetchall()
-
-            cur.execute('''SELECT usu_proy.id AS idusu, usuarios.nombres, usuarios.apellidos
-            FROM proyectos
-            INNER JOIN usu_proy ON proyectos.idproy = usu_proy.idproy
-            INNER JOIN usuarios ON usuarios.email = usu_proy.email
-            WHERE usu_proy.idproy = %s
-            GROUP BY usuarios.nombres, usuarios.apellidos''', (idproy,))
-            data3 = cur.fetchall()
-
-            return render_template('edit-task.html', log='Cerrar', data = data, data2 = data2, data3 = data3, id_tar = id_tar)
+            return render_template('edit-task.html', log='Cerrar', data = data, id_tar = id_tar)
 
 @bp.route("/delete_task/<int:id_tar>")
 @token_required
