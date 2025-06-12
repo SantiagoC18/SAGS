@@ -1,10 +1,18 @@
+import os
+
 class Config:
     MYSQL_HOST = 'sags-server.mysql.database.azure.com'
     MYSQL_PORT = 3306
     MYSQL_USER = 'qyqxrjojid'
-    MYSQL_PASSWORD = 'Sags2025'
+    MYSQL_PASSWORD = 'Sags2025'  # Reemplaza con tu contraseña real
     MYSQL_DB = 'sags'
     MYSQL_CURSORCLASS = 'DictCursor'
+    
+    # Configuración SSL requerida para Azure MySQL
+    MYSQL_SSL = {
+        'ssl_disabled': False,
+        'ssl_mode': 'REQUIRED'
+    }
     
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 465

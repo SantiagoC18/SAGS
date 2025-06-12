@@ -9,6 +9,10 @@ gmail = Mail()
 def create_app(config_class=Config):
     app = Flask(__name__, template_folder='templates')
     app.config.from_object(config_class)
+
+    # Configuración adicional para SSL si es necesario
+    if hasattr(config_class, 'MYSQL_SSL'):
+        app.config.update(config_class.MYSQL_SSL)
     
     mysql.init_app(app)
     gmail.init_app(app)
