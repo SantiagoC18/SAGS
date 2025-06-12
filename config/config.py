@@ -1,5 +1,6 @@
 class Config:
     MYSQL_HOST = 'sags-server.mysql.database.azure.com'
+    MYSQL_PORT = 3306
     MYSQL_USER = 'qyqxrjojid'
     MYSQL_PASSWORD = 'Sags2025'
     MYSQL_DB = 'sags'
