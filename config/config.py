@@ -1,7 +1,7 @@
 class Config:
-    MYSQL_HOST = 'localhost'
-    MYSQL_USER = 'root'
-    MYSQL_PASSWORD = ''
+    MYSQL_HOST = 'sags-server.mysql.database.azure.com'
+    MYSQL_USER = 'qyqxrjojid'
+    MYSQL_PASSWORD = 'Sags2025'
     MYSQL_DB = 'sags'
     MYSQL_CURSORCLASS = 'DictCursor'
     
