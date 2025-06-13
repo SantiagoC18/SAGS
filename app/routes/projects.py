@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash, Flask, jsonify
 from app.routes.auth import token_required 
 from app import mysql
+import os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 bp = Blueprint('projects', __name__)
@@ -19,7 +21,7 @@ def gestion_proyectos():
     
     if not usuario or usuario['idrol'] not in [1, 2]: # Admin and Scrum Master
         flash("No tiene permisos para acceder a esta sección.")
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.modulos'))
 
 
     if request.method == 'POST':
@@ -45,9 +47,12 @@ def gestion_proyectos():
         account = cur.fetchone()
 
         if account:
+            # Obtener todos los proyectos para administradores
+            cur = mysql.connection.cursor()
             cur.execute("SELECT * FROM proyectos")
             consulta = cur.fetchall()
 
+            # Obtener proyectos del usuario actual
             id = session['id']
             cur.execute('''
                 SELECT * FROM proyectos
@@ -56,12 +61,27 @@ def gestion_proyectos():
                 WHERE usu_proy.email = %s
             ''', (id,))
             consulta2 = cur.fetchall()
+            
+            # Calcular el progreso para cada proyecto basado en sus sprints
+            for proyecto in consulta2:
+                # Obtener todos los sprints del proyecto
+                cur.execute("SELECT * FROM sprints WHERE idproy = %s", (proyecto['idproy'],))
+                sprints = cur.fetchall()
+                
+                if sprints:
+                    # Calcular el promedio del estado de todos los sprints
+                    total_porcentaje = sum(sprint['estado'] for sprint in sprints)
+                    progreso = int(total_porcentaje / len(sprints))
+                else:
+                    progreso = 0
+                    
+                # Agregar el progreso al diccionario del proyecto
+                proyecto['progreso'] = progreso
 
-            cur = mysql.connection.cursor()
             cur.execute('SELECT * FROM usuarios')
             infousuarios = cur.fetchall()
 
-            return render_template('gestor_proyectos.html', data=consulta, data2=consulta2, infoUsu=infousuarios)
+            return render_template('gestor_proyectos.html', data=consulta, data2=consulta2, infoUsu=infousuarios, log='Cerrar', idrol = session['idrol'])
         else:
             flash("Contraseña incorrecta.")
             return redirect(url_for('main.modulos'))
@@ -131,16 +151,21 @@ def plan(idproy):
 @token_required
 def checkdown(idproy):
     if not session.get('logueado'):
-        return redirect(url_for('auth.login'))  # Updated endpoint
+        return redirect(url_for('auth.login'))
 
     cur = mysql.connection.cursor()
+    
+    # Obtener el rol del usuario actual
+    cur.execute("SELECT idrol FROM usuarios WHERE email = %s", (session['id'],))
+    usuario = cur.fetchone()
+    rol_usuario = usuario['idrol'] if usuario else 0
     
     cur.execute("SELECT * FROM proyectos WHERE idproy = %s", (idproy,))
     data2 = cur.fetchall()
     
     cur.execute('''
         SELECT checklists.aprobacion, modelos.nombre, modelos.descripcion, 
-                checklists.progreso, checklists.archivo, checklists.fecha
+                checklists.progreso, checklists.archivo, checklists.fecha, modelos.idmod
         FROM proyectos
         INNER JOIN checklists ON proyectos.idproy = checklists.idproy
         INNER JOIN modelos ON checklists.idmod = modelos.idmod
@@ -149,18 +174,18 @@ def checkdown(idproy):
     data = cur.fetchall()
     
     cur.execute('''
-        SELECT proyectos.idproy, usuarios.nombres, usuarios.apellidos, 
-                count(usuarios.email) integrantes
-        FROM proyectos
-        INNER JOIN usu_proy ON proyectos.idproy = usu_proy.idproy
-        INNER JOIN usuarios ON usuarios.email = usu_proy.email
-        WHERE usu_proy.idproy = %s 
-        GROUP BY usuarios.nombres, usuarios.apellidos
-    ''', (idproy,))
+        SELECT DISTINCT u.email, u.nombres, u.apellidos,
+                (SELECT COUNT(*) 
+                 FROM usu_proy up2 
+                 WHERE up2.idproy = %s) as integrantes
+        FROM usuarios u
+        INNER JOIN usu_proy up ON u.email = up.email 
+        WHERE up.idproy = %s
+        ''', (idproy, idproy))
     personal = cur.fetchall()
 
     return render_template('check-down.html', idproy=idproy, data=data, 
-                            data2=data2, colaboradores=personal, log='Cerrar')
+                          data2=data2, colaboradores=personal, log='Cerrar', rol_usuario=rol_usuario)
 
 @bp.route("/tasks/<int:idproy>")
 @token_required
@@ -233,7 +258,7 @@ def update_task(id_tar):
             cur = mysql.connection.cursor()
 
             cur.execute('''SELECT 
-            t.*, s.nombre AS nombre_sprint, s.idsprint, p.idproy, u.perfil,
+            t.*, s.nombre AS nombre_sprint, t.nombre AS nombre_tarea, s.idsprint, p.idproy, u.perfil,
             GROUP_CONCAT(CONCAT(u.nombres, ' ', u.apellidos) SEPARATOR ', ') AS asignados
             FROM tareas t
             JOIN sprints s ON t.idsprint = s.idsprint
@@ -279,9 +304,39 @@ def sprints(idproy):
         idproy = idproy
         cur = mysql.connection.cursor()
         cur.execute("SELECT * FROM sprints WHERE idproy = %s", (idproy,))
-        data = cur.fetchall()
+        sprints_data = cur.fetchall()
+        
+        # Para cada sprint, calcular el porcentaje de tareas completadas
+        for sprint in sprints_data:
+            # Obtener todas las tareas del sprint
+            cur.execute("""
+                SELECT COUNT(*) as total_tareas, 
+                       SUM(CASE WHEN estado = 'Completado' THEN 1 ELSE 0 END) as tareas_completadas
+                FROM tareas 
+                WHERE idsprint = %s
+            """, (sprint['idsprint'],))
+            
+            tareas_info = cur.fetchone()
+            total_tareas = tareas_info['total_tareas'] if tareas_info['total_tareas'] > 0 else 0
+            tareas_completadas = tareas_info['tareas_completadas'] if tareas_info['tareas_completadas'] is not None else 0
+            
+            # Calcular el porcentaje
+            if total_tareas > 0:
+                porcentaje = int((tareas_completadas / total_tareas) * 100)
+            else:
+                porcentaje = 0
+                
+            # Actualizar el estado del sprint en la base de datos
+            cur.execute("UPDATE sprints SET estado = %s WHERE idsprint = %s", 
+                       (porcentaje, sprint['idsprint']))
+            mysql.connection.commit()
+            
+            # Actualizar el valor en el diccionario para la plantilla
+            sprint['estado'] = porcentaje
+            sprint['total_tareas'] = total_tareas
+            sprint['tareas_completadas'] = tareas_completadas
 
-        return render_template('sprints.html', log='Cerrar', data=data, data2=idproy)
+        return render_template('sprints.html', log='Cerrar', data=sprints_data, data2=idproy)
     else:
         return redirect(url_for('auth.login'))
 
@@ -482,5 +537,38 @@ def desasignar_usuarios():
             "error": "Error al desasignar usuarios",
             "detalle": str(e)
         }), 500
+
+
+@bp.route("/upload_document/<int:idproy>", methods=['POST'])
+@token_required
+def upload_document(idproy):
+    if not session.get('logueado'):
+        return redirect(url_for('auth.login'))
+    
+    if 'document' not in request.files:
+        flash('No se seleccionó ningún archivo', 'error')
+        return redirect(url_for('projects.checkdown', idproy=idproy))
+    
+    file = request.files['document']
+    idmod = request.form['idmod']
+    
+    if file.filename == '':
+        flash('No se seleccionó ningún archivo', 'error')
+        return redirect(url_for('projects.checkdown', idproy=idproy))
+    
+    # Guardar el archivo en la carpeta documentos
+    filename = secure_filename(file.filename)
+    file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static', 'documentos', filename)
+    file.save(file_path)
+    
+    # Actualizar la base de datos
+    cur = mysql.connection.cursor()
+    cur.execute("UPDATE checklists SET archivo = %s, fecha = CURDATE() WHERE idproy = %s AND idmod = %s", 
+               (filename, idproy, idmod))
+    mysql.connection.commit()
+    cur.close()
+    
+    flash('Documento cargado exitosamente', 'success')
+    return redirect(url_for('projects.checkdown', idproy=idproy))
 
 

@@ -29,7 +29,7 @@
         <div class="main">
             <a href="{{ url_for('auth.logout') }}" class="user">
                 <i class="fa-solid fa-user"></i>
-                {% if log %} 
+                {% if log %}
                 {{log}} Sesion
                 {% endif %}
             </a>
@@ -52,12 +52,14 @@
     <section class="sec1">
 
         <table id="myTable" class="display bg-[#000]" style="max-width:49vw; overflow: auto;">
+            <!-- En la sección de encabezado de la tabla -->
             <thead>
                 <tr>
                     <th>Check</th>
-                    <th>Documetación</th>
-                    <th>Descripción</th>
-                    <th>Progreso</th>
+                    <th>Documentación</th>
+                    {% if rol_usuario == 2 %}
+                    <th>Cargar Documento</th>
+                    {% endif %}
                     <th>Archivo</th>
                     <th>Fecha</th>
                 </tr>
@@ -86,22 +88,26 @@
                         </div>
                     </td>
                     <td>{{ data['nombre'] }}</td>
-                    <td>{{ data['descripcion'] }}</td>
+                    {% if rol_usuario == 2 %}
                     <td>
-                        <div class="flex justify-between mb-1">
-                            <span class="text-sm font-medium text-blue-700 dark:text-white">{{ data['progreso']
-                                }}%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                            <!--<div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ data['progreso'] }}%;"></div>-->
-                            <div class="bg-blue-600 h-2.5 rounded-full w-[{{ data['progreso'] }}%]"></div>
+                        <button
+                            class="upload-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
+                            data-id="{{ data['nombre'] }}" data-idmod="{{ data['idmod'] }}" data-idproy="{{ idproy }}">
+                            Cargar
+                        </button>
                     </td>
-                    <td><button
+                    {% endif %}
+                    <td>
+                        {% if data['archivo'] %}
+                        <button
                             class="preview-button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md"
                             data-id="{{ url_for('static', filename='documentos/' ~  data['archivo']) }}"
                             data-filename="{{ data['nombre'] }}">Ver</button>
                         <a href="https://app.diagrams.net/"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Editar</a>
+                        {% else %}
+                        <span class="text-gray-500">Sin archivo</span>
+                        {% endif %}
                     </td>
                     <td>{{ data['fecha'] }}</td>
                 </tr>
@@ -167,6 +173,25 @@
 
     </section>
 
+    <!-- Ventana emergente para cargar documentos (Modo Oscuro) -->
+    <div id="uploadModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden flex items-center justify-center z-50">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96 border border-gray-700">
+            <h2 class="text-xl font-bold mb-4 text-white">Cargar Documento</h2>
+            <p id="uploadDocName" class="mb-4 text-gray-300">Documento: </p>
+            <form id="uploadForm" action="{{ url_for('projects.upload_document', idproy=idproy) }}" method="POST" enctype="multipart/form-data">
+                <input type="hidden" id="idmod" name="idmod" value="">
+                <input type="hidden" id="idproy" name="idproy" value="{{ idproy }}">
+                <div class="mb-4">
+                    <label for="document" class="block text-gray-300 text-sm font-bold mb-2">Seleccionar archivo:</label>
+                    <input type="file" id="document" name="document" class="w-full px-3 py-2 bg-gray-700 text-white border border-gray-600 rounded-md focus:outline-none focus:border-blue-500" required>
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" id="cancelUpload" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2 transition duration-300">Cancelar</button>
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300">Subir</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!--Enalaces de scripts-->
 
@@ -192,6 +217,37 @@
                 const previewFrame = document.getElementById('preview-frame');
                 previewFrame.src = filePath; // Asignar la ruta del archivo al iframe
             });
+        });
+
+        // Manejo de la ventana emergente para cargar documentos
+        const uploadModal = document.getElementById('uploadModal');
+        const uploadDocName = document.getElementById('uploadDocName');
+        const idmodInput = document.getElementById('idmod');
+        const idproyInput = document.getElementById('idproy');
+
+        document.querySelectorAll('.upload-button').forEach(button => {
+            button.addEventListener('click', function () {
+                const docName = this.getAttribute('data-id');
+                const idmod = this.getAttribute('data-idmod');
+                const idproy = this.getAttribute('data-idproy');
+
+                uploadDocName.textContent = `Documento: ${docName}`;
+                idmodInput.value = idmod;
+                idproyInput.value = idproy;
+
+                uploadModal.classList.remove('hidden');
+            });
+        });
+
+        document.getElementById('cancelUpload').addEventListener('click', function () {
+            uploadModal.classList.add('hidden');
+        });
+
+        // Cerrar modal si se hace clic fuera del contenido
+        uploadModal.addEventListener('click', function (e) {
+            if (e.target === uploadModal) {
+                uploadModal.classList.add('hidden');
+            }
         });
     </script>
 

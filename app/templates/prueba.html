@@ -1,136 +1,1047 @@
-<!DOCTYPE html
-    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recuperación de Contraseña SAGS</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Proyectos</title>
+  <link rel="stylesheet" href="/app/static/css/gestor_proyectos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div>
+          <h1>Gestión de Proyectos</h1>
+          <p class="text-muted">Administra y supervisa todos tus proyectos desde un solo lugar</p>
+        </div>
+        <button class="btn btn-primary">
+          <i class="fas fa-plus"></i> Nuevo Proyecto
+        </button>
+      </div>
+    </header>
 
-<body style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #000000; color: #ffffff; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
-    <!-- Contenedor principal -->
-    <table border="0" cellpadding="0" cellspacing="0" width="90%" style="min-width: 100%;">
-        <tr>
-            <td align="center" valign="top" style="padding: 20px 10px;">
-                <!-- Contenedor del email -->
-                <table border="0" cellpadding="0" cellspacing="0" width="auto"
-                    style="max-width: 600px; background-color: #000000;">
-                    <!-- Header -->
-                    <tr>
-                        <td align="left" valign="middle" style="padding: 20px 0;">
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                <tr>
-                                    <td width="50" style="padding-right: 10px;">
-                                        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/sirs-wf3veHKLHEjJ0wDWVcEeNGDjGZDhVj.jpg"
-                                            alt="SAGS Logo" width="40" height="40"
-                                            style="display: block; border-radius: 50%;" />
-                                    </td>
-                                    <td>
-                                        <span style="font-size: 20px; font-weight: bold; color: #ffffff;">SAGS</span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Total Proyectos</h3>
+          <i class="fas fa-clock text-muted"></i>
+        </div>
+        <div class="card-content">
+          <div class="stat-value">5</div>
+          <p class="stat-description">1 en progreso</p>
+        </div>
+      </div>
 
-                    <!-- Contenido principal -->
-                    <tr>
-                        <td
-                            style="background-color: #0a0e17; border: 1px solid #2a2a2a; border-radius: 8px; padding: 30px; position: relative;">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Proyectos Completados</h3>
+          <i class="fas fa-check-circle text-muted"></i>
+        </div>
+        <div class="card-content">
+          <div class="stat-value">0</div>
+          <p class="stat-description">0% del total</p>
+        </div>
+      </div>
 
-                            <!-- Logo de fondo -->
-                            <div
-                                style="position: absolute; right: 0; top: 25%; width: 200px; height: 200px; opacity: 0.2; text-align: right;">
-                                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/sirs-wf3veHKLHEjJ0wDWVcEeNGDjGZDhVj.jpg"
-                                    alt="SAGS Logo Background" width="180" height="180"
-                                    style="display: inline-block;" />
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Proyectos Retrasados</h3>
+          <i class="fas fa-exclamation-triangle text-muted"></i>
+        </div>
+        <div class="card-content">
+          <div class="stat-value">2</div>
+          <p class="stat-description">40% del total</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Miembros de Equipo</h3>
+          <i class="fas fa-users text-muted"></i>
+        </div>
+        <div class="card-content">
+          <div class="stat-value">14</div>
+          <p class="stat-description">En 5 proyectos</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" placeholder="Buscar proyectos...">
+      </div>
+
+      <div class="filter-actions">
+        <div class="dropdown">
+          <button class="btn btn-outline dropdown-toggle" id="filterButton">
+            <i class="fas fa-filter"></i> <span class="hide-on-mobile">Filtros</span>
+            <span class="badge">0</span>
+          </button>
+          <div class="dropdown-menu" id="filterMenu">
+            <div class="dropdown-content">
+              <h4>Filtros</h4>
+              <p class="text-muted">Filtra los proyectos según diferentes criterios</p>
+              
+              <div class="form-group">
+                <label for="status">Estado</label>
+                <select id="status" class="select">
+                  <option value="all">Todos</option>
+                  <option value="not-started">No iniciado</option>
+                  <option value="in-progress">En progreso</option>
+                  <option value="delayed">Retrasado</option>
+                  <option value="at-risk">En riesgo</option>
+                  <option value="completed">Completado</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="date">Fecha</label>
+                <input type="date" id="date" class="select">
+              </div>
+
+              <div class="form-group">
+                <label for="type">Tipo de Proyecto</label>
+                <select id="type" class="select">
+                  <option value="all">Todos</option>
+                  <option value="development">Desarrollo</option>
+                  <option value="design">Diseño</option>
+                  <option value="marketing">Marketing</option>
+                  <option value="research">Investigación</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="plan">Plan</label>
+                <select id="plan" class="select">
+                  <option value="all">Todos</option>
+                  <option value="free">Gratuito</option>
+                  <option value="pro">Profesional</option>
+                  <option value="enterprise">Empresarial</option>
+                </select>
+              </div>
+
+              <div class="filter-actions">
+                <button class="btn btn-outline btn-sm">
+                  <i class="fas fa-times"></i> Limpiar
+                </button>
+                <button class="btn btn-primary btn-sm">Aplicar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View Tabs -->
+    <div class="tabs">
+      <div class="tabs-list">
+        <button class="tab active" data-tab="table">Tabla</button>
+        <button class="tab" data-tab="kanban">Kanban</button>
+        <button class="tab" data-tab="calendar">Calendario</button>
+      </div>
+    </div>
+
+    <!-- Table View -->
+    <div class="tab-content active" id="table-view">
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th width="40px"></th>
+              <th width="40px">#</th>
+              <th class="sortable">
+                Nombre del Proyecto
+                <i class="fas fa-chevron-up sort-icon"></i>
+              </th>
+              <th class="sortable">
+                Fecha de Inicio
+                <i class="fas fa-chevron-down sort-icon hidden"></i>
+              </th>
+              <th class="sortable">
+                Fecha de Finalización
+                <i class="fas fa-chevron-down sort-icon hidden"></i>
+              </th>
+              <th>Estado</th>
+              <th class="sortable">
+                Progreso
+                <i class="fas fa-chevron-down sort-icon hidden"></i>
+              </th>
+              <th>Equipo</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- SAGS Project -->
+            <tr>
+              <td class="text-center">
+                <button class="btn-icon toggle-details" data-project="4">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </td>
+              <td>4</td>
+              <td class="font-medium">
+                <div class="flex-center">
+                  SAGS
+                  <span class="notification-dot"></span>
+                </div>
+              </td>
+              <td>2022-04-10</td>
+              <td>2023-12-31</td>
+              <td><span class="badge badge-default">En Progreso</span></td>
+              <td>
+                <div class="progress-container">
+                  <div class="progress">
+                    <div class="progress-bar bg-blue" style="width: 16%"></div>
+                  </div>
+                  <span class="progress-text">16%</span>
+                </div>
+              </td>
+              <td>
+                <div class="avatar-group">
+                  <div class="avatar" title="Ana Martínez (Scrum Master)">AM</div>
+                  <div class="avatar" title="Carlos López (Product Owner)">CL</div>
+                  <div class="avatar" title="Elena Rodríguez (Developer)">ER</div>
+                  <div class="avatar more-avatar" title="2 miembros más">+2</div>
+                </div>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn btn-primary"><i class="fas fa-play"></i> <span class="btn-text">Trabajar</span></button>
+                  <button class="btn btn-outline btn-icon" title="Gestionar equipo">
+                    <i class="fas fa-users"></i>
+                  </button>
+                  <button class="btn btn-outline btn-icon" title="Documentos">
+                    <i class="fas fa-file-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- Project Details Row (Hidden by default) -->
+            <tr class="details-row" id="details-4">
+              <td colspan="9">
+                <div class="project-details">
+                  <div class="tabs details-tabs">
+                    <div class="tabs-list">
+                      <button class="tab active" data-detail-tab="overview-4">Resumen</button>
+                      <button class="tab" data-detail-tab="tasks-4">Tareas</button>
+                      <button class="tab" data-detail-tab="documents-4">Documentos</button>
+                      <button class="tab" data-detail-tab="team-4">Equipo</button>
+                    </div>
+                  </div>
+                  
+                  <!-- Overview Tab -->
+                  <div class="detail-tab-content active" id="overview-4">
+                    <div class="details-stats">
+                      <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">Sprints</h3>
+                        </div>
+                        <div class="card-content">
+                          <div class="stats-flex">
+                            <div class="stat-item">
+                              <span class="stat-value">2</span>
+                              <span class="stat-label">Activos</span>
                             </div>
+                            <div class="stat-item">
+                              <span class="stat-value">3</span>
+                              <span class="stat-label">Completados</span>
+                            </div>
+                            <div class="stat-item">
+                              <span class="stat-value">8</span>
+                              <span class="stat-label">Total</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">Tareas</h3>
+                        </div>
+                        <div class="card-content">
+                          <div class="stats-flex">
+                            <div class="stat-item">
+                              <span class="stat-value">12</span>
+                              <span class="stat-label">Pendientes</span>
+                            </div>
+                            <div class="stat-item">
+                              <span class="stat-value">8</span>
+                              <span class="stat-label">En Progreso</span>
+                            </div>
+                            <div class="stat-item">
+                              <span class="stat-value">24</span>
+                              <span class="stat-label">Completadas</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">Documentos</h3>
+                        </div>
+                        <div class="card-content">
+                          <div class="stats-flex">
+                            <div class="stat-item">
+                              <span class="stat-value">3</span>
+                              <span class="stat-label">Pendientes</span>
+                            </div>
+                            <div class="stat-item">
+                              <span class="stat-value">7</span>
+                              <span class="stat-label">Aprobados</span>
+                            </div>
+                            <div class="stat-item">
+                              <span class="stat-value">10</span>
+                              <span class="stat-label">Total</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="details-cards">
+                      <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">Próximos Hitos</h3>
+                          <p class="card-description">Fechas importantes del proyecto</p>
+                        </div>
+                        <div class="card-content">
+                          <div class="milestone-list">
+                            <div class="milestone completed">
+                              <div class="milestone-icon">
+                                <i class="fas fa-check-circle"></i>
+                              </div>
+                              <div class="milestone-content">
+                                <div class="milestone-title">Análisis de Requisitos</div>
+                                <div class="milestone-date">2022-05-15</div>
+                                <span class="badge badge-success">Completado</span>
+                              </div>
+                            </div>
+                            
+                            <div class="milestone completed">
+                              <div class="milestone-icon">
+                                <i class="fas fa-check-circle"></i>
+                              </div>
+                              <div class="milestone-content">
+                                <div class="milestone-title">Diseño de Arquitectura</div>
+                                <div class="milestone-date">2022-07-20</div>
+                                <span class="badge badge-success">Completado</span>
+                              </div>
+                            </div>
+                            
+                            <div class="milestone completed">
+                              <div class="milestone-icon">
+                                <i class="fas fa-check-circle"></i>
+                              </div>
+                              <div class="milestone-content">
+                                <div class="milestone-title">Desarrollo de MVP</div>
+                                <div class="milestone-date">2022-11-10</div>
+                                <span class="badge badge-success">Completado</span>
+                              </div>
+                            </div>
+                            
+                            <div class="milestone">
+                              <div class="milestone-icon">
+                                <i class="fas fa-clock"></i>
+                              </div>
+                              <div class="milestone-content">
+                                <div class="milestone-title">Pruebas de Integración</div>
+                                <div class="milestone-date">2023-02-28</div>
+                                <span class="badge badge-danger">0 días restantes</span>
+                              </div>
+                            </div>
+                            
+                            <div class="milestone">
+                              <div class="milestone-icon">
+                                <i class="fas fa-clock"></i>
+                              </div>
+                              <div class="milestone-content">
+                                <div class="milestone-title">Lanzamiento v1.0</div>
+                                <div class="milestone-date">2023-06-30</div>
+                                <span class="badge badge-outline">18 días restantes</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="card">
+                        <div class="card-header">
+                          <h3 class="card-title">Checklists</h3>
+                          <p class="card-description">Estado de las listas de verificación</p>
+                        </div>
+                        <div class="card-content">
+                          <div class="checklist-list">
+                            <div class="checklist-item">
+                              <div class="checklist-header">
+                                <span class="checklist-title">Requisitos Funcionales</span>
+                                <span class="checklist-count">18/20</span>
+                              </div>
+                              <div class="progress">
+                                <div class="progress-bar" style="width: 90%"></div>
+                              </div>
+                            </div>
+                            
+                            <div class="checklist-item">
+                              <div class="checklist-header">
+                                <span class="checklist-title">Pruebas Unitarias</span>
+                                <span class="checklist-count">45/60</span>
+                              </div>
+                              <div class="progress">
+                                <div class="progress-bar" style="width: 75%"></div>
+                              </div>
+                            </div>
+                            
+                            <div class="checklist-item">
+                              <div class="checklist-header">
+                                <span class="checklist-title">Documentación</span>
+                                <span class="checklist-count">3/8</span>
+                              </div>
+                              <div class="progress">
+                                <div class="progress-bar" style="width: 37.5%"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Tasks Tab (Hidden by default) -->
+                  <div class="detail-tab-content" id="tasks-4">
+                    <div class="card full-width">
+                      <div class="card-header">
+                        <h3 class="card-title">Tareas del Proyecto</h3>
+                        <p class="card-description">Listado de tareas y su estado actual</p>
+                      </div>
+                      <div class="card-content">
+                        <div class="task-list">
+                          <div class="task-item">
+                            <div class="task-info">
+                              <div class="task-icon completed">
+                                <i class="fas fa-check-square"></i>
+                              </div>
+                              <div>
+                                <div class="task-title">Implementar autenticación</div>
+                                <div class="task-assignee">Asignado a: Elena Rodríguez</div>
+                              </div>
+                            </div>
+                            <div class="task-badges">
+                              <span class="badge badge-danger">high</span>
+                              <span class="badge badge-success">completed</span>
+                            </div>
+                          </div>
+                          
+                          <div class="task-item">
+                            <div class="task-info">
+                              <div class="task-icon completed">
+                                <i class="fas fa-check-square"></i>
+                              </div>
+                              <div>
+                                <div class="task-title">Diseñar dashboard</div>
+                                <div class="task-assignee">Asignado a: María García</div>
+                              </div>
+                            </div>
+                            <div class="task-badges">
+                              <span class="badge badge-warning">medium</span>
+                              <span class="badge badge-success">completed</span>
+                            </div>
+                          </div>
+                          
+                          <div class="task-item">
+                            <div class="task-info">
+                              <div class="task-icon in-progress">
+                                <i class="fas fa-check-square"></i>
+                              </div>
+                              <div>
+                                <div class="task-title">Optimizar consultas SQL</div>
+                                <div class="task-assignee">Asignado a: Javier Sánchez</div>
+                              </div>
+                            </div>
+                            <div class="task-badges">
+                              <span class="badge badge-danger">high</span>
+                              <span class="badge badge-default">in-progress</span>
+                            </div>
+                          </div>
+                          
+                          <div class="task-item">
+                            <div class="task-info">
+                              <div class="task-icon delayed">
+                                <i class="fas fa-check-square"></i>
+                              </div>
+                              <div>
+                                <div class="task-title">Pruebas de rendimiento</div>
+                                <div class="task-assignee">Asignado a: Carlos López</div>
+                              </div>
+                            </div>
+                            <div class="task-badges">
+                              <span class="badge badge-warning">medium</span>
+                              <span class="badge badge-warning">delayed</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Documents Tab (Hidden by default) -->
+                  <div class="detail-tab-content" id="documents-4">
+                    <div class="card full-width">
+                      <div class="card-header">
+                        <h3 class="card-title">Documentos del Proyecto</h3>
+                        <p class="card-description">Documentación y archivos relacionados</p>
+                      </div>
+                      <div class="card-content">
+                        <div class="document-list">
+                          <div class="document-item">
+                            <div class="document-info">
+                              <div class="document-icon">
+                                <i class="fas fa-file-alt"></i>
+                              </div>
+                              <div>
+                                <div class="document-title">Especificación de Requisitos</div>
+                                <div class="document-date">Actualizado: 2022-04-20</div>
+                              </div>
+                            </div>
+                            <div class="document-badges">
+                              <span class="badge badge-success">approved</span>
+                            </div>
+                          </div>
+                          
+                          <div class="document-item">
+                            <div class="document-info">
+                              <div class="document-icon">
+                                <i class="fas fa-file-alt"></i>
+                              </div>
+                              <div>
+                                <div class="document-title">Diseño de Base de Datos</div>
+                                <div class="document-date">Actualizado: 2022-05-15</div>
+                              </div>
+                            </div>
+                            <div class="document-badges">
+                              <span class="badge badge-success">approved</span>
+                            </div>
+                          </div>
+                          
+                          <div class="document-item">
+                            <div class="document-info">
+                              <div class="document-icon">
+                                <i class="fas fa-file-alt"></i>
+                              </div>
+                              <div>
+                                <div class="document-title">Manual de Usuario</div>
+                                <div class="document-date">Actualizado: 2023-01-10</div>
+                              </div>
+                            </div>
+                            <div class="document-badges">
+                              <span class="badge badge-warning">pending</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Team Tab (Hidden by default) -->
+                  <div class="detail-tab-content" id="team-4">
+                    <div class="card full-width">
+                      <div class="card-header">
+                        <h3 class="card-title">Equipo del Proyecto</h3>
+                        <p class="card-description">Miembros y roles asignados</p>
+                      </div>
+                      <div class="card-content">
+                        <div class="team-grid">
+                          <div class="team-member">
+                            <div class="avatar large">AM</div>
+                            <div class="member-info">
+                              <div class="member-name">Ana Martínez</div>
+                              <span class="badge badge-default">Scrum Master</span>
+                            </div>
+                          </div>
+                          
+                          <div class="team-member">
+                            <div class="avatar large">CL</div>
+                            <div class="member-info">
+                              <div class="member-name">Carlos López</div>
+                              <span class="badge badge-secondary">Product Owner</span>
+                            </div>
+                          </div>
+                          
+                          <div class="team-member">
+                            <div class="avatar large">ER</div>
+                            <div class="member-info">
+                              <div class="member-name">Elena Rodríguez</div>
+                              <span class="badge badge-outline">Developer</span>
+                            </div>
+                          </div>
+                          
+                          <div class="team-member">
+                            <div class="avatar large">JS</div>
+                            <div class="member-info">
+                              <div class="member-name">Javier Sánchez</div>
+                              <span class="badge badge-outline">Developer</span>
+                            </div>
+                          </div>
+                          
+                          <div class="team-member">
+                            <div class="avatar large">MG</div>
+                            <div class="member-info">
+                              <div class="member-name">María García</div>
+                              <span class="badge badge-outline">Designer</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- p1 Project -->
+            <tr>
+              <td class="text-center">
+                <button class="btn-icon toggle-details" data-project="48">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </td>
+              <td>48</td>
+              <td class="font-medium">p1</td>
+              <td>2025-06-12</td>
+              <td>2025-12-31</td>
+              <td><span class="badge badge-outline">No Iniciado</span></td>
+              <td>
+                <div class="progress-container">
+                  <div class="progress">
+                    <div class="progress-bar" style="width: 0%"></div>
+                  </div>
+                  <span class="progress-text">0%</span>
+                </div>
+              </td>
+              <td>
+                <div class="avatar-group">
+                  <div class="avatar" title="Carlos López (Product Owner)">CL</div>
+                  <div class="avatar" title="María García (Designer)">MG</div>
+                </div>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn btn-primary"><i class="fas fa-play"></i> <span class="btn-text">Trabajar</span></button>
+                  <button class="btn btn-outline btn-icon" title="Gestionar equipo">
+                    <i class="fas fa-users"></i>
+                  </button>
+                  <button class="btn btn-outline btn-icon" title="Documentos">
+                    <i class="fas fa-file-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- p2 Project -->
+            <tr>
+              <td class="text-center">
+                <button class="btn-icon toggle-details" data-project="49">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </td>
+              <td>49</td>
+              <td class="font-medium">p2</td>
+              <td>2025-06-12</td>
+              <td>2026-03-31</td>
+              <td><span class="badge badge-outline">No Iniciado</span></td>
+              <td>
+                <div class="progress-container">
+                  <div class="progress">
+                    <div class="progress-bar" style="width: 0%"></div>
+                  </div>
+                  <span class="progress-text">0%</span>
+                </div>
+              </td>
+              <td>
+                <div class="avatar-group">
+                  <div class="avatar" title="Roberto Fernández (Marketing Lead)">RF</div>
+                  <div class="avatar" title="Laura Díaz (Content Creator)">LD</div>
+                </div>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn btn-primary"><i class="fas fa-play"></i> <span class="btn-text">Trabajar</span></button>
+                  <button class="btn btn-outline btn-icon" title="Gestionar equipo">
+                    <i class="fas fa-users"></i>
+                  </button>
+                  <button class="btn btn-outline btn-icon" title="Documentos">
+                    <i class="fas fa-file-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- p3 Project -->
+            <tr class="row-warning">
+              <td class="text-center">
+                <button class="btn-icon toggle-details" data-project="50">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </td>
+              <td>50</td>
+              <td class="font-medium">
+                <div class="flex-center">
+                  p3
+                  <span class="notification-dot"></span>
+                  <i class="fas fa-exclamation-triangle warning-icon"></i>
+                </div>
+              </td>
+              <td>2025-06-12</td>
+              <td>2025-09-30</td>
+              <td><span class="badge badge-warning">Retrasado</span></td>
+              <td>
+                <div class="progress-container">
+                  <div class="progress">
+                    <div class="progress-bar bg-amber" style="width: 0%"></div>
+                  </div>
+                  <span class="progress-text">0%</span>
+                </div>
+              </td>
+              <td>
+                <div class="avatar-group">
+                  <div class="avatar" title="Miguel Torres (Research Lead)">MT</div>
+                  <div class="avatar" title="Sofía Navarro (Data Analyst)">SN</div>
+                  <div class="avatar" title="Pablo Ruiz (Research Assistant)">PR</div>
+                </div>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn btn-primary"><i class="fas fa-play"></i> <span class="btn-text">Trabajar</span></button>
+                  <button class="btn btn-outline btn-icon" title="Gestionar equipo">
+                    <i class="fas fa-users"></i>
+                  </button>
+                  <button class="btn btn-outline btn-icon" title="Documentos">
+                    <i class="fas fa-file-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            
+            <!-- p4 Project -->
+            <tr class="row-warning">
+              <td class="text-center">
+                <button class="btn-icon toggle-details" data-project="51">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </td>
+              <td>51</td>
+              <td class="font-medium">
+                <div class="flex-center">
+                  p4
+                  <span class="notification-dot"></span>
+                  <i class="fas fa-exclamation-triangle warning-icon"></i>
+                </div>
+              </td>
+              <td>2025-06-12</td>
+              <td>2026-06-30</td>
+              <td><span class="badge badge-destructive">En Riesgo</span></td>
+              <td>
+                <div class="progress-container">
+                  <div class="progress">
+                    <div class="progress-bar bg-red" style="width: 0%"></div>
+                  </div>
+                  <span class="progress-text">0%</span>
+                </div>
+              </td>
+              <td>
+                <div class="avatar-group">
+                  <div class="avatar" title="Ana Martínez (Scrum Master)">AM</div>
+                  <div class="avatar" title="Daniel Moreno (Lead Developer)">DM</div>
+                  <div class="avatar" title="Carmen Vega (QA Engineer)">CV</div>
+                  <div class="avatar more-avatar" title="2 miembros más">+2</div>
+                </div>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn btn-primary"><i class="fas fa-play"></i> <span class="btn-text">Trabajar</span></button>
+                  <button class="btn btn-outline btn-icon" title="Gestionar equipo">
+                    <i class="fas fa-users"></i>
+                  </button>
+                  <button class="btn btn-outline btn-icon" title="Documentos">
+                    <i class="fas fa-file-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <!-- Kanban View (Hidden by default) -->
+    <div class="tab-content" id="kanban-view">
+      <div class="kanban-board">
+        <!-- Not Started Column -->
+        <div class="kanban-column">
+          <div class="kanban-column-header">
+            <h3>No Iniciados</h3>
+            <span class="badge badge-outline">2</span>
+          </div>
+          <div class="kanban-column-content">
+            <!-- p1 Card -->
+            <div class="kanban-card">
+              <div class="kanban-card-header">
+                <h4>p1</h4>
+              </div>
+              <div class="kanban-card-content">
+                <div class="kanban-card-meta">
+                  <div class="kanban-card-date">
+                    <i class="fas fa-clock"></i>
+                    <span>2025-12-31</span>
+                  </div>
+                  <span>0% completado</span>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar" style="width: 0%"></div>
+                </div>
+                <div class="kanban-card-footer">
+                  <div class="avatar-group">
+                    <div class="avatar small" title="Carlos López">CL</div>
+                    <div class="avatar small" title="María García">MG</div>
+                  </div>
+                  <span class="badge badge-outline">design</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- p2 Card -->
+            <div class="kanban-card">
+              <div class="kanban-card-header">
+                <h4>p2</h4>
+              </div>
+              <div class="kanban-card-content">
+                <div class="kanban-card-meta">
+                  <div class="kanban-card-date">
+                    <i class="fas fa-clock"></i>
+                    <span>2026-03-31</span>
+                  </div>
+                  <span>0% completado</span>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar" style="width: 0%"></div>
+                </div>
+                <div class="kanban-card-footer">
+                  <div class="avatar-group">
+                    <div class="avatar small" title="Roberto Fernández">RF</div>
+                    <div class="avatar small" title="Laura Díaz">LD</div>
+                  </div>
+                  <span class="badge badge-outline">marketing</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- In Progress Column -->
+        <div class="kanban-column">
+          <div class="kanban-column-header">
+            <h3>En Progreso</h3>
+            <span class="badge badge-outline">1</span>
+          </div>
+          <div class="kanban-column-content">
+            <!-- SAGS Card -->
+            <div class="kanban-card">
+              <div class="kanban-card-header">
+                <h4>SAGS</h4>
+              </div>
+              <div class="kanban-card-content">
+                <div class="kanban-card-meta">
+                  <div class="kanban-card-date">
+                    <i class="fas fa-clock"></i>
+                    <span>2023-12-31</span>
+                  </div>
+                  <span>16% completado</span>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar bg-blue" style="width: 16%"></div>
+                </div>
+                <div class="kanban-card-footer">
+                  <div class="avatar-group">
+                    <div class="avatar small" title="Ana Martínez">AM</div>
+                    <div class="avatar small" title="Carlos López">CL</div>
+                    <div class="avatar small more-avatar">+3</div>
+                  </div>
+                  <span class="badge badge-outline">development</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Delayed Column -->
+        <div class="kanban-column">
+          <div class="kanban-column-header">
+            <h3>Retrasados</h3>
+            <span class="badge badge-outline">2</span>
+          </div>
+          <div class="kanban-column-content">
+            <!-- p3 Card -->
+            <div class="kanban-card warning">
+              <div class="kanban-card-header">
+                <h4>p3</h4>
+                <i class="fas fa-exclamation-triangle warning-icon"></i>
+              </div>
+              <div class="kanban-card-content">
+                <div class="kanban-card-meta">
+                  <div class="kanban-card-date">
+                    <i class="fas fa-clock"></i>
+                    <span>2025-09-30</span>
+                  </div>
+                  <span>0% completado</span>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar bg-amber" style="width: 0%"></div>
+                </div>
+                <div class="kanban-card-footer">
+                  <div class="avatar-group">
+                    <div class="avatar small" title="Miguel Torres">MT</div>
+                    <div class="avatar small" title="Sofía Navarro">SN</div>
+                    <div class="avatar small" title="Pablo Ruiz">PR</div>
+                  </div>
+                  <span class="badge badge-outline">research</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- p4 Card -->
+            <div class="kanban-card danger">
+              <div class="kanban-card-header">
+                <h4>p4</h4>
+                <i class="fas fa-exclamation-triangle warning-icon"></i>
+              </div>
+              <div class="kanban-card-content">
+                <div class="kanban-card-meta">
+                  <div class="kanban-card-date">
+                    <i class="fas fa-clock"></i>
+                    <span>2026-06-30</span>
+                  </div>
+                  <span>0% completado</span>
+                </div>
+                <div class="progress">
+                  <div class="progress-bar bg-red" style="width: 0%"></div>
+                </div>
+                <div class="kanban-card-footer">
+                  <div class="avatar-group">
+                    <div class="avatar small" title="Ana Martínez">AM</div>
+                    <div class="avatar small" title="Daniel Moreno">DM</div>
+                    <div class="avatar small more-avatar">+3</div>
+                  </div>
+                  <span class="badge badge-outline">development</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Completed Column -->
+        <div class="kanban-column">
+          <div class="kanban-column-header">
+            <h3>Completados</h3>
+            <span class="badge badge-outline">0</span>
+          </div>
+          <div class="kanban-column-content">
+            <div class="kanban-empty">
+              No hay proyectos
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Calendar View (Hidden by default) -->
+    <div class="tab-content" id="calendar-view">
+      <div class="calendar-container">
+        <div class="calendar-sidebar">
+          <div class="calendar-month">
+            <div class="calendar-header">
+              <button class="btn-icon"><i class="fas fa-chevron-left"></i></button>
+              <h3>Junio 2025</h3>
+              <button class="btn-icon"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <div class="calendar-grid">
+              <div class="calendar-weekdays">
+                <div>Lu</div>
+                <div>Ma</div>
+                <div>Mi</div>
+                <div>Ju</div>
+                <div>Vi</div>
+                <div>Sa</div>
+                <div>Do</div>
+              </div>
+              <div class="calendar-days">
+                <div class="prev-month">27</div>
+                <div class="prev-month">28</div>
+                <div class="prev-month">29</div>
+                <div class="prev-month">30</div>
+                <div class="prev-month">31</div>
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
+                <div>4</div>
+                <div>5</div>
+                <div>6</div>
+                <div>7</div>
+                <div>8</div>
+                <div>9</div>
+                <div>10</div>
+                <div>11</div>
+                <div class="current-day">12</div>
+                <div>13</div>
+                <div>14</div>
+                <div>15</div>
+                <div>16</div>
+                <div>17</div>
+                <div>18</div>
+                <div>19</div>
+                <div class="has-event">20</div>
+                <div>21</div>
+                <div>22</div>
+                <div>23</div>
+                <div>24</div>
+                <div class="has-event">25</div>
+                <div>26</div>
+                <div>27</div>
+                <div>28</div>
+                <div>29</div>
+                <div>30</div>
+                <div class="next-month">1</div>
+                <div class="next-month">2</div>
+                <div class="next-month">3</div>
+                <div class="next-month">4</div>
+                <div class="next-month">5</div>
+                <div class="next-month">6</div>
+                <div class="next-month">7</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="calendar-events">
+          <div class="calendar-events-header">
+            <h3>Eventos para 12 de junio de 2025</h3>
+            <span class="badge badge-outline">0 eventos</span>
+          </div>
+          <div class="calendar-events-content">
+            <div class="calendar-empty">
+              No hay eventos programados para esta fecha
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                <tr>
-                                    <td align="center" style="padding-bottom: 25px;">
-                                        <h1 style="font-size: 24px; font-weight: bold; color: #ffffff; margin: 0;">
-                                            Recuperación de Contraseña</h1>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="color: #cccccc; padding-bottom: 15px; position: relative; z-index: 2;">
-                                        <p style="margin: 0 0 15px 0;">Hola,</p>
-                                        <p style="margin: 0 0 15px 0;">Hemos recibido una solicitud para restablecer tu
-                                            contraseña. Si no realizaste esta solicitud, puedes ignorar este mensaje.
-                                        </p>
-                                        <p style="margin: 0 0 25px 0;">Para cambiar tu contraseña, haz clic en el botón
-                                            de abajo:</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="center" style="padding: 20px 0 30px 0; position: relative; z-index: 2;">
-                                        <!-- Botón -->
-                                        <table border="0" cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td align="center" bgcolor="#0284C7" style="border-radius: 6px;">
-                                                    <a href="{enlace_recuperacion}" target="_blank"
-                                                        style="display: inline-block; padding: 12px 32px; font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; color: #ffffff; text-decoration: none;">Restablecer
-                                                        Contraseña</a>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="color: #999999; font-size: 14px; position: relative; z-index: 2;">
-                                        <p style="margin: 0 0 10px 0;">Si el botón no funciona, copia y pega el
-                                            siguiente enlace en tu navegador:</p>
-                                        <p style="margin: 0 0 20px 0; color: #0EA5E9; word-break: break-all;">
-                                            {enlace_recuperacion}</p>
-                                        <p style="margin: 0; font-style: italic; color: #777777;">Este enlace expirará
-                                            en 10 minutos por motivos de seguridad.</p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <!-- Espacio -->
-                    <tr>
-                        <td height="30"></td>
-                    </tr>
-
-                    <!-- Footer -->
-                    <tr>
-                        <td
-                            style="border-top: 1px solid #2a2a2a; padding-top: 20px; text-align: center; color: #777777; font-size: 14px;">
-                            <p style="margin: 0 0 10px 0;">© 2024 Tu Empresa. Todos los derechos reservados.</p>
-                            <p style="margin: 0 0 20px 0;">Si no solicitaste este correo, puedes ignorarlo de forma
-                                segura.</p>
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                <tr>
-                                    <td align="center">
-                                        <table border="0" cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td style="padding: 0 10px;">
-                                                    <a href="#" style="color: #0EA5E9; text-decoration: none;">Ayuda</a>
-                                                </td>
-                                                <td style="padding: 0 10px;">
-                                                    <a href="#"
-                                                        style="color: #0EA5E9; text-decoration: none;">Contacto</a>
-                                                </td>
-                                                <td style="padding: 0 10px;">
-                                                    <a href="#"
-                                                        style="color: #0EA5E9; text-decoration: none;">Privacidad</a>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+  <script src="script.js"></script>
 </body>
-
 </html>

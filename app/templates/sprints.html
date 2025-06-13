@@ -67,11 +67,10 @@
                     </div>
                     <div class="sprint-progress">
                         <div class="progress-bar">
-                            <!--<div class="progress-value" style="width: {{ data['estado'] }}%"></div>-->
-                            <div class="progress-value w-[{{ data['estado'] }}%]"></div>
+                            <div class="progress-value" style="width: {{ data['estado'] }}%"></div>
                         </div>
                         <div class="progress-stats">
-                            <span>12 tareas</span>
+                            <span>{{ data['tareas_completadas'] }}/{{ data['total_tareas'] }} tareas</span>
                             <span>{{ data['estado'] }}%</span>
                         </div>
                     </div>
