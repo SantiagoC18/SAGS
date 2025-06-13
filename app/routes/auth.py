@@ -10,7 +10,7 @@ from functools import wraps
 
 # Configuración JWT
 JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'AES_Encrypt_SAGS')
-JWT_EXPIRATION = 15  # minutos
+JWT_EXPIRATION = 35  # minutos
 
 bp = Blueprint('auth', __name__)
 
@@ -64,31 +64,37 @@ def acceso_login():
         account = cur.fetchone()
         cur.close()
             
-        if account:
-            cur = mysql.connection.cursor()
-            cur.execute("SELECT (aes_decrypt(password,'AES')) AS cifrado FROM usuarios WHERE email = %s Limit 1", (correo,))
-            clave_cifrada = cur.fetchone()
-            cur.close()
-            
-            if clave_cifrada and clave_cifrada['cifrado'].decode('utf-8') == clave:
-                expiration = datetime.utcnow() + timedelta(minutes=JWT_EXPIRATION)
-                payload = {
-                    'user_id': account['email'],
-                    'exp': expiration
-                }
-                token = jwt.encode(payload, JWT_SECRET_KEY, algorithm='HS256')
-                
-                session.update({
-                    'token': token,
-                    'token_exp': expiration.timestamp(),
-                    'logueado': True,
-                    'nombre': account['nombres'],
-                    'id': account['email']
-                })
-                
-                return redirect(url_for('profile.perfil'))
+        if not account:
+            flash('El correo electrónico no existe', 'error')
+            return redirect(url_for('auth.login'))
+
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT (aes_decrypt(password,'AES')) AS cifrado FROM usuarios WHERE email = %s Limit 1", (correo,))
+        clave_cifrada = cur.fetchone()
+        cur.close()
         
-        flash('Credenciales incorrectas', 'error')
+        if not clave_cifrada or clave_cifrada['cifrado'].decode('utf-8') != clave:
+            flash('La contraseña es incorrecta', 'error')
+            return redirect(url_for('auth.login'))
+
+        # If credentials are correct, create session
+        expiration = datetime.utcnow() + timedelta(minutes=JWT_EXPIRATION)
+        payload = {
+            'user_id': account['email'],
+            'exp': expiration
+        }
+        token = jwt.encode(payload, JWT_SECRET_KEY, algorithm='HS256')
+        
+        session.update({
+            'token': token,
+            'token_exp': expiration.timestamp(),
+            'logueado': True,
+            'nombre': account['nombres'],
+            'id': account['email'],
+            'idrol': account['idrol']
+        })
+        
+        return redirect(url_for('profile.perfil'))
     return redirect(url_for('auth.login'))
 
 @bp.route('/logout')

@@ -1,12 +1,13 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from app import mysql
 from app.routes.auth import token_required 
+from datetime import datetime, timedelta
 import jwt
 import os
 
 # Clave secreta para JWT - lo ideal es almacenarla en variables de entorno
 JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'AES_Encrypt_SAGS')
-JWT_EXPIRATION = 15  # minutos
+JWT_EXPIRATION = 30  # minutos
 
 bp = Blueprint('profile', __name__)
 
@@ -54,6 +55,7 @@ def adduser():
                 session['logueado'] = True
                 session['nombre'] = account['nombres']
                 session['id'] = account['email']
+                session['idrol'] = account['idrol']
                 
                 return redirect(url_for('profile.perfil'))
                     
