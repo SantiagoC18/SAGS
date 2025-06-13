@@ -1,18 +1,20 @@
-import os
-
 class Config:
-    MYSQL_HOST = 'sags-server.mysql.database.azure.com'
-    MYSQL_PORT = 3306
-    MYSQL_USER = 'qyqxrjojid'
-    MYSQL_PASSWORD = os.environ.get('MYSQL_PASSWORD')
+    MYSQL_HOST = 'localhost'
+    MYSQL_USER = 'root'
+    MYSQL_PASSWORD = ''
     MYSQL_DB = 'sags'
     MYSQL_CURSORCLASS = 'DictCursor'
-
+    
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 465
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_USERNAME = 'softwareanalysissa@gmail.com'
+    MAIL_PASSWORD = 'uahw rsnt nqko kzyb'
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
+    
+    SECRET_KEY = "4546416vblñvkbmgvlñkbjfgñfglñv.ñ"
 
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+class TestingConfig(Config):
+    TESTING = True
+    MYSQL_DB = 'sags_test'  # Base de datos separada para pruebas
+    WTF_CSRF_ENABLED = False  # Desactivar CSRF para pruebas
